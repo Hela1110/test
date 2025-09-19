@@ -1,0 +1,33 @@
+/* 主窗口样式 */
+QMainWindow {
+    background-color: #f0f0f0;
+}
+
+/* 按钮样式 */
+QPushButton {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+QPushButton:hover {
+    background-color: #357abd;
+}
+
+QPushButton:pressed {
+    background-color: #2d6da3;
+}
+
+/* 输入框样式 */
+QLineEdit {
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+}
+
+QLineEdit:focus {
+    border-color: #4a90e2;
+}
