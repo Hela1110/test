@@ -33,14 +33,6 @@ set(PROJECT_SOURCES
     src/chat/chatwindow.cpp
 )
 
-set(PROJECT_HEADERS
-    include/login/loginwindow.h
-    include/register/registerdialog.h
-    include/mainwindow/mainwindow.h
-    include/shopping/shoppingcart.h
-    include/chatwindow.h
-)
-
 set(PROJECT_UIS
     ui/loginwindow.ui
     ui/registerdialog.ui
@@ -48,10 +40,19 @@ set(PROJECT_UIS
     ui/chatwindow.ui
 )
 
+# Headers that contain Q_OBJECT must be listed as sources for AUTOMOC
+set(PROJECT_HEADERS
+    include/mainwindow/mainwindow.h
+    include/login/loginwindow.h
+    include/register/registerdialog.h
+    include/shopping/shoppingcart.h
+    include/chatwindow.h
+)
+
 add_executable(shopping_client
     ${PROJECT_SOURCES}
-    ${PROJECT_HEADERS}
     ${PROJECT_UIS}
+    ${PROJECT_HEADERS}
     resources/resources.qrc
 )
 
@@ -73,17 +74,31 @@ if (WIN32)
     find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${CMAKE_PREFIX_PATH}/bin")
     if (WINDEPLOYQT_EXECUTABLE)
         set(DIST_DIR "${CMAKE_BINARY_DIR}/dist")
-        add_custom_command(
-            TARGET shopping_client POST_BUILD
+        # Packaging separated into its own target to avoid locking issues if exe is running
+        add_custom_target(package_app
             COMMAND ${CMAKE_COMMAND} -E make_directory "${DIST_DIR}"
             COMMAND ${CMAKE_COMMAND} -E copy "$<TARGET_FILE:shopping_client>" "${DIST_DIR}/"
-            COMMAND "${WINDEPLOYQT_EXECUTABLE}" --no-compiler-runtime --release --dir "${DIST_DIR}" "$<TARGET_FILE:shopping_client>"
-            COMMENT "Deploying Qt runtime with windeployqt to ${DIST_DIR}"
+            COMMAND "${WINDEPLOYQT_EXECUTABLE}" --release --dir "${DIST_DIR}" "$<TARGET_FILE:shopping_client>"
+            COMMENT "Packaging app to ${DIST_DIR} with windeployqt"
+            DEPENDS shopping_client
         )
 
-        add_custom_target(package_app
-            DEPENDS shopping_client
-            COMMENT "Package app to dist directory using windeployqt")
+        # Also copy MinGW runtime DLLs (for MSYS2/MinGW toolchains)
+        get_filename_component(MINGW_BIN_DIR "${CMAKE_CXX_COMPILER}" DIRECTORY)
+        set(MINGW_RUNTIME_DLLS
+            "${MINGW_BIN_DIR}/libstdc++-6.dll"
+            "${MINGW_BIN_DIR}/libgcc_s_seh-1.dll"
+            "${MINGW_BIN_DIR}/libwinpthread-1.dll"
+        )
+        foreach(dll_path IN LISTS MINGW_RUNTIME_DLLS)
+            if (EXISTS "${dll_path}")
+                add_custom_command(
+                    TARGET package_app POST_BUILD
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${dll_path}" "${DIST_DIR}/"
+                    COMMENT "Copying runtime DLL: ${dll_path}"
+                )
+            endif()
+        endforeach()
     else()
         message(WARNING "windeployqt not found; 'package_app' target will not be available")
     endif()

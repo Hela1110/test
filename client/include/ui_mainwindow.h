@@ -48,43 +48,56 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         rootLayout = new QVBoxLayout(centralwidget);
         rootLayout->setObjectName(QString::fromUtf8("rootLayout"));
+        rootLayout->setContentsMargins(12, 12, 12, 12);
+        rootLayout->setSpacing(10);
 
         // Top bar: search + actions
         topBarLayout = new QHBoxLayout();
         topBarLayout->setObjectName(QString::fromUtf8("topBarLayout"));
-        searchInput = new QLineEdit(centralwidget);
+    searchInput = new QLineEdit(centralwidget);
         searchInput->setObjectName(QString::fromUtf8("searchInput"));
-        searchInput->setPlaceholderText(QString::fromUtf8("搜索商品、店铺"));
+    searchInput->setPlaceholderText(QString::fromUtf8("搜索商品、店铺"));
+    QSizePolicy spInput(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    searchInput->setSizePolicy(spInput);
         topBarLayout->addWidget(searchInput);
 
         searchButton = new QPushButton(centralwidget);
         searchButton->setObjectName(QString::fromUtf8("searchButton"));
+    searchButton->setMinimumWidth(80);
         topBarLayout->addWidget(searchButton);
+
+    // push following buttons to the right
+    topBarLayout->addStretch(1);
 
         chatButton = new QToolButton(centralwidget);
         chatButton->setObjectName(QString::fromUtf8("chatButton"));
+    chatButton->setMinimumWidth(80);
         topBarLayout->addWidget(chatButton);
 
         cartButton = new QToolButton(centralwidget);
         cartButton->setObjectName(QString::fromUtf8("cartButton"));
+    cartButton->setMinimumWidth(80);
         topBarLayout->addWidget(cartButton);
 
         rootLayout->addLayout(topBarLayout);
 
         // Content placeholders
-        carouselArea = new QWidget(centralwidget);
+    carouselArea = new QWidget(centralwidget);
         carouselArea->setObjectName(QString::fromUtf8("carouselArea"));
-        carouselArea->setMinimumHeight(200);
+    carouselArea->setMinimumHeight(200);
+    carouselArea->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred));
         rootLayout->addWidget(carouselArea);
 
-        recommendationsArea = new QWidget(centralwidget);
+    recommendationsArea = new QWidget(centralwidget);
         recommendationsArea->setObjectName(QString::fromUtf8("recommendationsArea"));
-        recommendationsArea->setMinimumHeight(200);
+    recommendationsArea->setMinimumHeight(200);
+    recommendationsArea->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred));
         rootLayout->addWidget(recommendationsArea);
 
-        promotionsArea = new QWidget(centralwidget);
+    promotionsArea = new QWidget(centralwidget);
         promotionsArea->setObjectName(QString::fromUtf8("promotionsArea"));
-        promotionsArea->setMinimumHeight(150);
+    promotionsArea->setMinimumHeight(150);
+    promotionsArea->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred));
         rootLayout->addWidget(promotionsArea);
 
         MainWindow->setCentralWidget(centralwidget);
@@ -104,10 +117,10 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "\350\265\267\345\210\253\347\263\273\351\227\264", nullptr));
-        searchButton->setText(QCoreApplication::translate("MainWindow", "\346\241\243\\u7d22\u7f51", nullptr));
-        chatButton->setText(QCoreApplication::translate("MainWindow", "\345\256\242\346\234\215", nullptr));
-        cartButton->setText(QCoreApplication::translate("MainWindow", "\350\267\257\347\224\250\350\275\246", nullptr));
+        MainWindow->setWindowTitle(QString::fromUtf8("购物系统"));
+        searchButton->setText(QString::fromUtf8("搜索"));
+        chatButton->setText(QString::fromUtf8("客服"));
+        cartButton->setText(QString::fromUtf8("购物车"));
     }
 };
 

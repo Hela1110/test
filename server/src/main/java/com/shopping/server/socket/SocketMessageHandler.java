@@ -23,11 +23,19 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     private final ObjectMapper objectMapper = new ObjectMapper();
     // 简易内存购物车：用户名 -> 购物车条目列表
     private static final Map<String, List<Map<String, Object>>> carts = new ConcurrentHashMap<>();
+    // 简易商品库（内存静态数据）
+    private static final List<Map<String, Object>> CATALOG = new CopyOnWriteArrayList<>();
 
     static {
         // 预置一个默认测试账户（仅用于开发调试）
         // TODO: 生产环境请移除，改为数据库初始化并使用密码哈希
         userStore.putIfAbsent("admin", "123456");
+        // 预置一些商品
+        CATALOG.add(product(1001, "苹果 iPhone", 5999.00));
+        CATALOG.add(product(1002, "小米 手机", 1999.00));
+        CATALOG.add(product(1003, "华为 Mate", 4999.00));
+        CATALOG.add(product(1004, "联想 笔记本", 6999.00));
+        CATALOG.add(product(1005, "罗技 鼠标", 199.00));
     }
     
     @Override
@@ -68,6 +76,24 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             case "checkout":
                 handleCheckout(ctx, request);
                 break;
+            case "get_carousel":
+                handleGetCarousel(ctx);
+                break;
+            case "get_recommendations":
+                handleGetRecommendations(ctx);
+                break;
+            case "get_promotions":
+                handleGetPromotions(ctx);
+                break;
+            case "search":
+                handleSearch(ctx, request);
+                break;
+            case "get_product_detail":
+                handleGetProductDetail(ctx, request);
+                break;
+            case "add_to_cart":
+                handleAddToCart(ctx, request);
+                break;
             // 添加更多消息处理类型
             default:
                 System.out.println("Unknown message type: " + type);
@@ -76,6 +102,15 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 resp.put("message", "Unknown message type: " + type);
                 ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
         }
+    }
+
+    private static Map<String, Object> product(int id, String name, double price) {
+        Map<String, Object> m = new HashMap<>();
+        m.put("product_id", id);
+        m.put("name", name);
+        m.put("price", price);
+        m.put("quantity", 1);
+        return m;
     }
     
     private void handleLogin(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
@@ -102,6 +137,104 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         }
 
     ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+    }
+
+    private void handleGetCarousel(ChannelHandlerContext ctx) throws Exception {
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("type", "carousel_data");
+        List<Map<String, Object>> images = new CopyOnWriteArrayList<>();
+        images.add(mapOf("title", "大促海报1", "url", "https://example.com/banner1.jpg"));
+        images.add(mapOf("title", "大促海报2", "url", "https://example.com/banner2.jpg"));
+        images.add(mapOf("title", "新品上市", "url", "https://example.com/banner3.jpg"));
+        resp.put("images", images);
+        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    }
+
+    private void handleGetRecommendations(ChannelHandlerContext ctx) throws Exception {
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("type", "recommendations");
+        // 简单取前 4 个
+        resp.put("products", CATALOG.subList(0, Math.min(4, CATALOG.size())));
+        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    }
+
+    private void handleGetPromotions(ChannelHandlerContext ctx) throws Exception {
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("type", "promotions");
+        List<Map<String, Object>> promos = new CopyOnWriteArrayList<>();
+        promos.add(mapOf("title", "开学季", "desc", "全场满 1000 减 100"));
+        promos.add(mapOf("title", "会员日", "desc", "PLUS 额外 95 折"));
+        resp.put("promotions", promos);
+        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    }
+
+    private void handleSearch(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
+        String keyword = (String) request.getOrDefault("keyword", "");
+        String kw = keyword == null ? "" : keyword.trim().toLowerCase();
+        List<Map<String, Object>> results = new CopyOnWriteArrayList<>();
+        for (Map<String, Object> p : CATALOG) {
+            String name = String.valueOf(p.get("name")).toLowerCase();
+            if (kw.isEmpty() || name.contains(kw)) results.add(p);
+        }
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("type", "search_results");
+        resp.put("results", results);
+        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    }
+
+    private void handleGetProductDetail(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
+        Object pid = request.get("product_id");
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("type", "product_detail");
+        Map<String, Object> product = null;
+        if (pid != null) {
+            for (Map<String, Object> p : CATALOG) {
+                if (pid.equals(p.get("product_id"))) { product = p; break; }
+            }
+        }
+        if (product == null && !CATALOG.isEmpty()) product = CATALOG.get(0);
+        resp.put("product", product);
+        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    }
+
+    private void handleAddToCart(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
+        String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
+        Object pid = request.get("product_id");
+        if (pid == null) pid = 1001; // 默认一个
+        List<Map<String, Object>> list = carts.computeIfAbsent(username == null ? "__anon__" : username, k -> new CopyOnWriteArrayList<>());
+        // 查找商品
+        Map<String, Object> found = null;
+        for (Map<String, Object> p : CATALOG) {
+            if (pid.equals(p.get("product_id"))) { found = p; break; }
+        }
+        if (found != null) {
+            // 如果已存在则数量+1
+            boolean merged = false;
+            for (Map<String, Object> it : list) {
+                if (pid.equals(it.get("product_id"))) {
+                    int q = ((Number)it.getOrDefault("quantity", 1)).intValue();
+                    it.put("quantity", q+1);
+                    merged = true; break;
+                }
+            }
+            if (!merged) {
+                Map<String, Object> item = new HashMap<>(found);
+                item.put("quantity", 1);
+                list.add(item);
+            }
+        }
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("type", "add_to_cart_response");
+        resp.put("success", found != null);
+        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    }
+
+    private Map<String, Object> mapOf(Object... kv) {
+        Map<String, Object> m = new HashMap<>();
+        for (int i=0;i+1<kv.length;i+=2) {
+            m.put(String.valueOf(kv[i]), kv[i+1]);
+        }
+        return m;
     }
 
     private void handleRegister(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {

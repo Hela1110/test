@@ -335,7 +335,8 @@
 		"D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets.cmake",
 		"D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets-relwithdebinfo.cmake",
 		"D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginAdditionalTargetInfo.cmake",
-		"D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlVersionlessAliasTargets.cmake"
+		"D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlVersionlessAliasTargets.cmake",
+		"C:/Users/Edward/Desktop/test/client/resources/resources.qrc"
 	],
 	"CMAKE_SOURCE_DIR" : "C:/Users/Edward/Desktop/test/client",
 	"CROSS_CONFIG" : false,
@@ -415,10 +416,38 @@
 	"QT_VERSION_MAJOR" : 6,
 	"QT_VERSION_MINOR" : 8,
 	"SETTINGS_FILE" : "C:/Users/Edward/Desktop/test/build/CMakeFiles/shopping_client_autogen.dir/AutogenUsed.txt",
-	"SOURCES" : [],
+	"SOURCES" : 
+	[
+		[
+			"C:/Users/Edward/Desktop/test/client/src/chat/chatwindow.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Edward/Desktop/test/client/src/login/loginwindow.cpp",
+			"MU",
+			null
+		],
+		[ "C:/Users/Edward/Desktop/test/client/src/main.cpp", "MU", null ],
+		[
+			"C:/Users/Edward/Desktop/test/client/src/mainwindow/mainwindow.cpp",
+			"Mu",
+			null
+		],
+		[
+			"C:/Users/Edward/Desktop/test/client/src/register/registerdialog.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Edward/Desktop/test/client/src/shopping/shoppingcart.cpp",
+			"MU",
+			null
+		]
+	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [ "C:/Users/Edward/Desktop/test/client/ui" ],
-	"UIC_SKIP" : [],
+	"UIC_SKIP" : [ "C:/Users/Edward/Desktop/test/client/src/mainwindow/mainwindow.cpp" ],
 	"UIC_UI_FILES" : [],
 	"USE_BETTER_GRAPH" : true,
 	"VERBOSITY" : 0

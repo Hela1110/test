@@ -68,6 +68,21 @@ include CMakeFiles/shopping_client.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/shopping_client.dir/flags.make
 
+shopping_client_autogen/timestamp: D:/Qt/6.8.3/mingw_64/bin/moc.exe
+shopping_client_autogen/timestamp: D:/Qt/6.8.3/mingw_64/bin/uic.exe
+shopping_client_autogen/timestamp: CMakeFiles/shopping_client.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\Edward\Desktop\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target shopping_client"
+	D:\CMake\bin\cmake.exe -E cmake_autogen C:/Users/Edward/Desktop/test/build/CMakeFiles/shopping_client_autogen.dir/AutogenInfo.json Debug
+	D:\CMake\bin\cmake.exe -E touch C:/Users/Edward/Desktop/test/build/shopping_client_autogen/timestamp
+
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/resources.qrc
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: CMakeFiles/shopping_client_autogen.dir/AutoRcc_resources_3YJK5W5UP7_Info.json
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/styles/style.qss
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: D:/Qt/6.8.3/mingw_64/bin/rcc.exe
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: D:/Qt/6.8.3/mingw_64/bin/rcc.exe
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\Edward\Desktop\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Automatic RCC for resources/resources.qrc"
+	D:\CMake\bin\cmake.exe -E cmake_autorcc C:/Users/Edward/Desktop/test/build/CMakeFiles/shopping_client_autogen.dir/AutoRcc_resources_3YJK5W5UP7_Info.json Debug
+
 CMakeFiles/shopping_client.dir/codegen:
 .PHONY : CMakeFiles/shopping_client.dir/codegen
 
@@ -75,7 +90,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
 CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj: CMakeFiles/shopping_client.dir/includes_CXX.rsp
 CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj: shopping_client_autogen/mocs_compilation.cpp
 CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj: CMakeFiles/shopping_client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Edward\Desktop\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Edward\Desktop\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj -MF CMakeFiles\shopping_client.dir\shopping_client_autogen\mocs_compilation.cpp.obj.d -o CMakeFiles\shopping_client.dir\shopping_client_autogen\mocs_compilation.cpp.obj -c C:\Users\Edward\Desktop\test\build\shopping_client_autogen\mocs_compilation.cpp
 
 CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.i: cmake_force
@@ -86,14 +101,133 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.s: c
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.s"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Edward\Desktop\test\build\shopping_client_autogen\mocs_compilation.cpp -o CMakeFiles\shopping_client.dir\shopping_client_autogen\mocs_compilation.cpp.s
 
+CMakeFiles/shopping_client.dir/src/main.cpp.obj: CMakeFiles/shopping_client.dir/flags.make
+CMakeFiles/shopping_client.dir/src/main.cpp.obj: CMakeFiles/shopping_client.dir/includes_CXX.rsp
+CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/client/src/main.cpp
+CMakeFiles/shopping_client.dir/src/main.cpp.obj: CMakeFiles/shopping_client.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Edward\Desktop\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/shopping_client.dir/src/main.cpp.obj"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/shopping_client.dir/src/main.cpp.obj -MF CMakeFiles\shopping_client.dir\src\main.cpp.obj.d -o CMakeFiles\shopping_client.dir\src\main.cpp.obj -c C:\Users\Edward\Desktop\test\client\src\main.cpp
+
+CMakeFiles/shopping_client.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/shopping_client.dir/src/main.cpp.i"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Edward\Desktop\test\client\src\main.cpp > CMakeFiles\shopping_client.dir\src\main.cpp.i
+
+CMakeFiles/shopping_client.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/shopping_client.dir/src/main.cpp.s"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Edward\Desktop\test\client\src\main.cpp -o CMakeFiles\shopping_client.dir\src\main.cpp.s
+
+CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: CMakeFiles/shopping_client.dir/flags.make
+CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: CMakeFiles/shopping_client.dir/includes_CXX.rsp
+CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edward/Desktop/test/client/src/mainwindow/mainwindow.cpp
+CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: CMakeFiles/shopping_client.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Edward\Desktop\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj -MF CMakeFiles\shopping_client.dir\src\mainwindow\mainwindow.cpp.obj.d -o CMakeFiles\shopping_client.dir\src\mainwindow\mainwindow.cpp.obj -c C:\Users\Edward\Desktop\test\client\src\mainwindow\mainwindow.cpp
+
+CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.i"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Edward\Desktop\test\client\src\mainwindow\mainwindow.cpp > CMakeFiles\shopping_client.dir\src\mainwindow\mainwindow.cpp.i
+
+CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.s"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Edward\Desktop\test\client\src\mainwindow\mainwindow.cpp -o CMakeFiles\shopping_client.dir\src\mainwindow\mainwindow.cpp.s
+
+CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: CMakeFiles/shopping_client.dir/flags.make
+CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: CMakeFiles/shopping_client.dir/includes_CXX.rsp
+CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: C:/Users/Edward/Desktop/test/client/src/login/loginwindow.cpp
+CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: CMakeFiles/shopping_client.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Edward\Desktop\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj -MF CMakeFiles\shopping_client.dir\src\login\loginwindow.cpp.obj.d -o CMakeFiles\shopping_client.dir\src\login\loginwindow.cpp.obj -c C:\Users\Edward\Desktop\test\client\src\login\loginwindow.cpp
+
+CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.i"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Edward\Desktop\test\client\src\login\loginwindow.cpp > CMakeFiles\shopping_client.dir\src\login\loginwindow.cpp.i
+
+CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.s"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Edward\Desktop\test\client\src\login\loginwindow.cpp -o CMakeFiles\shopping_client.dir\src\login\loginwindow.cpp.s
+
+CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.obj: CMakeFiles/shopping_client.dir/flags.make
+CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.obj: CMakeFiles/shopping_client.dir/includes_CXX.rsp
+CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.obj: C:/Users/Edward/Desktop/test/client/src/register/registerdialog.cpp
+CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.obj: CMakeFiles/shopping_client.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Edward\Desktop\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.obj"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.obj -MF CMakeFiles\shopping_client.dir\src\register\registerdialog.cpp.obj.d -o CMakeFiles\shopping_client.dir\src\register\registerdialog.cpp.obj -c C:\Users\Edward\Desktop\test\client\src\register\registerdialog.cpp
+
+CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.i"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Edward\Desktop\test\client\src\register\registerdialog.cpp > CMakeFiles\shopping_client.dir\src\register\registerdialog.cpp.i
+
+CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.s"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Edward\Desktop\test\client\src\register\registerdialog.cpp -o CMakeFiles\shopping_client.dir\src\register\registerdialog.cpp.s
+
+CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: CMakeFiles/shopping_client.dir/flags.make
+CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: CMakeFiles/shopping_client.dir/includes_CXX.rsp
+CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: C:/Users/Edward/Desktop/test/client/src/shopping/shoppingcart.cpp
+CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: CMakeFiles/shopping_client.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Edward\Desktop\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj -MF CMakeFiles\shopping_client.dir\src\shopping\shoppingcart.cpp.obj.d -o CMakeFiles\shopping_client.dir\src\shopping\shoppingcart.cpp.obj -c C:\Users\Edward\Desktop\test\client\src\shopping\shoppingcart.cpp
+
+CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.i"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Edward\Desktop\test\client\src\shopping\shoppingcart.cpp > CMakeFiles\shopping_client.dir\src\shopping\shoppingcart.cpp.i
+
+CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.s"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Edward\Desktop\test\client\src\shopping\shoppingcart.cpp -o CMakeFiles\shopping_client.dir\src\shopping\shoppingcart.cpp.s
+
+CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: CMakeFiles/shopping_client.dir/flags.make
+CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: CMakeFiles/shopping_client.dir/includes_CXX.rsp
+CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desktop/test/client/src/chat/chatwindow.cpp
+CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: CMakeFiles/shopping_client.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Edward\Desktop\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj -MF CMakeFiles\shopping_client.dir\src\chat\chatwindow.cpp.obj.d -o CMakeFiles\shopping_client.dir\src\chat\chatwindow.cpp.obj -c C:\Users\Edward\Desktop\test\client\src\chat\chatwindow.cpp
+
+CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.i"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Edward\Desktop\test\client\src\chat\chatwindow.cpp > CMakeFiles\shopping_client.dir\src\chat\chatwindow.cpp.i
+
+CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.s"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Edward\Desktop\test\client\src\chat\chatwindow.cpp -o CMakeFiles\shopping_client.dir\src\chat\chatwindow.cpp.s
+
+CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.obj: CMakeFiles/shopping_client.dir/flags.make
+CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.obj: CMakeFiles/shopping_client.dir/includes_CXX.rsp
+CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.obj: shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp
+CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.obj: CMakeFiles/shopping_client.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\Edward\Desktop\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.obj"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.obj -MF CMakeFiles\shopping_client.dir\shopping_client_autogen\3YJK5W5UP7\qrc_resources.cpp.obj.d -o CMakeFiles\shopping_client.dir\shopping_client_autogen\3YJK5W5UP7\qrc_resources.cpp.obj -c C:\Users\Edward\Desktop\test\build\shopping_client_autogen\3YJK5W5UP7\qrc_resources.cpp
+
+CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.i"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\Edward\Desktop\test\build\shopping_client_autogen\3YJK5W5UP7\qrc_resources.cpp > CMakeFiles\shopping_client.dir\shopping_client_autogen\3YJK5W5UP7\qrc_resources.cpp.i
+
+CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.s"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\Edward\Desktop\test\build\shopping_client_autogen\3YJK5W5UP7\qrc_resources.cpp -o CMakeFiles\shopping_client.dir\shopping_client_autogen\3YJK5W5UP7\qrc_resources.cpp.s
+
 # Object files for target shopping_client
 shopping_client_OBJECTS = \
-"CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj"
+"CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj" \
+"CMakeFiles/shopping_client.dir/src/main.cpp.obj" \
+"CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj" \
+"CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj" \
+"CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.obj" \
+"CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj" \
+"CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj" \
+"CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.obj"
 
 # External object files for target shopping_client
 shopping_client_EXTERNAL_OBJECTS =
 
 shopping_client.exe: CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj
+shopping_client.exe: CMakeFiles/shopping_client.dir/src/main.cpp.obj
+shopping_client.exe: CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj
+shopping_client.exe: CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj
+shopping_client.exe: CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.obj
+shopping_client.exe: CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj
+shopping_client.exe: CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj
+shopping_client.exe: CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.obj
 shopping_client.exe: CMakeFiles/shopping_client.dir/build.make
 shopping_client.exe: D:/Qt/6.8.3/mingw_64/lib/libQt6Widgets.a
 shopping_client.exe: D:/Qt/6.8.3/mingw_64/lib/libQt6Network.a
@@ -103,8 +237,18 @@ shopping_client.exe: D:/Qt/6.8.3/mingw_64/lib/libQt6Core.a
 shopping_client.exe: CMakeFiles/shopping_client.dir/linkLibs.rsp
 shopping_client.exe: CMakeFiles/shopping_client.dir/objects1.rsp
 shopping_client.exe: CMakeFiles/shopping_client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\Edward\Desktop\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable shopping_client.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\Edward\Desktop\test\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable shopping_client.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\shopping_client.dir\link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Deploying Qt runtime with windeployqt to C:/Users/Edward/Desktop/test/build/dist"
+	D:\CMake\bin\cmake.exe -E make_directory C:/Users/Edward/Desktop/test/build/dist
+	D:\CMake\bin\cmake.exe -E copy C:/Users/Edward/Desktop/test/build/shopping_client.exe C:/Users/Edward/Desktop/test/build/dist/
+	D:\Qt\6.8.3\mingw_64\bin\windeployqt.exe --release --dir C:/Users/Edward/Desktop/test/build/dist C:/Users/Edward/Desktop/test/build/shopping_client.exe
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copying runtime DLL: C:/msys64/ucrt64/bin/libstdc++-6.dll"
+	D:\CMake\bin\cmake.exe -E copy_if_different C:/msys64/ucrt64/bin/libstdc++-6.dll C:/Users/Edward/Desktop/test/build/dist/
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copying runtime DLL: C:/msys64/ucrt64/bin/libgcc_s_seh-1.dll"
+	D:\CMake\bin\cmake.exe -E copy_if_different C:/msys64/ucrt64/bin/libgcc_s_seh-1.dll C:/Users/Edward/Desktop/test/build/dist/
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copying runtime DLL: C:/msys64/ucrt64/bin/libwinpthread-1.dll"
+	D:\CMake\bin\cmake.exe -E copy_if_different C:/msys64/ucrt64/bin/libwinpthread-1.dll C:/Users/Edward/Desktop/test/build/dist/
 
 # Rule to build all files generated by this target.
 CMakeFiles/shopping_client.dir/build: shopping_client.exe
@@ -114,7 +258,8 @@ CMakeFiles/shopping_client.dir/clean:
 	$(CMAKE_COMMAND) -P CMakeFiles\shopping_client.dir\cmake_clean.cmake
 .PHONY : CMakeFiles/shopping_client.dir/clean
 
-CMakeFiles/shopping_client.dir/depend:
+CMakeFiles/shopping_client.dir/depend: shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp
+CMakeFiles/shopping_client.dir/depend: shopping_client_autogen/timestamp
 	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Users\Edward\Desktop\test\client C:\Users\Edward\Desktop\test\client C:\Users\Edward\Desktop\test\build C:\Users\Edward\Desktop\test\build C:\Users\Edward\Desktop\test\build\CMakeFiles\shopping_client.dir\DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/shopping_client.dir/depend
 

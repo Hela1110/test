@@ -41,6 +41,7 @@ void ShoppingCart::loadCartItems()
 
 void ShoppingCart::onReadyRead()
 {
+    if (!socket) return;
     QByteArray data = socket->readAll();
     const QList<QByteArray> lines = data.split('\n');
     for (const QByteArray &line : lines) {
@@ -92,7 +93,7 @@ void ShoppingCart::updateTotalPrice()
     for (const QJsonObject &item : cartItems) {
         total += item["price"].toDouble() * item["quantity"].toInt();
     }
-    ui->totalLabel->setText(QString("总计: ￥%1").arg(total));
+    ui->totalLabel->setText(QString("总计: ￥%1").arg(QString::number(total, 'f', 2)));
 }
 
 void ShoppingCart::on_checkoutButton_clicked()
@@ -123,6 +124,7 @@ void ShoppingCart::on_deleteButton_clicked()
 
 void ShoppingCart::sendRequest(const QJsonObject &request)
 {
+    if (!socket) return;
     QJsonDocument doc(request);
     QByteArray payload = doc.toJson(QJsonDocument::Compact);
     payload.append('\n');

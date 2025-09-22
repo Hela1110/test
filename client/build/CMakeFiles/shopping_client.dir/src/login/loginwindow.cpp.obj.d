@@ -1,6 +1,6 @@
 CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: \
  C:\Users\Edward\Desktop\test\client\src\login\loginwindow.cpp \
- C:/Users/Edward/Desktop/test/client/include/loginwindow.h \
+ C:/Users/Edward/Desktop/test/client/include/login/loginwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -380,6 +380,8 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
  C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/include/ui_loginwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \

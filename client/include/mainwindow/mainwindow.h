@@ -36,6 +36,19 @@ private:
     void loadRecommendations();
     void loadPromotions();
     void setupConnections();
+
+    // Placeholder and render helpers
+    void renderCarouselPlaceholder();
+    void renderRecommendationsPlaceholder();
+    void renderPromotionsPlaceholder();
+    void renderCarousel(const QJsonArray &images);
+    void renderRecommendations(const QJsonArray &products);
+    void renderPromotions(const QJsonArray &promotions);
+    void clearLayout(QLayout *layout);
+    QLayout* ensureVBoxLayout(QWidget *area);
+    void renderSearchResults(const QJsonArray &results);
+    void showProductDetail(const QJsonObject &product);
+    void addToCart(int productId);
 };
 
 #endif // MAINWINDOW_H

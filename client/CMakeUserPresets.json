@@ -1,0 +1,25 @@
+{
+  "version": 4,
+  "configurePresets": [
+    {
+      "name": "qt-mingw1310-release",
+      "displayName": "Qt MinGW 13.1 Release",
+      "generator": "MinGW Makefiles",
+      "binaryDir": "${sourceDir}/build-qt1310",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "D:/Qt/Tools/mingw1310_64/bin/gcc.exe",
+        "CMAKE_CXX_COMPILER": "D:/Qt/Tools/mingw1310_64/bin/g++.exe",
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_PREFIX_PATH": "D:/Qt/6.8.3/mingw_64",
+        "Qt6_DIR": "D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "qt-mingw1310-release",
+      "configurePreset": "qt-mingw1310-release",
+      "targets": ["package_app"]
+    }
+  ]
+}

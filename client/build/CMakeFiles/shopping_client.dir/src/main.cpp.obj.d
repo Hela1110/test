@@ -407,6 +407,18 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_ops.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QCoreApplication \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTextStream \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QDateTime \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QDir \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdir.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdirlisting.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qfile.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h \
  C:/Users/Edward/Desktop/test/client/include/login/loginwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \

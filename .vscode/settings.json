@@ -1,4 +1,12 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic",
-    "cmake.sourceDirectory": "C:/Users/Edward/Desktop/test/client"
+  "cmake.sourceDirectory": "${workspaceFolder}/client",
+  "cmake.buildDirectory": "${workspaceFolder}/client/build-qt1310",
+  "cmake.generator": "MinGW Makefiles",
+  "cmake.configureOnOpen": true,
+  "cmake.configureArgs": [
+    "-DCMAKE_C_COMPILER=D:/Qt/Tools/mingw1310_64/bin/gcc.exe",
+    "-DCMAKE_CXX_COMPILER=D:/Qt/Tools/mingw1310_64/bin/g++.exe",
+    "-DCMAKE_PREFIX_PATH=D:/Qt/6.8.3/mingw_64",
+    "-DQt6_DIR=D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6"
+  ]
 }

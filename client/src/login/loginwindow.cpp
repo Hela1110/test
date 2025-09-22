@@ -1,4 +1,4 @@
-#include "loginwindow.h"
+#include "login/loginwindow.h"
 #include "ui_loginwindow.h"
 #include "mainwindow/mainwindow.h"
 #include "register/registerdialog.h"
@@ -42,11 +42,14 @@ void LoginWindow::initializeSocket()
     connect(socket, &QTcpSocket::connected, this, &LoginWindow::onConnected);
     connect(socket, &QTcpSocket::disconnected, this, &LoginWindow::onDisconnected);
     connect(socket, &QTcpSocket::readyRead, this, &LoginWindow::onReadyRead);
+    connect(socket, qOverload<QAbstractSocket::SocketError>(&QTcpSocket::errorOccurred), this, &LoginWindow::onSocketError);
 }
 
 void LoginWindow::connectToServer()
 {
-    socket->connectToHost("localhost", 8080);
+    // 使用 127.0.0.1 避免 hosts 解析异常；必要时可改为服务端实际 IP
+    qInfo() << "Connecting to 127.0.0.1:8080";
+    socket->connectToHost("127.0.0.1", 8080);
 }
 
 void LoginWindow::on_loginButton_clicked()
@@ -102,6 +105,7 @@ void LoginWindow::onDisconnected()
 void LoginWindow::onReadyRead()
 {
     QByteArray data = socket->readAll();
+    qInfo() << "onReadyRead bytes=" << data.size();
     const QList<QByteArray> lines = data.split('\n');
     for (const QByteArray &line : lines) {
         if (line.trimmed().isEmpty()) continue;
@@ -112,7 +116,8 @@ void LoginWindow::onReadyRead()
         const QString type = response.value("type").toString();
         if (type == "login_response") {
             if (response.value("success").toBool()) {
-                MainWindow *mainWindow = new MainWindow();
+                qInfo() << "Login success, creating MainWindow and handing off socket";
+                MainWindow *mainWindow = new MainWindow(nullptr);
                 // 先断开 LoginWindow 上的 socket 信号连接，避免重复处理
                 if (socket) {
                     socket->disconnect(this);
@@ -123,7 +128,8 @@ void LoginWindow::onReadyRead()
                 mainWindow->show();
                 // 避免析构时 deleteLater，明确放弃所有权
                 socket = nullptr;
-                this->close();
+                // 使用 hide 而不是 close；且暂不 deleteLater，避免任何意外导致应用退出
+                this->hide();
             } else {
                 QMessageBox::warning(this, "登录失败", response.value("message").toString());
             }
@@ -151,6 +157,7 @@ void LoginWindow::sendJson(const QJsonObject& obj)
     QJsonDocument doc(obj);
     QByteArray payload = doc.toJson(QJsonDocument::Compact);
     payload.append('\n'); // 使用换行作为消息分隔符
+    qInfo() << "sendJson" << payload;
     if (socket && socket->state() == QAbstractSocket::ConnectedState) {
         socket->write(payload);
     } else {
@@ -160,4 +167,10 @@ void LoginWindow::sendJson(const QJsonObject& obj)
         }
         m_pendingWrites.push_back(payload);
     }
+}
+
+void LoginWindow::onSocketError(QAbstractSocket::SocketError socketError)
+{
+    Q_UNUSED(socketError);
+    qCritical() << "Socket error:" << socket->errorString();
 }

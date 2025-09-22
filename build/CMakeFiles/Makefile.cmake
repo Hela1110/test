@@ -12,6 +12,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/4.1.1/CMakeRCCompiler.cmake"
   "CMakeFiles/4.1.1/CMakeSystem.cmake"
   "C:/Users/Edward/Desktop/test/client/CMakeLists.txt"
+  "C:/Users/Edward/Desktop/test/client/resources/resources.qrc"
   "D:/CMake/share/cmake-4.1/Modules/CMakeCInformation.cmake"
   "D:/CMake/share/cmake-4.1/Modules/CMakeCXXInformation.cmake"
   "D:/CMake/share/cmake-4.1/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake"
@@ -268,6 +269,7 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/shopping_client_autogen.dir/AutogenInfo.json"
+  "CMakeFiles/shopping_client_autogen.dir/AutoRcc_resources_3YJK5W5UP7_Info.json"
   ".qt/QtDeploySupport.cmake"
   ".qt/QtDeployTargets.cmake"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
@@ -276,6 +278,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/shopping_client.dir/DependInfo.cmake"
+  "CMakeFiles/package_app.dir/DependInfo.cmake"
   "CMakeFiles/shopping_client_autogen_timestamp_deps.dir/DependInfo.cmake"
   "CMakeFiles/shopping_client_autogen.dir/DependInfo.cmake"
   )

@@ -1,0 +1,66 @@
+{
+  // VS Code Tasks for CMake (Qt MinGW 13.1) and quick run helpers
+  "$schema": "vscode://schemas/tasks",
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "CMake: Configure (qt-mingw1310)",
+      "type": "shell",
+      "command": "cmake",
+      "args": ["--preset", "qt-mingw1310-release"],
+      "options": { "cwd": "${workspaceFolder}/client" },
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "CMake: Build shopping_client",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "build-qt1310",
+        "--target",
+        "shopping_client",
+        "--config",
+        "Release",
+        "-j"
+      ],
+      "options": { "cwd": "${workspaceFolder}/client" },
+      "group": "build",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "CMake: Package (package_app)",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "build-qt1310",
+        "--target",
+        "package_app",
+        "--config",
+        "Release",
+        "-j"
+      ],
+      "options": { "cwd": "${workspaceFolder}/client" },
+      "group": "build",
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Run: Client (qt1310 dist)",
+      "type": "shell",
+      "command": "${workspaceFolder}\\client\\build-qt1310\\dist\\shopping_client.exe",
+      "windows": {
+        "command": "${workspaceFolder}\\client\\build-qt1310\\dist\\shopping_client.exe"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run: StartAll (server+client)",
+      "type": "shell",
+      "command": "${workspaceFolder}\\StartAll.bat",
+      "args": ["8081"],
+      "problemMatcher": []
+    }
+  ]
+}

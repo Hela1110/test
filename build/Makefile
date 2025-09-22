@@ -129,6 +129,19 @@ shopping_client/fast:
 .PHONY : shopping_client/fast
 
 #=============================================================================
+# Target rules for targets named package_app
+
+# Build rule for target.
+package_app: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 package_app
+.PHONY : package_app
+
+# fast build rule for target.
+package_app/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\package_app.dir\build.make CMakeFiles/package_app.dir/build
+.PHONY : package_app/fast
+
+#=============================================================================
 # Target rules for targets named shopping_client_autogen_timestamp_deps
 
 # Build rule for target.
@@ -154,6 +167,30 @@ shopping_client_autogen/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client_autogen.dir\build.make CMakeFiles/shopping_client_autogen.dir/build
 .PHONY : shopping_client_autogen/fast
 
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.obj: shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.obj
+.PHONY : shopping_client_autogen/3YJK5W5UP7/qrc_resources.obj
+
+# target to build an object file
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.obj
+.PHONY : shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.obj
+
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.i: shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.i
+.PHONY : shopping_client_autogen/3YJK5W5UP7/qrc_resources.i
+
+# target to preprocess a source file
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.i
+.PHONY : shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.i
+
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.s: shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.s
+.PHONY : shopping_client_autogen/3YJK5W5UP7/qrc_resources.s
+
+# target to generate assembly for a file
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.s
+.PHONY : shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp.s
+
 shopping_client_autogen/mocs_compilation.obj: shopping_client_autogen/mocs_compilation.cpp.obj
 .PHONY : shopping_client_autogen/mocs_compilation.obj
 
@@ -178,6 +215,150 @@ shopping_client_autogen/mocs_compilation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.s
 .PHONY : shopping_client_autogen/mocs_compilation.cpp.s
 
+src/chat/chatwindow.obj: src/chat/chatwindow.cpp.obj
+.PHONY : src/chat/chatwindow.obj
+
+# target to build an object file
+src/chat/chatwindow.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj
+.PHONY : src/chat/chatwindow.cpp.obj
+
+src/chat/chatwindow.i: src/chat/chatwindow.cpp.i
+.PHONY : src/chat/chatwindow.i
+
+# target to preprocess a source file
+src/chat/chatwindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.i
+.PHONY : src/chat/chatwindow.cpp.i
+
+src/chat/chatwindow.s: src/chat/chatwindow.cpp.s
+.PHONY : src/chat/chatwindow.s
+
+# target to generate assembly for a file
+src/chat/chatwindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.s
+.PHONY : src/chat/chatwindow.cpp.s
+
+src/login/loginwindow.obj: src/login/loginwindow.cpp.obj
+.PHONY : src/login/loginwindow.obj
+
+# target to build an object file
+src/login/loginwindow.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj
+.PHONY : src/login/loginwindow.cpp.obj
+
+src/login/loginwindow.i: src/login/loginwindow.cpp.i
+.PHONY : src/login/loginwindow.i
+
+# target to preprocess a source file
+src/login/loginwindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.i
+.PHONY : src/login/loginwindow.cpp.i
+
+src/login/loginwindow.s: src/login/loginwindow.cpp.s
+.PHONY : src/login/loginwindow.s
+
+# target to generate assembly for a file
+src/login/loginwindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.s
+.PHONY : src/login/loginwindow.cpp.s
+
+src/main.obj: src/main.cpp.obj
+.PHONY : src/main.obj
+
+# target to build an object file
+src/main.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/main.cpp.obj
+.PHONY : src/main.cpp.obj
+
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
+
+src/mainwindow/mainwindow.obj: src/mainwindow/mainwindow.cpp.obj
+.PHONY : src/mainwindow/mainwindow.obj
+
+# target to build an object file
+src/mainwindow/mainwindow.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj
+.PHONY : src/mainwindow/mainwindow.cpp.obj
+
+src/mainwindow/mainwindow.i: src/mainwindow/mainwindow.cpp.i
+.PHONY : src/mainwindow/mainwindow.i
+
+# target to preprocess a source file
+src/mainwindow/mainwindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.i
+.PHONY : src/mainwindow/mainwindow.cpp.i
+
+src/mainwindow/mainwindow.s: src/mainwindow/mainwindow.cpp.s
+.PHONY : src/mainwindow/mainwindow.s
+
+# target to generate assembly for a file
+src/mainwindow/mainwindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.s
+.PHONY : src/mainwindow/mainwindow.cpp.s
+
+src/register/registerdialog.obj: src/register/registerdialog.cpp.obj
+.PHONY : src/register/registerdialog.obj
+
+# target to build an object file
+src/register/registerdialog.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.obj
+.PHONY : src/register/registerdialog.cpp.obj
+
+src/register/registerdialog.i: src/register/registerdialog.cpp.i
+.PHONY : src/register/registerdialog.i
+
+# target to preprocess a source file
+src/register/registerdialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.i
+.PHONY : src/register/registerdialog.cpp.i
+
+src/register/registerdialog.s: src/register/registerdialog.cpp.s
+.PHONY : src/register/registerdialog.s
+
+# target to generate assembly for a file
+src/register/registerdialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.s
+.PHONY : src/register/registerdialog.cpp.s
+
+src/shopping/shoppingcart.obj: src/shopping/shoppingcart.cpp.obj
+.PHONY : src/shopping/shoppingcart.obj
+
+# target to build an object file
+src/shopping/shoppingcart.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj
+.PHONY : src/shopping/shoppingcart.cpp.obj
+
+src/shopping/shoppingcart.i: src/shopping/shoppingcart.cpp.i
+.PHONY : src/shopping/shoppingcart.i
+
+# target to preprocess a source file
+src/shopping/shoppingcart.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.i
+.PHONY : src/shopping/shoppingcart.cpp.i
+
+src/shopping/shoppingcart.s: src/shopping/shoppingcart.cpp.s
+.PHONY : src/shopping/shoppingcart.s
+
+# target to generate assembly for a file
+src/shopping/shoppingcart.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.s
+.PHONY : src/shopping/shoppingcart.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -186,12 +367,34 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... package_app
 	@echo ... shopping_client_autogen
 	@echo ... shopping_client_autogen_timestamp_deps
 	@echo ... shopping_client
+	@echo ... shopping_client_autogen/3YJK5W5UP7/qrc_resources.obj
+	@echo ... shopping_client_autogen/3YJK5W5UP7/qrc_resources.i
+	@echo ... shopping_client_autogen/3YJK5W5UP7/qrc_resources.s
 	@echo ... shopping_client_autogen/mocs_compilation.obj
 	@echo ... shopping_client_autogen/mocs_compilation.i
 	@echo ... shopping_client_autogen/mocs_compilation.s
+	@echo ... src/chat/chatwindow.obj
+	@echo ... src/chat/chatwindow.i
+	@echo ... src/chat/chatwindow.s
+	@echo ... src/login/loginwindow.obj
+	@echo ... src/login/loginwindow.i
+	@echo ... src/login/loginwindow.s
+	@echo ... src/main.obj
+	@echo ... src/main.i
+	@echo ... src/main.s
+	@echo ... src/mainwindow/mainwindow.obj
+	@echo ... src/mainwindow/mainwindow.i
+	@echo ... src/mainwindow/mainwindow.s
+	@echo ... src/register/registerdialog.obj
+	@echo ... src/register/registerdialog.i
+	@echo ... src/register/registerdialog.s
+	@echo ... src/shopping/shoppingcart.obj
+	@echo ... src/shopping/shoppingcart.i
+	@echo ... src/shopping/shoppingcart.s
 .PHONY : help
 
 

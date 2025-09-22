@@ -1,0 +1,173 @@
+[2025-09-22 21:57:23] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 21:57:23] [INFO] LoginWindow created and shown
+[2025-09-22 22:21:09] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 22:21:09] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 22:21:09] [INFO] LoginWindow created and shown
+[2025-09-22 22:21:09] [DEBUG] Connected to server
+[2025-09-22 22:21:18] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:21:18] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:21:18] [INFO] onReadyRead bytes= 66
+[2025-09-22 22:23:16] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 22:23:16] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 22:23:16] [INFO] LoginWindow created and shown
+[2025-09-22 22:23:16] [DEBUG] Connected to server
+[2025-09-22 22:23:25] [INFO] sendJson "{\"password\":\"12345\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:23:25] [INFO] sendJson "{\"password\":\"12345\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:23:25] [INFO] onReadyRead bytes= 67
+[2025-09-22 22:23:28] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:23:28] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:23:28] [INFO] onReadyRead bytes= 133
+[2025-09-22 22:24:22] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 22:24:22] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 22:24:22] [INFO] LoginWindow created and shown
+[2025-09-22 22:24:22] [DEBUG] Connected to server
+[2025-09-22 22:24:34] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:24:34] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:24:34] [INFO] onReadyRead bytes= 66
+[2025-09-22 22:32:14] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 22:32:14] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 22:32:14] [INFO] LoginWindow created and shown
+[2025-09-22 22:32:14] [DEBUG] Connected to server
+[2025-09-22 22:32:21] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:32:21] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:32:21] [INFO] onReadyRead bytes= 66
+[2025-09-22 22:32:21] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-22 22:32:21] [INFO] MainWindow constructed
+[2025-09-22 22:32:21] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-22 22:35:20] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 22:35:20] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 22:35:20] [INFO] LoginWindow created and shown
+[2025-09-22 22:35:20] [DEBUG] Connected to server
+[2025-09-22 22:35:28] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:35:28] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:35:28] [INFO] onReadyRead bytes= 66
+[2025-09-22 22:35:28] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-22 22:35:28] [INFO] MainWindow constructed
+[2025-09-22 22:35:28] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-22 22:36:51] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 22:36:51] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 22:36:51] [INFO] LoginWindow created and shown
+[2025-09-22 22:36:51] [DEBUG] Connected to server
+[2025-09-22 22:36:57] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:36:57] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:36:57] [INFO] onReadyRead bytes= 66
+[2025-09-22 22:36:57] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-22 22:36:57] [INFO] MainWindow constructed
+[2025-09-22 22:36:57] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-22 22:38:49] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 22:38:49] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 22:38:49] [INFO] LoginWindow created and shown
+[2025-09-22 22:38:49] [DEBUG] Connected to server
+[2025-09-22 22:39:03] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:39:03] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:39:03] [INFO] onReadyRead bytes= 66
+[2025-09-22 22:39:03] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-22 22:39:03] [INFO] MainWindow constructed
+[2025-09-22 22:39:03] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-22 22:39:54] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 22:39:54] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 22:39:54] [INFO] LoginWindow created and shown
+[2025-09-22 22:39:54] [DEBUG] Connected to server
+[2025-09-22 22:40:05] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:40:05] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:40:05] [INFO] onReadyRead bytes= 66
+[2025-09-22 22:40:05] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-22 22:40:05] [INFO] MainWindow constructed
+[2025-09-22 22:40:05] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-22 22:41:23] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 22:41:23] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 22:41:23] [INFO] LoginWindow created and shown
+[2025-09-22 22:41:23] [DEBUG] Connected to server
+[2025-09-22 22:41:33] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:41:33] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:41:33] [INFO] onReadyRead bytes= 66
+[2025-09-22 22:41:33] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-22 22:41:33] [INFO] MainWindow constructed
+[2025-09-22 22:41:33] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-22 22:46:11] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 22:46:11] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 22:46:11] [INFO] LoginWindow created and shown
+[2025-09-22 22:46:11] [DEBUG] Connected to server
+[2025-09-22 22:46:16] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:46:16] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 22:46:16] [INFO] onReadyRead bytes= 66
+[2025-09-22 22:46:16] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-22 22:46:16] [INFO] MainWindow constructed
+[2025-09-22 22:46:16] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-22 23:19:07] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 23:19:07] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 23:19:07] [INFO] LoginWindow created and shown
+[2025-09-22 23:19:07] [DEBUG] Connected to server
+[2025-09-22 23:19:15] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 23:19:15] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 23:19:15] [INFO] onReadyRead bytes= 66
+[2025-09-22 23:19:15] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-22 23:19:15] [INFO] MainWindow constructed
+[2025-09-22 23:19:15] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-22 23:19:31] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-09-22 23:20:22] [ERROR] Socket error in MainWindow: "The remote host closed the connection"
+[2025-09-22 23:20:22] [WARN] Socket disconnected
+[2025-09-22 23:20:24] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-09-22 23:20:24] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-09-22 23:22:14] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 23:22:14] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 23:22:14] [INFO] LoginWindow created and shown
+[2025-09-22 23:22:14] [DEBUG] Connected to server
+[2025-09-22 23:22:21] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 23:22:21] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 23:22:21] [INFO] onReadyRead bytes= 66
+[2025-09-22 23:22:21] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-22 23:22:21] [INFO] MainWindow constructed
+[2025-09-22 23:22:21] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-22 23:22:57] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 23:22:57] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 23:22:57] [INFO] LoginWindow created and shown
+[2025-09-22 23:22:57] [DEBUG] Connected to server
+[2025-09-22 23:23:08] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 23:23:08] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 23:23:08] [INFO] onReadyRead bytes= 66
+[2025-09-22 23:23:08] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-22 23:23:08] [INFO] MainWindow constructed
+[2025-09-22 23:23:08] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-22 23:25:26] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 23:25:26] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 23:25:26] [INFO] LoginWindow created and shown
+[2025-09-22 23:25:26] [DEBUG] Connected to server
+[2025-09-22 23:25:33] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 23:25:33] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 23:25:33] [INFO] onReadyRead bytes= 66
+[2025-09-22 23:25:33] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-22 23:25:33] [INFO] MainWindow constructed
+[2025-09-22 23:25:33] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-22 23:27:05] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-09-22 23:28:40] [ERROR] Socket error in MainWindow: "The remote host closed the connection"
+[2025-09-22 23:28:40] [WARN] Socket disconnected
+[2025-09-22 23:28:41] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-09-22 23:28:41] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-09-22 23:28:45] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 23:28:45] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 23:28:45] [INFO] LoginWindow created and shown
+[2025-09-22 23:28:45] [DEBUG] Connected to server
+[2025-09-22 23:28:53] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 23:28:53] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 23:28:53] [INFO] onReadyRead bytes= 66
+[2025-09-22 23:28:53] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-22 23:28:53] [INFO] MainWindow constructed
+[2025-09-22 23:28:53] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-22 23:30:18] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-09-22 23:30:35] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-09-22 23:30:35] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-09-22 23:30:59] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 23:30:59] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 23:30:59] [INFO] LoginWindow created and shown
+[2025-09-22 23:30:59] [DEBUG] Connected to server
+[2025-09-22 23:31:05] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 23:31:05] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-22 23:31:05] [INFO] onReadyRead bytes= 66
+[2025-09-22 23:31:05] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-22 23:31:05] [INFO] MainWindow constructed
+[2025-09-22 23:31:05] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-22 23:32:54] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-22 23:32:54] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-22 23:32:54] [INFO] LoginWindow created and shown
+[2025-09-22 23:32:54] [DEBUG] Connected to server
