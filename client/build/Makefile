@@ -129,6 +129,19 @@ shopping_client/fast:
 .PHONY : shopping_client/fast
 
 #=============================================================================
+# Target rules for targets named package_app
+
+# Build rule for target.
+package_app: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 package_app
+.PHONY : package_app
+
+# fast build rule for target.
+package_app/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\package_app.dir\build.make CMakeFiles/package_app.dir/build
+.PHONY : package_app/fast
+
+#=============================================================================
 # Target rules for targets named shopping_client_autogen_timestamp_deps
 
 # Build rule for target.
@@ -274,6 +287,54 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/mainwindow/mainwindow.obj: src/mainwindow/mainwindow.cpp.obj
+.PHONY : src/mainwindow/mainwindow.obj
+
+# target to build an object file
+src/mainwindow/mainwindow.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj
+.PHONY : src/mainwindow/mainwindow.cpp.obj
+
+src/mainwindow/mainwindow.i: src/mainwindow/mainwindow.cpp.i
+.PHONY : src/mainwindow/mainwindow.i
+
+# target to preprocess a source file
+src/mainwindow/mainwindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.i
+.PHONY : src/mainwindow/mainwindow.cpp.i
+
+src/mainwindow/mainwindow.s: src/mainwindow/mainwindow.cpp.s
+.PHONY : src/mainwindow/mainwindow.s
+
+# target to generate assembly for a file
+src/mainwindow/mainwindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.s
+.PHONY : src/mainwindow/mainwindow.cpp.s
+
+src/register/registerdialog.obj: src/register/registerdialog.cpp.obj
+.PHONY : src/register/registerdialog.obj
+
+# target to build an object file
+src/register/registerdialog.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.obj
+.PHONY : src/register/registerdialog.cpp.obj
+
+src/register/registerdialog.i: src/register/registerdialog.cpp.i
+.PHONY : src/register/registerdialog.i
+
+# target to preprocess a source file
+src/register/registerdialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.i
+.PHONY : src/register/registerdialog.cpp.i
+
+src/register/registerdialog.s: src/register/registerdialog.cpp.s
+.PHONY : src/register/registerdialog.s
+
+# target to generate assembly for a file
+src/register/registerdialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/src/register/registerdialog.cpp.s
+.PHONY : src/register/registerdialog.cpp.s
+
 src/shopping/shoppingcart.obj: src/shopping/shoppingcart.cpp.obj
 .PHONY : src/shopping/shoppingcart.obj
 
@@ -306,6 +367,7 @@ help:
 	@echo ... depend
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... package_app
 	@echo ... shopping_client_autogen
 	@echo ... shopping_client_autogen_timestamp_deps
 	@echo ... shopping_client
@@ -324,6 +386,12 @@ help:
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s
+	@echo ... src/mainwindow/mainwindow.obj
+	@echo ... src/mainwindow/mainwindow.i
+	@echo ... src/mainwindow/mainwindow.s
+	@echo ... src/register/registerdialog.obj
+	@echo ... src/register/registerdialog.i
+	@echo ... src/register/registerdialog.s
 	@echo ... src/shopping/shoppingcart.obj
 	@echo ... src/shopping/shoppingcart.i
 	@echo ... src/shopping/shoppingcart.s

@@ -3,10 +3,11 @@ echo ========================================
 echo Starting Server Application
 echo ========================================
 
-:: Check if JAR file exists
-if not exist "target\shopping-server-1.0-SNAPSHOT.jar" (
-    echo Error: Server application not built!
-    echo Please run build.bat first.
+:: Build (ensure executable jar with main manifest)
+echo Packaging server (skip tests)...
+mvn -q -DskipTests package
+if %ERRORLEVEL% NEQ 0 (
+    echo Error: Maven package failed.
     pause
     exit /b 1
 )

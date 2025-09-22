@@ -349,21 +349,27 @@
 			null
 		],
 		[
-			"C:/Users/Edward/Desktop/test/client/include/loginwindow.h",
+			"C:/Users/Edward/Desktop/test/client/include/login/loginwindow.h",
 			"MU",
-			"6YEA5652QU/moc_loginwindow.cpp",
+			"XLQVKIHBGC/moc_loginwindow.cpp",
 			null
 		],
 		[
-			"C:/Users/Edward/Desktop/test/client/include/mainwindow.h",
+			"C:/Users/Edward/Desktop/test/client/include/mainwindow/mainwindow.h",
 			"MU",
-			"6YEA5652QU/moc_mainwindow.cpp",
+			"IFHPYZAWOD/moc_mainwindow.cpp",
 			null
 		],
 		[
-			"C:/Users/Edward/Desktop/test/client/include/shoppingcart.h",
+			"C:/Users/Edward/Desktop/test/client/include/register/registerdialog.h",
 			"MU",
-			"6YEA5652QU/moc_shoppingcart.cpp",
+			"LQ5S74IWJL/moc_registerdialog.cpp",
+			null
+		],
+		[
+			"C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h",
+			"MU",
+			"3G5O7Q7RTY/moc_shoppingcart.cpp",
 			null
 		]
 	],
@@ -455,14 +461,24 @@
 		],
 		[ "C:/Users/Edward/Desktop/test/client/src/main.cpp", "MU", null ],
 		[
+			"C:/Users/Edward/Desktop/test/client/src/mainwindow/mainwindow.cpp",
+			"Mu",
+			null
+		],
+		[
+			"C:/Users/Edward/Desktop/test/client/src/register/registerdialog.cpp",
+			"MU",
+			null
+		],
+		[
 			"C:/Users/Edward/Desktop/test/client/src/shopping/shoppingcart.cpp",
 			"MU",
 			null
 		]
 	],
 	"UIC_OPTIONS" : [],
-	"UIC_SEARCH_PATHS" : [],
-	"UIC_SKIP" : [],
+	"UIC_SEARCH_PATHS" : [ "C:/Users/Edward/Desktop/test/client/ui" ],
+	"UIC_SKIP" : [ "C:/Users/Edward/Desktop/test/client/src/mainwindow/mainwindow.cpp" ],
 	"UIC_UI_FILES" : [],
 	"USE_BETTER_GRAPH" : true,
 	"VERBOSITY" : 0

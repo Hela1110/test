@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTcpSocket>
+#include <QList>
 
 namespace Ui {
 class LoginWindow;
@@ -25,7 +26,11 @@ private slots:
 private:
     Ui::LoginWindow *ui;
     QTcpSocket *socket;
+    QList<QByteArray> m_pendingWrites;
     void setupUi();
     void connectToServer();
     void initializeSocket();
+    void sendJson(const QJsonObject& obj);
 };
+
+#endif // LOGINWINDOW_H

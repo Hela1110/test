@@ -37,3 +37,5 @@ private:
     void loadPromotions();
     void setupConnections();
 };
+
+#endif // MAINWINDOW_H

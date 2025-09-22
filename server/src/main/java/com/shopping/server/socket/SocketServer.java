@@ -8,8 +8,10 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.json.JsonObjectDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import java.nio.charset.StandardCharsets;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -38,8 +40,9 @@ public class SocketServer {
                     @Override
                     protected void initChannel(SocketChannel ch) {
                         ch.pipeline().addLast(
-                            new StringDecoder(),
-                            new StringEncoder(),
+                            new JsonObjectDecoder(),
+                            new StringDecoder(StandardCharsets.UTF_8),
+                            new StringEncoder(StandardCharsets.UTF_8),
                             new SocketMessageHandler()
                         );
                     }

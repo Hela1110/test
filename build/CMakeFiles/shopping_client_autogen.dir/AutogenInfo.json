@@ -335,40 +335,13 @@
 		"D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets.cmake",
 		"D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets-relwithdebinfo.cmake",
 		"D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginAdditionalTargetInfo.cmake",
-		"D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlVersionlessAliasTargets.cmake",
-		"C:/Users/Edward/Desktop/test/client/resources/resources.qrc"
+		"D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlVersionlessAliasTargets.cmake"
 	],
 	"CMAKE_SOURCE_DIR" : "C:/Users/Edward/Desktop/test/client",
 	"CROSS_CONFIG" : false,
 	"DEP_FILE" : "C:/Users/Edward/Desktop/test/build/shopping_client_autogen/deps",
 	"DEP_FILE_RULE_NAME" : "shopping_client_autogen/timestamp",
-	"HEADERS" : 
-	[
-		[
-			"C:/Users/Edward/Desktop/test/client/include/chatwindow.h",
-			"MU",
-			"6YEA5652QU/moc_chatwindow.cpp",
-			null
-		],
-		[
-			"C:/Users/Edward/Desktop/test/client/include/loginwindow.h",
-			"MU",
-			"6YEA5652QU/moc_loginwindow.cpp",
-			null
-		],
-		[
-			"C:/Users/Edward/Desktop/test/client/include/mainwindow.h",
-			"MU",
-			"6YEA5652QU/moc_mainwindow.cpp",
-			null
-		],
-		[
-			"C:/Users/Edward/Desktop/test/client/include/shoppingcart.h",
-			"MU",
-			"6YEA5652QU/moc_shoppingcart.cpp",
-			null
-		]
-	],
+	"HEADERS" : [],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
 	"INCLUDE_DIR" : "C:/Users/Edward/Desktop/test/build/shopping_client_autogen/include",
 	"MOC_COMPILATION_FILE" : "C:/Users/Edward/Desktop/test/build/shopping_client_autogen/mocs_compilation.cpp",
@@ -442,27 +415,9 @@
 	"QT_VERSION_MAJOR" : 6,
 	"QT_VERSION_MINOR" : 8,
 	"SETTINGS_FILE" : "C:/Users/Edward/Desktop/test/build/CMakeFiles/shopping_client_autogen.dir/AutogenUsed.txt",
-	"SOURCES" : 
-	[
-		[
-			"C:/Users/Edward/Desktop/test/client/src/chat/chatwindow.cpp",
-			"MU",
-			null
-		],
-		[
-			"C:/Users/Edward/Desktop/test/client/src/login/loginwindow.cpp",
-			"MU",
-			null
-		],
-		[ "C:/Users/Edward/Desktop/test/client/src/main.cpp", "MU", null ],
-		[
-			"C:/Users/Edward/Desktop/test/client/src/shopping/shoppingcart.cpp",
-			"MU",
-			null
-		]
-	],
+	"SOURCES" : [],
 	"UIC_OPTIONS" : [],
-	"UIC_SEARCH_PATHS" : [],
+	"UIC_SEARCH_PATHS" : [ "C:/Users/Edward/Desktop/test/client/ui" ],
 	"UIC_SKIP" : [],
 	"UIC_UI_FILES" : [],
 	"USE_BETTER_GRAPH" : true,

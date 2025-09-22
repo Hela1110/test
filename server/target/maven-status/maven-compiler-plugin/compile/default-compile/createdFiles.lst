@@ -1,0 +1,12 @@
+com\shopping\server\socket\SocketServer.class
+com\shopping\server\repository\ProductRepository.class
+com\shopping\server\socket\SocketServer$1.class
+com\shopping\server\socket\SocketMessageHandler.class
+com\shopping\server\repository\OrderRepository.class
+com\shopping\server\model\Client.class
+com\shopping\server\model\Order.class
+com\shopping\server\ShoppingServerApplication.class
+com\shopping\server\socket\SocketMessageHandler$1.class
+com\shopping\server\service\OrderService.class
+com\shopping\server\model\Product.class
+com\shopping\server\service\ProductService.class

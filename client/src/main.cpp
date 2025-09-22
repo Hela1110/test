@@ -1,4 +1,6 @@
 #include <QApplication>
+#include <QFile>
+#include <QCoreApplication>
 #include "login/loginwindow.h"
 
 int main(int argc, char *argv[]) {

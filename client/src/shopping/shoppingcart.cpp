@@ -42,10 +42,14 @@ void ShoppingCart::loadCartItems()
 void ShoppingCart::onReadyRead()
 {
     QByteArray data = socket->readAll();
-    QJsonDocument doc = QJsonDocument::fromJson(data);
-    QJsonObject response = doc.object();
-    
-    if (response["type"].toString() == "cart_items") {
+    const QList<QByteArray> lines = data.split('\n');
+    for (const QByteArray &line : lines) {
+        if (line.trimmed().isEmpty()) continue;
+        QJsonParseError err{};
+        QJsonDocument doc = QJsonDocument::fromJson(line, &err);
+        if (err.error != QJsonParseError::NoError) continue;
+        QJsonObject response = doc.object();
+        if (response["type"].toString() == "cart_items") {
         // 清空表格
         ui->cartTable->clearContents();
         ui->cartTable->setRowCount(0);
@@ -69,14 +73,15 @@ void ShoppingCart::onReadyRead()
         }
         
         updateTotalPrice();
-    }
-    else if (response["type"].toString() == "checkout_response") {
-        if (response["success"].toBool()) {
+        }
+        else if (response["type"].toString() == "checkout_response") {
+            if (response["success"].toBool()) {
             QMessageBox::information(this, "结算成功", "购物车结算成功！");
             emit checkoutCompleted();
             loadCartItems();
-        } else {
+            } else {
             QMessageBox::warning(this, "结算失败", response["message"].toString());
+            }
         }
     }
 }
@@ -119,10 +124,19 @@ void ShoppingCart::on_deleteButton_clicked()
 void ShoppingCart::sendRequest(const QJsonObject &request)
 {
     QJsonDocument doc(request);
-    socket->write(doc.toJson());
+    QByteArray payload = doc.toJson(QJsonDocument::Compact);
+    payload.append('\n');
+    socket->write(payload);
 }
 
 void ShoppingCart::refreshCart()
 {
     loadCartItems();
+}
+
+void ShoppingCart::onItemClicked(int row, int column)
+{
+    Q_UNUSED(row);
+    Q_UNUSED(column);
+    // 可根据需要在此处理单元格点击，例如高亮、弹出详情等
 }

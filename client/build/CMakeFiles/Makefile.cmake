@@ -277,6 +277,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/shopping_client.dir/DependInfo.cmake"
+  "CMakeFiles/package_app.dir/DependInfo.cmake"
   "CMakeFiles/shopping_client_autogen_timestamp_deps.dir/DependInfo.cmake"
   "CMakeFiles/shopping_client_autogen.dir/DependInfo.cmake"
   )

@@ -1,5 +1,5 @@
-#ifndef SHOPPINGCART_H
-#define SHOPPINGCART_H
+#ifndef SHOPPING_SHOPPINGCART_H
+#define SHOPPING_SHOPPINGCART_H
 
 #include <QWidget>
 #include <QTcpSocket>
@@ -11,31 +11,31 @@ class ShoppingCart;
 }
 
 class ShoppingCart : public QWidget {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit ShoppingCart(QTcpSocket *socket, QWidget *parent = nullptr);
-    ~ShoppingCart();
-    void refreshCart();
+	explicit ShoppingCart(QTcpSocket *socket, QWidget *parent = nullptr);
+	~ShoppingCart();
+	void refreshCart();
 
 signals:
-    void checkoutCompleted();
+	void checkoutCompleted();
 
 private slots:
-    void on_checkoutButton_clicked();
-    void on_deleteButton_clicked();
-    void onItemClicked(int row, int column);
-    void onReadyRead();
+	void on_checkoutButton_clicked();
+	void on_deleteButton_clicked();
+	void onItemClicked(int row, int column);
+	void onReadyRead();
 
 private:
-    Ui::ShoppingCart *ui;
-    QTcpSocket *socket;
-    QVector<QJsonObject> cartItems;
+	Ui::ShoppingCart *ui;
+	QTcpSocket *socket;
+	QVector<QJsonObject> cartItems;
 
-    void setupUi();
-    void loadCartItems();
-    void updateTotalPrice();
-    void sendRequest(const QJsonObject &request);
+	void setupUi();
+	void loadCartItems();
+	void updateTotalPrice();
+	void sendRequest(const QJsonObject &request);
 };
 
-#endif // SHOPPINGCART_H
+#endif // SHOPPING_SHOPPINGCART_H

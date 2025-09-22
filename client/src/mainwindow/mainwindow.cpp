@@ -44,9 +44,9 @@ void MainWindow::setupUi()
     setWindowTitle("购物系统");
     resize(1024, 768);
     
-    // 初始化子窗口
-    cart = new ShoppingCart(this);
-    chat = new ChatWindow(this);
+    // 子窗口延迟创建，避免在 socket 未设置时构造依赖 socket 的窗口
+    cart = nullptr;
+    chat = nullptr;
 }
 
 void MainWindow::setupConnections()
@@ -68,8 +68,10 @@ void MainWindow::loadCarousel()
         QJsonObject request;
         request["type"] = "get_carousel";
         
-        QJsonDocument doc(request);
-        socket->write(doc.toJson());
+    QJsonDocument doc(request);
+    QByteArray payload = doc.toJson(QJsonDocument::Compact);
+    payload.append('\n');
+    socket->write(payload);
     }
 }
 
@@ -80,8 +82,10 @@ void MainWindow::loadRecommendations()
         QJsonObject request;
         request["type"] = "get_recommendations";
         
-        QJsonDocument doc(request);
-        socket->write(doc.toJson());
+    QJsonDocument doc(request);
+    QByteArray payload = doc.toJson(QJsonDocument::Compact);
+    payload.append('\n');
+    socket->write(payload);
     }
 }
 
@@ -92,8 +96,10 @@ void MainWindow::loadPromotions()
         QJsonObject request;
         request["type"] = "get_promotions";
         
-        QJsonDocument doc(request);
-        socket->write(doc.toJson());
+    QJsonDocument doc(request);
+    QByteArray payload = doc.toJson(QJsonDocument::Compact);
+    payload.append('\n');
+    socket->write(payload);
     }
 }
 
@@ -111,27 +117,35 @@ void MainWindow::on_searchButton_clicked()
         request["type"] = "search";
         request["keyword"] = keyword;
         
-        QJsonDocument doc(request);
-        socket->write(doc.toJson());
+    QJsonDocument doc(request);
+    QByteArray payload = doc.toJson(QJsonDocument::Compact);
+    payload.append('\n');
+    socket->write(payload);
     }
 }
 
 void MainWindow::on_cartButton_clicked()
 {
-    if (cart) {
-        cart->show();
-        cart->raise();
-        cart->activateWindow();
+    if (!cart) {
+        if (!socket) {
+            QMessageBox::warning(this, "提示", "未连接服务器，无法打开购物车");
+            return;
+        }
+        cart = new ShoppingCart(socket, this);
     }
+    cart->show();
+    cart->raise();
+    cart->activateWindow();
 }
 
 void MainWindow::on_chatButton_clicked()
 {
-    if (chat) {
-        chat->show();
-        chat->raise();
-        chat->activateWindow();
+    if (!chat) {
+        chat = new ChatWindow(this);
     }
+    chat->show();
+    chat->raise();
+    chat->activateWindow();
 }
 
 void MainWindow::onProductClicked(int productId)
@@ -142,8 +156,10 @@ void MainWindow::onProductClicked(int productId)
         request["type"] = "get_product_detail";
         request["product_id"] = productId;
         
-        QJsonDocument doc(request);
-        socket->write(doc.toJson());
+    QJsonDocument doc(request);
+    QByteArray payload = doc.toJson(QJsonDocument::Compact);
+    payload.append('\n');
+    socket->write(payload);
     }
 }
 
@@ -152,11 +168,14 @@ void MainWindow::onReadyRead()
     if (!socket) return;
     
     QByteArray data = socket->readAll();
-    QJsonDocument doc = QJsonDocument::fromJson(data);
+    const QList<QByteArray> lines = data.split('\n');
+    for (const QByteArray &line : lines) {
+    if (line.trimmed().isEmpty()) continue;
+    QJsonParseError err{};
+    QJsonDocument doc = QJsonDocument::fromJson(line, &err);
+    if (err.error != QJsonParseError::NoError) continue;
     QJsonObject response = doc.object();
-    
     QString type = response["type"].toString();
-    
     if (type == "carousel_data") {
         // 处理轮播图数据
         QJsonArray images = response["images"].toArray();
@@ -181,5 +200,6 @@ void MainWindow::onReadyRead()
         // 处理商品详情
         QJsonObject product = response["product"].toObject();
         // TODO: 显示商品详情
+    }
     }
 }

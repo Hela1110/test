@@ -29,3 +29,5 @@ private:
     void connectToServer();
     void initializeSocket();
 };
+
+#endif // LOGINWINDOW_H

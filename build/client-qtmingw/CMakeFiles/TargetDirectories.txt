@@ -1,0 +1,5 @@
+C:/Users/Edward/Desktop/test/build/client-qtmingw/CMakeFiles/shopping_client.dir
+C:/Users/Edward/Desktop/test/build/client-qtmingw/CMakeFiles/edit_cache.dir
+C:/Users/Edward/Desktop/test/build/client-qtmingw/CMakeFiles/rebuild_cache.dir
+C:/Users/Edward/Desktop/test/build/client-qtmingw/CMakeFiles/shopping_client_autogen_timestamp_deps.dir
+C:/Users/Edward/Desktop/test/build/client-qtmingw/CMakeFiles/shopping_client_autogen.dir

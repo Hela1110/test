@@ -1,0 +1,4 @@
+# Hashes of file build rules.
+92740bbb4f1d6d3959c09584e79240cc CMakeFiles/shopping_client_autogen
+5694e6cb7df9884d1aaf947d044ccc7a shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp
+657fca770e1df0cb7692f2122058c2cc shopping_client_autogen/timestamp

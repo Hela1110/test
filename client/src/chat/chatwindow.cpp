@@ -6,9 +6,7 @@ ChatWindow::ChatWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::ChatWindow) {
     ui->setupUi(this);
 
-    // 连接回车键发送消息的信号槽
-    connect(ui->messageInput, &QTextEdit::returnPressed,
-            this, &ChatWindow::on_messageInput_returnPressed);
+    // TODO: 可通过事件过滤器捕捉回车键发送消息
 }
 
 ChatWindow::~ChatWindow() {
