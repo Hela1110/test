@@ -17,11 +17,16 @@
    <item>
     <widget class="QTableWidget" name="cartTable">
      <property name="selectionMode">
-      <enum>QAbstractItemView::SingleSelection</enum>
+      <enum>QAbstractItemView::NoSelection</enum>
      </property>
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
+     <column>
+      <property name="text">
+       <string>选择</string>
+      </property>
+     </column>
      <column>
       <property name="text">
        <string>商品名称</string>
@@ -46,6 +51,13 @@
    </item>
    <item>
     <layout class="QHBoxLayout" name="bottomLayout">
+    <item>
+     <widget class="QPushButton" name="backButton">
+      <property name="text">
+       <string>返回</string>
+      </property>
+     </widget>
+    </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -60,6 +72,20 @@
       </spacer>
      </item>
      <item>
+      <widget class="QCheckBox" name="selectAllCheck">
+       <property name="text">
+        <string>全选/全不选</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="selectedLabel">
+       <property name="text">
+        <string>已选择 0 项</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QLabel" name="totalLabel">
        <property name="text">
         <string>总计: ￥0.00</string>
@@ -70,6 +96,13 @@
       <widget class="QPushButton" name="deleteButton">
        <property name="text">
         <string>删除所选</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="clearButton">
+       <property name="text">
+        <string>清空购物车</string>
        </property>
       </widget>
      </item>

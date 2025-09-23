@@ -5,7 +5,7 @@ REM Ensure working directory is the script's folder
 pushd "%~dp0" >nul 2>&1
 
 echo ========================================
-echo StartAll: Build & Run Server and Client
+echo StartAll: Build ^& Run Server and Client
 echo ========================================
 
 set "SERVER_PORT=%~1"
@@ -14,13 +14,14 @@ echo Using Spring Boot HTTP port: %SERVER_PORT%
 
 REM 1) Start server in a new window
 echo [1/3] Starting server window...
-start "shopping-server" cmd /c "cd /d server && run.bat %SERVER_PORT%"
+REM Run server directly to avoid nested batch quirks
+start "shopping-server" cmd /c "cd /d server && where mvn >nul 2>&1 && mvn -q -DskipTests package && where java >nul 2>&1 && java -Xms512m -Xmx1024m -XX:+UseG1GC -jar target\shopping-server-1.0-SNAPSHOT.jar --server.port=%SERVER_PORT%"
 
-REM 2) Wait for Netty port 8080 to be ready (max ~60s)
-echo [2/3] Waiting for server (localhost:8080)...
+REM 2) Wait for server to be ready (Netty 8080 OR Spring Boot %SERVER_PORT%) max ~60s
+echo [2/3] Waiting for server (tcp 8080 or %SERVER_PORT%)...
 set /a __retries=60
 :wait_loop
-powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $c = New-Object System.Net.Sockets.TcpClient; $c.Connect('localhost',8080); if($c.Connected){$c.Close(); exit 0} else {exit 1} } catch { exit 1 }"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $ok=$false; foreach($p in @(8080,%SERVER_PORT%)){ $c=New-Object System.Net.Sockets.TcpClient; try{ $c.Connect('localhost',$p) } catch {} if($c.Connected){ $ok=$true; $c.Close(); break } } if($ok){ exit 0 } else { exit 1 } } catch { exit 1 }"
 if %ERRORLEVEL% EQU 0 goto :server_ready
 set /a __retries-=1
 if %__retries% LEQ 0 goto :server_timeout
@@ -28,23 +29,121 @@ if %__retries% LEQ 0 goto :server_timeout
 goto :wait_loop
 
 :server_timeout
-echo Warning: Waited 60s but 8080 not ready. Continuing to start client anyway.
+echo Warning: Waited 60s but server ports not ready. Continuing to start client anyway.
 
 :server_ready
-REM 3) Start client in a new window
-echo [3/3] Starting client window...
+REM 3) Stop running client if any to avoid file locks during packaging
+echo [3/5] Stopping existing client instances (if any)...
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Get-Process -Name shopping_client -ErrorAction Stop | Stop-Process -Force } catch { }"
+
+REM 4) Build latest client before launch
+echo [4/5] Building latest client...
+if exist "build_client_qt1310.bat" (
+    call build_client_qt1310.bat
+) else (
+    echo build_client_qt1310.bat not found, skipping client build.
+)
+
+REM 5) Start client in a new window (prefer freshly built non-dist first)
+echo [5/5] Starting client window...
+set "CLIENT_EXE=shopping_client.exe"
+set "CLIENT_DIR="
+
+REM Prefer freshly built exe in build directories (non-dist) first
+if exist "build-qt1310\shopping_client.exe" (
+    set "CLIENT_DIR=build-qt1310"
+    goto :launch_client
+)
+if exist "client\build-qt1310\shopping_client.exe" (
+    set "CLIENT_DIR=client\build-qt1310"
+    goto :launch_client
+)
+
+REM Fallback to packaged dist locations
+if exist "build-qt1310\dist\shopping_client.exe" (
+    set "CLIENT_DIR=build-qt1310\dist"
+    goto :launch_client
+)
 if exist "client\build-qt1310\dist\shopping_client.exe" (
-	start "shopping-client" "client\build-qt1310\dist\shopping_client.exe"
-	goto :done
+    set "CLIENT_DIR=client\build-qt1310\dist"
+    goto :launch_client
+)
+if exist "build\dist\shopping_client.exe" (
+    set "CLIENT_DIR=build\dist"
+    goto :launch_client
 )
 if exist "client\build\dist\shopping_client.exe" (
-	start "shopping-client" "client\build\dist\shopping_client.exe"
-	goto :done
+    set "CLIENT_DIR=client\build\dist"
+    goto :launch_client
 )
-echo Client executable not found at:
+
+echo Client executable not found. Searched candidates:
+echo   build-qt1310\shopping_client.exe
+echo   client\build-qt1310\shopping_client.exe
+echo   build-qt1310\dist\shopping_client.exe
 echo   client\build-qt1310\dist\shopping_client.exe
-echo   client\build\dist\shopping_client.exe
 echo Please build the client (package_app) and try again.
+goto :done
+
+:launch_client
+for %%I in ("%CLIENT_DIR%\%CLIENT_EXE%") do set "CLIENT_ABS=%%~fI"
+echo Launching client: "%CLIENT_ABS%"
+REM If launching from a non-dist folder, ensure Qt DLLs are present; try windeployqt
+set "__NEED_DEPLOY=0"
+if /I not "%CLIENT_DIR:~-5%"=="\dist" (
+    if not exist "%CLIENT_DIR%\Qt6Core.dll" set "__NEED_DEPLOY=1"
+)
+
+if "%__NEED_DEPLOY%"=="1" (
+    echo Qt6 DLLs not found in "%CLIENT_DIR%". Attempting windeployqt...
+    set "WDEPLOYQT="
+    if defined QTDIR if exist "%QTDIR%\bin\windeployqt.exe" set "WDEPLOYQT=%QTDIR%\bin\windeployqt.exe"
+    if not defined WDEPLOYQT for /f "delims=" %%W in ('where /r "D:\Qt" windeployqt.exe 2^>nul') do if not defined WDEPLOYQT set "WDEPLOYQT=%%W"
+    if not defined WDEPLOYQT for /f "delims=" %%W in ('where /r "C:\Qt" windeployqt.exe 2^>nul') do if not defined WDEPLOYQT set "WDEPLOYQT=%%W"
+
+    if defined WDEPLOYQT (
+        echo Using windeployqt: !WDEPLOYQT!
+        pushd "%CLIENT_DIR%" >nul 2>&1
+        "!WDEPLOYQT!" --release "%CLIENT_ABS%"
+        popd >nul 2>&1
+        REM Try to copy MinGW runtime DLLs if toolchain folder exists
+        set "MINGW_BIN="
+        if exist "D:\Qt\Tools\mingw1310_64\bin" set "MINGW_BIN=D:\Qt\Tools\mingw1310_64\bin"
+        if not defined MINGW_BIN if exist "C:\Qt\Tools\mingw1310_64\bin" set "MINGW_BIN=C:\Qt\Tools\mingw1310_64\bin"
+        if not defined MINGW_BIN for /f "delims=" %%B in ('dir /b /s /ad "D:\Qt\Tools\*\bin" 2^>nul ^| findstr /i /r "mingw.*_64\\bin$"') do set "MINGW_BIN=%%B"
+        if defined MINGW_BIN (
+            for %%D in (libstdc++-6.dll libgcc_s_seh-1.dll libwinpthread-1.dll) do (
+                if exist "!MINGW_BIN!\%%D" copy /Y "!MINGW_BIN!\%%D" "%CLIENT_DIR%\" >nul 2>&1
+            )
+        )
+    ) else (
+        echo Could not find windeployqt.exe automatically.
+    )
+
+    if not exist "%CLIENT_DIR%\Qt6Core.dll" (
+        echo Deploy failed or incomplete. Falling back to packaged dist client if available...
+        REM Try known dist locations as fallback
+        if exist "build-qt1310\dist\shopping_client.exe" (
+            set "CLIENT_DIR=build-qt1310\dist"
+            goto :launch_client
+        )
+        if exist "client\build-qt1310\dist\shopping_client.exe" (
+            set "CLIENT_DIR=client\build-qt1310\dist"
+            goto :launch_client
+        )
+        if exist "build\dist\shopping_client.exe" (
+            set "CLIENT_DIR=build\dist"
+            goto :launch_client
+        )
+        if exist "client\build\dist\shopping_client.exe" (
+            set "CLIENT_DIR=client\build\dist"
+            goto :launch_client
+        )
+        echo No dist client found. You may need to run windeployqt manually or set QTDIR.
+    )
+)
+start "" /D "%CLIENT_DIR%" "%CLIENT_EXE%"
+goto :done
 
 :done
 

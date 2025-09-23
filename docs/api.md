@@ -134,6 +134,17 @@
 }
 ```
 
+#### 3. 设置购物车数量
+- 请求：
+```json
+{
+    "type": "set_cart_quantity",
+    "product_id": 商品ID,
+    "quantity": 数量
+}
+```
+- 响应：同获取购物车（`cart_response` / `cart_items`），数量为 0 等同于移除该商品
+
 ### 订单相关 API
 
 #### 1. 创建订单
@@ -177,3 +188,34 @@
 - 2002: 库存不足
 - 3001: 购物车为空
 - 3002: 订单创建失败
+
+---
+
+## 客户端字段映射与兼容说明
+
+为平滑过渡，服务端在一段时间内同时支持“旧类型/字段”和“文档类型/字段”，客户端做如下映射与处理：
+
+- 搜索/商品列表
+    - 请求：优先使用 `search_products` 与 `get_products { page, size }`
+    - 响应：`products_response { total, products[] }`
+    - 客户端会将 `products[].id/name/price/[description]/[imageUrl]` 映射为内部使用的 `product_id/name/price/[description]/[image_url]`，以复用既有渲染逻辑
+
+- 购物车
+    - 请求：`get_cart`
+    - 响应：同时可能收到：
+        - 旧：`cart_items { items: [{ product_id, name, price, quantity }] }`
+        - 新：`cart_response { items: [{ productId, name, price, quantity }] }`
+    - 客户端在接收 `cart_response` 时会将 `productId` 转为 `product_id` 进行统一处理
+
+- 添加到购物车
+    - 请求：兼容 `product_id` 与 `productId`，支持 `quantity`
+    - 响应：`add_to_cart_response { success, message? }`
+
+- 下单/结算
+    - 新流程：`create_order { items: [{ productId, quantity }] }` → `order_response { success, orderId?, message, code? }`
+    - 旧流程：`checkout` → `checkout_response { success, message }`，同时服务端也会额外返回 `order_response` 便于过渡
+    - 客户端默认走 `create_order`，避免旧新并行导致重复提示；接收到 `checkout_response` 时也能兼容处理但不重复弹窗
+
+- 错误统一
+    - 任意接口错误均可能返回 `{ type: "error", code, message }`
+    - 客户端会根据 code 映射友好提示（见“错误码说明”），并在 UI 侧做弹窗去重，避免短时间重复提示

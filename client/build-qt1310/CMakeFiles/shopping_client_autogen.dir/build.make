@@ -71,7 +71,7 @@ shopping_client_autogen/timestamp: D:/Qt/6.8.3/mingw_64/bin/moc.exe
 shopping_client_autogen/timestamp: D:/Qt/6.8.3/mingw_64/bin/uic.exe
 shopping_client_autogen/timestamp: CMakeFiles/shopping_client_autogen.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\Edward\Desktop\test\client\build-qt1310\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target shopping_client"
-	D:\CMake\bin\cmake.exe -E cmake_autogen C:/Users/Edward/Desktop/test/client/build-qt1310/CMakeFiles/shopping_client_autogen.dir/AutogenInfo.json Debug
+	D:\CMake\bin\cmake.exe -E cmake_autogen C:/Users/Edward/Desktop/test/client/build-qt1310/CMakeFiles/shopping_client_autogen.dir/AutogenInfo.json Release
 	D:\CMake\bin\cmake.exe -E touch C:/Users/Edward/Desktop/test/client/build-qt1310/shopping_client_autogen/timestamp
 
 CMakeFiles/shopping_client_autogen.dir/codegen:

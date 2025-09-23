@@ -75,11 +75,12 @@ void LoginWindow::on_registerButton_clicked()
 {
     RegisterDialog dlg(this);
     // 当用户在对话框提交注册时，发送注册请求
-    connect(&dlg, &RegisterDialog::submitRegister, this, [this](const QString& username, const QString& password){
+    connect(&dlg, &RegisterDialog::submitRegister, this, [this](const QString& username, const QString& password, const QString& phone){
         QJsonObject regRequest;
         regRequest["type"] = "register";
         regRequest["username"] = username;
         regRequest["password"] = password;
+        if (!phone.isEmpty()) regRequest["phone"] = phone;
         sendJson(regRequest);
     });
     dlg.exec();
@@ -124,6 +125,9 @@ void LoginWindow::onReadyRead()
                     // 将 socket 的父对象转移到主窗口，避免关闭 LoginWindow 时销毁 socket
                     socket->setParent(mainWindow);
                 }
+                // 将当前用户名传递给主窗口
+                const QString username = ui->usernameInput->text();
+                mainWindow->setCurrentUsername(username);
                 mainWindow->setSocket(socket);
                 mainWindow->show();
                 // 避免析构时 deleteLater，明确放弃所有权

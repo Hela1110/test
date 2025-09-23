@@ -15,21 +15,16 @@ echo Using Spring Boot HTTP port: %SERVER_PORT%
 
 set "JAR=target\shopping-server-1.0-SNAPSHOT.jar"
 
-REM If jar already exists, skip build
-if exist "%JAR%" goto :runJar
-
-echo Jar not found, attempting to build with Maven...
+echo Packaging server (skip tests)...
 where mvn >nul 2>&1
 if errorlevel 1 (
     echo(
-    echo Error: Maven (mvn) is not available on PATH.
+    echo Error: Maven ^(mvn^) is not available on PATH.
     echo Please open a terminal in the server folder and run:
     echo   mvn -DskipTests package
     echo Or install Maven and try again.
     goto :endWithPause
 )
-
-echo Packaging server (skip tests)...
 mvn -q -DskipTests package
 if errorlevel 1 (
     echo Error: Maven package failed.

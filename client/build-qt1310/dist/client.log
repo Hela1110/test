@@ -171,3 +171,30 @@
 [2025-09-22 23:32:54] [INFO] Connecting to 127.0.0.1:8080
 [2025-09-22 23:32:54] [INFO] LoginWindow created and shown
 [2025-09-22 23:32:54] [DEBUG] Connected to server
+[2025-09-23 08:04:19] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-23 08:04:19] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-23 08:04:19] [INFO] LoginWindow created and shown
+[2025-09-23 08:04:19] [DEBUG] Connected to server
+[2025-09-23 08:04:29] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-23 08:04:29] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-23 08:04:29] [INFO] onReadyRead bytes= 66
+[2025-09-23 08:04:29] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-23 08:04:29] [INFO] MainWindow constructed
+[2025-09-23 08:04:29] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-23 08:05:04] [ERROR] Socket error in MainWindow: "The remote host closed the connection"
+[2025-09-23 08:05:04] [WARN] Socket disconnected
+[2025-09-23 11:52:14] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-23 11:52:14] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-23 11:52:14] [INFO] LoginWindow created and shown
+[2025-09-23 11:52:14] [DEBUG] Connected to server
+[2025-09-23 11:52:26] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-23 11:52:26] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-23 11:52:26] [INFO] onReadyRead bytes= 66
+[2025-09-23 11:52:26] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-23 11:52:26] [INFO] MainWindow constructed
+[2025-09-23 11:52:26] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-23 11:52:35] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-09-23 11:52:35] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-09-23 13:07:05] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-23 13:07:05] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-23 13:07:05] [INFO] LoginWindow created and shown

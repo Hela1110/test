@@ -72,7 +72,7 @@ shopping_client_autogen/timestamp: D:/Qt/6.8.3/mingw_64/bin/moc.exe
 shopping_client_autogen/timestamp: D:/Qt/6.8.3/mingw_64/bin/uic.exe
 shopping_client_autogen/timestamp: CMakeFiles/shopping_client.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\Edward\Desktop\test\client\build-qt1310\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target shopping_client"
-	D:\CMake\bin\cmake.exe -E cmake_autogen C:/Users/Edward/Desktop/test/client/build-qt1310/CMakeFiles/shopping_client_autogen.dir/AutogenInfo.json Debug
+	D:\CMake\bin\cmake.exe -E cmake_autogen C:/Users/Edward/Desktop/test/client/build-qt1310/CMakeFiles/shopping_client_autogen.dir/AutogenInfo.json Release
 	D:\CMake\bin\cmake.exe -E touch C:/Users/Edward/Desktop/test/client/build-qt1310/shopping_client_autogen/timestamp
 
 shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/resources.qrc
@@ -81,7 +81,7 @@ shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/te
 shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: D:/Qt/6.8.3/mingw_64/bin/rcc.exe
 shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: D:/Qt/6.8.3/mingw_64/bin/rcc.exe
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\Edward\Desktop\test\client\build-qt1310\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Automatic RCC for resources/resources.qrc"
-	D:\CMake\bin\cmake.exe -E cmake_autorcc C:/Users/Edward/Desktop/test/client/build-qt1310/CMakeFiles/shopping_client_autogen.dir/AutoRcc_resources_3YJK5W5UP7_Info.json Debug
+	D:\CMake\bin\cmake.exe -E cmake_autorcc C:/Users/Edward/Desktop/test/client/build-qt1310/CMakeFiles/shopping_client_autogen.dir/AutoRcc_resources_3YJK5W5UP7_Info.json Release
 
 CMakeFiles/shopping_client.dir/codegen:
 .PHONY : CMakeFiles/shopping_client.dir/codegen

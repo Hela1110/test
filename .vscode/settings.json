@@ -8,5 +8,6 @@
     "-DCMAKE_CXX_COMPILER=D:/Qt/Tools/mingw1310_64/bin/g++.exe",
     "-DCMAKE_PREFIX_PATH=D:/Qt/6.8.3/mingw_64",
     "-DQt6_DIR=D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6"
-  ]
+  ],
+  "java.compile.nullAnalysis.mode": "automatic"
 }

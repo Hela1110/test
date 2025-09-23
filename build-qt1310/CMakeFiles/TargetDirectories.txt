@@ -1,0 +1,6 @@
+C:/Users/Edward/Desktop/test/build-qt1310/CMakeFiles/shopping_client.dir
+C:/Users/Edward/Desktop/test/build-qt1310/CMakeFiles/package_app.dir
+C:/Users/Edward/Desktop/test/build-qt1310/CMakeFiles/edit_cache.dir
+C:/Users/Edward/Desktop/test/build-qt1310/CMakeFiles/rebuild_cache.dir
+C:/Users/Edward/Desktop/test/build-qt1310/CMakeFiles/shopping_client_autogen_timestamp_deps.dir
+C:/Users/Edward/Desktop/test/build-qt1310/CMakeFiles/shopping_client_autogen.dir

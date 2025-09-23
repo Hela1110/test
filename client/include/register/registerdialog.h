@@ -12,7 +12,7 @@ public:
     ~RegisterDialog();
 
 signals:
-    void submitRegister(const QString& username, const QString& password);
+    void submitRegister(const QString& username, const QString& password, const QString& phone);
 
 public slots:
     void onRegisterResult(bool success, const QString& message);
@@ -22,6 +22,7 @@ private slots:
 
 private:
     Ui::RegisterDialog* ui;
+    bool submitting = false;
 };
 
 #endif // REGISTERDIALOG_H

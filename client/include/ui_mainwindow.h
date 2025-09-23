@@ -18,6 +18,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -32,9 +33,17 @@ public:
     QPushButton *searchButton;
     QToolButton *cartButton;
     QToolButton *chatButton;
+    QToolButton *accountButton;
+    QToolButton *ordersButton;
+    // top pager buttons removed
     QWidget *carouselArea;
     QWidget *recommendationsArea;
     QWidget *promotionsArea;
+    QHBoxLayout *bottomPagerLayout;
+    QLabel *pageInfoLabel;
+    QLabel *totalInfoLabel;
+    QSpinBox *gotoPageSpin;
+    QPushButton *gotoPageButton;
     QStatusBar *statusbar;
     QMenuBar *menubar;
 
@@ -79,6 +88,18 @@ public:
     cartButton->setMinimumWidth(80);
         topBarLayout->addWidget(cartButton);
 
+        accountButton = new QToolButton(centralwidget);
+        accountButton->setObjectName(QString::fromUtf8("accountButton"));
+        accountButton->setMinimumWidth(80);
+        topBarLayout->addWidget(accountButton);
+
+    ordersButton = new QToolButton(centralwidget);
+    ordersButton->setObjectName(QString::fromUtf8("ordersButton"));
+    ordersButton->setMinimumWidth(80);
+    topBarLayout->addWidget(ordersButton);
+
+    // pagination controls removed from top bar
+
         rootLayout->addLayout(topBarLayout);
 
         // Content placeholders
@@ -99,6 +120,44 @@ public:
     promotionsArea->setMinimumHeight(150);
     promotionsArea->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred));
         rootLayout->addWidget(promotionsArea);
+
+        // bottom pager bar
+        bottomPagerLayout = new QHBoxLayout();
+        bottomPagerLayout->setObjectName(QString::fromUtf8("bottomPagerLayout"));
+        pageInfoLabel = new QLabel(centralwidget);
+        pageInfoLabel->setObjectName(QString::fromUtf8("pageInfoLabel"));
+        pageInfoLabel->setText(QString::fromUtf8("第 1/1 页"));
+        bottomPagerLayout->addWidget(pageInfoLabel);
+
+        totalInfoLabel = new QLabel(centralwidget);
+        totalInfoLabel->setObjectName(QString::fromUtf8("totalInfoLabel"));
+        totalInfoLabel->setText(QString::fromUtf8("共 0 条"));
+        bottomPagerLayout->addWidget(totalInfoLabel);
+
+        QSpacerItem *pagerSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        bottomPagerLayout->addItem(pagerSpacer);
+
+        QLabel *gotoLabel = new QLabel(centralwidget);
+        gotoLabel->setObjectName(QString::fromUtf8("gotoLabel"));
+        gotoLabel->setText(QString::fromUtf8("跳转到"));
+        bottomPagerLayout->addWidget(gotoLabel);
+
+        gotoPageSpin = new QSpinBox(centralwidget);
+        gotoPageSpin->setObjectName(QString::fromUtf8("gotoPageSpin"));
+        gotoPageSpin->setMinimum(1);
+        gotoPageSpin->setMaximum(9999);
+        gotoPageSpin->setValue(1);
+        QSize maxSz; maxSz.setWidth(80); maxSz.setHeight(16777215);
+        gotoPageSpin->setMaximumSize(maxSz);
+        bottomPagerLayout->addWidget(gotoPageSpin);
+
+        gotoPageButton = new QPushButton(centralwidget);
+        gotoPageButton->setObjectName(QString::fromUtf8("gotoPageButton"));
+        gotoPageButton->setText(QString::fromUtf8("跳转"));
+        gotoPageButton->setMinimumWidth(80);
+        bottomPagerLayout->addWidget(gotoPageButton);
+
+        rootLayout->addLayout(bottomPagerLayout);
 
         MainWindow->setCentralWidget(centralwidget);
 
@@ -121,6 +180,9 @@ public:
         searchButton->setText(QString::fromUtf8("搜索"));
         chatButton->setText(QString::fromUtf8("客服"));
         cartButton->setText(QString::fromUtf8("购物车"));
+    accountButton->setText(QString::fromUtf8("账号"));
+    ordersButton->setText(QString::fromUtf8("订单"));
+        // no top pager button texts
     }
 };
 
