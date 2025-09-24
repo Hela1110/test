@@ -64,53 +64,42 @@ void ShoppingCart::setupUi()
     // 槽函数已按 on_* 命名，Qt 会通过 QMetaObject::connectSlotsByName 自动连接
     // 无需手动 connect，以免重复触发导致弹窗两次
     if (objectName().isEmpty()) setObjectName("ShoppingCart");
-    // 通过 findChild 再次确认关键控件；并挂载仅日志用连接（不影响业务）
+    // 通过 findChild 再次确认关键控件（统一不再重复绑定 lambda，避免 UniqueConnection 警告）
     if (auto btn = findChild<QPushButton*>("checkoutButton")) {
-        // 日志 + 兜底连接（UniqueConnection 防止重复连接）
-        connect(btn, &QPushButton::clicked, this, [](){ qInfo() << "checkoutButton native click"; }, Qt::UniqueConnection);
-        connect(btn, &QPushButton::clicked, this, &ShoppingCart::on_checkoutButton_clicked, Qt::UniqueConnection);
+        QObject::disconnect(btn, nullptr, this, nullptr);
+        connect(btn, &QPushButton::clicked, this, &ShoppingCart::on_checkoutButton_clicked);
     }
+    // delete 按钮可能命名为 deleteButton 或 batchDeleteButton，做兼容
     if (auto delBtn = findChild<QPushButton*>("deleteButton")) {
-        connect(delBtn, &QPushButton::clicked, this, [](){ qInfo() << "deleteButton native click"; }, Qt::UniqueConnection);
-        connect(delBtn, &QPushButton::clicked, this, &ShoppingCart::on_deleteButton_clicked, Qt::UniqueConnection);
+        QObject::disconnect(delBtn, nullptr, this, nullptr);
+        connect(delBtn, &QPushButton::clicked, this, &ShoppingCart::on_deleteButton_clicked);
+    } else if (auto delBtn2 = findChild<QPushButton*>("batchDeleteButton")) {
+        QObject::disconnect(delBtn2, nullptr, this, nullptr);
+        connect(delBtn2, &QPushButton::clicked, this, &ShoppingCart::on_deleteButton_clicked);
     }
     if (auto clrBtn = findChild<QPushButton*>("clearButton")) {
+        QObject::disconnect(clrBtn, nullptr, this, nullptr);
         connect(clrBtn, &QPushButton::clicked, this, [this]{
             if (QMessageBox::question(this, tr("清空购物车"), tr("确定要清空购物车吗？")) != QMessageBox::Yes) return;
+            // 1. 立即本地清空（乐观 UI）
+            {
+                QSignalBlocker b(ui->cartTable);
+                cartItems.clear();
+                if (ui->cartTable) { ui->cartTable->setRowCount(0); ui->cartTable->clearContents(); }
+            }
+            if (auto all = findChild<QCheckBox*>("selectAllCheck")) { QSignalBlocker bb(*all); all->setCheckState(Qt::Unchecked); }
+            updateSelectedCount();
+            updateTotalPrice();
+            qInfo() << "[clear_cart] optimistic cleared locally username=" << username;
+            // 2. 发送服务器请求
             QJsonObject req; req["type"] = "clear_cart"; if (!username.isEmpty()) req["username"] = username; sendRequest(req);
-            // 无论服务器响应如何，短延时后主动刷新以避免“无反应”的感知
-            QTimer::singleShot(250, this, [this]{ loadCartItems(); });
-        }, Qt::UniqueConnection);
+            // 3. 1 秒后强制刷新一次防止服务器侧失败不同步（失败会重新拉回数据）
+            QTimer::singleShot(1000, this, [this]{ loadCartItems(); });
+        });
         clrBtn->setVisible(true);
         clrBtn->setEnabled(true);
     }
-    if (auto all = findChild<QCheckBox*>("selectAllCheck")) {
-        all->setTristate(true);
-        // 使用 clicked 事件，避免三态状态机导致的“半选”无法正确下发到行复选框
-        connect(all, &QCheckBox::clicked, this, [this, all](bool /*checked*/){
-            if (!ui->cartTable) return;
-            const int rows = ui->cartTable->rowCount();
-            bool anyUnchecked = false;
-            for (int r = 0; r < rows; ++r) {
-                QWidget *wrap = ui->cartTable->cellWidget(r, 0);
-                if (!wrap) continue;
-                auto chk = wrap->findChild<QCheckBox*>();
-                if (chk && !chk->isChecked()) { anyUnchecked = true; break; }
-            }
-            const bool target = anyUnchecked; // 存在未选则本次点击视为“全选”，否则“全不选”
-            for (int r = 0; r < rows; ++r) {
-                QWidget *wrap = ui->cartTable->cellWidget(r, 0);
-                if (!wrap) continue;
-                auto chk = wrap->findChild<QCheckBox*>();
-                if (chk) {
-                    QSignalBlocker b(*chk);
-                    chk->setChecked(target);
-                }
-            }
-            updateSelectedCount();
-            updateTotalPrice();
-        }, Qt::UniqueConnection);
-    }
+    ensureSelectAllHook();
 }
 
 void ShoppingCart::loadCartItems()
@@ -125,6 +114,23 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
 {
     const QString type = response.value("type").toString();
     if (type == QLatin1String("cart_items") || type == QLatin1String("cart_response")) {
+        // 生成签名：items 数量 + 每个 product_id:qty 排序拼接，避免重复构建 UI
+        QStringList sigParts;
+        QJsonArray itemsRaw = response.value("items").toArray();
+        for (const auto &v : itemsRaw) {
+            QJsonObject o = v.toObject();
+            int pid = o.contains("product_id") ? o.value("product_id").toInt() : o.value("productId").toInt();
+            int qty = o.value("quantity").toInt();
+            sigParts << QString::number(pid) + ":" + QString::number(qty);
+        }
+        std::sort(sigParts.begin(), sigParts.end());
+        QString signature = QString::number(sigParts.size()) + "|" + sigParts.join(",");
+        qint64 nowMs = monotonic.isValid()? monotonic.elapsed():0;
+        if (signature == lastCartSignature && (nowMs - lastCartBuildMs) < 800) {
+            qInfo() << "[cart_load] skip duplicate build sig=" << signature;
+            return; // 忽略重复刷新
+        }
+        lastCartSignature = signature; lastCartBuildMs = nowMs;
         QSignalBlocker blocker(ui->cartTable); // 填充表格时屏蔽触发
         ui->cartTable->clearContents();
     ui->cartTable->setRowCount(0);
@@ -215,11 +221,15 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
                 auto chk = wrap->findChild<QCheckBox*>();
                 if (chk) { chk->setChecked(true); }
             }
+            qInfo() << "[cart_load] populated rows=" << ui->cartTable->rowCount() << "all selected initially";
+        } else {
+            qInfo() << "[cart_load] empty cart";
         }
         updateSelectedCount();
         updateTotalPrice();
         // 安装事件过滤器以支持点击行切换选中
         ui->cartTable->viewport()->installEventFilter(this);
+        ensureSelectAllHook(); // 确保钩子存在（避免第一次加载时尚未创建）
     } else if (type == QLatin1String("checkout_response")) {
         // 仅在一次有效结算流程中处理响应，避免重复弹窗
         if (!checkoutInFlight) {
@@ -243,7 +253,8 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
                     auto chk = wrap->findChild<QCheckBox*>();
                     if (chk && chk->isChecked()) {
                         if (r >=0 && r < cartItems.size()) {
-                            QJsonObject request; request["type"] = "remove_from_cart"; request["product_id"] = cartItems[r]["product_id"]; sendRequest(request);
+                            QJsonObject request; request["type"] = "remove_from_cart"; request["product_id"] = cartItems[r]["product_id"]; if (!username.isEmpty()) request["username"] = username; sendRequest(request);
+                            qInfo() << "[checkout_response] remove_from_cart pid=" << cartItems[r]["product_id"].toInt() << "username=" << username;
                         }
                     }
                 }
@@ -294,6 +305,11 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
             QSignalBlocker blocker(ui->cartTable);
             cartItems.clear();
             if (ui->cartTable) { ui->cartTable->setRowCount(0); ui->cartTable->clearContents(); }
+            if (auto all = findChild<QCheckBox*>("selectAllCheck")) {
+                QSignalBlocker b(*all);
+                all->setCheckState(Qt::Unchecked);
+            }
+            qInfo() << "[clear_cart_response] success cart cleared username=" << username;
             updateSelectedCount();
             updateTotalPrice();
         }
@@ -536,3 +552,65 @@ bool ShoppingCart::eventFilter(QObject *obj, QEvent *event)
     }
     return QWidget::eventFilter(obj, event);
 }
+
+int ShoppingCart::selectedRowCount() const {
+    if (!ui->cartTable) return 0;
+    int cnt = 0;
+    const int rows = ui->cartTable->rowCount();
+    for (int r = 0; r < rows; ++r) {
+        QWidget *wrap = ui->cartTable->cellWidget(r, 0);
+        if (!wrap) continue;
+        auto chk = wrap->findChild<QCheckBox*>();
+        if (chk && chk->isChecked()) ++cnt;
+    }
+    return cnt;
+}
+
+void ShoppingCart::ensureSelectAllHook()
+{
+    QCheckBox *all = findChild<QCheckBox*>("selectAllCheck");
+    if (!all) {
+        all = new QCheckBox(tr("全选/全不选"), this);
+        all->setObjectName("selectAllCheck");
+        if (auto topLay = findChild<QVBoxLayout*>()) {
+            topLay->insertWidget(0, all);
+            qInfo() << "[selectAllCheck] ensure() inserted dynamically";
+        } else {
+            all->move(8, 8);
+            all->show();
+            qInfo() << "[selectAllCheck] ensure() created no layout";
+        }
+    }
+    // 重新绑定（安全起见，避免重复 lambda）
+    QObject::disconnect(all, nullptr, this, nullptr);
+    all->setTristate(true);
+    connect(all, &QCheckBox::clicked, this, [this, all](bool){
+        if (!ui->cartTable) return;
+        const int rows = ui->cartTable->rowCount();
+        bool anyUnchecked = false;
+        for (int r = 0; r < rows; ++r) {
+            QWidget *wrap = ui->cartTable->cellWidget(r, 0);
+            if (!wrap) continue;
+            auto chk = wrap->findChild<QCheckBox*>();
+            if (chk && !chk->isChecked()) { anyUnchecked = true; break; }
+        }
+        const bool target = anyUnchecked;
+        qInfo() << "[selectAllClick] rows=" << rows << "anyUnchecked=" << anyUnchecked << "=> target=" << target;
+        for (int r = 0; r < rows; ++r) {
+            QWidget *wrap = ui->cartTable->cellWidget(r, 0);
+            if (!wrap) continue;
+            auto chk = wrap->findChild<QCheckBox*>();
+            if (chk) {
+                QSignalBlocker b(*chk);
+                chk->setChecked(target);
+            }
+        }
+        qInfo() << "[selectAllClick] after toggle checkedCount=" << selectedRowCount();
+        updateSelectedCount();
+        updateTotalPrice();
+    });
+}
+
+// 抑制自动连接警告的空槽：如果界面没有 prev/nextPage 控件也无副作用
+void ShoppingCart::on_prevPage_clicked() { /* no-op */ }
+void ShoppingCart::on_nextPage_clicked() { /* no-op */ }

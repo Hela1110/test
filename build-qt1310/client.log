@@ -1077,3 +1077,448 @@
 [2025-09-23 23:41:15] [INFO] cartButton(findChild) clicked
 [2025-09-23 23:41:22] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
 [2025-09-23 23:41:22] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-09-24 12:40:36] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/client.log"
+[2025-09-24 12:40:36] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-24 12:40:36] [INFO] LoginWindow created and shown
+[2025-09-24 12:40:36] [DEBUG] Connected to server
+[2025-09-24 12:40:43] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 12:40:43] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 12:40:43] [INFO] onReadyRead bytes= 66
+[2025-09-24 12:40:43] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-24 12:40:43] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-24 12:40:43] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-24 12:40:43] [INFO] MainWindow constructed
+[2025-09-24 12:40:43] [INFO] setupConnections: searchButton= 0x1b117d30580 cartButton= 0x1b117d14ed0 chatButton= 0x1b117d305b0
+[2025-09-24 12:40:43] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-24 12:40:43] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-24 12:40:52] [INFO] cartButton pressed
+[2025-09-24 12:40:52] [INFO] cartButton released
+[2025-09-24 12:40:52] [INFO] cartButton clicked
+[2025-09-24 12:40:52] [INFO] Creating ShoppingCart instance
+[2025-09-24 12:40:52] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-09-24 12:40:52] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:40:52] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:40:52] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:40:52] [WARN] QObject::connect(QCheckBox, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:40:52] [INFO] ShoppingCart instance created
+[2025-09-24 12:40:52] [INFO] Showing ShoppingCart
+[2025-09-24 12:40:52] [INFO] ShoppingCart shown
+[2025-09-24 12:40:52] [INFO] cartButton clicked
+[2025-09-24 12:40:52] [INFO] Showing ShoppingCart
+[2025-09-24 12:40:52] [INFO] ShoppingCart shown
+[2025-09-24 12:40:52] [INFO] cartButton lambda clicked
+[2025-09-24 12:40:52] [INFO] cartButton(findChild) clicked
+[2025-09-24 12:41:01] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= false
+[2025-09-24 12:41:01] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= true
+[2025-09-24 12:41:01] [INFO] showOnce show tag= "order_ok" title= "下单成功" text= "订单已创建：#1\n总金额：￥19996.00"
+[2025-09-24 12:41:07] [ERROR] Socket error in MainWindow: "The remote host closed the connection"
+[2025-09-24 12:41:07] [WARN] Socket disconnected
+[2025-09-24 12:41:07] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-09-24 12:41:07] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-09-24 12:46:21] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/client.log"
+[2025-09-24 12:46:21] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-24 12:46:21] [INFO] LoginWindow created and shown
+[2025-09-24 12:46:21] [DEBUG] Connected to server
+[2025-09-24 12:46:30] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 12:46:30] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 12:46:30] [INFO] onReadyRead bytes= 66
+[2025-09-24 12:46:30] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-24 12:46:30] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-24 12:46:30] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-24 12:46:30] [INFO] MainWindow constructed
+[2025-09-24 12:46:30] [INFO] setupConnections: searchButton= 0x226cf71ff70 cartButton= 0x226cf704940 chatButton= 0x226cf720120
+[2025-09-24 12:46:30] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-24 12:46:30] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-24 12:46:37] [INFO] cartButton pressed
+[2025-09-24 12:46:37] [INFO] cartButton released
+[2025-09-24 12:46:37] [INFO] cartButton clicked
+[2025-09-24 12:46:37] [INFO] Creating ShoppingCart instance
+[2025-09-24 12:46:37] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-09-24 12:46:37] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:46:37] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:46:37] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:46:37] [WARN] QObject::connect(QCheckBox, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:46:37] [INFO] ShoppingCart instance created
+[2025-09-24 12:46:37] [INFO] Showing ShoppingCart
+[2025-09-24 12:46:37] [INFO] ShoppingCart shown
+[2025-09-24 12:46:37] [INFO] cartButton clicked
+[2025-09-24 12:46:37] [INFO] Showing ShoppingCart
+[2025-09-24 12:46:37] [INFO] ShoppingCart shown
+[2025-09-24 12:46:37] [INFO] cartButton lambda clicked
+[2025-09-24 12:46:37] [INFO] cartButton(findChild) clicked
+[2025-09-24 12:46:37] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-09-24 12:46:37] [INFO] [cart_load] empty cart
+[2025-09-24 12:46:37] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-09-24 12:46:37] [INFO] [cart_load] empty cart
+[2025-09-24 12:47:06] [ERROR] Socket error in MainWindow: "The remote host closed the connection"
+[2025-09-24 12:47:06] [WARN] Socket disconnected
+[2025-09-24 12:47:10] [INFO] cartButton pressed
+[2025-09-24 12:47:11] [INFO] cartButton released
+[2025-09-24 12:47:11] [INFO] cartButton clicked
+[2025-09-24 12:47:11] [INFO] Showing ShoppingCart
+[2025-09-24 12:47:11] [INFO] ShoppingCart shown
+[2025-09-24 12:47:11] [INFO] cartButton clicked
+[2025-09-24 12:47:11] [INFO] Showing ShoppingCart
+[2025-09-24 12:47:11] [INFO] ShoppingCart shown
+[2025-09-24 12:47:11] [INFO] cartButton lambda clicked
+[2025-09-24 12:47:11] [INFO] cartButton(findChild) clicked
+[2025-09-24 12:47:11] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= false
+[2025-09-24 12:47:11] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= true
+[2025-09-24 12:47:17] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= true
+[2025-09-24 12:47:17] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= true
+[2025-09-24 12:50:49] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/client.log"
+[2025-09-24 12:50:49] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-24 12:50:49] [INFO] LoginWindow created and shown
+[2025-09-24 12:50:49] [DEBUG] Connected to server
+[2025-09-24 12:51:27] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 12:51:27] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 12:51:27] [INFO] onReadyRead bytes= 66
+[2025-09-24 12:51:27] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-24 12:51:27] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-24 12:51:27] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-24 12:51:27] [INFO] MainWindow constructed
+[2025-09-24 12:51:27] [INFO] setupConnections: searchButton= 0x21178ce2a00 cartButton= 0x21178ce2cd0 chatButton= 0x21178ce28e0
+[2025-09-24 12:51:27] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-24 12:51:27] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-24 12:51:34] [INFO] cartButton pressed
+[2025-09-24 12:51:34] [INFO] cartButton released
+[2025-09-24 12:51:34] [INFO] cartButton clicked
+[2025-09-24 12:51:34] [INFO] Creating ShoppingCart instance
+[2025-09-24 12:51:34] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-09-24 12:51:34] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:51:34] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:51:34] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:51:34] [WARN] QObject::connect(QCheckBox, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:51:34] [INFO] ShoppingCart instance created
+[2025-09-24 12:51:34] [INFO] Showing ShoppingCart
+[2025-09-24 12:51:34] [INFO] ShoppingCart shown
+[2025-09-24 12:51:34] [INFO] cartButton clicked
+[2025-09-24 12:51:34] [INFO] Showing ShoppingCart
+[2025-09-24 12:51:34] [INFO] ShoppingCart shown
+[2025-09-24 12:51:34] [INFO] cartButton lambda clicked
+[2025-09-24 12:51:34] [INFO] cartButton(findChild) clicked
+[2025-09-24 12:51:34] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-09-24 12:51:34] [INFO] [cart_load] empty cart
+[2025-09-24 12:51:34] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-09-24 12:51:34] [INFO] [cart_load] empty cart
+[2025-09-24 12:51:41] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= false
+[2025-09-24 12:51:41] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= true
+[2025-09-24 12:51:41] [INFO] showOnce show tag= "order_ok" title= "下单成功" text= "订单已创建：#1\n总金额：￥12997.00"
+[2025-09-24 12:51:41] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-09-24 12:51:41] [INFO] [cart_load] empty cart
+[2025-09-24 12:51:41] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-09-24 12:51:41] [INFO] [cart_load] empty cart
+[2025-09-24 12:51:41] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:51:41] [INFO] [cart_load] empty cart
+[2025-09-24 12:51:41] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:51:41] [INFO] [cart_load] empty cart
+[2025-09-24 12:51:41] [INFO] [cart_load] empty cart
+[2025-09-24 12:51:41] [INFO] [cart_load] empty cart
+[2025-09-24 12:51:42] [INFO] [cart_load] empty cart
+[2025-09-24 12:51:42] [INFO] [cart_load] empty cart
+[2025-09-24 12:51:59] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:51:59] [INFO] [cart_load] empty cart
+[2025-09-24 12:51:59] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:51:59] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:05] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-09-24 12:52:05] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-09-24 12:52:34] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/client.log"
+[2025-09-24 12:52:34] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-24 12:52:34] [INFO] LoginWindow created and shown
+[2025-09-24 12:52:34] [DEBUG] Connected to server
+[2025-09-24 12:52:41] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 12:52:41] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 12:52:41] [INFO] onReadyRead bytes= 66
+[2025-09-24 12:52:41] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-24 12:52:41] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-24 12:52:41] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-24 12:52:41] [INFO] MainWindow constructed
+[2025-09-24 12:52:41] [INFO] setupConnections: searchButton= 0x265fff3c7e0 cartButton= 0x265fff3c9f0 chatButton= 0x265fff3c7b0
+[2025-09-24 12:52:41] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-24 12:52:41] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-24 12:52:48] [INFO] cartButton pressed
+[2025-09-24 12:52:48] [INFO] cartButton released
+[2025-09-24 12:52:48] [INFO] cartButton clicked
+[2025-09-24 12:52:48] [INFO] Creating ShoppingCart instance
+[2025-09-24 12:52:48] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-09-24 12:52:48] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:52:48] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:52:48] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:52:48] [WARN] QObject::connect(QCheckBox, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:52:48] [INFO] ShoppingCart instance created
+[2025-09-24 12:52:48] [INFO] Showing ShoppingCart
+[2025-09-24 12:52:48] [INFO] ShoppingCart shown
+[2025-09-24 12:52:48] [INFO] cartButton clicked
+[2025-09-24 12:52:48] [INFO] Showing ShoppingCart
+[2025-09-24 12:52:48] [INFO] ShoppingCart shown
+[2025-09-24 12:52:48] [INFO] cartButton lambda clicked
+[2025-09-24 12:52:48] [INFO] cartButton(findChild) clicked
+[2025-09-24 12:52:48] [INFO] [cart_load] populated rows= 4 all selected initially
+[2025-09-24 12:52:48] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:48] [INFO] [cart_load] populated rows= 4 all selected initially
+[2025-09-24 12:52:48] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:51] [INFO] deleteButton clicked
+[2025-09-24 12:52:51] [INFO] deleteButton clicked
+[2025-09-24 12:52:51] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-09-24 12:52:51] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:51] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-09-24 12:52:51] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:51] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-09-24 12:52:51] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:51] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-09-24 12:52:51] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:51] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:52:51] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:51] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:52:51] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:51] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:51] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:53] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:52:53] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:53] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:52:53] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:54] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= false
+[2025-09-24 12:52:54] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= true
+[2025-09-24 12:52:54] [INFO] showOnce show tag= "order_ok" title= "下单成功" text= "订单已创建：#1\n总金额：￥5999.00"
+[2025-09-24 12:52:54] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:54] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:55] [INFO] [cart_load] empty cart
+[2025-09-24 12:52:55] [INFO] [cart_load] empty cart
+[2025-09-24 12:54:13] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:54:13] [INFO] [cart_load] empty cart
+[2025-09-24 12:54:13] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:54:13] [INFO] [cart_load] empty cart
+[2025-09-24 12:54:18] [ERROR] Socket error in MainWindow: "The remote host closed the connection"
+[2025-09-24 12:54:18] [WARN] Socket disconnected
+[2025-09-24 12:54:34] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/client.log"
+[2025-09-24 12:54:34] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-24 12:54:34] [INFO] LoginWindow created and shown
+[2025-09-24 12:54:34] [DEBUG] Connected to server
+[2025-09-24 12:54:42] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 12:54:42] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 12:54:42] [INFO] onReadyRead bytes= 66
+[2025-09-24 12:54:42] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-24 12:54:42] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-24 12:54:42] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-24 12:54:42] [INFO] MainWindow constructed
+[2025-09-24 12:54:42] [INFO] setupConnections: searchButton= 0x1f2098c0870 cartButton= 0x1f2098a4f90 chatButton= 0x1f2098c0780
+[2025-09-24 12:54:42] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-24 12:54:42] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-24 12:54:47] [INFO] cartButton pressed
+[2025-09-24 12:54:47] [INFO] cartButton released
+[2025-09-24 12:54:47] [INFO] cartButton clicked
+[2025-09-24 12:54:47] [INFO] Creating ShoppingCart instance
+[2025-09-24 12:54:47] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-09-24 12:54:47] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:54:47] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:54:47] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:54:47] [WARN] QObject::connect(QCheckBox, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:54:47] [INFO] ShoppingCart instance created
+[2025-09-24 12:54:47] [INFO] Showing ShoppingCart
+[2025-09-24 12:54:47] [INFO] ShoppingCart shown
+[2025-09-24 12:54:47] [INFO] cartButton clicked
+[2025-09-24 12:54:47] [INFO] Showing ShoppingCart
+[2025-09-24 12:54:47] [INFO] ShoppingCart shown
+[2025-09-24 12:54:47] [INFO] cartButton lambda clicked
+[2025-09-24 12:54:47] [INFO] cartButton(findChild) clicked
+[2025-09-24 12:54:47] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-09-24 12:54:47] [INFO] [cart_load] empty cart
+[2025-09-24 12:54:47] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-09-24 12:54:47] [INFO] [cart_load] empty cart
+[2025-09-24 12:55:07] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= false
+[2025-09-24 12:55:07] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= true
+[2025-09-24 12:55:07] [INFO] showOnce show tag= "order_ok" title= "下单成功" text= "订单已创建：#1\n总金额：￥12997.00"
+[2025-09-24 12:55:07] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-09-24 12:55:07] [INFO] [cart_load] empty cart
+[2025-09-24 12:55:07] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-09-24 12:55:07] [INFO] [cart_load] empty cart
+[2025-09-24 12:55:07] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:55:07] [INFO] [cart_load] empty cart
+[2025-09-24 12:55:07] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:55:07] [INFO] [cart_load] empty cart
+[2025-09-24 12:55:07] [INFO] [cart_load] empty cart
+[2025-09-24 12:55:07] [INFO] [cart_load] empty cart
+[2025-09-24 12:55:08] [INFO] [cart_load] empty cart
+[2025-09-24 12:55:08] [INFO] [cart_load] empty cart
+[2025-09-24 12:56:05] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-09-24 12:58:23] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/client.log"
+[2025-09-24 12:58:23] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-24 12:58:23] [INFO] LoginWindow created and shown
+[2025-09-24 12:58:23] [DEBUG] Connected to server
+[2025-09-24 12:58:30] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 12:58:30] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 12:58:30] [INFO] onReadyRead bytes= 66
+[2025-09-24 12:58:30] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-24 12:58:30] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-24 12:58:30] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-24 12:58:30] [INFO] MainWindow constructed
+[2025-09-24 12:58:30] [INFO] setupConnections: searchButton= 0x28ec584fe40 cartButton= 0x28ec5834740 chatButton= 0x28ec584fd20
+[2025-09-24 12:58:30] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-24 12:58:30] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-24 12:58:38] [INFO] cartButton pressed
+[2025-09-24 12:58:38] [INFO] cartButton released
+[2025-09-24 12:58:38] [INFO] cartButton clicked
+[2025-09-24 12:58:38] [INFO] Creating ShoppingCart instance
+[2025-09-24 12:58:38] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-09-24 12:58:38] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:58:38] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:58:38] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:58:38] [WARN] QObject::connect(QCheckBox, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 12:58:38] [INFO] ShoppingCart instance created
+[2025-09-24 12:58:38] [INFO] Showing ShoppingCart
+[2025-09-24 12:58:38] [INFO] ShoppingCart shown
+[2025-09-24 12:58:38] [INFO] cartButton clicked
+[2025-09-24 12:58:38] [INFO] Showing ShoppingCart
+[2025-09-24 12:58:38] [INFO] ShoppingCart shown
+[2025-09-24 12:58:38] [INFO] cartButton lambda clicked
+[2025-09-24 12:58:38] [INFO] cartButton(findChild) clicked
+[2025-09-24 12:58:38] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-09-24 12:58:38] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-09-24 12:58:43] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= false
+[2025-09-24 12:58:43] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= true
+[2025-09-24 12:58:43] [INFO] showOnce show tag= "order_ok" title= "下单成功" text= "订单已创建：#1\n总金额：￥12997.00"
+[2025-09-24 12:58:44] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-09-24 12:58:44] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-09-24 12:58:44] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:58:44] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:58:44] [INFO] [cart_load] empty cart
+[2025-09-24 12:58:44] [INFO] [cart_load] empty cart
+[2025-09-24 12:58:44] [INFO] [cart_load] empty cart
+[2025-09-24 12:58:44] [INFO] [cart_load] empty cart
+[2025-09-24 12:58:47] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 12:58:47] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 13:03:16] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/client.log"
+[2025-09-24 13:03:16] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-24 13:03:16] [INFO] LoginWindow created and shown
+[2025-09-24 13:03:16] [DEBUG] Connected to server
+[2025-09-24 13:03:25] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 13:03:25] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 13:03:25] [INFO] onReadyRead bytes= 66
+[2025-09-24 13:03:25] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-24 13:03:25] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-24 13:03:25] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-24 13:03:25] [INFO] MainWindow constructed
+[2025-09-24 13:03:25] [INFO] setupConnections: searchButton= 0x21e9aae42f0 cartButton= 0x21e9aae4380 chatButton= 0x21e9aae3d50
+[2025-09-24 13:03:25] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-24 13:03:25] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-24 13:04:05] [INFO] cartButton pressed
+[2025-09-24 13:04:05] [INFO] cartButton released
+[2025-09-24 13:04:05] [INFO] cartButton clicked
+[2025-09-24 13:04:05] [INFO] Creating ShoppingCart instance
+[2025-09-24 13:04:05] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-09-24 13:04:05] [WARN] QObject::connect(QPushButton, ShoppingCart): unique connections require a pointer to member function of a QObject subclass
+[2025-09-24 13:04:05] [INFO] ShoppingCart instance created
+[2025-09-24 13:04:05] [INFO] Showing ShoppingCart
+[2025-09-24 13:04:05] [INFO] ShoppingCart shown
+[2025-09-24 13:04:05] [INFO] cartButton clicked
+[2025-09-24 13:04:05] [INFO] Showing ShoppingCart
+[2025-09-24 13:04:05] [INFO] ShoppingCart shown
+[2025-09-24 13:04:05] [INFO] cartButton lambda clicked
+[2025-09-24 13:04:05] [INFO] cartButton(findChild) clicked
+[2025-09-24 13:04:05] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-09-24 13:04:05] [INFO] [cart_load] skip duplicate build sig= "2|1001:1,1002:1"
+[2025-09-24 13:04:25] [INFO] [selectAllClick] rows= 2 anyUnchecked= false => target= false
+[2025-09-24 13:04:25] [INFO] [selectAllClick] after toggle checkedCount= 0
+[2025-09-24 13:04:26] [INFO] [selectAllClick] rows= 2 anyUnchecked= true => target= true
+[2025-09-24 13:04:26] [INFO] [selectAllClick] after toggle checkedCount= 2
+[2025-09-24 13:04:28] [INFO] [selectAllClick] rows= 2 anyUnchecked= false => target= false
+[2025-09-24 13:04:28] [INFO] [selectAllClick] after toggle checkedCount= 0
+[2025-09-24 13:04:28] [INFO] [selectAllClick] rows= 2 anyUnchecked= true => target= true
+[2025-09-24 13:04:28] [INFO] [selectAllClick] after toggle checkedCount= 2
+[2025-09-24 13:04:30] [INFO] [selectAllClick] rows= 2 anyUnchecked= false => target= false
+[2025-09-24 13:04:30] [INFO] [selectAllClick] after toggle checkedCount= 0
+[2025-09-24 13:04:31] [INFO] [selectAllClick] rows= 2 anyUnchecked= true => target= true
+[2025-09-24 13:04:31] [INFO] [selectAllClick] after toggle checkedCount= 2
+[2025-09-24 13:04:33] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= false
+[2025-09-24 13:04:33] [INFO] showOnce show tag= "order_ok" title= "下单成功" text= "订单已创建：#1\n总金额：￥7998.00"
+[2025-09-24 13:04:34] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 13:04:34] [INFO] [cart_load] skip duplicate build sig= "1|1002:1"
+[2025-09-24 13:04:34] [INFO] [cart_load] empty cart
+[2025-09-24 13:04:34] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-24 13:04:34] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-24 13:04:34] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-24 13:04:36] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 13:04:36] [INFO] [cart_load] skip duplicate build sig= "1|1001:1"
+[2025-09-24 13:04:37] [INFO] [selectAllClick] rows= 1 anyUnchecked= false => target= false
+[2025-09-24 13:04:37] [INFO] [selectAllClick] after toggle checkedCount= 0
+[2025-09-24 13:04:37] [INFO] [selectAllClick] rows= 1 anyUnchecked= true => target= true
+[2025-09-24 13:04:37] [INFO] [selectAllClick] after toggle checkedCount= 1
+[2025-09-24 13:04:38] [INFO] [selectAllClick] rows= 1 anyUnchecked= false => target= false
+[2025-09-24 13:04:38] [INFO] [selectAllClick] after toggle checkedCount= 0
+[2025-09-24 13:06:09] [ERROR] Socket error in MainWindow: "The remote host closed the connection"
+[2025-09-24 13:06:09] [WARN] Socket disconnected
+[2025-09-24 13:08:14] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/client.log"
+[2025-09-24 13:08:14] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-24 13:08:14] [INFO] LoginWindow created and shown
+[2025-09-24 13:08:14] [DEBUG] Connected to server
+[2025-09-24 13:08:21] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 13:08:21] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"admin\"}\n"
+[2025-09-24 13:08:21] [INFO] onReadyRead bytes= 66
+[2025-09-24 13:08:21] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-24 13:08:21] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-24 13:08:21] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-24 13:08:21] [INFO] MainWindow constructed
+[2025-09-24 13:08:21] [INFO] setupConnections: searchButton= 0x1a6d91700d0 cartButton= 0x1a6d91549a0 chatButton= 0x1a6d9170130
+[2025-09-24 13:08:21] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-24 13:08:21] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-24 13:08:27] [INFO] cartButton pressed
+[2025-09-24 13:08:27] [INFO] cartButton released
+[2025-09-24 13:08:27] [INFO] cartButton clicked
+[2025-09-24 13:08:27] [INFO] Creating ShoppingCart instance
+[2025-09-24 13:08:27] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-24 13:08:27] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-24 13:08:27] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-09-24 13:08:27] [INFO] ShoppingCart instance created
+[2025-09-24 13:08:27] [INFO] Showing ShoppingCart
+[2025-09-24 13:08:27] [INFO] ShoppingCart shown
+[2025-09-24 13:08:27] [INFO] cartButton clicked
+[2025-09-24 13:08:27] [INFO] Showing ShoppingCart
+[2025-09-24 13:08:27] [INFO] ShoppingCart shown
+[2025-09-24 13:08:27] [INFO] cartButton lambda clicked
+[2025-09-24 13:08:27] [INFO] cartButton(findChild) clicked
+[2025-09-24 13:08:27] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-09-24 13:08:27] [INFO] [cart_load] skip duplicate build sig= "2|1001:1,1002:1"
+[2025-09-24 13:08:28] [INFO] [selectAllClick] rows= 2 anyUnchecked= false => target= false
+[2025-09-24 13:08:28] [INFO] [selectAllClick] after toggle checkedCount= 0
+[2025-09-24 13:08:29] [INFO] [selectAllClick] rows= 2 anyUnchecked= true => target= true
+[2025-09-24 13:08:29] [INFO] [selectAllClick] after toggle checkedCount= 2
+[2025-09-24 13:08:31] [INFO] [selectAllClick] rows= 2 anyUnchecked= true => target= true
+[2025-09-24 13:08:31] [INFO] [selectAllClick] after toggle checkedCount= 2
+[2025-09-24 13:08:32] [INFO] [selectAllClick] rows= 2 anyUnchecked= false => target= false
+[2025-09-24 13:08:32] [INFO] [selectAllClick] after toggle checkedCount= 0
+[2025-09-24 13:08:33] [INFO] [selectAllClick] rows= 2 anyUnchecked= true => target= true
+[2025-09-24 13:08:33] [INFO] [selectAllClick] after toggle checkedCount= 2
+[2025-09-24 13:08:34] [INFO] [selectAllClick] rows= 2 anyUnchecked= false => target= false
+[2025-09-24 13:08:34] [INFO] [selectAllClick] after toggle checkedCount= 0
+[2025-09-24 13:08:36] [INFO] [clear_cart] optimistic cleared locally username= "admin"
+[2025-09-24 13:08:36] [INFO] [clear_cart_response] success cart cleared username= "admin"
+[2025-09-24 13:08:36] [INFO] [cart_load] empty cart
+[2025-09-24 13:08:36] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-24 13:08:37] [INFO] [cart_load] empty cart
+[2025-09-24 13:08:37] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-24 13:08:40] [INFO] [clear_cart] optimistic cleared locally username= "admin"
+[2025-09-24 13:08:40] [INFO] [clear_cart_response] success cart cleared username= "admin"
+[2025-09-24 13:08:40] [INFO] [cart_load] empty cart
+[2025-09-24 13:08:40] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-24 13:08:41] [INFO] [cart_load] empty cart
+[2025-09-24 13:08:41] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-24 13:08:42] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-24 13:08:42] [INFO] [cart_load] skip duplicate build sig= "1|1003:1"
+[2025-09-24 13:08:43] [INFO] cartButton pressed
+[2025-09-24 13:08:44] [INFO] cartButton released
+[2025-09-24 13:08:44] [INFO] cartButton clicked
+[2025-09-24 13:08:44] [INFO] Showing ShoppingCart
+[2025-09-24 13:08:44] [INFO] ShoppingCart shown
+[2025-09-24 13:08:44] [INFO] cartButton clicked
+[2025-09-24 13:08:44] [INFO] Showing ShoppingCart
+[2025-09-24 13:08:44] [INFO] ShoppingCart shown
+[2025-09-24 13:08:44] [INFO] cartButton lambda clicked
+[2025-09-24 13:08:44] [INFO] cartButton(findChild) clicked
+[2025-09-24 13:08:45] [INFO] [clear_cart] optimistic cleared locally username= "admin"
+[2025-09-24 13:08:45] [INFO] [clear_cart_response] success cart cleared username= "admin"
+[2025-09-24 13:08:45] [INFO] [cart_load] empty cart
+[2025-09-24 13:08:45] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-24 13:08:46] [INFO] [cart_load] empty cart
+[2025-09-24 13:08:46] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-24 13:08:47] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-09-24 13:08:47] [WARN] QObject::~QObject: Timers cannot be stopped from another thread

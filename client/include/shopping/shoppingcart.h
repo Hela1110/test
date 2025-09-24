@@ -32,6 +32,9 @@ signals:
 private slots:
 	void on_checkoutButton_clicked();
 	void on_deleteButton_clicked();
+	// 为了抑制 Qt connectSlotsByName 未找到信号的警告（如果 UI 上没有这两个按钮也安全）
+	void on_prevPage_clicked();
+	void on_nextPage_clicked();
 	void onItemClicked(int row, int column);
 
 private:
@@ -51,6 +54,11 @@ private:
 	void updateSelectedCount();
 	void sendRequest(const QJsonObject &request);
 	void showOnce(const QString &tag, QMessageBox::Icon icon, const QString &title, const QString &text, int windowMs = 400);
+    int selectedRowCount() const; // 新增：统计已勾选行数（调试、日志）
+	void ensureSelectAllHook();   // 确保 selectAll 复选框存在并已连接
+
+	QString lastCartSignature;    // 上一次构建的购物车签名（去重）
+	qint64  lastCartBuildMs = -1; // 上一次构建时间（ms）
 
 protected:
 	bool eventFilter(QObject *obj, QEvent *event) override;
