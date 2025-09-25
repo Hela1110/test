@@ -6,6 +6,13 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.shopping.server.repository.ClientRepository;
+import com.shopping.server.repository.ProductRepository;
+import com.shopping.server.repository.OrderHeaderRepository;
+import com.shopping.server.service.OrderProcessingService;
+import com.shopping.server.model.*;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -13,12 +20,27 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.List;
 import java.nio.file.*;
-import java.time.Instant;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Component
 @ChannelHandler.Sharable
 public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
+    // === 注入的持久化层 / 服务层依赖 ===
+    private final ClientRepository clientRepository;
+    private final ProductRepository productRepository;
+    private final OrderHeaderRepository orderHeaderRepository;
+    private final OrderProcessingService orderProcessingService;
+
+    @Autowired
+    public SocketMessageHandler(ClientRepository clientRepository,
+                                ProductRepository productRepository,
+                                OrderHeaderRepository orderHeaderRepository,
+                                OrderProcessingService orderProcessingService) {
+        this.clientRepository = clientRepository;
+        this.productRepository = productRepository;
+        this.orderHeaderRepository = orderHeaderRepository;
+        this.orderProcessingService = orderProcessingService;
+    }
     private static final Map<String, ChannelHandlerContext> clientChannels = new ConcurrentHashMap<>();
     // 临时内存用户存储（演示用）：用户名 -> 明文密码
     // TODO: 替换为数据库存储，并对密码进行哈希（如 BCrypt）
@@ -27,34 +49,18 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     private static final Map<String, Map<String,Object>> userProfiles = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static final ObjectMapper PERSIST = new ObjectMapper();
-    // 简易内存购物车：用户名 -> 购物车条目列表
-    private static final Map<String, List<Map<String, Object>>> carts = new ConcurrentHashMap<>();
-    // 简易订单存储（演示用）：订单ID 自增 + 持久化文件
-    private static final List<Map<String, Object>> orders = new CopyOnWriteArrayList<>();
-    private static final AtomicLong ORDER_SEQ = new AtomicLong(1);
-    // 简易商品库（内存静态数据）
-    private static final List<Map<String, Object>> CATALOG = new CopyOnWriteArrayList<>();
+    /**
+     * 下列内存结构已被数据库 (JPA) 替代，仅保留空壳防止旧方法引用编译错误。
+     */
+    @Deprecated private static final Map<String, List<Map<String, Object>>> carts = new ConcurrentHashMap<>();
+    @Deprecated private static final List<Map<String, Object>> orders = new CopyOnWriteArrayList<>();
+    @Deprecated private static final AtomicLong ORDER_SEQ = new AtomicLong(1);
 
     static {
         // 预置一个默认测试账户（仅用于开发调试）
         // TODO: 生产环境请移除，改为数据库初始化并使用密码哈希
         userStore.putIfAbsent("admin", "123456");
-        // 预置一些商品
-        CATALOG.add(product(1001, "苹果 iPhone", 5999.00));
-        CATALOG.add(product(1002, "小米 手机", 1999.00));
-        CATALOG.add(product(1003, "华为 Mate", 4999.00));
-        CATALOG.add(product(1004, "联想 笔记本", 6999.00));
-        CATALOG.add(product(1005, "罗技 鼠标", 199.00));
-    CATALOG.add(product(1006, "机械键盘", 399.00));
-    CATALOG.add(product(1007, "显示器 27寸", 1299.00));
-    CATALOG.add(product(1008, "移动电源", 159.00));
-    CATALOG.add(product(1009, "蓝牙耳机", 299.00));
-    CATALOG.add(product(1010, "智能手表", 999.00));
-    CATALOG.add(product(1011, "平板电脑", 2499.00));
-    CATALOG.add(product(1012, "游戏手柄", 259.00));
-    CATALOG.add(product(1013, "U 盘 128G", 89.00));
-    CATALOG.add(product(1014, "移动硬盘 1T", 359.00));
-    CATALOG.add(product(1015, "打印机", 699.00));
+        // 内存商品已废弃：改由数据库 products 表驱动
         // 尝试从本地文件恢复用户与购物车
         try { loadFromDisk(); } catch (Exception ignore) {}
     }
@@ -127,7 +133,6 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             System.out.println("Invalid JSON, error=" + parseEx.getMessage());
             Map<String, Object> resp = new HashMap<>();
             resp.put("type", "error");
-            resp.put("code", 1002);
             resp.put("message", "Invalid JSON");
             ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
             return; // 不关闭连接，允许客户端继续发送
@@ -204,64 +209,61 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         }
     }
 
-    private static Map<String, Object> product(int id, String name, double price) {
-        Map<String, Object> m = new HashMap<>();
-        m.put("product_id", id);
-        m.put("name", name);
-        m.put("price", price);
-        m.put("quantity", 1);
-        m.put("description", name + " 描述");
-        m.put("image_url", "https://example.com/product/" + id + ".jpg");
-        m.put("stock", 100);
-        m.put("on_sale", false);
-        return m;
-    }
+    // 内存 product() 方法已删除（改用数据库实体 Product）
 
     private void handleGetProducts(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
         int page = ((Number)request.getOrDefault("page", 1)).intValue();
         int size = ((Number)request.getOrDefault("size", 10)).intValue();
         if (page < 1) page = 1; if (size < 1) size = 10;
-        int total = CATALOG.size();
-        int from = Math.min((page - 1) * size, total);
-        int to = Math.min(from + size, total);
-        List<Map<String,Object>> slice = new CopyOnWriteArrayList<>(CATALOG.subList(from, to));
-        // 映射到文档字段
+        // Spring Data page 从 0 开始
+        var pageable = org.springframework.data.domain.PageRequest.of(page-1, size);
+        var pageData = productRepository.findAll(pageable);
         List<Map<String,Object>> products = new CopyOnWriteArrayList<>();
-        for (Map<String,Object> p : slice) {
+        pageData.getContent().forEach(p -> {
             Map<String,Object> it = new HashMap<>();
-            it.put("id", p.get("product_id"));
-            it.put("name", p.get("name"));
-            it.put("price", p.get("price"));
-            it.put("description", p.get("description"));
-            it.put("imageUrl", p.get("image_url"));
-            it.put("stock", p.get("stock"));
+            // 同时返回多种 id 命名，兼容旧客户端
+            it.put("id", p.getProductId());
+            it.put("product_id", p.getProductId());
+            it.put("productId", p.getProductId());
+            it.put("name", p.getName());
+            it.put("title", p.getName());
+            it.put("price", p.getPrice());
+            it.put("description", p.getDescription());
+            it.put("imageUrl", p.getImageUrl());
+            it.put("image", p.getImageUrl());
+            it.put("stock", p.getStock());
             products.add(it);
-        }
+        });
         Map<String,Object> resp = new HashMap<>();
         resp.put("type", "products_response");
-        resp.put("total", total);
+        resp.put("total", pageData.getTotalElements());
         resp.put("products", products);
         ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
     }
 
     private void handleSearchProducts(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
-        String keyword = String.valueOf(request.getOrDefault("keyword", "")).trim().toLowerCase();
-        List<Map<String,Object>> results = new CopyOnWriteArrayList<>();
-        for (Map<String,Object> p : CATALOG) {
-            String name = String.valueOf(p.get("name")).toLowerCase();
-            if (keyword.isEmpty() || name.contains(keyword)) results.add(p);
+        String keyword = String.valueOf(request.getOrDefault("keyword", "")).trim();
+        List<com.shopping.server.model.Product> list;
+        if (keyword.isEmpty()) {
+            list = productRepository.findAll();
+        } else {
+            list = productRepository.findByNameContainingIgnoreCase(keyword);
         }
         List<Map<String,Object>> products = new CopyOnWriteArrayList<>();
-        for (Map<String,Object> p : results) {
+        list.forEach(p -> {
             Map<String,Object> it = new HashMap<>();
-            it.put("id", p.get("product_id"));
-            it.put("name", p.get("name"));
-            it.put("price", p.get("price"));
-            it.put("description", p.get("description"));
-            it.put("imageUrl", p.get("image_url"));
-            it.put("stock", p.get("stock"));
+            it.put("id", p.getProductId());
+            it.put("product_id", p.getProductId());
+            it.put("productId", p.getProductId());
+            it.put("name", p.getName());
+            it.put("title", p.getName());
+            it.put("price", p.getPrice());
+            it.put("description", p.getDescription());
+            it.put("imageUrl", p.getImageUrl());
+            it.put("image", p.getImageUrl());
+            it.put("stock", p.getStock());
             products.add(it);
-        }
+        });
         Map<String,Object> resp = new HashMap<>();
         resp.put("type", "products_response");
         resp.put("total", products.size());
@@ -282,7 +284,20 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             response.put("message", "用户名或密码不能为空");
         } else {
             String saved = userStore.get(username);
-            if (saved != null && saved.equals(password)) {
+            boolean ok = (saved != null && saved.equals(password));
+            // 若内存中未找到，则回退到数据库查询
+            if (!ok) {
+                var dbOpt = clientRepository.findByUsername(username);
+                if (dbOpt.isPresent()) {
+                    // 注意：当前为明文密码对比，生产应使用哈希（如 BCrypt）
+                    ok = password.equals(dbOpt.get().getPassword());
+                    if (ok && saved == null) {
+                        // 为了兼容现有内存登录流程，将成功的 DB 账号写回内存
+                        userStore.put(username, password);
+                    }
+                }
+            }
+            if (ok) {
                 response.put("success", true);
                 response.put("message", "登录成功");
                 clientChannels.put(username, ctx);
@@ -309,8 +324,48 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     private void handleGetRecommendations(ChannelHandlerContext ctx) throws Exception {
         Map<String, Object> resp = new HashMap<>();
         resp.put("type", "recommendations");
-        // 简单取前 4 个
-        resp.put("products", CATALOG.subList(0, Math.min(4, CATALOG.size())));
+        // 使用数据库：优先按折扣力度排序的前 4 个（若仓库方法可用），否则取 onSale 前 4 个
+        List<Map<String,Object>> list = new CopyOnWriteArrayList<>();
+        try {
+            var top = productRepository.findTopDiscountProducts(org.springframework.data.domain.PageRequest.of(0, 4));
+            top.forEach(p -> list.add(mapOf(
+                "product_id", p.getProductId(),
+                "id", p.getProductId(),
+                "productId", p.getProductId(),
+                "name", p.getName(),
+                "price", p.getPrice(),
+                "description", p.getDescription(),
+                "imageUrl", p.getImageUrl(),
+                "stock", p.getStock()
+            )));
+        } catch (Exception ignore) {
+            // 兜底：取所有上架商品前 4 个
+            productRepository.findByOnSaleTrue().stream().limit(4).forEach(p -> list.add(mapOf(
+                "product_id", p.getProductId(),
+                "id", p.getProductId(),
+                "productId", p.getProductId(),
+                "name", p.getName(),
+                "price", p.getPrice(),
+                "description", p.getDescription(),
+                "imageUrl", p.getImageUrl(),
+                "stock", p.getStock()
+            )));
+        }
+        // 如果依然为空（比如没有标记 on_sale 的商品），再做一次强兜底：返回任意商品前 4 个
+        if (list.isEmpty()) {
+            var page = productRepository.findAll(org.springframework.data.domain.PageRequest.of(0, 4));
+            page.getContent().forEach(p -> list.add(mapOf(
+                "product_id", p.getProductId(),
+                "id", p.getProductId(),
+                "productId", p.getProductId(),
+                "name", p.getName(),
+                "price", p.getPrice(),
+                "description", p.getDescription(),
+                "imageUrl", p.getImageUrl(),
+                "stock", p.getStock()
+            )));
+        }
+        resp.put("products", list);
         ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
     }
 
@@ -325,12 +380,23 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     }
 
     private void handleSearch(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
-        String keyword = (String) request.getOrDefault("keyword", "");
-        String kw = keyword == null ? "" : keyword.trim().toLowerCase();
+        String keyword = String.valueOf(request.getOrDefault("keyword", "")).trim();
         List<Map<String, Object>> results = new CopyOnWriteArrayList<>();
-        for (Map<String, Object> p : CATALOG) {
-            String name = String.valueOf(p.get("name")).toLowerCase();
-            if (kw.isEmpty() || name.contains(kw)) results.add(p);
+        List<com.shopping.server.model.Product> list;
+        if (keyword.isEmpty()) {
+            list = productRepository.findAll();
+        } else {
+            list = productRepository.findByNameContainingIgnoreCase(keyword);
+        }
+        for (var p : list) {
+            results.add(mapOf(
+                    "product_id", p.getProductId(),
+                    "name", p.getName(),
+                    "price", p.getPrice(),
+                    "description", p.getDescription(),
+                    "imageUrl", p.getImageUrl(),
+                    "stock", p.getStock()
+            ));
         }
         Map<String, Object> resp = new HashMap<>();
         resp.put("type", "search_results");
@@ -340,85 +406,74 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
 
     private void handleGetProductDetail(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
         Object pid = request.get("product_id");
+        if (pid == null) pid = request.get("productId");
         Map<String, Object> resp = new HashMap<>();
         resp.put("type", "product_detail");
-        Map<String, Object> product = null;
+        Map<String, Object> productMap = null;
         if (pid != null) {
-            for (Map<String, Object> p : CATALOG) {
-                if (pid.equals(p.get("product_id"))) { product = p; break; }
+            long id = ((Number)pid).longValue();
+            var opt = productRepository.findById(id);
+            if (opt.isPresent()) {
+                var p = opt.get();
+                productMap = mapOf(
+                        "product_id", p.getProductId(),
+                        "name", p.getName(),
+                        "price", p.getPrice(),
+                        "description", p.getDescription(),
+                        "imageUrl", p.getImageUrl(),
+                        "stock", p.getStock()
+                );
             }
         }
-        if (product == null && !CATALOG.isEmpty()) product = CATALOG.get(0);
-        resp.put("product", product);
+        resp.put("product", productMap);
         ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
     }
 
     private void handleAddToCart(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
         String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
-        Object pid = request.get("product_id");
-        if (pid == null) pid = request.get("productId");
-        if (pid == null) pid = 1001; // 默认一个
+    Object pidObj = request.get("product_id");
+    if (pidObj == null) pidObj = request.get("productId");
+        if (pidObj == null) {
+            Map<String,Object> resp = new HashMap<>();
+            resp.put("type", "add_to_cart_response");
+            resp.put("success", false);
+            resp.put("message", "缺少 productId");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+        long productId = ((Number)pidObj).longValue();
         int quantity = ((Number)request.getOrDefault("quantity", 1)).intValue();
         if (quantity < 1) quantity = 1;
-        List<Map<String, Object>> list = carts.computeIfAbsent(username == null ? "__anon__" : username, k -> new CopyOnWriteArrayList<>());
-        // 查找商品
-        Map<String, Object> found = null;
-        for (Map<String, Object> p : CATALOG) {
-            if (pid.equals(p.get("product_id"))) { found = p; break; }
-        }
-        boolean success = false;
-        String message = null;
-        int code = 0;
-        if (found != null) {
-            int stock = ((Number)found.getOrDefault("stock", 0)).intValue();
-            if (stock <= 0) {
-                // 无库存
-                success = false;
-                message = "库存不足";
-                code = 2002;
-            } else {
-                boolean merged = false;
-                for (Map<String, Object> it : list) {
-                    if (pid.equals(it.get("product_id"))) {
-                        int q = ((Number)it.getOrDefault("quantity", 1)).intValue();
-                        int newQ = q + quantity;
-                        if (newQ > stock) newQ = stock;
-                        if (newQ == q) {
-                            // 已达库存上限
-                            success = false;
-                            message = "库存不足";
-                            code = 2002;
-                        } else {
-                            it.put("quantity", newQ);
-                            success = true;
-                        }
-                        merged = true; break;
-                    }
-                }
-                if (!merged) {
-                    int addQ = Math.min(quantity, stock);
-                    if (addQ <= 0) {
-                        success = false;
-                        message = "库存不足";
-                        code = 2002;
-                    } else {
-                        Map<String, Object> item = new HashMap<>(found);
-                        item.put("quantity", addQ);
-                        list.add(item);
-                        success = true;
-                    }
-                }
-            }
-        } else {
-            message = "商品不存在";
-        }
-        Map<String, Object> resp = new HashMap<>();
+
+        Map<String,Object> resp = new HashMap<>();
         resp.put("type", "add_to_cart_response");
-        resp.put("success", success && found != null);
-        if (message != null) resp.put("message", message);
-        if (code != 0) resp.put("code", code);
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
-        try { saveCarts(); } catch (Exception ignore) {}
+        if (username == null) {
+            resp.put("success", false);
+            resp.put("message", "未登录");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+        var clientOpt = clientRepository.findByUsername(username);
+        if (clientOpt.isEmpty()) {
+            resp.put("success", false);
+            resp.put("message", "用户不存在");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+        try {
+            OrderHeader header = orderProcessingService.addToCart(clientOpt.get().getClientId(), productId, quantity);
+            resp.put("success", true);
+            resp.put("headerId", header.getId());
+            resp.put("message", "加入购物车成功");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            // 回发当前购物车
+            sendCartDualResponses(ctx, header);
+        } catch (IllegalArgumentException | IllegalStateException ex) {
+            resp.put("success", false);
+            resp.put("message", ex.getMessage());
+            resp.put("code", 2002);
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+        }
     }
 
     private Map<String, Object> mapOf(Object... kv) {
@@ -459,8 +514,15 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             return;
         }
 
-        // 检查重复
+        // 检查重复（内存）
         if (userStore.containsKey(username)) {
+            response.put("success", false);
+            response.put("message", "用户名已存在");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+            return;
+        }
+        // 检查重复（数据库）
+        if (clientRepository.existsByUsername(username)) {
             response.put("success", false);
             response.put("message", "用户名已存在");
             ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
@@ -475,6 +537,22 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         try { saveUsers(); } catch (Exception ignore) {}
         try { saveProfiles(); } catch (Exception ignore) {}
 
+        // 将用户写入数据库（与内存并存，便于后续统一迁移到 DB）
+        try {
+            Client client = new Client();
+            client.setUsername(username);
+            client.setPassword(password); // 明文存储仅用于演示，生产环境请使用哈希
+            client.setPhone(phone);
+            client.setPurchaseCount(0);
+            clientRepository.save(client);
+        } catch (Exception dbEx) {
+            // 数据库写入失败时，返回提示（内存仍然保留，登录不受影响）
+            response.put("success", false);
+            response.put("message", "注册失败：数据库写入异常" + (dbEx.getMessage() != null ? (" - " + dbEx.getMessage()) : ""));
+            ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+            return;
+        }
+
         response.put("success", true);
         response.put("message", "注册成功");
     ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
@@ -482,25 +560,73 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
 
     private void handleClearCart(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
         String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
-        List<Map<String, Object>> list = carts.computeIfAbsent(username == null ? "__anon__" : username, k -> new CopyOnWriteArrayList<>());
-        list.clear();
-        try { saveCarts(); } catch (Exception ignore) {}
         Map<String,Object> resp = new HashMap<>();
         resp.put("type", "clear_cart_response");
-        resp.put("success", true);
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
-        // 回发最新购物车
-        handleGetCart(ctx, request);
+        if (username == null) {
+            resp.put("success", false);
+            resp.put("message", "未登录");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+        var clientOpt = clientRepository.findByUsername(username);
+        if (clientOpt.isEmpty()) {
+            resp.put("success", false);
+            resp.put("message", "用户不存在");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+    var headerOpt = orderHeaderRepository.fetchCartWithItems(clientOpt.get(), OrderStatus.CART);
+        if (headerOpt.isPresent()) { 
+            OrderHeader header = headerOpt.get();
+            header.getItems().clear();
+            header.setTotalPrice(header.calcTotal());
+            orderHeaderRepository.save(header);
+            resp.put("success", true);
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            sendCartDualResponses(ctx, header);
+        } else {
+            resp.put("success", true);
+            resp.put("message", "购物车为空");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            handleGetCart(ctx, request);
+        }
     }
 
     private void handleGetOrders(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
         String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
-        List<Map<String,Object>> myOrders = new CopyOnWriteArrayList<>();
-        for (Map<String,Object> o : orders) {
-            if (username != null && username.equals(o.get("username"))) myOrders.add(o);
-        }
         Map<String,Object> resp = new HashMap<>();
         resp.put("type", "orders_response");
+        if (username == null) {
+            resp.put("orders", List.of());
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+        var clientOpt = clientRepository.findByUsername(username);
+        if (clientOpt.isEmpty()) {
+            resp.put("orders", List.of());
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+    List<Map<String,Object>> myOrders = new CopyOnWriteArrayList<>();
+    for (OrderHeader h : orderHeaderRepository.findByClientWithItems(clientOpt.get())) {
+            if (h.getStatus() == OrderStatus.CART) continue; // 不返回购物车
+            Map<String,Object> om = new HashMap<>();
+            om.put("orderId", h.getId());
+            om.put("status", h.getStatus().name());
+            om.put("total_price", h.calcTotal());
+            om.put("order_time", h.getCreatedAt() != null ? h.getCreatedAt().toString() : null);
+            List<Map<String,Object>> items = new CopyOnWriteArrayList<>();
+            for (OrderItem it : h.getItems()) {
+                items.add(mapOf(
+                        "productId", it.getProduct().getProductId(),
+                        "name", it.getProduct().getName(),
+                        "price", it.getPrice(),
+                        "quantity", it.getQuantity()
+                ));
+            }
+            om.put("items", items);
+            myOrders.add(om);
+        }
         resp.put("orders", myOrders);
         ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
     }
@@ -572,168 +698,224 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     
     private void handleGetCart(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
         String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
-        List<Map<String, Object>> list = carts.computeIfAbsent(username == null ? "__anon__" : username, k -> new CopyOnWriteArrayList<>());
-        // 基于当前目录库存，构造带实时库存的 items
-        List<Map<String,Object>> itemsWithStock = new CopyOnWriteArrayList<>();
-        for (Map<String,Object> it : list) {
-            Map<String,Object> m = new HashMap<>(it);
-            Object pid = it.get("product_id");
-            if (pid != null) {
-                for (Map<String,Object> p : CATALOG) if (pid.equals(p.get("product_id"))) {
-                    m.put("stock", p.getOrDefault("stock", 0));
-                    break;
-                }
-            }
-            itemsWithStock.add(m);
+        if (username == null) {
+            // 未登录仍保持协议：返回空购物车
+            Map<String,Object> empty = new HashMap<>();
+            empty.put("type", "cart_response");
+            empty.put("items", List.of());
+            empty.put("headerId", null);
+            ctx.writeAndFlush(objectMapper.writeValueAsString(empty) + "\n");
+            return;
         }
-        Map<String, Object> resp = new HashMap<>();
-        resp.put("type", "cart_items");
-        resp.put("items", itemsWithStock);
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
-        // 兼容文档：再发送一条 cart_response（字段名按文档）
+        // 查 Client
+        var clientOpt = clientRepository.findByUsername(username);
+        if (clientOpt.isEmpty()) {
+            Map<String,Object> empty = new HashMap<>();
+            empty.put("type", "cart_response");
+            empty.put("items", List.of());
+            empty.put("headerId", null);
+            ctx.writeAndFlush(objectMapper.writeValueAsString(empty) + "\n");
+            return;
+        }
+    var client = clientOpt.get();
+    var headerOpt = orderHeaderRepository.fetchCartWithItems(client, OrderStatus.CART);
+        if (headerOpt.isEmpty()) {
+            Map<String,Object> empty = new HashMap<>();
+            empty.put("type", "cart_response");
+            empty.put("items", List.of());
+            empty.put("headerId", null);
+            ctx.writeAndFlush(objectMapper.writeValueAsString(empty) + "\n");
+            return;
+        }
+    OrderHeader header = headerOpt.get();
+        sendCartDualResponses(ctx, header);
+    }
+
+    private void sendCartDualResponses(ChannelHandlerContext ctx, OrderHeader header) throws Exception {
+        // 第一条：cart_items（兼容原协议）
+        Map<String,Object> itemsMsg = new HashMap<>();
+        itemsMsg.put("type", "cart_items");
+        List<Map<String,Object>> itemList = new CopyOnWriteArrayList<>();
+        for (OrderItem it : header.getItems()) {
+            Map<String,Object> m = new HashMap<>();
+            m.put("product_id", it.getProduct().getProductId());
+            m.put("name", it.getProduct().getName());
+            m.put("price", it.getPrice());
+            m.put("quantity", it.getQuantity());
+            m.put("stock", it.getProduct().getStock());
+            itemList.add(m);
+        }
+        itemsMsg.put("items", itemList);
+        itemsMsg.put("headerId", header.getId());
+        ctx.writeAndFlush(objectMapper.writeValueAsString(itemsMsg) + "\n");
+
+        // 第二条：cart_response（文档字段风格）
         Map<String,Object> resp2 = new HashMap<>();
         resp2.put("type", "cart_response");
-        List<Map<String,Object>> items = new CopyOnWriteArrayList<>();
-        for (Map<String,Object> it : list) {
+        List<Map<String,Object>> items2 = new CopyOnWriteArrayList<>();
+        for (OrderItem it : header.getItems()) {
             Map<String,Object> m = new HashMap<>();
-            Object pid = it.get("product_id");
-            m.put("productId", pid);
-            m.put("name", it.get("name"));
-            m.put("price", it.get("price"));
-            m.put("quantity", it.get("quantity"));
-            // 附带当前库存
-            int stock = 0;
-            if (pid != null) {
-                for (Map<String,Object> p : CATALOG) if (pid.equals(p.get("product_id"))) { stock = ((Number)p.getOrDefault("stock", 0)).intValue(); break; }
-            }
-            m.put("stock", stock);
-            items.add(m);
+            m.put("productId", it.getProduct().getProductId());
+            m.put("name", it.getProduct().getName());
+            m.put("price", it.getPrice());
+            m.put("quantity", it.getQuantity());
+            m.put("stock", it.getProduct().getStock());
+            items2.add(m);
         }
-        resp2.put("items", items);
+        resp2.put("items", items2);
+        resp2.put("headerId", header.getId());
         ctx.writeAndFlush(objectMapper.writeValueAsString(resp2) + "\n");
     }
 
     private void handleRemoveFromCart(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
         String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
-        Object pid = request.get("product_id");
-        List<Map<String, Object>> list = carts.computeIfAbsent(username == null ? "__anon__" : username, k -> new CopyOnWriteArrayList<>());
-        if (pid != null) {
-            list.removeIf(it -> pid.equals(it.get("product_id")));
+        Object pidLookup = request.get("product_id");
+        if (pidLookup == null) pidLookup = request.get("productId");
+        final Object pidObj = pidLookup;
+        if (username == null || pidObj == null) {
+            handleGetCart(ctx, request);
+            return;
         }
-        // 返回最新购物车
-        try { saveCarts(); } catch (Exception ignore) {}
-        handleGetCart(ctx, request);
+        var clientOpt = clientRepository.findByUsername(username);
+        clientOpt.ifPresent(client -> {
+            var headerOpt = orderHeaderRepository.fetchCartWithItems(client, OrderStatus.CART);
+            if (headerOpt.isPresent()) {
+                OrderHeader header = headerOpt.get();
+                long pid = ((Number)pidObj).longValue();
+                header.getItems().removeIf(i -> i.getProduct().getProductId().equals(pid));
+                header.setTotalPrice(header.calcTotal());
+                orderHeaderRepository.save(header);
+                try { sendCartDualResponses(ctx, header); } catch (Exception e) { e.printStackTrace(); }
+                return;
+            }
+            try { handleGetCart(ctx, request); } catch (Exception e) { e.printStackTrace(); }
+        });
     }
 
     private void handleSetCartQuantity(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
         String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
-        Object pid = request.get("product_id");
-        if (pid == null) pid = request.get("productId");
-        int quantity = ((Number)request.getOrDefault("quantity", 1)).intValue();
-        if (quantity < 0) quantity = 0;
-        List<Map<String, Object>> list = carts.computeIfAbsent(username == null ? "__anon__" : username, k -> new CopyOnWriteArrayList<>());
-        boolean found = false;
-        for (Map<String,Object> it : list) {
-            if (pid != null && pid.equals(it.get("product_id"))) {
-                found = true;
-                // 依据当前库存进行夹取
-                int stock = 0;
-                for (Map<String,Object> p : CATALOG) if (pid.equals(p.get("product_id"))) { stock = ((Number)p.getOrDefault("stock", 0)).intValue(); break; }
-                if (stock > 0) quantity = Math.min(quantity, stock); else quantity = 0;
-                if (quantity == 0) {
-                    // 等价于删除
-                    list.remove(it);
+    Object pidObj = request.get("product_id");
+    if (pidObj == null) pidObj = request.get("productId");
+    int qInput = ((Number)request.getOrDefault("quantity", 1)).intValue();
+    if (qInput < 0) qInput = 0;
+    final int quantity = qInput;
+        if (username == null || pidObj == null) { handleGetCart(ctx, request); return; }
+        var clientOpt = clientRepository.findByUsername(username);
+        if (clientOpt.isEmpty()) { handleGetCart(ctx, request); return; }
+    var headerOpt = orderHeaderRepository.fetchCartWithItems(clientOpt.get(), OrderStatus.CART);
+        if (headerOpt.isEmpty()) { handleGetCart(ctx, request); return; }
+        OrderHeader header = headerOpt.get();
+    final long pid = ((Number)pidObj).longValue();
+        boolean exists = false;
+        for (OrderItem it : header.getItems()) {
+            if (it.getProduct().getProductId().equals(pid)) {
+                exists = true;
+                Integer stock = it.getProduct().getStock();
+                int max = stock == null ? quantity : Math.min(quantity, stock);
+                if (max <= 0) {
+                    header.getItems().remove(it);
                 } else {
-                    it.put("quantity", quantity);
+                    it.setQuantity(max);
                 }
                 break;
             }
         }
-        // 若未找到且数量>0，可选地新增（这里选择：若未找到则按当前目录添加一条）
-        if (!found && quantity > 0 && pid != null) {
-            for (Map<String,Object> p : CATALOG) {
-                if (pid.equals(p.get("product_id"))) {
-                    int stock = ((Number)p.getOrDefault("stock", 0)).intValue();
-                    int addQ = Math.min(quantity, stock);
-                    if (addQ > 0) {
-                        Map<String,Object> item = new HashMap<>(p);
-                        item.put("quantity", addQ);
-                        list.add(item);
-                    }
-                    break;
+        if (!exists && quantity > 0) {
+            // 允许直接新增
+            productRepository.findById(pid).ifPresent(prod -> {
+                int max = prod.getStock() == null ? quantity : Math.min(quantity, prod.getStock());
+                if (max > 0) {
+                    OrderItem item = new OrderItem();
+                    item.setProduct(prod);
+                    item.setQuantity(max);
+                    item.setPrice(prod.getPrice());
+                    header.addItem(item);
                 }
-            }
+            });
         }
-        try { saveCarts(); } catch (Exception ignore) {}
-        handleGetCart(ctx, request);
+        header.setTotalPrice(header.calcTotal());
+        orderHeaderRepository.save(header);
+        sendCartDualResponses(ctx, header);
     }
     
     private void handleCheckout(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
         String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
-        List<Map<String, Object>> list = carts.computeIfAbsent(username == null ? "__anon__" : username, k -> new CopyOnWriteArrayList<>());
-        boolean ok = !list.isEmpty();
-        long orderId = -1;
-        double totalPrice = 0.0;
-        if (ok) {
-            // 校验库存
-            for (Map<String,Object> it : list) {
-                int pid = ((Number)it.get("product_id")).intValue();
-                int qty = ((Number)it.getOrDefault("quantity",1)).intValue();
-                Map<String,Object> found = null;
-                for (Map<String,Object> p : CATALOG) if (((Number)p.get("product_id")).intValue() == pid) { found = p; break; }
-                if (found == null) { ok = false; break; }
-                int stock = ((Number)found.getOrDefault("stock", 0)).intValue();
-                if (qty > stock) { ok = false; break; }
-            }
-        }
-        if (ok) {
-            // 扣减库存并创建订单，随后清空购物车
-            List<Map<String,Object>> items = new CopyOnWriteArrayList<>();
-            for (Map<String,Object> it : list) {
-                int pid = ((Number)it.get("product_id")).intValue();
-                int qty = ((Number)it.getOrDefault("quantity",1)).intValue();
-                Map<String,Object> found = null;
-                for (Map<String,Object> p : CATALOG) if (((Number)p.get("product_id")).intValue() == pid) { found = p; break; }
-                if (found == null) continue;
-                int stock = ((Number)found.getOrDefault("stock", 0)).intValue();
-                found.put("stock", Math.max(0, stock - qty));
-                Map<String,Object> m = new HashMap<>();
-                m.put("productId", pid);
-                m.put("quantity", qty);
-                items.add(m);
-                totalPrice += ((Number)it.get("price")).doubleValue() * qty;
-            }
-            orderId = ORDER_SEQ.getAndIncrement();
-            Map<String,Object> order = new HashMap<>();
-            order.put("orderId", orderId);
-            order.put("username", username);
-            order.put("items", items);
-            order.put("total_price", totalPrice);
-            order.put("status", "CREATED");
-            order.put("order_time", Instant.now().toString());
-            orders.add(order);
-            list.clear();
-            try { saveOrders(); } catch (Exception ignore) {}
-        }
-        Map<String, Object> resp = new HashMap<>();
+        Map<String,Object> resp = new HashMap<>();
         resp.put("type", "checkout_response");
-        resp.put("success", ok);
-        resp.put("message", ok ? "结算成功" : (list.isEmpty()? "购物车为空" : "库存不足"));
-        if (!ok && !list.isEmpty()) { resp.put("code", 2002); }
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
-        // 兼容文档：发送 order_response
-        Map<String,Object> resp2 = new HashMap<>();
-        resp2.put("type", "order_response");
-        resp2.put("success", ok);
-        if (ok) resp2.put("orderId", orderId);
-        resp2.put("message", ok ? "订单创建成功" : (list.isEmpty()? "购物车为空" : "库存不足"));
-        if (!ok) { resp2.put("code", list.isEmpty()? 3001 : 2002); }
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp2) + "\n");
-        try { saveCarts(); } catch (Exception ignore) {}
+        if (username == null) {
+            resp.put("success", false);
+            resp.put("message", "未登录");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+        var clientOpt = clientRepository.findByUsername(username);
+        if (clientOpt.isEmpty()) {
+            resp.put("success", false);
+            resp.put("message", "用户不存在");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+    var headerOpt = orderHeaderRepository.fetchCartWithItems(clientOpt.get(), OrderStatus.CART);
+        if (headerOpt.isEmpty() || headerOpt.get().getItems().isEmpty()) {
+            resp.put("success", false);
+            resp.put("code", 3001);
+            resp.put("message", "购物车为空");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            // 同时发送 order_response 兼容
+            Map<String,Object> resp2 = new HashMap<>();
+            resp2.put("type", "order_response");
+            resp2.put("success", false);
+            resp2.put("code", 3001);
+            resp2.put("message", "购物车为空");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp2) + "\n");
+            return;
+        }
+        OrderHeader header = headerOpt.get();
+        try {
+            OrderHeader paid = orderProcessingService.checkout(header.getId());
+            resp.put("success", true);
+            resp.put("message", "结算成功");
+            resp.put("headerId", paid.getId());
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            Map<String,Object> resp2 = new HashMap<>();
+            resp2.put("type", "order_response");
+            resp2.put("success", true);
+            resp2.put("orderId", paid.getId());
+            resp2.put("message", "订单创建成功");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp2) + "\n");
+        } catch (IllegalStateException ex) {
+            resp.put("success", false);
+            resp.put("code", 2002);
+            resp.put("message", ex.getMessage());
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            Map<String,Object> resp2 = new HashMap<>();
+            resp2.put("type", "order_response");
+            resp2.put("success", false);
+            resp2.put("code", 2002);
+            resp2.put("message", ex.getMessage());
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp2) + "\n");
+        }
     }
 
     private void handleCreateOrder(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
         String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
+        Map<String,Object> resp = new HashMap<>();
+        resp.put("type", "order_response");
+        if (username == null) {
+            resp.put("success", false);
+            resp.put("code", 3002);
+            resp.put("message", "未登录");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+        var clientOpt = clientRepository.findByUsername(username);
+        if (clientOpt.isEmpty()) {
+            resp.put("success", false);
+            resp.put("code", 3002);
+            resp.put("message", "用户不存在");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
         Object rawItems = request.get("items");
         List<Map<String,Object>> reqItems = new CopyOnWriteArrayList<>();
         if (rawItems instanceof List<?>) {
@@ -745,52 +927,52 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 }
             }
         }
-        boolean ok = !reqItems.isEmpty();
-        long orderId = -1; double total = 0.0;
-        if (ok) {
-            // 校验并预检查库存
-            for (Map<String,Object> it : reqItems) {
-                Object pid = it.get("productId");
-                int qty = ((Number)it.getOrDefault("quantity", 1)).intValue();
-                Map<String,Object> found = null;
-                for (Map<String,Object> p : CATALOG) if (pid != null && pid.equals(p.get("product_id"))) { found = p; break; }
-                if (found == null || qty < 1) { ok = false; break; }
-                int stock = ((Number)found.getOrDefault("stock", 0)).intValue();
-                if (qty > stock) { ok = false; break; }
-                total += ((Number)found.get("price")).doubleValue() * qty;
+        if (reqItems.isEmpty()) {
+            resp.put("success", false);
+            resp.put("code", 3002);
+            resp.put("message", "订单创建失败");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+        // 清空现有购物车并按请求重建，再结算
+    var headerOpt = orderHeaderRepository.fetchCartWithItems(clientOpt.get(), OrderStatus.CART);
+        headerOpt.ifPresent(h -> { h.getItems().clear(); h.setTotalPrice(h.calcTotal()); orderHeaderRepository.save(h); });
+        boolean ok = true;
+        for (Map<String,Object> it : reqItems) {
+            Object pidObj = it.get("productId");
+            if (pidObj == null) pidObj = it.get("product_id");
+            int qty = ((Number)it.getOrDefault("quantity", 1)).intValue();
+            if (pidObj == null || qty < 1) { ok = false; break; }
+            try {
+                orderProcessingService.addToCart(clientOpt.get().getClientId(), ((Number)pidObj).longValue(), qty);
+            } catch (IllegalArgumentException | IllegalStateException ex) {
+                ok = false; break;
             }
         }
-        Map<String,Object> resp = new HashMap<>();
-        resp.put("type", "order_response");
-        resp.put("success", ok);
-        if (ok) {
-            orderId = ORDER_SEQ.getAndIncrement();
-            Map<String,Object> order = new HashMap<>();
-            order.put("orderId", orderId);
-            order.put("username", username);
-            order.put("items", reqItems);
-            order.put("total_price", total);
-            order.put("status", "CREATED");
-            order.put("order_time", Instant.now().toString());
-            orders.add(order);
-            try { saveOrders(); } catch (Exception ignore) {}
-            // 扣减库存
-            for (Map<String,Object> it : reqItems) {
-                Object pid = it.get("productId");
-                int qty = ((Number)it.getOrDefault("quantity", 1)).intValue();
-                for (Map<String,Object> p : CATALOG) if (pid != null && pid.equals(p.get("product_id"))) {
-                    int stock = ((Number)p.getOrDefault("stock", 0)).intValue();
-                    p.put("stock", Math.max(0, stock - qty));
-                    break;
-                }
-            }
-            resp.put("orderId", orderId);
+        if (!ok) {
+            resp.put("success", false);
+            resp.put("code", 2002);
+            resp.put("message", "库存不足或商品无效");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+    var headerOpt2 = orderHeaderRepository.fetchCartWithItems(clientOpt.get(), OrderStatus.CART);
+        if (headerOpt2.isEmpty()) {
+            resp.put("success", false);
+            resp.put("code", 3002);
+            resp.put("message", "订单创建失败");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+        try {
+            OrderHeader paid = orderProcessingService.checkout(headerOpt2.get().getId());
+            resp.put("success", true);
+            resp.put("orderId", paid.getId());
             resp.put("message", "订单创建成功");
-        } else {
-            // 失败原因：为空(3002通用)或库存不足(2002)
-            boolean empty = reqItems.isEmpty();
-            resp.put("code", empty ? 3002 : 2002);
-            resp.put("message", empty ? "订单创建失败" : "库存不足");
+        } catch (IllegalStateException ex) {
+            resp.put("success", false);
+            resp.put("code", 2002);
+            resp.put("message", ex.getMessage());
         }
         ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
     }

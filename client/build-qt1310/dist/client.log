@@ -198,3 +198,21 @@
 [2025-09-23 13:07:05] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
 [2025-09-23 13:07:05] [INFO] Connecting to 127.0.0.1:8080
 [2025-09-23 13:07:05] [INFO] LoginWindow created and shown
+[2025-09-25 16:37:03] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-25 16:37:03] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-25 16:37:03] [INFO] LoginWindow created and shown
+[2025-09-25 16:37:03] [DEBUG] Connected to server
+[2025-09-25 16:37:20] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"register\",\"username\":\"cyzz\"}\n"
+[2025-09-25 16:37:20] [INFO] onReadyRead bytes= 69
+[2025-09-25 16:37:37] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyzz\"}\n"
+[2025-09-25 16:37:37] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyzz\"}\n"
+[2025-09-25 16:37:37] [INFO] onReadyRead bytes= 66
+[2025-09-25 16:37:37] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-25 16:37:37] [INFO] MainWindow constructed
+[2025-09-25 16:37:37] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-25 16:37:41] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-09-25 16:37:41] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-09-25 16:38:16] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-25 16:38:16] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-25 16:38:16] [INFO] LoginWindow created and shown
+[2025-09-25 16:38:16] [DEBUG] Connected to server

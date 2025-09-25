@@ -1,59 +1,38 @@
 @echo off
-setlocal enabledelayedexpansion
+setlocal
 
-REM Ensure working directory is the script's folder when double-clicked
+REM Always run from this script's folder
 pushd "%~dp0" >nul 2>&1
 
 echo ========================================
-echo Starting Server Application
+echo Starting Server Application (via PowerShell)
+echo Revision: 2025-09-25 R2
 echo ========================================
 
-REM Allow optional port override via first argument (default 8081)
+REM Args: %1=http port (default 8081), %2=socket port (default 8080), %3=--skip-build (optional)
 set "SERVER_PORT=%~1"
 if "%SERVER_PORT%"=="" set "SERVER_PORT=8081"
+set "SOCKET_PORT=%~2"
+if "%SOCKET_PORT%"=="" set "SOCKET_PORT=8080"
+set "PS_SKIP_FLAG="
+if /I "%~3"=="--skip-build" set "PS_SKIP_FLAG=-SkipBuild"
+
 echo Using Spring Boot HTTP port: %SERVER_PORT%
+echo Using Socket Server   port: %SOCKET_PORT%
+if defined PS_SKIP_FLAG echo Will skip mvn package ^(delegated to run.ps1^).
 
-set "JAR=target\shopping-server-1.0-SNAPSHOT.jar"
-
-echo Packaging server (skip tests)...
-where mvn >nul 2>&1
+where powershell >nul 2>&1
 if errorlevel 1 (
-    echo(
-    echo Error: Maven ^(mvn^) is not available on PATH.
-    echo Please open a terminal in the server folder and run:
-    echo   mvn -DskipTests package
-    echo Or install Maven and try again.
-    goto :endWithPause
-)
-mvn -q -DskipTests package
-if errorlevel 1 (
-    echo Error: Maven package failed.
-    goto :endWithPause
+    echo Error: PowerShell not found on PATH. Please run server\run.ps1 manually.
+    set EXIT_CODE=1
+    goto :end
 )
 
-if not exist "%JAR%" (
-    echo Error: Build completed but jar not found at %JAR%
-    goto :endWithPause
-)
+set "PS_PATH=%~dp0run.ps1"
+echo Running: powershell -NoProfile -ExecutionPolicy Bypass -File "%PS_PATH%" -HttpPort %SERVER_PORT% -SocketPort %SOCKET_PORT% %PS_SKIP_FLAG%
+powershell -NoProfile -ExecutionPolicy Bypass -File "%PS_PATH%" -HttpPort %SERVER_PORT% -SocketPort %SOCKET_PORT% %PS_SKIP_FLAG%
+set "EXIT_CODE=%ERRORLEVEL%"
 
-:runJar
-REM Check Java installation
-where java >nul 2>&1
-if errorlevel 1 (
-    echo Error: Java not found on PATH. Please install Java 11 or higher.
-    goto :endWithPause
-)
-
-REM Set Java options
-set "JAVA_OPTS=-Xms512m -Xmx1024m -XX:+UseG1GC"
-
-echo Starting shopping server...
-java %JAVA_OPTS% -jar "%JAR%" --server.port=%SERVER_PORT%
-
-echo(
-echo Server exited with code %ERRORLEVEL%.
-
-:endWithPause
+:end
 popd >nul 2>&1
-pause
-exit /b %ERRORLEVEL%
+exit /b %EXIT_CODE%

@@ -57,16 +57,18 @@ void MainWindow::setSocket(QTcpSocket *s)
     });
     // 登录后、socket 就绪再发首屏数据请求
     loadCarousel();
-    // 首页以“商品列表第一页”为主，不再先渲染推荐，避免与第一页视觉冲突
-    // loadRecommendations();
+    // 首页展示推荐商品（按需返回几个即可）
+    loadRecommendations();
     loadPromotions();
     // 简单状态提示，确认已连通
     statusBar()->showMessage(tr("已连接服务器，正在加载数据…"), 3000);
 
     // 渲染占位，等待真实数据覆盖
     renderCarouselPlaceholder();
-    renderRecommendationsPlaceholder();
+    // 首页不再显示“推荐占位”，等待真实推荐返回
+    // renderRecommendationsPlaceholder();
     renderPromotionsPlaceholder();
+
 }
 
 void MainWindow::setupUi()
@@ -303,6 +305,17 @@ void MainWindow::onReadyRead()
     if (err.error != QJsonParseError::NoError) continue;
     QJsonObject response = doc.object();
     QString type = response["type"].toString();
+    // 调试日志：记录首页相关的返回
+    if (type == QLatin1String("carousel_data")) {
+        qInfo() << "recv carousel_data images=" << response.value("images").toArray().size();
+    } else if (type == QLatin1String("recommendations")) {
+        qInfo() << "recv recommendations products=" << response.value("products").toArray().size();
+    } else if (type == QLatin1String("promotions")) {
+        qInfo() << "recv promotions count=" << response.value("promotions").toArray().size();
+    } else if (type == QLatin1String("products_response")) {
+        qInfo() << "recv products_response total=" << response.value("total").toInt()
+                << " page=" << currentPage;
+    }
     if (type == "carousel_data") {
         QJsonArray images = response["images"].toArray();
         renderCarousel(images);

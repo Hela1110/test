@@ -1,59 +1,45 @@
 @echo off
 setlocal enabledelayedexpansion
 
-REM Ensure working directory is the script's folder when double-clicked
+REM Always run from this script's folder
 pushd "%~dp0" >nul 2>&1
 
 echo ========================================
 echo Starting Client Application
 echo ========================================
 
-REM Prefer running from CMake dist directory (windeployqt output)
-set "DIST_EXE=build\client-qt1310\dist\shopping_client.exe"
-set "ALT_DIST_EXE=build\client-qtmingw\dist\shopping_client.exe"
-set "ALT2_DIST_EXE=build\dist\shopping_client.exe"
-set "LEGACY_EXE=build\bin\shopping-client.exe"
+REM Candidate executable locations (most common first)
+set "C1=build\shopping_client.exe"
+set "C2=build\dist\shopping_client.exe"
+set "C3=build-qt1310\shopping_client.exe"
+set "C4=build-qt1310\dist\shopping_client.exe"
+set "C5=..\build\shopping_client.exe"
+set "C6=..\build\dist\shopping_client.exe"
 
 set "EXE_PATH="
-if exist "%DIST_EXE%" set "EXE_PATH=%DIST_EXE%"
-if not defined EXE_PATH if exist "%ALT_DIST_EXE%" set "EXE_PATH=%ALT_DIST_EXE%"
-if not defined EXE_PATH if exist "%ALT2_DIST_EXE%" set "EXE_PATH=%ALT2_DIST_EXE%"
-if not defined EXE_PATH if exist "%LEGACY_EXE%" set "EXE_PATH=%LEGACY_EXE%"
+for %%P in ("%C1%" "%C2%" "%C3%" "%C4%" "%C5%" "%C6%") do (
+    if not defined EXE_PATH if exist %%~fP set "EXE_PATH=%%~fP"
+)
 
-REM As a fallback, search recursively under build for shopping_client.exe
-if not defined EXE_PATH for /f "delims=" %%F in ('dir /b /s "build\shopping_client.exe" 2^>nul') do if not defined EXE_PATH set "EXE_PATH=%%F"
 if not defined EXE_PATH (
-    echo(
-    echo Error: Client executable not found!
-    echo Expected at one of:
-    echo   %DIST_EXE%
-    echo   %ALT_DIST_EXE%
-    echo   %ALT2_DIST_EXE%
-    echo   %LEGACY_EXE%
-    echo Or anywhere under build\ as shopping_client.exe
-    echo Please build the client first (CMake target 'package_app').
-    @echo off
-    setlocal
+    echo Error: shopping_client.exe not found.
+    echo Looked in:
+    echo   %C1%
+    echo   %C2%
+    echo   %C3%
+    echo   %C4%
+    echo   %C5%
+    echo   %C6%
+    echo Please build the client first (see build_client_qt1310.bat).
+    goto :end
 
-    REM Ensure working directory is the script's folder when double-clicked
-    pushd "%~dp0" >nul 2>&1
 
-    echo ========================================
-    echo Starting Client Application
-    echo ========================================
+echo Using executable: %EXE_PATH%
+echo Launching shopping client...
+start "shopping-client" "%EXE_PATH%"
 
+:end
+popd >nul 2>&1
+pause
+exit /b 0
     set "EXE_PATH=build\dist\shopping_client.exe"
-    if not exist "%EXE_PATH%" (
-        echo Error: %EXE_PATH% not found.
-        echo Please build the client first (CMake target package_app).
-        goto :end
-    )
-
-    echo Using executable: %EXE_PATH%
-    echo Launching shopping client...
-    start "shopping-client" "%EXE_PATH%"
-
-    :end
-    popd >nul 2>&1
-    pause
-    exit /b 0

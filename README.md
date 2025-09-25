@@ -23,16 +23,72 @@
 
 ## 启动方式
 
-- 一键启动（推荐）：双击工作区根目录下的 `StartAll.bat`
-	- 脚本会：
-		- 启动服务端（Spring Boot + Netty），等待 Socket 端口 8080 准备
-		- 启动客户端（Qt6 Widgets）
-		- 打印“Launching client: …\shopping_client.exe”，方便确认启动的是最新构建
+### 一键启动（推荐）
+
+在根目录直接双击 `StartAll.bat`，或在命令行手动传参数：
+
+```
+StartAll.bat [httpPort] [socketPort] [--skip-build]
+```
+
+示例：
+
+```
+StartAll.bat 8081 9090
+```
+
+参数说明：
+
+| 参数 | 含义 | 默认 | 备注 |
+|------|------|------|------|
+| httpPort | Spring Boot `server.port` | 8081 | 避免与本地其它 8080 冲突 |
+| socketPort | Netty `socket.port` | 9090 | 客户端应连接此端口做业务通信 |
+| --skip-build | 跳过 mvn package | 无 | 仅在确认无源码改动时用于加速 |
+
+脚本流程：
+1. (可选) 构建服务端并启动：`java -jar ... --server.port=HTTP --socket.port=SOCKET`
+2. 等待两个端口（HTTP + Socket）全部可用（最多 90 秒）
+3. 构建并启动客户端（优先非 dist 目录最新构建）
+4. 监测服务端早期退出，若窗口关闭将立即提示
+
+> 旧版本仅监听 8080；现在请区分 HTTP 与 Socket 两个端口，客户端网络层要连 `socket.port`。
+
+### 手动启动（开发调试）
+
+1. 修改 `server/src/main/resources/application.yml` 中：
+	- `spring.datasource.password: 你的密码` 替换为真实数据库密码
+	- 如需修改端口：`server.port` / `socket.port`
+2. 确认数据库已存在并建表（`ddl-auto: none` 不会自动建表）
+3. 服务端：
+	```bash
+	mvn -q -DskipTests clean package
+	java -jar target/shopping-server-1.0-SNAPSHOT.jar --server.port=8081 --socket.port=9090
+	```
+4. 客户端：
+	```bash
+	cd client
+	mkdir build && cd build
+	cmake .. && cmake --build . --config Release
+	./shopping_client.exe
+	```
+5. 确保客户端配置的连接端口与上述 `--socket.port` 一致。
+
+### 常见启动故障排查
+
+| 现象 | 可能原因 | 解决 | 查看位置 |
+|------|----------|------|----------|
+| OrderHeaderRepository bean not found | 实际是上下文在创建仓库前因数据库连接失败退出 | 检查数据库账号/密码/库是否存在；加 `--debug` 观察 | 服务端窗口 |
+| 90 秒仍未就绪 | 某端口被占用或进程已崩溃 | 换端口 / 释放占用；确认 server 窗口仍在且无异常 | StartAll 输出 + server 日志 |
+| 客户端请求无响应 | 误连到 HTTP 端口 | 改连 `socket.port` (默认 9090) | 客户端 `client.log` |
+| 下单库存异常 | 人工修改表或并发测试 | 校验库存字段并重试；观察事务日志 | 服务端日志 |
+| 中文编码错乱 | 终端编码/数据库字符集 | 确保 `characterEncoding=utf8` & 控制台 UTF-8 | application.yml + 控制台 |
+
+> 仍无法定位时，请提供服务端启动完整日志 (首尾 200 行) 与应用版本号。
 
 ## 日志位置
 
-- 客户端会在可执行文件同目录写入 `client.log`
-- 遇到弹窗/点击/网络响应等关键节点会写日志，便于排查是否发生重复点击或重复弹窗
+- 客户端：同目录 `client.log`（交互、协议、错误）
+- 服务端：控制台；必要时可在 `application.yml` 调整 `logging.level` 或启动参数添加 `--debug`
 
 ## API 对齐与兼容说明
 
@@ -56,6 +112,40 @@
 	- 购物车“结算”使用 `create_order`，将购物车中的 `productId/quantity` 作为 `items` 提交
 	- 成功只提示一次“下单成功（含订单号）”；失败根据 `code/message` 提示
 
+	## 数据库重构后的 Socket 协议要点（2025 重构）
+
+	本轮重构将原先内存级 CATALOG / carts / orders 全部迁移到 MySQL，核心变化如下：
+
+	1. 购物车持久化
+		- 以 `order_headers(status=CART)` + `order_items` 作为单一活动购物车；同一用户仅存在一个 CART header。
+		- 响应中新增 `headerId` 字段，客户端可在后续操作（checkout 等）中携带，减少用户名耦合。
+
+	2. 双消息兼容策略保持
+		- `get_cart` / 修改类指令仍发送 `cart_items` 与 `cart_response` 两条，新增字段 `headerId`。
+		- `checkout` 返回 `checkout_response` 与 `order_response`；推荐客户端仅消费 `order_response`。
+
+	3. 商品列表/搜索分页
+		- 使用数据库分页：`get_products { page, size }` 基于 Spring Data Page，从 1 开始的 page 转为内部 0-based。
+		- `search_products` 使用名称模糊匹配（忽略大小写）。
+
+	4. 库存与下单
+		- 库存校验 & 扣减在事务中完成；库存不足抛出并映射为 `code=2002`。
+		- 空购物车结算返回 `code=3001`。
+
+	5. 已弃用的内存结构
+		- 代码中残留的 `@Deprecated` CATALOG / carts / orders 仅为兼容旧方法引用，不再写入真实业务数据。
+
+	6. 协议新增/调整字段
+		- 所有购物车相关响应附带 `headerId`。
+		- add_to_cart_response 增加 `headerId`。
+
+	7. 迁移影响
+		- 客户端不需要修改已有解析即可兼容（忽略新字段安全）。
+		- 若要利用精确结算，可在 `checkout` 前显示 `headerId` 绑定确认。
+
+	> 若后续计划加入 Token 鉴权，可使用登录后发放的 token 替代每条消息包含 username。
+
+
 ## 数量选择与购物车编辑
 
 - 加入购物车前可选择数量：在商品列表/详情点击“加入购物车”时，会弹出数量输入框（默认 1），请求中会携带 `quantity`
@@ -74,36 +164,25 @@
 	- 3002: 订单创建失败
 
 客户端会对错误码进行友好提示，并做去重（避免短时间内重复弹窗）。
+
+## 构建环境要求
+
+- JDK 11+
 - Maven 3.6+
-- CMake 3.14+
+- Qt 6 + CMake 3.14+
+- MySQL 8.x
 
-### 编译运行
+## 初始化数据库
 
-#### 客户端
-```bash
-cd client
-mkdir build && cd build
-cmake ..
-make
-```
-
-#### 服务端
-```bash
-cd server
-mvn clean install
-java -jar target/shopping-server-1.0-SNAPSHOT.jar
-```
-
-### 配置数据库
-1. 创建数据库：
-```sql
-CREATE DATABASE shopping_system;
-```
-
-2. 执行数据库脚本：
-```bash
-mysql -u your_username -p shopping_system < database/sql/schema.sql
-```
+1. 创建库：
+	```sql
+	CREATE DATABASE shopping_system CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+	```
+2. 导入结构 / 基础数据脚本（若有）：
+	```bash
+	mysql -u root -p shopping_system < database/sql/schema.sql
+	```
+3. 修改 `application.yml` 中的账号密码；首次启动请确认表结构已存在（`ddl-auto: none`）。
 
 ## 开发指南
 

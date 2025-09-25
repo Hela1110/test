@@ -1,6 +1,7 @@
 package com.shopping.server.repository;
 
 import com.shopping.server.model.Product;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -54,15 +55,15 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByStockGreaterThan(Integer stock);
     
     /**
-     * 自定义查询：查找打折力度最大的N个商品
-     * @param limit 限制数量
+     * 自定义查询：查找打折力度最大的商品（按降序），使用分页限制条数。
+     * 使用 Pageable 传入 PageRequest.of(0, limit) 来限制返回数量。
+     * @param pageable 分页与排序（仅页大小与页码生效，排序在查询里已固定）
      * @return 商品列表
      */
-    @Query(value = "SELECT p FROM Product p " +
+    @Query("SELECT p FROM Product p " +
            "WHERE p.onSale = true " +
-           "ORDER BY (p.price - p.discountPrice) / p.price DESC " +
-           "LIMIT :limit")
-    List<Product> findTopDiscountProducts(@Param("limit") int limit);
+           "ORDER BY (p.price - p.discountPrice) / p.price DESC")
+    List<Product> findTopDiscountProducts(Pageable pageable);
     
     /**
      * 自定义查询：搜索商品（支持名称和描述）
