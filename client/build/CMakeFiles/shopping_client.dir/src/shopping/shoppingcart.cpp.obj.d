@@ -391,6 +391,15 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qregularexpression.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/quuid.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qhash.h \
  C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/include/ui_shoppingcart.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
@@ -406,6 +415,9 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QCheckBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcheckbox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
@@ -417,7 +429,6 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemview.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractitemmodel.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
@@ -436,7 +447,6 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpacerItem \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget \
@@ -444,11 +454,43 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtableview.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QPointer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qpointer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QDebug \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QAbstractItemView \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemview.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidgetItem \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpinBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qspinbox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QMouseEvent \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qsize.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QCheckBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker

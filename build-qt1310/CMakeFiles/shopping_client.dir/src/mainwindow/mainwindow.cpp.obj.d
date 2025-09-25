@@ -443,6 +443,8 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
  C:/Users/Edward/Desktop/test/client/include/ui_mainwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
@@ -458,8 +460,6 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qheaderview.h \
@@ -475,15 +475,11 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstatusbar.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/QToolButton \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtoolbutton.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpinBox \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qspinbox.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
- D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QDebug \
@@ -504,4 +500,8 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtablewidget.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtableview.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFrame \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h

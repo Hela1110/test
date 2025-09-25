@@ -14,79 +14,125 @@
    <string>购物系统</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="rootLayout">
+   <layout class="QHBoxLayout" name="outerLayout">
     <property name="spacing">
      <number>10</number>
     </property>
     <property name="margin">
      <number>12</number>
     </property>
+    <!-- Left Sidebar -->
     <item>
-     <layout class="QHBoxLayout" name="topBarLayout">
+     <layout class="QVBoxLayout" name="leftSidebarLayout">
       <item>
-       <widget class="QLineEdit" name="searchInput">
-        <property name="placeholderText">
-         <string>搜索商品、店铺</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="searchButton">
+       <widget class="QPushButton" name="accountButton">
         <property name="text">
-         <string>搜索</string>
+         <string>账号</string>
         </property>
         <property name="minimumSize">
          <size>
-          <width>80</width>
+          <width>100</width>
           <height>0</height>
          </size>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="topBarSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+       <widget class="QPushButton" name="ordersButton">
+        <property name="text">
+         <string>账单</string>
         </property>
-        <property name="sizeHint" stdset="0">
+        <property name="minimumSize">
          <size>
-          <width>40</width>
-          <height>20</height>
+          <width>100</width>
+          <height>0</height>
          </size>
         </property>
-       </spacer>
+       </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="chatButton">
+       <widget class="QPushButton" name="chatButton">
         <property name="text">
          <string>客服</string>
         </property>
         <property name="minimumSize">
          <size>
-          <width>80</width>
+          <width>100</width>
           <height>0</height>
          </size>
         </property>
        </widget>
       </item>
-  <item>
-   <widget class="QToolButton" name="cartButton">
+      <item>
+       <widget class="QPushButton" name="cartButton">
         <property name="text">
          <string>购物车</string>
         </property>
         <property name="minimumSize">
          <size>
-          <width>80</width>
+          <width>100</width>
           <height>0</height>
          </size>
         </property>
        </widget>
       </item>
-  <!-- Removed top pager buttons -->
+      <item>
+       <spacer name="leftSidebarSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </item>
+    <!-- Main Content -->
     <item>
-     <widget class="QWidget" name="carouselArea">
+     <layout class="QVBoxLayout" name="rootLayout">
+      <item>
+       <layout class="QHBoxLayout" name="topBarLayout">
+        <item>
+         <widget class="QLineEdit" name="searchInput">
+          <property name="placeholderText">
+           <string>搜索商品、店铺</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="searchButton">
+          <property name="text">
+           <string>搜索</string>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>80</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="topBarSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QWidget" name="carouselArea">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -94,9 +140,9 @@
        </size>
       </property>
      </widget>
-    </item>
-    <item>
-     <widget class="QWidget" name="recommendationsArea">
+      </item>
+      <item>
+       <widget class="QWidget" name="recommendationsArea">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -104,9 +150,9 @@
        </size>
       </property>
      </widget>
-    </item>
-    <item>
-     <widget class="QWidget" name="promotionsArea">
+      </item>
+      <item>
+       <widget class="QWidget" name="promotionsArea">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -114,9 +160,9 @@
        </size>
       </property>
      </widget>
-    </item>
-  <item>
-   <layout class="QHBoxLayout" name="bottomPagerLayout">
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="bottomPagerLayout">
     <item>
      <widget class="QLabel" name="pageInfoLabel">
     <property name="text">
@@ -186,8 +232,10 @@
     </property>
      </widget>
     </item>
-   </layout>
-  </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar"/>

@@ -278,8 +278,12 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/CMake/share/cmake-4.1/Modules/Platform/Windows-windres.cmake \
   D:/CMake/share/cmake-4.1/Modules/Platform/Windows.cmake \
   D:/CMake/share/cmake-4.1/Modules/Platform/WindowsPaths.cmake \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
@@ -320,6 +324,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qexceptionhandling.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h \
@@ -337,6 +342,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h \
@@ -447,6 +453,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
@@ -458,6 +465,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QListWidget \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
@@ -470,6 +478,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
@@ -477,6 +486,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistview.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistwidget.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
@@ -2309,8 +2319,11 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/cl
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QCoreApplication \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QDateTime \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QDir \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QFile \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QTextStream \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20memory.h \
@@ -2331,6 +2344,7 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/cl
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearraylist.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qchar.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare_impl.h \
@@ -2347,14 +2361,18 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/cl
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdarwinhelpers.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdir.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdirlisting.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qeventloop.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qexceptionhandling.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qfile.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qfiledevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qfloat16.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qforeach.h \
@@ -2427,6 +2445,7 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/cl
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
@@ -3849,11 +3868,11 @@ C:/Users/Edward/Desktop/test/client/CMakeLists.txt:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h:
 
-C:/msys64/ucrt64/include/c++/15.2.0/ext/type_traits.h:
+CMakeFiles/4.1.1/CMakeCXXCompiler.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox:
 
-CMakeFiles/4.1.1/CMakeCXXCompiler.cmake:
+C:/msys64/ucrt64/include/c++/15.2.0/ext/type_traits.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyleoption.h:
 
@@ -4037,13 +4056,13 @@ C:/msys64/ucrt64/include/c++/15.2.0/algorithm:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_string.tcc:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6GuiTargets.cmake:
 
 C:/msys64/ucrt64/include/c++/15.2.0/atomic:
 
 D:/CMake/share/cmake-4.1/Modules/Internal/CMakeCommonLinkerInformation.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtmochelpers.h:
 
@@ -4066,10 +4085,6 @@ C:/msys64/ucrt64/include/c++/15.2.0/bit:
 D:/Qt/6.8.3/mingw_64/include/QtCore/qprocessordetection.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/algorithmfwd.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtablewidget.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/align.h:
 
@@ -4102,8 +4117,6 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/cpp_type_traits.h:
 D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_defines.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicPluginHelpers.cmake:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/enable_special_members.h:
 
@@ -4182,6 +4195,8 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream_insert.h:
 D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginConfig.cmake:
 
@@ -4293,13 +4308,13 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_map.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_multimap.h:
 
-C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_numeric.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicCMakeVersionHelpers.cmake:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6CoreTools/Qt6CoreToolsTargets-relwithdebinfo.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicCMakeVersionHelpers.cmake:
+
+C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_numeric.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_pair.h:
 
@@ -4314,6 +4329,8 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_relops.h:
 C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tempbuf.h:
 
 D:/CMake/share/cmake-4.1/Modules/Compiler/GNU.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtaggedpointer.h:
 
@@ -4420,6 +4437,8 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsDependencies.cmake:
 C:/msys64/ucrt64/include/c++/15.2.0/ctime:
 
 C:/msys64/ucrt64/include/c++/15.2.0/cwchar:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QHash:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qconstructormacros.h:
 
@@ -4605,9 +4624,9 @@ C:/msys64/ucrt64/include/corecrt_wctype.h:
 
 C:/msys64/ucrt64/include/crtdefs.h:
 
-C:/msys64/ucrt64/include/errno.h:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicExternalProjectHelpers.cmake:
+
+C:/msys64/ucrt64/include/errno.h:
 
 C:/msys64/ucrt64/include/locale.h:
 
@@ -4781,7 +4800,13 @@ D:/CMake/share/cmake-4.1/Modules/Platform/Windows-Initialize.cmake:
 
 D:/CMake/share/cmake-4.1/Modules/Platform/WindowsPaths.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/QList:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginConfig.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QString:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h:
 
@@ -4851,13 +4876,13 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qforeach.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicFinalizerHelpers.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionpointer.h:
 
@@ -4963,8 +4988,6 @@ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtclasshelpermacros.h:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicFindPackageHelpers.cmake:
-
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtcore-config.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtcoreexports.h:
@@ -5019,10 +5042,6 @@ D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h:
 
-C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_conv.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicSbomCpeHelpers.cmake:
-
 D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreTargets-relwithdebinfo.cmake:
@@ -5036,6 +5055,8 @@ D:/Qt/6.8.3/mingw_64/include/QtGui/qtextformat.h:
 D:/Qt/6.8.3/mingw_64/include/QtCore/qeventloop.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket:
 
 D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h:
 
@@ -5065,6 +5086,8 @@ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractslider.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h:
+
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h:
@@ -5072,6 +5095,8 @@ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h:
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistview.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h:
 
@@ -5093,15 +5118,29 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtFeatureCommon.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicCMakeHelpers.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtablewidget.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicFinalizerHelpers.cmake:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicFindPackageHelpers.cmake:
+
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfigVersion.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicGitHelpers.cmake:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicPluginHelpers.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets-relwithdebinfo.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QGifPluginTargets-relwithdebinfo.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicSbomAttributionHelpers.cmake:
+
+C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_conv.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicSbomCpeHelpers.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicSbomDepHelpers.cmake:
 
@@ -5295,8 +5334,6 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginTargets-relwithdebinfo
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginAdditionalTargetInfo.cmake:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginConfig.cmake:
-
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qheaderview.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets-relwithdebinfo.cmake:
@@ -5369,8 +5406,6 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h:
-
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmenu.h:
@@ -5386,10 +5421,6 @@ D:/Qt/6.8.3/mingw_64/include/QtGui/qpicture.h:
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_ios.tcc:
 
@@ -5417,11 +5448,19 @@ C:/msys64/ucrt64/include/wctype.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QCoreApplication:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/QDir:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/QFile:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QTextStream:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qdir.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qdirlisting.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qfiledevice.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray:
+D:/Qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView:
 

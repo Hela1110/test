@@ -7,6 +7,7 @@
 #include "shopping/shoppingcart.h"
 #include "chat/chatwindow.h"
 #include <QElapsedTimer>
+#include <QJsonArray>
 
 namespace Ui {
 class MainWindow;
@@ -46,6 +47,12 @@ private:
     int currentPage = 1;
     int pageSize = 6;
     int totalProducts = 0;
+    // 自适应网格重排支持
+    QJsonArray lastRecommendations;
+    QJsonArray lastResults;
+    bool showingList = false; // true 表示当前展示的是“商品列表”，否则展示“推荐”
+    qint64 lastReflowMs = 0;
+    int lastColumns = 0;     // 上次网格列数，用于阈值判断
     
     void setupUi();
     void loadCarousel();
@@ -66,6 +73,12 @@ private:
     void showProductDetail(const QJsonObject &product);
     void addToCart(int productId, int stock = -1);
     void requestProductsPage(int page);
+    // 自适应列数与重排
+    int computeColumns(int availableWidth) const;
+    void reflowGrids();
+
+protected:
+    void resizeEvent(QResizeEvent *event) override;
 };
 
 #endif // MAINWINDOW_H

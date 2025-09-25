@@ -423,8 +423,12 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
  C:\Users\Edward\Desktop\test\client\build\shopping_client_autogen\IFHPYZAWOD/moc_mainwindow.cpp \
  C:/Users/Edward/Desktop/test/client/include/mainwindow/mainwindow.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qstring.h \
  C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
@@ -438,8 +442,18 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/quuid.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qhash.h \
  C:/Users/Edward/Desktop/test/client/include/chat/chatwindow.h \
  C:/Users/Edward/Desktop/test/client/include/chatwindow.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
  C:\Users\Edward\Desktop\test\client\build\shopping_client_autogen\LQ5S74IWJL/moc_registerdialog.cpp \
  C:/Users/Edward/Desktop/test/client/include/register/registerdialog.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \

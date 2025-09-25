@@ -73,6 +73,7 @@ shopping_client_autogen/timestamp: CMakeFiles/4.1.1/CMakeCCompiler.cmake \
   D:/CMake/share/cmake-4.1/Modules/Platform/WindowsPaths.cmake \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
@@ -134,6 +135,7 @@ shopping_client_autogen/timestamp: CMakeFiles/4.1.1/CMakeCCompiler.cmake \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h \
@@ -712,6 +714,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
   shopping_client_autogen/XLQVKIHBGC/moc_loginwindow.cpp \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
@@ -773,6 +776,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
   D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h \
@@ -1595,6 +1599,7 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: C:/Users/Edward/De
   C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
@@ -1665,6 +1670,7 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: C:/Users/Edward/De
   D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
@@ -2704,6 +2710,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFormLayout \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFrame \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView \
@@ -2720,7 +2727,6 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QToolButton \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h \
@@ -2761,7 +2767,6 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtablewidget.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtextedit.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtoolbutton.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -4136,9 +4141,9 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateAdditionalTargetInfo
 
 D:/CMake/share/cmake-4.1/Modules/Internal/CMakeCXXLinkerInformation.cmake:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h:
-
 D:/CMake/share/cmake-4.1/Modules/Internal/CMakeCommonLinkerInformation.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6GuiTargets.cmake:
 
@@ -4191,6 +4196,8 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer:
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtaggedpointer.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QHash:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject:
 
@@ -5006,9 +5013,9 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QOffscreenIntegrationPluginAdditionalTa
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QOffscreenIntegrationPluginTargets-relwithdebinfo.cmake:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkAdditionalTargetInfo.cmake:
-
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/enable_special_members.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkAdditionalTargetInfo.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QOffscreenIntegrationPluginTargets.cmake:
 
@@ -5506,23 +5513,19 @@ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w6
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QDebug:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray:
-
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFormLayout:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFrame:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/QToolButton:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qformlayout.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qinputdialog.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtableview.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtoolbutton.h:
 
 shopping_client_autogen/include/ui_registerdialog.h:
 

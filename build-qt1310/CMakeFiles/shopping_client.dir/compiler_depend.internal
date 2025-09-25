@@ -74,6 +74,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/timestamp
  D:/CMake/share/cmake-4.1/Modules/Platform/WindowsPaths.cmake
  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer
  D:/Qt/6.8.3/mingw_64/include/QtCore/QHash
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject
  D:/Qt/6.8.3/mingw_64/include/QtCore/QList
  D:/Qt/6.8.3/mingw_64/include/QtCore/QString
@@ -135,6 +136,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/timestamp
  D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h
@@ -715,6 +717,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj
  C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/XLQVKIHBGC/moc_loginwindow.cpp
  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer
  D:/Qt/6.8.3/mingw_64/include/QtCore/QHash
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject
  D:/Qt/6.8.3/mingw_64/include/QtCore/QList
  D:/Qt/6.8.3/mingw_64/include/QtCore/QString
@@ -776,6 +779,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h
@@ -1600,6 +1604,7 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj
  C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer
  D:/Qt/6.8.3/mingw_64/include/QtCore/QHash
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject
  D:/Qt/6.8.3/mingw_64/include/QtCore/QList
@@ -1670,6 +1675,7 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h
@@ -2711,6 +2717,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFormLayout
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFrame
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView
@@ -2727,7 +2734,6 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/QToolButton
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h
@@ -2768,7 +2774,6 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtablewidget.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtextedit.h
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtoolbutton.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h

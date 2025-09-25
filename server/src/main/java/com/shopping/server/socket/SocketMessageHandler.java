@@ -640,6 +640,8 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (username != null) {
             resp.put("username", username);
             resp.put("phone", String.valueOf(prof.getOrDefault("phone", "")));
+            // 从数据库补齐用户ID
+            clientRepository.findByUsername(username).ifPresent(c -> resp.put("clientId", c.getClientId()));
         } else {
             resp.put("message", "未登录");
         }
@@ -666,8 +668,18 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (newPassword != null && !newPassword.isEmpty()) {
             userStore.put(username, newPassword);
         }
+        // 从数据库加载 Client
+        var dbClientOpt = clientRepository.findByUsername(username);
+        Client dbClient = dbClientOpt.orElse(null);
         // 更新用户名（演示：直接改 key；实际生产中需迁移所有相关数据）
         if (newUsername != null && !newUsername.isEmpty() && !newUsername.equals(username)) {
+            // 数据库层面的唯一性校验
+            if (clientRepository.existsByUsername(newUsername)) {
+                resp.put("success", false);
+                resp.put("message", "新用户名已存在");
+                ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+                return;
+            }
             if (userStore.containsKey(newUsername)) {
                 resp.put("success", false);
                 resp.put("message", "新用户名已存在");
@@ -683,7 +695,20 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             if (cart != null) carts.put(newUsername, cart);
             // 订单中的 username 字段也迁移（演示用途）
             for (Map<String,Object> o : orders) if (username.equals(o.get("username"))) o.put("username", newUsername);
+            // clientChannels 映射迁移
+            ChannelHandlerContext ch = clientChannels.remove(username);
+            if (ch != null) clientChannels.put(newUsername, ch);
+            // 数据库 Client 更新用户名
+            if (dbClient != null) {
+                dbClient.setUsername(newUsername);
+            }
             username = newUsername;
+        }
+        // 同步数据库中的手机号/密码
+        if (dbClient != null) {
+            if (newPhone != null) dbClient.setPhone(newPhone);
+            if (newPassword != null && !newPassword.isEmpty()) dbClient.setPassword(newPassword);
+            clientRepository.save(dbClient);
         }
         try { saveUsers(); } catch (Exception ignore) {}
         try { saveProfiles(); } catch (Exception ignore) {}
@@ -693,6 +718,8 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         resp.put("message", "账户信息已更新");
         resp.put("username", username);
         resp.put("phone", String.valueOf(userProfiles.getOrDefault(username, new HashMap<>()).getOrDefault("phone", "")));
+        // 返回最新的 clientId（若可用）
+        clientRepository.findByUsername(username).ifPresent(c -> resp.put("clientId", c.getClientId()));
         ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
     }
     

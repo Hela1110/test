@@ -73,6 +73,7 @@ shopping_client_autogen/timestamp: CMakeFiles/4.1.1/CMakeCCompiler.cmake \
   D:/CMake/share/cmake-4.1/Modules/Platform/WindowsPaths.cmake \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
@@ -134,6 +135,7 @@ shopping_client_autogen/timestamp: CMakeFiles/4.1.1/CMakeCCompiler.cmake \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h \
@@ -935,6 +937,8 @@ D:/CMake/share/cmake-4.1/Modules/Internal/CMakeCXXLinkerInformation.cmake:
 
 D:/CMake/share/cmake-4.1/Modules/Internal/CMakeCommonLinkerInformation.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h:
+
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6GuiTargets.cmake:
 
 D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/ctype.h:
@@ -982,6 +986,8 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer:
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtaggedpointer.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QHash:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject:
 
@@ -1727,9 +1733,9 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QOffscreenIntegrationPluginAdditionalTa
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QOffscreenIntegrationPluginTargets-relwithdebinfo.cmake:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkAdditionalTargetInfo.cmake:
-
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/enable_special_members.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkAdditionalTargetInfo.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QOffscreenIntegrationPluginTargets.cmake:
 

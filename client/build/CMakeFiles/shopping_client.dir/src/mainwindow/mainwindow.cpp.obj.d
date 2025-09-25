@@ -372,6 +372,8 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qstring.h \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
@@ -396,6 +398,14 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qregularexpression.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/quuid.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qhash.h \
  C:/Users/Edward/Desktop/test/client/include/chat/chatwindow.h \
  C:/Users/Edward/Desktop/test/client/include/chatwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QListWidget \
@@ -432,6 +442,8 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
  C:/Users/Edward/Desktop/test/client/include/ui_mainwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
@@ -447,8 +459,6 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qheaderview.h \
@@ -464,16 +474,33 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstatusbar.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/QToolButton \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtoolbutton.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpinBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qspinbox.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
- D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QDebug \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QAbstractButton \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QInputDialog \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qinputdialog.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlineedit.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpinBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFormLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qformlayout.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLineEdit \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtablewidget.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtableview.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFrame \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h

@@ -419,6 +419,8 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qfile.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QStandardPaths \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qstandardpaths.h \
  C:/Users/Edward/Desktop/test/client/include/login/loginwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
@@ -442,4 +444,6 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h

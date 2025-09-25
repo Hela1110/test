@@ -355,6 +355,7 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/XLQVKIHBGC/moc
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \

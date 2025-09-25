@@ -5,6 +5,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/IFHPYZAWOD/moc
   C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
@@ -65,6 +66,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/IFHPYZAWOD/moc
   D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h \

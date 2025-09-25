@@ -16,6 +16,8 @@
 #include <QHBoxLayout>
 #include <QTableWidget>
 #include <QHeaderView>
+#include <QGridLayout>
+#include <QFrame>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -373,16 +375,24 @@ void MainWindow::onReadyRead()
     else if (type == "account_info") {
         // 简易账号对话框
         QDialog dlg(this); dlg.setWindowTitle(tr("账号信息")); QVBoxLayout v(&dlg);
-        QFormLayout form; QLineEdit user; QLineEdit phone; QLineEdit pwd; QLineEdit newUser;
+        QFormLayout form; QLineEdit user; QLineEdit phone; QLineEdit pwd; QLineEdit newUser; QLineEdit idEdit;
+        idEdit.setText(QString::number(response.value("clientId").toVariant().toLongLong())); idEdit.setReadOnly(true);
         user.setText(response.value("username").toString()); user.setReadOnly(true);
         phone.setText(response.value("phone").toString());
         pwd.setEchoMode(QLineEdit::Password);
-        form.addRow(tr("当前用户名"), &user); form.addRow(tr("新用户名"), &newUser); form.addRow(tr("手机号"), &phone); form.addRow(tr("新密码"), &pwd);
+        form.addRow(tr("账号ID"), &idEdit);
+        form.addRow(tr("当前用户名"), &user);
+        form.addRow(tr("新用户名"), &newUser);
+        form.addRow(tr("手机号"), &phone);
+        form.addRow(tr("新密码"), &pwd);
         v.addLayout(&form);
         QHBoxLayout btns; QPushButton ok(tr("保存")); QPushButton cancel(tr("取消")); btns.addStretch(1); btns.addWidget(&ok); btns.addWidget(&cancel); v.addLayout(&btns);
         connect(&cancel, &QPushButton::clicked, &dlg, &QDialog::reject);
         connect(&ok, &QPushButton::clicked, &dlg, [&]{
-            QJsonObject r; r["type"] = "update_account_info"; if (!phone.text().trimmed().isEmpty()) r["phone"] = phone.text().trimmed(); if (!pwd.text().isEmpty()) r["password"] = pwd.text(); if (!newUser.text().trimmed().isEmpty()) r["new_username"] = newUser.text().trimmed();
+            QJsonObject r; r["type"] = "update_account_info";
+            if (!phone.text().trimmed().isEmpty()) r["phone"] = phone.text().trimmed();
+            if (!pwd.text().isEmpty()) r["password"] = pwd.text();
+            if (!newUser.text().trimmed().isEmpty()) r["new_username"] = newUser.text().trimmed();
             QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
             dlg.accept();
         });
@@ -537,22 +547,74 @@ void MainWindow::renderCarousel(const QJsonArray &images)
 
 void MainWindow::renderRecommendations(const QJsonArray &products)
 {
-    auto *layout = ensureVBoxLayout(ui->recommendationsArea);
+    // 保存最近数据并标记当前区域
+    lastRecommendations = products;
+    showingList = false;
+    // 使用网格矩形卡片展示
+    auto *container = ui->recommendationsArea;
+    auto *layout = ensureVBoxLayout(container);
     clearLayout(layout);
     if (products.isEmpty()) {
         renderRecommendationsPlaceholder();
         return;
     }
+    // 创建网格
+    auto *grid = new QGridLayout();
+    grid->setContentsMargins(6,6,6,6);
+    grid->setHorizontalSpacing(12);
+    grid->setVerticalSpacing(12);
+    int available = container->width();
+    int colCount = computeColumns(available);
+    int idx = 0;
     for (auto v : products) {
         const auto o = v.toObject();
         int pid = o.value("product_id").toInt();
         QString name = o.value("name").toString(QLatin1String("商品"));
         double price = o.value("price").toDouble();
-        auto *btn = new QPushButton(QString("%1  ￥%2").arg(name).arg(QString::number(price, 'f', 2)), ui->recommendationsArea);
-        btn->setMinimumHeight(32);
-        layout->addWidget(btn);
-        connect(btn, &QPushButton::clicked, this, [this, pid]{ onProductClicked(pid); });
+        int stock = o.value("stock").toInt(-1);
+
+        // 卡片
+        auto *card = new QFrame(container);
+    card->setFrameShape(QFrame::StyledPanel);
+    card->setStyleSheet("QFrame{border:1px solid #ddd;border-radius:8px;background:#fff;} QLabel{color:#333;font-size:13px;}");
+    card->setMinimumSize(210, 140);
+        auto *vbox = new QVBoxLayout(card);
+    vbox->setContentsMargins(10,10,10,10);
+    vbox->setSpacing(6);
+
+        auto *nameLbl = new QLabel(name, card);
+        nameLbl->setStyleSheet("font-weight:600;");
+    // 避免编码差异引起的货币符号乱码，使用 Unicode 码点或替代字符
+    auto *priceLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
+        QString stockText = (stock >= 0) ? QString("库存：%1").arg(stock) : QString();
+        auto *stockLbl = new QLabel(stockText, card);
+        auto *btnRow = new QHBoxLayout();
+    auto *detailBtn = new QPushButton(tr("详情"), card);
+    auto *addBtn = new QPushButton(tr("加入购物车"), card);
+    detailBtn->setMinimumSize(72, 30);
+    addBtn->setMinimumSize(92, 30);
+        btnRow->addWidget(detailBtn);
+        btnRow->addWidget(addBtn);
+        btnRow->addStretch(1);
+
+        vbox->addWidget(nameLbl);
+        vbox->addWidget(priceLbl);
+        if (!stockText.isEmpty()) vbox->addWidget(stockLbl);
+        vbox->addLayout(btnRow);
+
+        int r = idx / colCount;
+        int c = idx % colCount;
+        grid->addWidget(card, r, c);
+        ++idx;
+
+        connect(detailBtn, &QPushButton::clicked, this, [this, pid]{ onProductClicked(pid); });
+        connect(addBtn, &QPushButton::clicked, this, [this, pid, stock]{ addToCart(pid, stock); });
     }
+    // QLayout 没有 addLayout，这里用一个容器承载网格再添加
+    auto *gridHost = new QWidget(container);
+    gridHost->setLayout(grid);
+    layout->addWidget(gridHost);
+    lastColumns = colCount;
 }
 
 void MainWindow::renderPromotions(const QJsonArray &promotions)
@@ -573,43 +635,104 @@ void MainWindow::renderPromotions(const QJsonArray &promotions)
 
 void MainWindow::renderSearchResults(const QJsonArray &results)
 {
-    // 复用推荐区域显示搜索结果
-    auto *layout = ensureVBoxLayout(ui->recommendationsArea);
+    // 保存最近数据并标记当前区域
+    lastResults = results;
+    showingList = true;
+    // 使用网格矩形卡片展示，复用推荐区域容器
+    auto *container = ui->recommendationsArea;
+    auto *layout = ensureVBoxLayout(container);
     clearLayout(layout);
-    auto *title = new QLabel(tr("商品列表"), ui->recommendationsArea);
+    auto *title = new QLabel(tr("商品列表"), container);
     title->setWordWrap(true);
     title->setStyleSheet("font-weight:600;margin:6px 0;");
     layout->addWidget(title);
     if (results.isEmpty()) {
-        layout->addWidget(new QLabel(tr("未找到相关商品"), ui->recommendationsArea));
+        layout->addWidget(new QLabel(tr("未找到相关商品"), container));
         return;
     }
+    auto *grid = new QGridLayout();
+    grid->setContentsMargins(6,6,6,6);
+    grid->setHorizontalSpacing(12);
+    grid->setVerticalSpacing(12);
+    int available = container->width();
+    int colCount = computeColumns(available);
+    int idx = 0;
     for (auto v : results) {
         const auto o = v.toObject();
         int pid = o.value("product_id").toInt();
         QString name = o.value("name").toString(QLatin1String("商品"));
         double price = o.value("price").toDouble();
-        auto *row = new QWidget(ui->recommendationsArea);
-        auto *h = new QHBoxLayout(row);
-        h->setContentsMargins(6,4,6,4);
-        h->setSpacing(8);
-        row->setMinimumHeight(42);
-    int stock = o.value("stock").toInt(-1);
-    QString priceStock = QString("%1    ￥%2").arg(name).arg(QString::number(price, 'f', 2));
-    if (stock >= 0) priceStock += QString("    库存：%1").arg(stock);
-    auto *nameLbl = new QLabel(priceStock, row);
-        nameLbl->setMinimumHeight(32);
-        auto *detailBtn = new QPushButton(tr("详情"), row);
-        auto *addBtn = new QPushButton(tr("加入购物车"), row);
-        detailBtn->setMinimumSize(72, 32);
-        addBtn->setMinimumSize(100, 32);
-        h->addWidget(nameLbl, 1);
-        h->addWidget(detailBtn);
-        h->addWidget(addBtn);
-        layout->addWidget(row);
+        int stock = o.value("stock").toInt(-1);
+
+        auto *card = new QFrame(container);
+    card->setFrameShape(QFrame::StyledPanel);
+    card->setStyleSheet("QFrame{border:1px solid #ddd;border-radius:8px;background:#fff;} QLabel{color:#333;font-size:13px;}");
+    card->setMinimumSize(220, 150);
+        auto *vbox = new QVBoxLayout(card);
+    vbox->setContentsMargins(10,10,10,10);
+    vbox->setSpacing(6);
+        auto *nameLbl = new QLabel(name, card);
+        nameLbl->setStyleSheet("font-weight:600;");
+    auto *priceLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
+        QString stockText = (stock >= 0) ? QString("库存：%1").arg(stock) : QString();
+        auto *stockLbl = new QLabel(stockText, card);
+        auto *btnRow = new QHBoxLayout();
+    auto *detailBtn = new QPushButton(tr("详情"), card);
+    auto *addBtn = new QPushButton(tr("加入购物车"), card);
+    detailBtn->setMinimumSize(72, 30);
+    addBtn->setMinimumSize(92, 30);
+        btnRow->addWidget(detailBtn);
+        btnRow->addWidget(addBtn);
+        btnRow->addStretch(1);
+        vbox->addWidget(nameLbl);
+        vbox->addWidget(priceLbl);
+        if (!stockText.isEmpty()) vbox->addWidget(stockLbl);
+        vbox->addLayout(btnRow);
+
+        int r = idx / colCount;
+        int c = idx % colCount;
+        grid->addWidget(card, r, c);
+        ++idx;
+
         connect(detailBtn, &QPushButton::clicked, this, [this, pid]{ onProductClicked(pid); });
         connect(addBtn, &QPushButton::clicked, this, [this, pid, stock]{ addToCart(pid, stock); });
     }
+    auto *gridHost2 = new QWidget(container);
+    gridHost2->setLayout(grid);
+    layout->addWidget(gridHost2);
+    lastColumns = colCount;
+}
+
+int MainWindow::computeColumns(int availableWidth) const
+{
+    if (availableWidth >= 1600) return 5;
+    if (availableWidth >= 1366) return 4;
+    return 3;
+}
+
+void MainWindow::reflowGrids()
+{
+    QWidget *container = ui->recommendationsArea; // 推荐区与商品列表复用此容器
+    if (!container) return;
+    int available = container->width();
+    int col = computeColumns(available);
+    if (col == lastColumns) return; // 未跨阈值，不重排
+    // 根据当前展示内容重绘
+    if (showingList) {
+        if (!lastResults.isEmpty()) {
+            renderSearchResults(lastResults);
+        }
+    } else {
+        if (!lastRecommendations.isEmpty()) {
+            renderRecommendations(lastRecommendations);
+        }
+    }
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    QMainWindow::resizeEvent(event);
+    reflowGrids();
 }
 
 void MainWindow::showProductDetail(const QJsonObject &product)
@@ -620,7 +743,10 @@ void MainWindow::showProductDetail(const QJsonObject &product)
     int stock = product.value("stock").toInt(-1);
     QMessageBox box(this);
     box.setWindowTitle(tr("商品详情"));
-    QString text = QString("%1\n价格：￥%2").arg(name).arg(QString::number(price, 'f', 2));
+    QString text = QString("%1\n%2 %3")
+                        .arg(name)
+                        .arg(QStringLiteral("价格:"))
+                        .arg(QStringLiteral("\x00A5%1").arg(QString::number(price, 'f', 2)));
     if (stock >= 0) text += QString("\n库存：%1").arg(stock);
     box.setText(text);
     QPushButton *add = box.addButton(tr("加入购物车"), QMessageBox::AcceptRole);

@@ -207,6 +207,8 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/3G5O7Q7RTY/moc
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdbool.h \
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
@@ -247,6 +249,7 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/3G5O7Q7RTY/moc
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qexceptionhandling.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h \
@@ -374,7 +377,11 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/3G5O7Q7RTY/moc
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
