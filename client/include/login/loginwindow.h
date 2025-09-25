@@ -5,6 +5,7 @@
 #include <QTcpSocket>
 #include <QList>
 #include <QAbstractSocket>
+#include <QShowEvent>
 
 namespace Ui {
 class LoginWindow;
@@ -24,6 +25,9 @@ private slots:
     void onDisconnected();
     void onReadyRead();
     void onSocketError(QAbstractSocket::SocketError socketError);
+
+protected:
+    void showEvent(QShowEvent *event) override;
 
 private:
     Ui::LoginWindow *ui;

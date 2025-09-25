@@ -431,22 +431,38 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
 
     private void handleAddToCart(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
         String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
-    Object pidObj = request.get("product_id");
-    if (pidObj == null) pidObj = request.get("productId");
+        Object pidObj = request.get("product_id");
+        if (pidObj == null) pidObj = request.get("productId");
+        Map<String,Object> resp = new HashMap<>();
+        resp.put("type", "add_to_cart_response");
+
         if (pidObj == null) {
-            Map<String,Object> resp = new HashMap<>();
-            resp.put("type", "add_to_cart_response");
             resp.put("success", false);
             resp.put("message", "缺少 productId");
             ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
-        long productId = ((Number)pidObj).longValue();
-        int quantity = ((Number)request.getOrDefault("quantity", 1)).intValue();
+        Long productId;
+        try {
+            if (pidObj instanceof Number) productId = ((Number) pidObj).longValue();
+            else productId = Long.parseLong(String.valueOf(pidObj));
+        } catch (Exception e) {
+            resp.put("success", false);
+            resp.put("message", "非法的 productId");
+            resp.put("code", 2001);
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+        int quantity;
+        try {
+            Object qObj = request.getOrDefault("quantity", 1);
+            if (qObj instanceof Number) quantity = ((Number) qObj).intValue();
+            else quantity = Integer.parseInt(String.valueOf(qObj));
+        } catch (Exception e) {
+            quantity = 1;
+        }
         if (quantity < 1) quantity = 1;
 
-        Map<String,Object> resp = new HashMap<>();
-        resp.put("type", "add_to_cart_response");
         if (username == null) {
             resp.put("success", false);
             resp.put("message", "未登录");
@@ -461,16 +477,32 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             return;
         }
         try {
-            OrderHeader header = orderProcessingService.addToCart(clientOpt.get().getClientId(), productId, quantity);
+            OrderHeader saved = orderProcessingService.addToCart(clientOpt.get().getClientId(), productId, quantity);
             resp.put("success", true);
-            resp.put("headerId", header.getId());
+            resp.put("headerId", saved.getId());
             resp.put("message", "加入购物车成功");
             ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
-            // 回发当前购物车
-            sendCartDualResponses(ctx, header);
-        } catch (IllegalArgumentException | IllegalStateException ex) {
+
+            // 关键：用 fetch-join 重载购物车，避免 LazyInitializationException
+            var headerOpt = orderHeaderRepository.fetchCartWithItems(clientOpt.get(), OrderStatus.CART);
+            if (headerOpt.isPresent()) {
+                try {
+                    sendCartDualResponses(ctx, headerOpt.get());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // 回退：发送空购物车
+                Map<String,Object> empty = new HashMap<>();
+                empty.put("type", "cart_response");
+                empty.put("items", java.util.List.of());
+                empty.put("headerId", null);
+                ctx.writeAndFlush(objectMapper.writeValueAsString(empty) + "\n");
+            }
+        } catch (Exception ex) {
+            // 捕获所有异常，避免异常冒泡触发 Netty 关闭连接
             resp.put("success", false);
-            resp.put("message", ex.getMessage());
+            resp.put("message", ex.getMessage() != null ? ex.getMessage() : "加入购物车失败");
             resp.put("code", 2002);
             ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
         }
@@ -669,8 +701,8 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             userStore.put(username, newPassword);
         }
         // 从数据库加载 Client
-        var dbClientOpt = clientRepository.findByUsername(username);
-        Client dbClient = dbClientOpt.orElse(null);
+    var dbClientOpt = clientRepository.findByUsername(username);
+    Client dbClient = dbClientOpt.orElse(null);
         // 更新用户名（演示：直接改 key；实际生产中需迁移所有相关数据）
         if (newUsername != null && !newUsername.isEmpty() && !newUsername.equals(username)) {
             // 数据库层面的唯一性校验
@@ -704,11 +736,29 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             }
             username = newUsername;
         }
-        // 同步数据库中的手机号/密码
+        // 同步数据库中的手机号/密码；若 DB 还不存在该用户，进行兜底创建
         if (dbClient != null) {
             if (newPhone != null) dbClient.setPhone(newPhone);
             if (newPassword != null && !newPassword.isEmpty()) dbClient.setPassword(newPassword);
             clientRepository.save(dbClient);
+        } else {
+            // 兜底：某些老账号可能只存在于内存 userStore 中，这里创建一条 DB 记录
+            try {
+                Client create = new Client();
+                create.setUsername(username);
+                // 优先使用新密码；否则用内存里的旧密码；再不行留空字符串（演示环境）
+                String pwdFallback = (newPassword != null && !newPassword.isEmpty()) ? newPassword : userStore.getOrDefault(username, "");
+                create.setPassword(pwdFallback);
+                // phone 来自本次更新或历史资料
+                String phoneFallback = newPhone;
+                if (phoneFallback == null) {
+                    Object ph = userProfiles.getOrDefault(username, new HashMap<>()).get("phone");
+                    phoneFallback = ph == null ? null : String.valueOf(ph);
+                }
+                create.setPhone(phoneFallback);
+                create.setPurchaseCount(0);
+                clientRepository.save(create);
+            } catch (Exception ignore) {}
         }
         try { saveUsers(); } catch (Exception ignore) {}
         try { saveProfiles(); } catch (Exception ignore) {}

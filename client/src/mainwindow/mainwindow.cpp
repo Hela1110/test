@@ -18,6 +18,8 @@
 #include <QHeaderView>
 #include <QGridLayout>
 #include <QFrame>
+#include <QFontMetrics>
+#include <QSizePolicy>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -77,7 +79,7 @@ void MainWindow::setupUi()
 {
     // 设置窗口基本属性
     setWindowTitle("购物系统");
-    resize(1024, 768);
+    resize(1366, 900);
     
     // 子窗口延迟创建，避免在 socket 未设置时构造依赖 socket 的窗口
     cart = nullptr;
@@ -124,11 +126,9 @@ void MainWindow::setupConnections()
     // 账号信息
     if (auto ab = findChild<QAbstractButton*>("accountButton")) {
         connect(ab, &QAbstractButton::clicked, this, [this]{
-            // 获取账号信息
             if (!socket) return;
             QJsonObject req; req["type"] = "get_account_info";
             QJsonDocument doc(req); QByteArray payload = doc.toJson(QJsonDocument::Compact); payload.append('\n'); socket->write(payload);
-            // 简易对话框在收到 account_info 后展示，由 onReadyRead 处理
             statusBar()->showMessage(tr("正在获取账号信息…"), 2000);
         });
     }
@@ -373,27 +373,50 @@ void MainWindow::onReadyRead()
     // top pager buttons removed; only bottom pager is active
     }
     else if (type == "account_info") {
-        // 简易账号对话框
+        // 账户信息：默认只读 + 修改按钮；点击修改后进入可编辑态（用户名、手机号），ID 不可改
         QDialog dlg(this); dlg.setWindowTitle(tr("账号信息")); QVBoxLayout v(&dlg);
-        QFormLayout form; QLineEdit user; QLineEdit phone; QLineEdit pwd; QLineEdit newUser; QLineEdit idEdit;
+    QFormLayout form; QLineEdit idEdit; QLineEdit user; QLineEdit phone; QLineEdit pwd;
         idEdit.setText(QString::number(response.value("clientId").toVariant().toLongLong())); idEdit.setReadOnly(true);
-        user.setText(response.value("username").toString()); user.setReadOnly(true);
+        user.setText(response.value("username").toString());
         phone.setText(response.value("phone").toString());
-        pwd.setEchoMode(QLineEdit::Password);
+    pwd.setEchoMode(QLineEdit::Password);
         form.addRow(tr("账号ID"), &idEdit);
-        form.addRow(tr("当前用户名"), &user);
-        form.addRow(tr("新用户名"), &newUser);
+        form.addRow(tr("用户名"), &user);
         form.addRow(tr("手机号"), &phone);
-        form.addRow(tr("新密码"), &pwd);
+    form.addRow(tr("新密码"), &pwd);
         v.addLayout(&form);
-        QHBoxLayout btns; QPushButton ok(tr("保存")); QPushButton cancel(tr("取消")); btns.addStretch(1); btns.addWidget(&ok); btns.addWidget(&cancel); v.addLayout(&btns);
-        connect(&cancel, &QPushButton::clicked, &dlg, &QDialog::reject);
-        connect(&ok, &QPushButton::clicked, &dlg, [&]{
+
+        // 初始只读
+        auto setReadOnly = [&](bool ro){ user.setReadOnly(ro); phone.setReadOnly(ro); };
+        setReadOnly(true);
+
+        QHBoxLayout btns; QPushButton edit(tr("修改")); QPushButton save(tr("保存")); QPushButton cancel(tr("关闭"));
+        save.setEnabled(false);
+        btns.addStretch(1); btns.addWidget(&edit); btns.addWidget(&save); btns.addWidget(&cancel); v.addLayout(&btns);
+        QObject::connect(&cancel, &QPushButton::clicked, &dlg, &QDialog::reject);
+        QObject::connect(&edit, &QPushButton::clicked, &dlg, [&]{
+            setReadOnly(false);
+            save.setEnabled(true);
+            edit.setEnabled(false);
+            // 强调当前处于编辑状态
+            save.setStyleSheet("background:#1677ff;color:white;");
+            statusBar()->showMessage(tr("已进入可编辑模式，请修改后点击保存"), 2500);
+        });
+        QObject::connect(&save, &QPushButton::clicked, &dlg, [&]{
             QJsonObject r; r["type"] = "update_account_info";
-            if (!phone.text().trimmed().isEmpty()) r["phone"] = phone.text().trimmed();
-            if (!pwd.text().isEmpty()) r["password"] = pwd.text();
-            if (!newUser.text().trimmed().isEmpty()) r["new_username"] = newUser.text().trimmed();
+            const QString newName = user.text().trimmed();
+            const QString newPhone = phone.text().trimmed();
+            const QString newPwd = pwd.text();
+            if (!newName.isEmpty()) r["new_username"] = newName;
+            if (!newPhone.isEmpty()) r["phone"] = newPhone;
+            if (!newPwd.isEmpty()) r["password"] = newPwd;
             QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+            // 回到只读态，避免误触；并提示正在保存
+            setReadOnly(true);
+            save.setEnabled(false);
+            edit.setEnabled(true);
+            save.setStyleSheet("");
+            statusBar()->showMessage(tr("正在保存修改…"), 2000);
             dlg.accept();
         });
         dlg.exec();
@@ -401,6 +424,13 @@ void MainWindow::onReadyRead()
     else if (type == "update_account_response") {
         bool ok = response.value("success").toBool(); QString msg = response.value("message").toString();
         statusBar()->showMessage(ok ? (msg.isEmpty()? tr("保存成功"): msg) : (msg.isEmpty()? tr("保存失败"): msg), 3000);
+        if (ok) {
+            // 成功后刷新一次账号信息，确保 UI 与服务端一致
+            if (socket) {
+                QJsonObject req; req["type"] = "get_account_info";
+                QJsonDocument doc(req); QByteArray payload = doc.toJson(QJsonDocument::Compact); payload.append('\n'); socket->write(payload);
+            }
+        }
     }
     else if (type == "orders_response") {
         QJsonArray arr = response.value("orders").toArray();
@@ -558,11 +588,11 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
         renderRecommendationsPlaceholder();
         return;
     }
-    // 创建网格
+    // 创建网格（更紧凑）
     auto *grid = new QGridLayout();
-    grid->setContentsMargins(6,6,6,6);
-    grid->setHorizontalSpacing(12);
-    grid->setVerticalSpacing(12);
+    grid->setContentsMargins(4,4,4,4);
+    grid->setHorizontalSpacing(8);
+    grid->setVerticalSpacing(8);
     int available = container->width();
     int colCount = computeColumns(available);
     int idx = 0;
@@ -575,15 +605,16 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
 
         // 卡片
         auto *card = new QFrame(container);
-    card->setFrameShape(QFrame::StyledPanel);
-    card->setStyleSheet("QFrame{border:1px solid #ddd;border-radius:8px;background:#fff;} QLabel{color:#333;font-size:13px;}");
-    card->setMinimumSize(210, 140);
+        card->setFrameShape(QFrame::StyledPanel);
+        card->setStyleSheet("QFrame{border:1px solid #ddd;border-radius:8px;background:#fff;} QLabel{color:#333;font-size:13px;}");
+        card->setMinimumSize(180, 120);
         auto *vbox = new QVBoxLayout(card);
-    vbox->setContentsMargins(10,10,10,10);
-    vbox->setSpacing(6);
+        vbox->setContentsMargins(8,8,8,8);
+        vbox->setSpacing(4);
 
-        auto *nameLbl = new QLabel(name, card);
-        nameLbl->setStyleSheet("font-weight:600;");
+    auto *nameLbl = new QLabel(name, card);
+    nameLbl->setStyleSheet("font-weight:600;");
+    nameLbl->setWordWrap(true);
     // 避免编码差异引起的货币符号乱码，使用 Unicode 码点或替代字符
     auto *priceLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
         QString stockText = (stock >= 0) ? QString("库存：%1").arg(stock) : QString();
@@ -591,8 +622,8 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
         auto *btnRow = new QHBoxLayout();
     auto *detailBtn = new QPushButton(tr("详情"), card);
     auto *addBtn = new QPushButton(tr("加入购物车"), card);
-    detailBtn->setMinimumSize(72, 30);
-    addBtn->setMinimumSize(92, 30);
+    detailBtn->setMinimumSize(64, 28);
+    addBtn->setMinimumSize(86, 28);
         btnRow->addWidget(detailBtn);
         btnRow->addWidget(addBtn);
         btnRow->addStretch(1);
@@ -651,9 +682,9 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
         return;
     }
     auto *grid = new QGridLayout();
-    grid->setContentsMargins(6,6,6,6);
-    grid->setHorizontalSpacing(12);
-    grid->setVerticalSpacing(12);
+    grid->setContentsMargins(4,4,4,4);
+    grid->setHorizontalSpacing(8);
+    grid->setVerticalSpacing(8);
     int available = container->width();
     int colCount = computeColumns(available);
     int idx = 0;
@@ -665,22 +696,30 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
         int stock = o.value("stock").toInt(-1);
 
         auto *card = new QFrame(container);
-    card->setFrameShape(QFrame::StyledPanel);
-    card->setStyleSheet("QFrame{border:1px solid #ddd;border-radius:8px;background:#fff;} QLabel{color:#333;font-size:13px;}");
-    card->setMinimumSize(220, 150);
-        auto *vbox = new QVBoxLayout(card);
-    vbox->setContentsMargins(10,10,10,10);
-    vbox->setSpacing(6);
+        card->setFrameShape(QFrame::StyledPanel);
+        card->setStyleSheet("QFrame{border:1px solid #ddd;border-radius:8px;background:#fff;} QLabel{color:#333;font-size:13px;}");
+        card->setMinimumSize(190, 130);
+            auto *vbox = new QVBoxLayout(card);
+        vbox->setContentsMargins(8,8,8,8);
+        vbox->setSpacing(4);
         auto *nameLbl = new QLabel(name, card);
         nameLbl->setStyleSheet("font-weight:600;");
+        nameLbl->setWordWrap(true);
+        nameLbl->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        nameLbl->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        {
+            QFontMetrics fm(nameLbl->font());
+            nameLbl->setFixedHeight(fm.lineSpacing()*2 + 4);
+            nameLbl->setToolTip(name);
+        }
     auto *priceLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
         QString stockText = (stock >= 0) ? QString("库存：%1").arg(stock) : QString();
         auto *stockLbl = new QLabel(stockText, card);
         auto *btnRow = new QHBoxLayout();
     auto *detailBtn = new QPushButton(tr("详情"), card);
     auto *addBtn = new QPushButton(tr("加入购物车"), card);
-    detailBtn->setMinimumSize(72, 30);
-    addBtn->setMinimumSize(92, 30);
+    detailBtn->setMinimumSize(64, 28);
+    addBtn->setMinimumSize(86, 28);
         btnRow->addWidget(detailBtn);
         btnRow->addWidget(addBtn);
         btnRow->addStretch(1);
@@ -733,6 +772,16 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
     reflowGrids();
+    // 让购物车窗口随主窗缩放并居中停靠
+    if (cart && cart->isVisible()) {
+        const int w = qMax(720, this->width() * 85 / 100);
+        const int h = qMax(520, this->height() * 85 / 100);
+        cart->resize(w, h);
+        const QPoint center = this->geometry().center();
+        QRect r = cart->frameGeometry();
+        r.moveCenter(center);
+        cart->move(r.topLeft());
+    }
 }
 
 void MainWindow::showProductDetail(const QJsonObject &product)

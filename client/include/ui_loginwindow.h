@@ -28,6 +28,7 @@ class Ui_LoginWindow
 public:
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout;
+    QLabel *welcomeTitle;
     QSpacerItem *verticalSpacer;
     QGridLayout *gridLayout;
     QLabel *label;
@@ -44,13 +45,24 @@ public:
         if (LoginWindow->objectName().isEmpty())
             LoginWindow->setObjectName(QString::fromUtf8("LoginWindow"));
         LoginWindow->resize(400, 300);
-        centralwidget = new QWidget(LoginWindow);
-        centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
+    centralwidget = new QWidget(LoginWindow);
+    centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
+    // 登录页背景色
+    centralwidget->setStyleSheet(QString::fromUtf8("background-color:#F5F7FA;"));
         
         verticalLayout = new QVBoxLayout(centralwidget);
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    // 欢迎标题
+    welcomeTitle = new QLabel(centralwidget);
+    welcomeTitle->setObjectName(QString::fromUtf8("welcomeTitle"));
+        QFont f; f.setPointSize(18); f.setBold(true);
+    welcomeTitle->setFont(f);
+    welcomeTitle->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+        welcomeTitle->setStyleSheet(QString::fromUtf8("color:#1677ff;margin-bottom:8px;"));
+    verticalLayout->addWidget(welcomeTitle);
+        // 顶部留白（减小，避免挤压标题）
+        verticalSpacer = new QSpacerItem(20, 8, QSizePolicy::Minimum, QSizePolicy::Minimum);
         verticalLayout->addItem(verticalSpacer);
         
         gridLayout = new QGridLayout();
@@ -88,10 +100,10 @@ public:
         
         verticalLayout->addLayout(horizontalLayout);
         
-        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
         verticalLayout->addItem(verticalSpacer_2);
         
-        LoginWindow->setCentralWidget(centralwidget);
+    LoginWindow->setCentralWidget(centralwidget);
 
         retranslateUi(LoginWindow);
         QMetaObject::connectSlotsByName(LoginWindow);
@@ -99,7 +111,8 @@ public:
 
     void retranslateUi(QMainWindow *LoginWindow)
     {
-        LoginWindow->setWindowTitle(QCoreApplication::translate("LoginWindow", "\347\231\273\345\275\225", nullptr));
+    LoginWindow->setWindowTitle(QCoreApplication::translate("LoginWindow", "\347\231\273\345\275\225", nullptr));
+    welcomeTitle->setText(QCoreApplication::translate("LoginWindow", "\345\xad\xa3\xe8\xbf\x87\xe5\x88\xb0\xe5\xbe\xae\xe5\x95\x86\xe7\xb3\xbb\xe7\xbb\x9f", nullptr));
         label->setText(QCoreApplication::translate("LoginWindow", "\347\224\250\346\210\267\345\220\215\357\274\232", nullptr));
         label_2->setText(QCoreApplication::translate("LoginWindow", "\345\257\206\347\240\201\357\274\232", nullptr));
         loginButton->setText(QCoreApplication::translate("LoginWindow", "\347\231\273\345\275\225", nullptr));

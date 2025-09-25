@@ -28,10 +28,117 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::setupUi()
 {
-    setWindowFlags(Qt::FramelessWindowHint);
-    setAttribute(Qt::WA_TranslucentBackground);
-    
-    // 连接信号槽
+    // 使用标准窗口样式，避免透明背景导致样式表背景不可见
+    // setWindowFlags(Qt::FramelessWindowHint);
+    // setAttribute(Qt::WA_TranslucentBackground);
+    setMinimumSize(600, 460);
+    resize(640, 480);
+
+    // 在运行时动态插入一个标题，避免 UI 版本差异导致字段缺失
+    if (auto central = this->centralWidget()) {
+        // 隐藏可能存在的重复标题（UI 自动生成的 welcomeTitle），以释放垂直空间
+        if (auto dup = central->findChild<QLabel*>(QStringLiteral("welcomeTitle"))) {
+            dup->hide();
+        }
+        // 尝试获取中心布局
+        if (auto v = qobject_cast<QVBoxLayout*>(central->layout())) {
+            // 压缩整体间距，减少被挤压的风险
+            v->setContentsMargins(16, 12, 16, 12);
+            v->setSpacing(8);
+            QLabel *title = central->findChild<QLabel*>(QStringLiteral("welcomeTitleFixed"));
+            if (!title) {
+                title = new QLabel(QString::fromUtf8("欢迎来到微商系统"), central);
+                title->setObjectName(QStringLiteral("welcomeTitleFixed"));
+                QFont f; f.setPointSize(18); f.setBold(true);
+                title->setFont(f);
+                title->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+                title->setStyleSheet(QString::fromUtf8("color:#1677ff;margin:8px 0 6px 0;"));
+                title->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+                title->setMaximumHeight(40);
+                // 插入到布局最顶部
+                v->insertWidget(0, title);
+            } else {
+                title->setText(QString::fromUtf8("欢迎来到微商系统"));
+                title->setMaximumHeight(40);
+                title->show();
+            }
+            // 尝试压缩 UI 中的两个 spacer
+            if (ui->verticalSpacer) {
+                ui->verticalLayout->removeItem(ui->verticalSpacer); // 先移除再以更小尺寸重新添加
+                delete ui->verticalSpacer;
+                ui->verticalSpacer = new QSpacerItem(0, 4, QSizePolicy::Minimum, QSizePolicy::Fixed);
+                ui->verticalLayout->insertItem(1, ui->verticalSpacer);
+            }
+            // 直接移除尾部 spacer，避免把底部按钮挤出可视区域
+            if (ui->verticalSpacer_2) {
+                ui->verticalLayout->removeItem(ui->verticalSpacer_2);
+                delete ui->verticalSpacer_2;
+                ui->verticalSpacer_2 = nullptr;
+            }
+             // 确保背景色
+             central->setStyleSheet(QString::fromUtf8("background-color:#F5F7FA;"));
+ 
+             // 调整底部按钮行的对齐与间距
+             if (auto h = central->findChild<QHBoxLayout*>(QStringLiteral("horizontalLayout"))) {
+                // 隐藏原有按钮并收缩布局自身高度
+                if (ui->loginButton) ui->loginButton->setVisible(false);
+                if (ui->registerButton) ui->registerButton->setVisible(false);
+                h->setContentsMargins(0, 0, 0, 0);
+                h->setSpacing(0);
+                h->setAlignment(Qt::AlignHCenter);
+             }
+ 
+             // 固定底部按钮栏，确保可见可点
+             QWidget *bottom = central->findChild<QWidget*>(QStringLiteral("bottomBarFixed"));
+             if (!bottom) {
+                 bottom = new QWidget(central);
+                 bottom->setObjectName(QStringLiteral("bottomBarFixed"));
+                 QHBoxLayout *hb = new QHBoxLayout(bottom);
+                 hb->setContentsMargins(0, 10, 0, 0);
+                 hb->setSpacing(12);
+                 hb->setAlignment(Qt::AlignHCenter);
+
+                QPushButton *btnLogin = new QPushButton(QString::fromUtf8("登录"), bottom);
+                btnLogin->setObjectName(QStringLiteral("loginButtonFixed"));
+                btnLogin->setMinimumSize(100, 38);
+                btnLogin->setStyleSheet(
+                    "QPushButton{background:#1677ff;color:white;border:none;border-radius:6px;padding:6px 14px;}"
+                    "QPushButton:hover{background:#3c8cff;}"
+                    "QPushButton:pressed{background:#0e5ad1;}"
+                );
+                QObject::connect(btnLogin, &QPushButton::clicked, this, &LoginWindow::on_loginButton_clicked);
+
+                QPushButton *btnReg = new QPushButton(QString::fromUtf8("注册"), bottom);
+                btnReg->setObjectName(QStringLiteral("registerButtonFixed"));
+                btnReg->setMinimumSize(100, 38);
+                btnReg->setStyleSheet(
+                    "QPushButton{background:transparent;color:#1677ff;border:1px solid #1677ff;border-radius:6px;padding:5px 13px;}"
+                    "QPushButton:hover{background:rgba(22,119,255,0.06);}"
+                    "QPushButton:pressed{background:rgba(22,119,255,0.12);}"
+                );
+                QObject::connect(btnReg, &QPushButton::clicked, this, &LoginWindow::on_registerButton_clicked);
+
+                hb->addWidget(btnLogin);
+                hb->addWidget(btnReg);
+
+                // 放在布局末尾（尾部 spacer 已移除）
+                v->addWidget(bottom, 0, Qt::AlignHCenter);
+            }
+        }
+    }
+
+    // 确保输入框最小高度
+    if (ui->usernameInput) ui->usernameInput->setMinimumHeight(32);
+    if (ui->passwordInput) ui->passwordInput->setMinimumHeight(32);
+
+    // 刷新布局
+    if (auto lay = centralWidget() ? centralWidget()->layout() : nullptr) {
+        lay->invalidate();
+        lay->update();
+    }
+    this->updateGeometry();
+
+    // 原始按钮事件连接保留（即使被隐藏也无妨）
     connect(ui->loginButton, &QPushButton::clicked, this, &LoginWindow::on_loginButton_clicked);
     connect(ui->registerButton, &QPushButton::clicked, this, &LoginWindow::on_registerButton_clicked);
 }
@@ -177,4 +284,22 @@ void LoginWindow::onSocketError(QAbstractSocket::SocketError socketError)
 {
     Q_UNUSED(socketError);
     qCritical() << "Socket error:" << socket->errorString();
+}
+
+void LoginWindow::showEvent(QShowEvent *event)
+{
+    QMainWindow::showEvent(event);
+    // 如果底部固定按钮栏存在但不在可视范围内，则适当增高窗口
+    if (auto central = this->centralWidget()) {
+        QWidget *bottom = central->findChild<QWidget*>(QStringLiteral("bottomBarFixed"));
+        if (bottom) {
+            QRect r = bottom->geometry();
+            QRect visible = central->rect();
+            if (!visible.contains(r, /*proper*/ true)) {
+                // 增加高度，确保露出
+                int h = this->height();
+                this->resize(this->width(), qMax(h, 560));
+            }
+        }
+    }
 }
