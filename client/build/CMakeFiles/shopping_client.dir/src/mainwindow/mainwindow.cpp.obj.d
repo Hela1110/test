@@ -507,4 +507,6 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtGui/QFontMetrics \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSizePolicy \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgraphicseffect.h

@@ -238,10 +238,22 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
 
         checkoutInFlight = false; // 无论成功失败，结束本次流程
         if (response.value("success").toBool()) {
-            // 结算成功提示含总金额
+            // 结算成功提示应仅统计本次勾选项金额
             double total = 0;
-            for (const auto &it : cartItems) total += it.value("price").toDouble() * it.value("quantity").toInt();
-            showOnce("checkout_ok", QMessageBox::Information, "结算成功", QString("总金额：￥%1").arg(QString::number(total, 'f', 2)));
+            if (ui->cartTable) {
+                const int rows = ui->cartTable->rowCount();
+                for (int r = 0; r < rows; ++r) {
+                    QWidget *wrap = ui->cartTable->cellWidget(r, 0);
+                    if (!wrap) continue;
+                    auto chk = wrap->findChild<QCheckBox*>();
+                    if (chk && chk->isChecked()) {
+                        if (r >=0 && r < cartItems.size()) {
+                            total += cartItems[r].value("price").toDouble() * cartItems[r].value("quantity").toInt();
+                        }
+                    }
+                }
+            }
+            showOnce("checkout_ok", QMessageBox::Information, "结算成功", QString("本次金额：￥%1").arg(QString::number(total, 'f', 2)));
             emit checkoutCompleted();
             // 结算成功后从购物车中移除已结算的商品
             // 逐个发送 remove_from_cart 请求
@@ -275,9 +287,22 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
         const bool ok = response.value("success").toBool();
         if (ok) {
             const auto orderId = response.value("orderId").toVariant().toLongLong();
+            // 只统计本次勾选项金额
             double total = 0;
-            for (const auto &it : cartItems) total += it.value("price").toDouble() * it.value("quantity").toInt();
-            showOnce("order_ok", QMessageBox::Information, "下单成功", QString("订单已创建：#%1\n总金额：￥%2").arg(orderId).arg(QString::number(total, 'f', 2)));
+            if (ui->cartTable) {
+                const int rows = ui->cartTable->rowCount();
+                for (int r = 0; r < rows; ++r) {
+                    QWidget *wrap = ui->cartTable->cellWidget(r, 0);
+                    if (!wrap) continue;
+                    auto chk = wrap->findChild<QCheckBox*>();
+                    if (chk && chk->isChecked()) {
+                        if (r >= 0 && r < cartItems.size()) {
+                            total += cartItems[r].value("price").toDouble() * cartItems[r].value("quantity").toInt();
+                        }
+                    }
+                }
+            }
+            showOnce("order_ok", QMessageBox::Information, "下单成功", QString("订单已创建：#%1\n本次金额：￥%2").arg(orderId).arg(QString::number(total, 'f', 2)));
             emit checkoutCompleted();
             // 同步移除本次勾选的条目
             if (ui->cartTable) {
@@ -298,6 +323,16 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
             const int code = response.value("code").toInt();
             const QString msg = response.value("message").toString();
             showOnce(QString("order_fail_%1").arg(code), QMessageBox::Warning, "下单失败", msg, 5000);
+            // 若失败且可能是服务器不支持 create_order，则尝试回退到旧协议
+            fallbackToLegacyCheckoutIfPossible(msg);
+        }
+    } else if (type == QLatin1String("error")) {
+        // 统一的错误通道（MainWindow 已转发），若在结算中收到错误，也结束流程并考虑回退
+        const QString msg = response.value("message").toString();
+        if (checkoutInFlight) {
+            checkoutInFlight = false;
+            showOnce("checkout_error", QMessageBox::Warning, "结算失败", msg, 4000);
+            fallbackToLegacyCheckoutIfPossible(msg);
         }
     } else if (type == QLatin1String("clear_cart_response")) {
         if (response.value("success").toBool()) {
@@ -413,7 +448,17 @@ void ShoppingCart::on_checkoutButton_clicked()
     request["items"] = arr;
     if (!username.isEmpty()) request["username"] = username;
     checkoutInFlight = true;
+    lastCheckoutUsedCreateOrder = true;
+    lastCheckoutSelectedCount = selectedRows.size();
+    lastCheckoutTotalRows = ui->cartTable ? ui->cartTable->rowCount() : 0;
     sendRequest(request);
+    // 保护性超时：3.5s 未返回则解除 inFlight，提示网络慢
+    QTimer::singleShot(3500, this, [this]{
+        if (checkoutInFlight) {
+            checkoutInFlight = false;
+            showOnce("checkout_timeout", QMessageBox::Warning, "结算超时", "网络较慢或服务器繁忙，请稍后重试", 4000);
+        }
+    });
 }
 
 void ShoppingCart::on_deleteButton_clicked()
@@ -609,6 +654,33 @@ void ShoppingCart::ensureSelectAllHook()
         updateSelectedCount();
         updateTotalPrice();
     });
+}
+
+// 若服务器不支持 create_order 或返回语义上等价的“暂不支持/未知类型”等错误，
+// 并且本次是全选（selectedCount == totalRows），则尝试回退到旧协议：checkout（全量结算）。
+// 这样至少可以满足“全选结算”的场景，同时避免误把"部分勾选"走成全量结算。
+void ShoppingCart::fallbackToLegacyCheckoutIfPossible(const QString &errorMsg)
+{
+    // 仅在最近一次是 create_order 且为“全选”并且仍有 socket 可用时尝试回退
+    if (!lastCheckoutUsedCreateOrder) return;
+    if (!socket) return;
+    if (lastCheckoutTotalRows <= 0) return;
+    if (lastCheckoutSelectedCount != lastCheckoutTotalRows) return; // 只在全选时回退，避免误伤部分勾选
+
+    const QString m = errorMsg.toLower();
+    const bool looksLikeUnsupported = (m.contains("unknown")
+                                     || m.contains("unsupported")
+                                     || m.contains("not implemented")
+                                     || m.contains("未实现")
+                                     || m.contains("不支持")
+                                     || m.contains("未知类型"));
+    if (!looksLikeUnsupported) return;
+
+    qInfo() << "[fallback] create_order not supported, trying legacy 'checkout' (full cart)";
+    QJsonObject req; req["type"] = "checkout"; if (!username.isEmpty()) req["username"] = username;
+    checkoutInFlight = true; // 标记进入回退流程
+    lastCheckoutUsedCreateOrder = false; // 进入旧协议
+    sendRequest(req);
 }
 
 // 抑制自动连接警告的空槽：如果界面没有 prev/nextPage 控件也无副作用

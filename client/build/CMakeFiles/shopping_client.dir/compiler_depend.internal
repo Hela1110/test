@@ -233,26 +233,106 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/timestamp
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h
  D:/CMake/bin/cmake.exe
+ D:/CMake/share/cmake-4.1/Modules/CMakeCCompiler.cmake.in
+ D:/CMake/share/cmake-4.1/Modules/CMakeCCompilerABI.c
  D:/CMake/share/cmake-4.1/Modules/CMakeCInformation.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeCXXCompiler.cmake.in
+ D:/CMake/share/cmake-4.1/Modules/CMakeCXXCompilerABI.cpp
  D:/CMake/share/cmake-4.1/Modules/CMakeCXXInformation.cmake
  D:/CMake/share/cmake-4.1/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake
  D:/CMake/share/cmake-4.1/Modules/CMakeCommonLanguageInclude.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeCompilerIdDetection.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeDetermineCCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeDetermineCXXCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeDetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerABI.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerId.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeDetermineCompilerSupport.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeDetermineRCCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeDetermineSystem.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeFindBinUtils.cmake
  D:/CMake/share/cmake-4.1/Modules/CMakeFindDependencyMacro.cmake
  D:/CMake/share/cmake-4.1/Modules/CMakeGenericSystem.cmake
  D:/CMake/share/cmake-4.1/Modules/CMakeInitializeConfigs.cmake
  D:/CMake/share/cmake-4.1/Modules/CMakeLanguageInformation.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeMinGWFindMake.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeParseImplicitIncludeInfo.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeParseImplicitLinkInfo.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeParseLibraryArchitecture.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeRCCompiler.cmake.in
  D:/CMake/share/cmake-4.1/Modules/CMakeRCInformation.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeSystem.cmake.in
  D:/CMake/share/cmake-4.1/Modules/CMakeSystemSpecificInformation.cmake
  D:/CMake/share/cmake-4.1/Modules/CMakeSystemSpecificInitialize.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeTestCCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeTestCXXCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeTestCompilerCommon.cmake
+ D:/CMake/share/cmake-4.1/Modules/CMakeTestRCCompiler.cmake
  D:/CMake/share/cmake-4.1/Modules/CheckCSourceCompiles.cmake
  D:/CMake/share/cmake-4.1/Modules/CheckCXXCompilerFlag.cmake
  D:/CMake/share/cmake-4.1/Modules/CheckCXXSourceCompiles.cmake
  D:/CMake/share/cmake-4.1/Modules/CheckIncludeFile.cmake
  D:/CMake/share/cmake-4.1/Modules/CheckLibraryExists.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/ADSP-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/ARMCC-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/ARMClang-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/AppleClang-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/Borland-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/Bruce-C-DetermineCompiler.cmake
  D:/CMake/share/cmake-4.1/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/Clang-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/Clang-DetermineCompilerInternal.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/Compaq-C-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/Cray-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/CrayClang-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/Diab-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/Embarcadero-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/Fujitsu-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/GHS-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/GNU-C-DetermineCompiler.cmake
  D:/CMake/share/cmake-4.1/Modules/Compiler/GNU-C.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake
  D:/CMake/share/cmake-4.1/Modules/Compiler/GNU-CXX.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/GNU-FindBinUtils.cmake
  D:/CMake/share/cmake-4.1/Modules/Compiler/GNU.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/HP-C-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/HP-CXX-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/IAR-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/IBMClang-C-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/Intel-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/LCC-C-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/MSVC-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/NVHPC-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/NVIDIA-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/OrangeC-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/PGI-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/PathScale-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/Renesas-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/SCO-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/SDCC-C-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/SunPro-C-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/TI-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/TIClang-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/Tasking-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/Watcom-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/XL-C-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/XL-CXX-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/XLClang-C-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/zOS-C-DetermineCompiler.cmake
+ D:/CMake/share/cmake-4.1/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake
  D:/CMake/share/cmake-4.1/Modules/FindPackageHandleStandardArgs.cmake
  D:/CMake/share/cmake-4.1/Modules/FindPackageMessage.cmake
  D:/CMake/share/cmake-4.1/Modules/FindThreads.cmake
@@ -261,15 +341,20 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/timestamp
  D:/CMake/share/cmake-4.1/Modules/Internal/CMakeCLinkerInformation.cmake
  D:/CMake/share/cmake-4.1/Modules/Internal/CMakeCXXLinkerInformation.cmake
  D:/CMake/share/cmake-4.1/Modules/Internal/CMakeCommonLinkerInformation.cmake
+ D:/CMake/share/cmake-4.1/Modules/Internal/CMakeDetermineLinkerId.cmake
+ D:/CMake/share/cmake-4.1/Modules/Internal/CMakeInspectCLinker.cmake
+ D:/CMake/share/cmake-4.1/Modules/Internal/CMakeInspectCXXLinker.cmake
  D:/CMake/share/cmake-4.1/Modules/Internal/CheckCompilerFlag.cmake
  D:/CMake/share/cmake-4.1/Modules/Internal/CheckFlagCommonConfig.cmake
  D:/CMake/share/cmake-4.1/Modules/Internal/CheckSourceCompiles.cmake
+ D:/CMake/share/cmake-4.1/Modules/Internal/FeatureTesting.cmake
  D:/CMake/share/cmake-4.1/Modules/Platform/Linker/GNU.cmake
  D:/CMake/share/cmake-4.1/Modules/Platform/Linker/Windows-C.cmake
  D:/CMake/share/cmake-4.1/Modules/Platform/Linker/Windows-CXX.cmake
  D:/CMake/share/cmake-4.1/Modules/Platform/Linker/Windows-GNU-C.cmake
  D:/CMake/share/cmake-4.1/Modules/Platform/Linker/Windows-GNU-CXX.cmake
  D:/CMake/share/cmake-4.1/Modules/Platform/Linker/Windows-GNU.cmake
+ D:/CMake/share/cmake-4.1/Modules/Platform/Windows-Determine-CXX.cmake
  D:/CMake/share/cmake-4.1/Modules/Platform/Windows-GNU-C-ABI.cmake
  D:/CMake/share/cmake-4.1/Modules/Platform/Windows-GNU-C.cmake
  D:/CMake/share/cmake-4.1/Modules/Platform/Windows-GNU-CXX-ABI.cmake
@@ -284,6 +369,10 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/timestamp
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject
  D:/Qt/6.8.3/mingw_64/include/QtCore/QList
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QObject
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QRect
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSize
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF
  D:/Qt/6.8.3/mingw_64/include/QtCore/QString
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVector
  D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h
@@ -321,12 +410,17 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/timestamp
  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerinfo.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainertools_impl.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontiguouscache.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qdarwinhelpers.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qeventloop.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qexceptionhandling.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qfloat16.h
@@ -359,6 +453,7 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/timestamp
  D:/Qt/6.8.3/mingw_64/include/QtCore/qmetatype.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qminmax.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qnamespace.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qnumeric.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject_impl.h
@@ -423,26 +518,37 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/timestamp
  D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform
  D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpalette.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpen.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextcursor.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextformat.h
@@ -452,6 +558,8 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/timestamp
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket
@@ -944,6 +1052,10 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject
  D:/Qt/6.8.3/mingw_64/include/QtCore/QList
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QObject
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QRect
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSize
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF
  D:/Qt/6.8.3/mingw_64/include/QtCore/QString
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVector
  D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h
@@ -981,12 +1093,17 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerinfo.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainertools_impl.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontiguouscache.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qdarwinhelpers.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qeventloop.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qexceptionhandling.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qfloat16.h
@@ -1019,6 +1136,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/qmetatype.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qminmax.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qnamespace.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qnumeric.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject_impl.h
@@ -1084,26 +1202,37 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform
  D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpalette.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpen.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextcursor.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextformat.h
@@ -1113,6 +1242,8 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket
@@ -1842,6 +1973,10 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject
  D:/Qt/6.8.3/mingw_64/include/QtCore/QList
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QObject
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QRect
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSize
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF
  D:/Qt/6.8.3/mingw_64/include/QtCore/QString
  D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant
@@ -1992,11 +2127,15 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform
  D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h
@@ -2004,6 +2143,7 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h
@@ -2012,10 +2152,13 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpicture.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextcursor.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextformat.h
@@ -2025,6 +2168,8 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket
@@ -2345,6 +2490,10 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/QDir
  D:/Qt/6.8.3/mingw_64/include/QtCore/QFile
  D:/Qt/6.8.3/mingw_64/include/QtCore/QList
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QObject
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QRect
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSize
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF
  D:/Qt/6.8.3/mingw_64/include/QtCore/QStandardPaths
  D:/Qt/6.8.3/mingw_64/include/QtCore/QTextStream
  D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h
@@ -2480,17 +2629,22 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtversionchecks.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtypeinfo.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtypes.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qutf8stringview.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform
  D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h
@@ -2498,20 +2652,26 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpalette.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtgui-config.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiexports.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket
@@ -2916,6 +3076,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QFontMetrics
  D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h
  D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h
@@ -2975,6 +3136,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMenuBar
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSizePolicy
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpinBox
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget

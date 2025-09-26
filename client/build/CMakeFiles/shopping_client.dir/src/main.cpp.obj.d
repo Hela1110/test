@@ -446,4 +446,24 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket \
- D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qsize.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h

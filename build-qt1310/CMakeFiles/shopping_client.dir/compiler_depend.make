@@ -2787,6 +2787,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFormLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFrame \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView \
@@ -2818,6 +2819,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qformlayout.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgraphicseffect.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qheaderview.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qinputdialog.h \
@@ -5508,6 +5510,8 @@ D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/sec_api/string_s.h:
 
 D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/sec_api/sys/timeb_s.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsOpacityEffect:
+
 D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/sec_api/wchar_s.h:
 
 D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/signal.h:
@@ -5617,6 +5621,8 @@ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView:
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qformlayout.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgraphicseffect.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qinputdialog.h:
 

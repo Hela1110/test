@@ -1011,45 +1011,16 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
-        // 清空现有购物车并按请求重建，再结算
-    var headerOpt = orderHeaderRepository.fetchCartWithItems(clientOpt.get(), OrderStatus.CART);
-        headerOpt.ifPresent(h -> { h.getItems().clear(); h.setTotalPrice(h.calcTotal()); orderHeaderRepository.save(h); });
-        boolean ok = true;
-        for (Map<String,Object> it : reqItems) {
-            Object pidObj = it.get("productId");
-            if (pidObj == null) pidObj = it.get("product_id");
-            int qty = ((Number)it.getOrDefault("quantity", 1)).intValue();
-            if (pidObj == null || qty < 1) { ok = false; break; }
-            try {
-                orderProcessingService.addToCart(clientOpt.get().getClientId(), ((Number)pidObj).longValue(), qty);
-            } catch (IllegalArgumentException | IllegalStateException ex) {
-                ok = false; break;
-            }
-        }
-        if (!ok) {
-            resp.put("success", false);
-            resp.put("code", 2002);
-            resp.put("message", "库存不足或商品无效");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
-            return;
-        }
-    var headerOpt2 = orderHeaderRepository.fetchCartWithItems(clientOpt.get(), OrderStatus.CART);
-        if (headerOpt2.isEmpty()) {
-            resp.put("success", false);
-            resp.put("code", 3002);
-            resp.put("message", "订单创建失败");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
-            return;
-        }
+
         try {
-            OrderHeader paid = orderProcessingService.checkout(headerOpt2.get().getId());
+            OrderHeader paid = orderProcessingService.createOrderForItems(clientOpt.get().getClientId(), reqItems);
             resp.put("success", true);
             resp.put("orderId", paid.getId());
             resp.put("message", "订单创建成功");
-        } catch (IllegalStateException ex) {
+        } catch (IllegalArgumentException | IllegalStateException ex) {
             resp.put("success", false);
             resp.put("code", 2002);
-            resp.put("message", ex.getMessage());
+            resp.put("message", ex.getMessage() != null ? ex.getMessage() : "订单创建失败");
         }
         ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
     }

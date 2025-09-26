@@ -20,6 +20,7 @@
 #include <QFrame>
 #include <QFontMetrics>
 #include <QSizePolicy>
+#include <QGraphicsOpacityEffect>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -441,7 +442,11 @@ void MainWindow::onReadyRead()
         int r = 0; for (const auto &val : arr) {
             QJsonObject o = val.toObject();
             table.setItem(r, 0, new QTableWidgetItem(QString::number(o.value("orderId").toVariant().toLongLong())));
-            table.setItem(r, 1, new QTableWidgetItem(o.value("username").toString()));
+            {
+                QString uname = o.value("username").toString();
+                if (uname.isEmpty()) uname = currentUsername; // 回退为当前登录用户
+                table.setItem(r, 1, new QTableWidgetItem(uname));
+            }
             table.setItem(r, 2, new QTableWidgetItem(QString::number(o.value("total_price").toDouble(), 'f', 2)));
             table.setItem(r, 3, new QTableWidgetItem(o.value("status").toString()));
             table.setItem(r, 4, new QTableWidgetItem(o.value("order_time").toString()));
@@ -489,7 +494,8 @@ void MainWindow::onReadyRead()
             || t == QLatin1String("cart_response")
             || t == QLatin1String("checkout_response")
             || t == QLatin1String("order_response")
-            || t == QLatin1String("clear_cart_response")) {
+            || t == QLatin1String("clear_cart_response")
+            || t == QLatin1String("error")) {
             cart->handleMessage(response);
         }
     }
@@ -612,25 +618,40 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
         vbox->setContentsMargins(8,8,8,8);
         vbox->setSpacing(4);
 
+        // 右上角“售罄”徽标（仅当库存为0显示）
+        if (stock == 0) {
+            auto *badgeRow = new QHBoxLayout();
+            badgeRow->setContentsMargins(0,0,0,0);
+            badgeRow->addStretch(1);
+            auto *badge = new QLabel(tr("售罄"), card);
+            badge->setStyleSheet("QLabel{background:#E53935;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}");
+            badgeRow->addWidget(badge, 0, Qt::AlignRight);
+            vbox->addLayout(badgeRow);
+        }
+
     auto *nameLbl = new QLabel(name, card);
     nameLbl->setStyleSheet("font-weight:600;");
     nameLbl->setWordWrap(true);
     // 避免编码差异引起的货币符号乱码，使用 Unicode 码点或替代字符
     auto *priceLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
-        QString stockText = (stock >= 0) ? QString("库存：%1").arg(stock) : QString();
-        auto *stockLbl = new QLabel(stockText, card);
+    // 隐藏商品卡片上的库存显示，改为详情查看
         auto *btnRow = new QHBoxLayout();
     auto *detailBtn = new QPushButton(tr("详情"), card);
     auto *addBtn = new QPushButton(tr("加入购物车"), card);
     detailBtn->setMinimumSize(64, 28);
     addBtn->setMinimumSize(86, 28);
+        if (stock == 0) {
+            // 降低名称/价格不透明度
+            auto *nmEff = new QGraphicsOpacityEffect(card); nmEff->setOpacity(0.6); nameLbl->setGraphicsEffect(nmEff);
+            auto *prEff = new QGraphicsOpacityEffect(card); prEff->setOpacity(0.6); priceLbl->setGraphicsEffect(prEff);
+            addBtn->setEnabled(false);
+        }
         btnRow->addWidget(detailBtn);
         btnRow->addWidget(addBtn);
         btnRow->addStretch(1);
 
         vbox->addWidget(nameLbl);
-        vbox->addWidget(priceLbl);
-        if (!stockText.isEmpty()) vbox->addWidget(stockLbl);
+    vbox->addWidget(priceLbl);
         vbox->addLayout(btnRow);
 
         int r = idx / colCount;
@@ -702,6 +723,16 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
             auto *vbox = new QVBoxLayout(card);
         vbox->setContentsMargins(8,8,8,8);
         vbox->setSpacing(4);
+        // 右上角“售罄”徽标（仅当库存为0显示）
+        if (stock == 0) {
+            auto *badgeRow = new QHBoxLayout();
+            badgeRow->setContentsMargins(0,0,0,0);
+            badgeRow->addStretch(1);
+            auto *badge = new QLabel(tr("售罄"), card);
+            badge->setStyleSheet("QLabel{background:#E53935;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}");
+            badgeRow->addWidget(badge, 0, Qt::AlignRight);
+            vbox->addLayout(badgeRow);
+        }
         auto *nameLbl = new QLabel(name, card);
         nameLbl->setStyleSheet("font-weight:600;");
         nameLbl->setWordWrap(true);
@@ -713,19 +744,22 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
             nameLbl->setToolTip(name);
         }
     auto *priceLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
-        QString stockText = (stock >= 0) ? QString("库存：%1").arg(stock) : QString();
-        auto *stockLbl = new QLabel(stockText, card);
+    // 隐藏商品卡片上的库存显示，改为详情查看
         auto *btnRow = new QHBoxLayout();
     auto *detailBtn = new QPushButton(tr("详情"), card);
     auto *addBtn = new QPushButton(tr("加入购物车"), card);
     detailBtn->setMinimumSize(64, 28);
     addBtn->setMinimumSize(86, 28);
+        if (stock == 0) {
+            auto *nmEff = new QGraphicsOpacityEffect(card); nmEff->setOpacity(0.6); nameLbl->setGraphicsEffect(nmEff);
+            auto *prEff = new QGraphicsOpacityEffect(card); prEff->setOpacity(0.6); priceLbl->setGraphicsEffect(prEff);
+            addBtn->setEnabled(false);
+        }
         btnRow->addWidget(detailBtn);
         btnRow->addWidget(addBtn);
         btnRow->addStretch(1);
         vbox->addWidget(nameLbl);
-        vbox->addWidget(priceLbl);
-        if (!stockText.isEmpty()) vbox->addWidget(stockLbl);
+    vbox->addWidget(priceLbl);
         vbox->addLayout(btnRow);
 
         int r = idx / colCount;
@@ -797,11 +831,19 @@ void MainWindow::showProductDetail(const QJsonObject &product)
                         .arg(QStringLiteral("价格:"))
                         .arg(QStringLiteral("\x00A5%1").arg(QString::number(price, 'f', 2)));
     if (stock >= 0) text += QString("\n库存：%1").arg(stock);
+    // 库存为0显示醒目的售罄徽标
+    bool soldOut = (stock == 0);
+    if (soldOut) {
+        // 使用富文本渲染一个红底白字圆角徽标
+        text += QString("\n\n%1").arg("<span style='background:#E53935;color:#fff;border-radius:12px;padding:4px 10px;font-weight:600;'>售罄</span>");
+    }
+    box.setTextFormat(Qt::RichText);
     box.setText(text);
     QPushButton *add = box.addButton(tr("加入购物车"), QMessageBox::AcceptRole);
+    if (soldOut) add->setEnabled(false);
     box.addButton(tr("关闭"), QMessageBox::RejectRole);
     box.exec();
-    if (box.clickedButton() == add) {
+    if (!soldOut && box.clickedButton() == add) {
         addToCart(pid, stock);
     }
 }
