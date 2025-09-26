@@ -25,6 +25,32 @@
     <item>
      <layout class="QVBoxLayout" name="leftSidebarLayout">
       <item>
+      <widget class="QPushButton" name="homeButton">
+       <property name="text">
+        <string>首页</string>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+        </item>
+        <item>
+      <widget class="QPushButton" name="enterMallButton">
+       <property name="text">
+        <string>进入商城</string>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+        </item>
+        <item>
        <widget class="QPushButton" name="accountButton">
         <property name="text">
          <string>账号</string>

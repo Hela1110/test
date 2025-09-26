@@ -29,6 +29,8 @@ public:
     QHBoxLayout *outerLayout;
     // 左侧功能栏
     QVBoxLayout *leftSidebarLayout;
+    QPushButton *homeButton;
+    QPushButton *enterMallButton;
     QPushButton *accountButton;
     QPushButton *ordersButton;
     QPushButton *chatButton;
@@ -38,6 +40,7 @@ public:
     QHBoxLayout *topBarLayout;
     QLineEdit *searchInput;
     QPushButton *searchButton;
+    QLabel *greetingLabel;
     QWidget *carouselArea;
     QWidget *recommendationsArea;
     QWidget *promotionsArea;
@@ -66,6 +69,16 @@ public:
         // 左侧功能栏
         leftSidebarLayout = new QVBoxLayout();
         leftSidebarLayout->setObjectName(QString::fromUtf8("leftSidebarLayout"));
+        // 首页 / 进入商城
+        homeButton = new QPushButton(centralwidget);
+        homeButton->setObjectName(QString::fromUtf8("homeButton"));
+        homeButton->setMinimumWidth(120);
+        leftSidebarLayout->addWidget(homeButton);
+        enterMallButton = new QPushButton(centralwidget);
+        enterMallButton->setObjectName(QString::fromUtf8("enterMallButton"));
+        enterMallButton->setMinimumWidth(120);
+        leftSidebarLayout->addWidget(enterMallButton);
+        // 账号、订单、客服、购物车
         accountButton = new QPushButton(centralwidget);
         accountButton->setObjectName(QString::fromUtf8("accountButton"));
     accountButton->setMinimumWidth(120);
@@ -109,6 +122,13 @@ public:
         QSpacerItem *topBarSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
         topBarLayout->addItem(topBarSpacer);
         rootLayout->addLayout(topBarLayout);
+
+    // 顶部欢迎标题（主标题）
+    greetingLabel = new QLabel(centralwidget);
+    greetingLabel->setObjectName(QString::fromUtf8("greetingLabel"));
+    greetingLabel->setText(QString::fromUtf8("你好！"));
+    greetingLabel->setStyleSheet(QString::fromUtf8("font-size:20px;font-weight:700;margin:6px 0;"));
+    rootLayout->addWidget(greetingLabel);
 
         // 内容区
         carouselArea = new QWidget(centralwidget);
@@ -183,8 +203,10 @@ public:
     {
         MainWindow->setWindowTitle(QString::fromUtf8("购物系统"));
         searchButton->setText(QString::fromUtf8("搜索"));
-        accountButton->setText(QString::fromUtf8("账号"));
-        ordersButton->setText(QString::fromUtf8("账单"));
+    homeButton->setText(QString::fromUtf8("首页"));
+    enterMallButton->setText(QString::fromUtf8("发现好物"));
+    accountButton->setText(QString::fromUtf8("个人中心"));
+    ordersButton->setText(QString::fromUtf8("历史订单"));
         chatButton->setText(QString::fromUtf8("客服"));
         cartButton->setText(QString::fromUtf8("购物车"));
         // no top pager button texts

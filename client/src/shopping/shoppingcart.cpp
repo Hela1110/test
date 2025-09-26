@@ -432,7 +432,9 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
 
 void ShoppingCart::updateTotalPrice()
 {
-    double total = 0;
+    double totalOriginal = 0.0;   // 原价合计（黑色）
+    double totalEffective = 0.0;  // 折后合计（红色；若无折扣则与原价相同）
+    bool anyDiscount = false;
     // 仅统计被勾选的行；若没有任何行被勾选，则为 0
     if (ui->cartTable) {
         const int rows = ui->cartTable->rowCount();
@@ -441,21 +443,36 @@ void ShoppingCart::updateTotalPrice()
             if (!wrap) continue;
             auto chk = wrap->findChild<QCheckBox*>();
             if (chk && chk->isChecked()) {
-                // 从数据模型计算（兼容折扣）：单位价优先使用折扣价
                 if (r >=0 && r < cartItems.size()) {
                     const auto &it = cartItems[r];
+                    const int qty = it.value("quantity").toInt();
                     const double listPrice = it.contains("listPrice") ? it.value("listPrice").toDouble() : it.value("price").toDouble();
                     const bool onSale = it.value("onSale").toBool();
                     const double dprice = it.contains("discountPrice") ? it.value("discountPrice").toDouble() : 0.0;
                     const bool hasDiscount = onSale && dprice > 0.0 && dprice < listPrice;
-                    const double unit = hasDiscount ? dprice : it.value("price").toDouble();
-                    total += unit * it.value("quantity").toInt();
+                    const double unit = hasDiscount ? dprice : it.value("price").toDouble(); // 价格快照
+                    totalOriginal += listPrice * qty;
+                    totalEffective += unit * qty;
+                    anyDiscount = anyDiscount || hasDiscount;
                 }
             }
         }
     }
-    if (auto lbl = findChild<QLabel*>("totalLabel")) {
-        lbl->setText(QString("总计: ￥%1").arg(QString::number(total, 'f', 2)));
+    // 找到标签（兼容两种命名）
+    QLabel *lbl = findChild<QLabel*>("totalLabel");
+    if (!lbl) lbl = findChild<QLabel*>("totalPriceLabel");
+    if (lbl) {
+        lbl->setTextFormat(Qt::RichText);
+        // 若存在折扣且折后合计小于原价，则显示双价；否则仅显示一个黑色总计
+        if (anyDiscount && (totalEffective + 1e-6) < totalOriginal) {
+            const QString orig = QString::number(totalOriginal, 'f', 2);
+            const QString disc = QString::number(totalEffective, 'f', 2);
+            const QString html = QString("总计: <span style='color:#999;text-decoration:line-through;'>￥%1</span>  <span style='color:#E53935;font-weight:700;'>￥%2</span>")
+                                  .arg(orig, disc);
+            lbl->setText(html);
+        } else {
+            lbl->setText(QString("总计: ￥%1").arg(QString::number(totalEffective, 'f', 2)));
+        }
     }
 }
 

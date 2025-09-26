@@ -21,6 +21,9 @@
 #include <QFontMetrics>
 #include <QSizePolicy>
 #include <QGraphicsOpacityEffect>
+#include <QTabBar>
+#include <QSignalBlocker>
+#include <QComboBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -47,6 +50,21 @@ MainWindow::~MainWindow()
     }
 }
 
+// 初始化窗口的自定义部分（与 Qt UI 生成的 ui->setupUi 区分开）
+void MainWindow::setupUi()
+{
+    // 基本窗口属性
+    setWindowTitle("购物系统");
+    resize(1366, 900);
+
+    // 子组件延迟创建
+    cart = nullptr;
+    chat = nullptr;
+
+    // 左侧垂直 Tab 导航（首页/商城/购物车/历史订单/客服/个人中心）
+    ensureSideTabBar();
+}
+
 void MainWindow::setSocket(QTcpSocket *s)
 {
     socket = s;
@@ -54,37 +72,76 @@ void MainWindow::setSocket(QTcpSocket *s)
     connect(socket, &QTcpSocket::readyRead, this, &MainWindow::onReadyRead);
     connect(socket, &QTcpSocket::disconnected, this, [this]{
         qWarning() << "Socket disconnected";
-        statusBar()->showMessage(tr("已断开与服务器的连接"), 5000);
+        statusBar()->showMessage(tr("网络连接已断开"), 4000);
     });
-    connect(socket, qOverload<QAbstractSocket::SocketError>(&QTcpSocket::errorOccurred), this, [this](QAbstractSocket::SocketError){
-        qCritical() << "Socket error in MainWindow:" << socket->errorString();
-        statusBar()->showMessage(tr("网络错误：%1").arg(socket->errorString()), 5000);
-    });
-    // 登录后、socket 就绪再发首屏数据请求
-    loadCarousel();
-    // 首页展示推荐商品（按需返回几个即可）
-    loadRecommendations();
-    loadPromotions();
-    // 简单状态提示，确认已连通
-    statusBar()->showMessage(tr("已连接服务器，正在加载数据…"), 3000);
-
-    // 渲染占位，等待真实数据覆盖
-    renderCarouselPlaceholder();
-    // 首页不再显示“推荐占位”，等待真实推荐返回
-    // renderRecommendationsPlaceholder();
-    renderPromotionsPlaceholder();
-
+    // 刚设置好 socket 时，主动进入首页并加载内容
+    showHomeView();
 }
 
-void MainWindow::setupUi()
+// 创建并插入左侧垂直 TabBar；如已存在则复用
+QTabBar* MainWindow::ensureSideTabBar()
 {
-    // 设置窗口基本属性
-    setWindowTitle("购物系统");
-    resize(1366, 900);
-    
-    // 子窗口延迟创建，避免在 socket 未设置时构造依赖 socket 的窗口
-    cart = nullptr;
-    chat = nullptr;
+    if (auto exist = findChild<QTabBar*>("leftTabBar")) return exist;
+    auto *tab = new QTabBar(this);
+    tab->setObjectName("leftTabBar");
+    tab->setExpanding(true);
+    tab->setMovable(false);
+    tab->setDrawBase(false);
+    tab->setShape(QTabBar::RoundedWest);
+    tab->setFocusPolicy(Qt::NoFocus);
+
+    // 插入到左侧栏顶部
+    if (auto left = ui->centralwidget->findChild<QVBoxLayout*>("leftSidebarLayout")) {
+        left->insertWidget(0, tab);
+    }
+
+    // 添加 Tabs（带 key）
+    struct TabDef { const char* key; const char* text; } defs[] = {
+        {"home", "首页"}, {"mall", "发现好物"}, {"cart", "购物车"}, {"orders", "历史订单"}, {"chat", "客服"}, {"account", "个人中心"}
+    };
+    for (auto &d : defs) {
+        int idx = tab->addTab(tr(d.text));
+        tab->setTabData(idx, QString::fromLatin1(d.key));
+    }
+
+    // 简单样式
+    tab->setStyleSheet(
+        "QTabBar { margin: 6px 0; }"
+        "QTabBar::tab { background:#f7f7f7; border:1px solid #ddd; border-left-width:3px; border-radius:6px;"
+        " padding:8px 10px; margin:4px 6px; color:#333; min-width:24px; min-height:80px; text-align:center; }"
+        "QTabBar::tab:selected { background:#ffffff; border-left-color:#1677ff; color:#1677ff; font-weight:600; }"
+        "QTabBar::tab:hover { background:#fafafa; }"
+    );
+
+    connect(tab, &QTabBar::currentChanged, this, [this, tab](int idx){
+        if (tabSwitching || idx < 0) return;
+        const QString key = tab->tabData(idx).toString();
+        tabSwitching = true;
+        if (key == QLatin1String("home")) showHomeView();
+        else if (key == QLatin1String("mall")) showMallView();
+        else if (key == QLatin1String("cart")) showCartView();
+        else if (key == QLatin1String("orders")) showOrdersView();
+        else if (key == QLatin1String("chat")) showChatView();
+        else if (key == QLatin1String("account")) showAccountView();
+        tabSwitching = false;
+    });
+    tab->setCurrentIndex(0);
+    return tab;
+}
+
+// 外部调用以同步 Tab 选中态，避免递归
+void MainWindow::setTabActive(const QString &key)
+{
+    if (tabSwitching) return;
+    auto *tab = ensureSideTabBar();
+    if (!tab) return;
+    for (int i = 0; i < tab->count(); ++i) {
+        if (tab->tabData(i).toString() == key) {
+            QSignalBlocker blocker(tab);
+            tab->setCurrentIndex(i);
+            break;
+        }
+    }
 }
 
 void MainWindow::setupConnections()
@@ -108,41 +165,29 @@ void MainWindow::setupConnections()
         qInfo() << "setupConnections: findChild(cartButton) not found";
     }
 
-    // 连接购物车按钮信号
+    // 购物车/客服按钮改走 Qt AutoConnect 的 on_* 槽，避免重复触发
+    // 这里仅保留轻量日志，不绑定额外的 clicked 行为
     if (ui->cartButton) {
-        connect(ui->cartButton, &QAbstractButton::clicked, this, &MainWindow::on_cartButton_clicked);
-        // 冗余日志连接，确保点击有痕迹
-        connect(ui->cartButton, &QAbstractButton::clicked, this, [](){ qInfo() << "cartButton lambda clicked"; });
         connect(ui->cartButton, &QAbstractButton::pressed, this, [](){ qInfo() << "cartButton pressed"; });
         connect(ui->cartButton, &QAbstractButton::released, this, [](){ qInfo() << "cartButton released"; });
     }
-    if (auto cb = findChild<QAbstractButton*>("cartButton")) {
-        // 再挂一遍（不同实例或相同实例均可），仅用于日志与兜底
-        connect(cb, &QAbstractButton::clicked, this, [](){ qInfo() << "cartButton(findChild) clicked"; });
-    }
-    
-    // 连接客服按钮信号
-    connect(ui->chatButton, &QAbstractButton::clicked, this, &MainWindow::on_chatButton_clicked);
 
-    // 账号信息
+    // 账号与订单按钮（内嵌页面）
     if (auto ab = findChild<QAbstractButton*>("accountButton")) {
-        connect(ab, &QAbstractButton::clicked, this, [this]{
-            if (!socket) return;
-            QJsonObject req; req["type"] = "get_account_info";
-            QJsonDocument doc(req); QByteArray payload = doc.toJson(QJsonDocument::Compact); payload.append('\n'); socket->write(payload);
-            statusBar()->showMessage(tr("正在获取账号信息…"), 2000);
-        });
+        connect(ab, &QAbstractButton::clicked, this, [this]{ showAccountView(); });
     }
     if (auto ob = findChild<QAbstractButton*>("ordersButton")) {
-        connect(ob, &QAbstractButton::clicked, this, [this]{
-            if (!socket) return;
-            QJsonObject req; req["type"] = "get_orders"; QJsonDocument doc(req); QByteArray payload = doc.toJson(QJsonDocument::Compact); payload.append('\n'); socket->write(payload);
-            statusBar()->showMessage(tr("正在获取历史订单…"), 2000);
-        });
+        connect(ob, &QAbstractButton::clicked, this, [this]{ showOrdersView(); });
     }
 
-    // 分页按钮（顶部）—按需连接；仅保留底部分页条时隐藏
-    // 顶部分页按钮已移除
+    // 首页/进入商城 切换
+    // 侧栏已改为 Tab 导航，隐藏旧按钮避免双导航
+    if (auto home = findChild<QWidget*>("homeButton")) home->hide();
+    if (auto mall = findChild<QWidget*>("enterMallButton")) mall->hide();
+    if (auto ab = findChild<QWidget*>("accountButton")) ab->hide();
+    if (auto ob = findChild<QWidget*>("ordersButton")) ob->hide();
+    if (auto cb = findChild<QWidget*>("chatButton")) cb->hide();
+    if (auto car = findChild<QWidget*>("cartButton")) car->hide();
 
     // 底部分页条：跳转按钮
     if (auto btn = findChild<QPushButton*>("gotoPageButton")) {
@@ -171,8 +216,9 @@ void MainWindow::setupConnections()
     }
 
     // 可选：如果 UI 暂无分页按钮，这里用键盘快捷键或在状态栏增加上一页/下一页动作
-    // 初次加载：请求第 1 页商品列表
-    requestProductsPage(1);
+    // 初次加载：作为首页，隐藏分页器（商城里再显示）并加载首页模块
+    showHomeView();
+    updateGreeting();
     // 可选：预取历史订单，后续可在 UI 中展示
     if (socket) {
         QJsonObject req; req["type"] = "get_orders"; QJsonDocument doc(req); QByteArray payload = doc.toJson(QJsonDocument::Compact); payload.append('\n'); socket->write(payload);
@@ -244,40 +290,17 @@ void MainWindow::on_searchButton_clicked()
 
 void MainWindow::on_cartButton_clicked()
 {
-    qInfo() << "cartButton clicked";
-    if (!cart) {
-        if (!socket) {
-            QMessageBox::warning(this, "提示", "未连接服务器，无法打开购物车");
-            qInfo() << "cartButton aborted: socket not connected";
-            return;
-        }
-        qInfo() << "Creating ShoppingCart instance";
-        cart = new ShoppingCart(socket, this);
-        // 将当前用户名传递给购物车，用于后续请求自动携带
-        if (!currentUsername.isEmpty()) {
-            cart->setUsername(currentUsername);
-        }
-        qInfo() << "ShoppingCart instance created";
-        // 返回按钮：隐藏购物车，回到主界面
-        if (auto backBtn = cart->findChild<QPushButton*>("backButton")) {
-            connect(backBtn, &QPushButton::clicked, cart, &QWidget::hide);
-        }
+    // 购物车作为主窗内的“页面”展示
+    if (!socket) {
+        QMessageBox::warning(this, tr("提示"), tr("未连接服务器，无法打开购物车"));
+        return;
     }
-    qInfo() << "Showing ShoppingCart";
-    cart->show();
-    cart->raise();
-    cart->activateWindow();
-    qInfo() << "ShoppingCart shown";
+    showCartView();
 }
 
 void MainWindow::on_chatButton_clicked()
 {
-    if (!chat) {
-        chat = new ChatWindow(this);
-    }
-    chat->show();
-    chat->raise();
-    chat->activateWindow();
+    showChatView();
 }
 
 void MainWindow::onProductClicked(int productId)
@@ -377,58 +400,140 @@ void MainWindow::onReadyRead()
     // top pager buttons removed; only bottom pager is active
     }
     else if (type == "account_info") {
-        // 账户信息：默认只读 + 修改按钮；点击修改后进入可编辑态（用户名、手机号），ID 不可改
-        QDialog dlg(this); dlg.setWindowTitle(tr("账号信息")); QVBoxLayout v(&dlg);
-    QFormLayout form; QLineEdit idEdit; QLineEdit user; QLineEdit phone; QLineEdit pwd;
-        idEdit.setText(QString::number(response.value("clientId").toVariant().toLongLong())); idEdit.setReadOnly(true);
-        user.setText(response.value("username").toString());
-        phone.setText(response.value("phone").toString());
-    pwd.setEchoMode(QLineEdit::Password);
-        form.addRow(tr("账号ID"), &idEdit);
-        form.addRow(tr("用户名"), &user);
-        form.addRow(tr("手机号"), &phone);
-    form.addRow(tr("新密码"), &pwd);
-        v.addLayout(&form);
-
-        // 初始只读
-        auto setReadOnly = [&](bool ro){ user.setReadOnly(ro); phone.setReadOnly(ro); };
-        setReadOnly(true);
-
-        QHBoxLayout btns; QPushButton edit(tr("修改")); QPushButton save(tr("保存")); QPushButton cancel(tr("关闭"));
-        save.setEnabled(false);
-        btns.addStretch(1); btns.addWidget(&edit); btns.addWidget(&save); btns.addWidget(&cancel); v.addLayout(&btns);
-        QObject::connect(&cancel, &QPushButton::clicked, &dlg, &QDialog::reject);
-        QObject::connect(&edit, &QPushButton::clicked, &dlg, [&]{
-            setReadOnly(false);
-            save.setEnabled(true);
-            edit.setEnabled(false);
-            // 强调当前处于编辑状态
-            save.setStyleSheet("background:#1677ff;color:white;");
-            statusBar()->showMessage(tr("已进入可编辑模式，请修改后点击保存"), 2500);
-        });
-        QObject::connect(&save, &QPushButton::clicked, &dlg, [&]{
-            QJsonObject r; r["type"] = "update_account_info";
-            const QString newName = user.text().trimmed();
-            const QString newPhone = phone.text().trimmed();
-            const QString newPwd = pwd.text();
-            if (!newName.isEmpty()) r["new_username"] = newName;
-            if (!newPhone.isEmpty()) r["phone"] = newPhone;
-            if (!newPwd.isEmpty()) r["password"] = newPwd;
-            QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
-            // 回到只读态，避免误触；并提示正在保存
-            setReadOnly(true);
-            save.setEnabled(false);
-            edit.setEnabled(true);
-            save.setStyleSheet("");
-            statusBar()->showMessage(tr("正在保存修改…"), 2000);
-            dlg.accept();
-        });
-        dlg.exec();
+        // 在 accountPage 中展示并可直接编辑保存
+        QWidget *page = findChild<QWidget*>("accountPage");
+        if (!page) {
+            page = new QWidget(this);
+            page->setObjectName("accountPage");
+            auto *v = new QVBoxLayout(page);
+            auto *topBar = new QHBoxLayout();
+            auto *title = new QLabel(tr("个人中心"), page); title->setStyleSheet("font-weight:600;font-size:16px;");
+            auto *back = new QPushButton(tr("返回"), page);
+            auto *saveToggle = new QPushButton(tr("修改"), page); saveToggle->setObjectName("saveTopButton");
+            // 统一按钮样式，避免看起来像透明
+            saveToggle->setMinimumWidth(64);
+            back->setMinimumWidth(64);
+            topBar->addWidget(title); topBar->addStretch(1); topBar->addWidget(saveToggle); topBar->addWidget(back); v->addLayout(topBar);
+            // 如果此前 showAccountView 放入了占位标签，这里优先移除占位
+            if (auto vlyt = qobject_cast<QVBoxLayout*>(page->layout())) {
+                for (int i = vlyt->count()-1; i>=0; --i) {
+                    if (auto w = vlyt->itemAt(i)->widget()) {
+                        if (qobject_cast<QLabel*>(w) && w->objectName().isEmpty()) { w->deleteLater(); vlyt->removeWidget(w); }
+                    }
+                }
+            }
+            auto *form = new QFormLayout();
+            auto *idEdit = new QLineEdit(page); idEdit->setObjectName("acc_id"); idEdit->setReadOnly(true);
+            auto *user = new QLineEdit(page); user->setObjectName("acc_user");
+            auto *phone = new QLineEdit(page); phone->setObjectName("acc_phone");
+            auto *pwd = new QLineEdit(page); pwd->setObjectName("acc_pwd"); pwd->setEchoMode(QLineEdit::Password);
+            form->addRow(tr("账号ID"), idEdit);
+            form->addRow(tr("用户名"), user);
+            form->addRow(tr("手机号"), phone);
+            form->addRow(tr("新密码"), pwd);
+            v->addLayout(form);
+            // 默认禁用编辑，点击“修改”后启用并把按钮文案变为“保存”
+            user->setEnabled(false); phone->setEnabled(false); pwd->setEnabled(false);
+            if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) root->addWidget(page);
+            // 行为
+            connect(back, &QPushButton::clicked, this, [this, page]{ page->hide(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
+            auto sendSave = [this, user, phone, pwd]{
+                QJsonObject r; r["type"] = "update_account_info";
+                const QString newName = user->text().trimmed();
+                const QString newPhone = phone->text().trimmed();
+                const QString newPwd = pwd->text();
+                if (!newName.isEmpty()) r["new_username"] = newName;
+                if (!newPhone.isEmpty()) r["phone"] = newPhone;
+                if (!newPwd.isEmpty()) r["password"] = newPwd;
+                if (!currentUsername.isEmpty()) r["username"] = currentUsername;
+                QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+                statusBar()->showMessage(tr("正在保存修改…"), 2000);
+            };
+            // 单按钮切换：修改 <-> 保存
+            connect(saveToggle, &QPushButton::clicked, this, [saveToggle, user, phone, pwd, sendSave]() mutable {
+                if (saveToggle->text() == QObject::tr("修改")) {
+                    user->setEnabled(true); phone->setEnabled(true); pwd->setEnabled(true);
+                    user->setFocus();
+                    saveToggle->setText(QObject::tr("保存"));
+                } else {
+                    sendSave();
+                    user->setEnabled(false); phone->setEnabled(false); pwd->setEnabled(false);
+                    saveToggle->setText(QObject::tr("修改"));
+                }
+            });
+        }
+        // 如果页面已存在但尚未搭建表单（只有占位），则在此构建表单
+        if (page && !page->findChild<QLineEdit*>("acc_user")) {
+            if (auto v = qobject_cast<QVBoxLayout*>(page->layout())) {
+                // 移除占位
+                for (int i = v->count()-1; i>=0; --i) {
+                    if (auto w = v->itemAt(i)->widget()) {
+                        if (qobject_cast<QLabel*>(w) && w->objectName().isEmpty()) { w->deleteLater(); v->removeWidget(w); }
+                    }
+                }
+                auto *form = new QFormLayout();
+                auto *idEdit = new QLineEdit(page); idEdit->setObjectName("acc_id"); idEdit->setReadOnly(true);
+                auto *user = new QLineEdit(page); user->setObjectName("acc_user");
+                auto *phone = new QLineEdit(page); phone->setObjectName("acc_phone");
+                auto *pwd = new QLineEdit(page); pwd->setObjectName("acc_pwd"); pwd->setEchoMode(QLineEdit::Password);
+                form->addRow(tr("账号ID"), idEdit);
+                form->addRow(tr("用户名"), user);
+                form->addRow(tr("手机号"), phone);
+                form->addRow(tr("新密码"), pwd);
+                v->addLayout(form);
+                // 默认禁用编辑
+                user->setEnabled(false); phone->setEnabled(false); pwd->setEnabled(false);
+                if (auto saveToggle = page->findChild<QPushButton*>("saveTopButton")) {
+                    QObject::disconnect(saveToggle, nullptr, nullptr, nullptr);
+                    connect(saveToggle, &QPushButton::clicked, this, [saveToggle, user, phone, pwd, this]() mutable {
+                        auto sendSave = [this, user, phone, pwd]{
+                            QJsonObject r; r["type"] = "update_account_info";
+                            const QString newName = user->text().trimmed();
+                            const QString newPhone = phone->text().trimmed();
+                            const QString newPwd = pwd->text();
+                            if (!newName.isEmpty()) r["new_username"] = newName;
+                            if (!newPhone.isEmpty()) r["phone"] = newPhone;
+                            if (!newPwd.isEmpty()) r["password"] = newPwd;
+                            if (!currentUsername.isEmpty()) r["username"] = currentUsername;
+                            QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+                            statusBar()->showMessage(tr("正在保存修改…"), 2000);
+                        };
+                        if (saveToggle->text() == QObject::tr("修改")) {
+                            user->setEnabled(true); phone->setEnabled(true); pwd->setEnabled(true);
+                            user->setFocus();
+                            saveToggle->setText(QObject::tr("保存"));
+                        } else {
+                            sendSave();
+                            user->setEnabled(false); phone->setEnabled(false); pwd->setEnabled(false);
+                            saveToggle->setText(QObject::tr("修改"));
+                        }
+                    });
+                }
+            }
+        }
+        // 填充数据
+        if (auto loading = page->findChild<QLabel*>("acc_loading", Qt::FindDirectChildrenOnly)) loading->hide();
+        if (auto idEdit = page->findChild<QLineEdit*>("acc_id"))
+            idEdit->setText(QString::number(response.value("clientId").toVariant().toLongLong()));
+        if (auto user = page->findChild<QLineEdit*>("acc_user"))
+            user->setText(response.value("username").toString());
+        if (auto phone = page->findChild<QLineEdit*>("acc_phone"))
+            phone->setText(response.value("phone").toString());
+        if (auto pwd = page->findChild<QLineEdit*>("acc_pwd"))
+            pwd->clear();
+        clearToFullPage(page);
     }
     else if (type == "update_account_response") {
         bool ok = response.value("success").toBool(); QString msg = response.value("message").toString();
         statusBar()->showMessage(ok ? (msg.isEmpty()? tr("保存成功"): msg) : (msg.isEmpty()? tr("保存失败"): msg), 3000);
         if (ok) {
+            // 若用户名被修改，更新本地状态与问候语
+            if (auto page = findChild<QWidget*>("accountPage")) {
+                if (auto user = page->findChild<QLineEdit*>("acc_user")) {
+                    const QString newName = user->text().trimmed();
+                    if (!newName.isEmpty() && newName != currentUsername) { currentUsername = newName; updateGreeting(); }
+                }
+            }
             // 成功后刷新一次账号信息，确保 UI 与服务端一致
             if (socket) {
                 QJsonObject req; req["type"] = "get_account_info";
@@ -437,28 +542,138 @@ void MainWindow::onReadyRead()
         }
     }
     else if (type == "orders_response") {
-        QJsonArray arr = response.value("orders").toArray();
-        // 展示一个简单的订单列表对话框
-        QDialog dlg(this); dlg.setWindowTitle(tr("历史订单")); QVBoxLayout v(&dlg);
-        QTableWidget table; table.setColumnCount(5); QStringList headers; headers << tr("订单号") << tr("用户名") << tr("金额") << tr("状态") << tr("时间"); table.setHorizontalHeaderLabels(headers); table.horizontalHeader()->setStretchLastSection(true);
-        table.setRowCount(arr.size());
-        int r = 0; for (const auto &val : arr) {
-            QJsonObject o = val.toObject();
-            table.setItem(r, 0, new QTableWidgetItem(QString::number(o.value("orderId").toVariant().toLongLong())));
-            {
-                QString uname = o.value("username").toString();
-                if (uname.isEmpty()) uname = currentUsername; // 回退为当前登录用户
-                table.setItem(r, 1, new QTableWidgetItem(uname));
+        // 构建或复用内嵌订单页面（统一顶部返回栏 + 筛选 + 分页，样式统一）
+    QWidget *container = findChild<QWidget*>("ordersPage");
+    if (!container) container = new QWidget(this);
+    container->setObjectName("ordersPage");
+    // 复用已有布局，避免重复叠加导致控件跑位（例如“下一页”出现在左上角）
+    auto *v = qobject_cast<QVBoxLayout*>(container->layout());
+    if (!v) v = new QVBoxLayout(container); else clearLayout(v);
+
+        // 统一控件样式（与侧栏主色一致）
+        container->setStyleSheet(
+            "QPushButton { background:#ffffff; border:1px solid #ddd; border-radius:6px; padding:6px 10px; }"
+            "QPushButton:hover { background:#fafafa; }"
+            "QPushButton:pressed { background:#f0f0f0; }"
+            /* 筛选按钮：白字蓝底 */
+            "QPushButton#ordersFilterBtn { background:#1677ff; border:1px solid #1677ff; color:#ffffff; }"
+            "QPushButton#ordersFilterBtn:hover { background:#3a8cff; border-color:#3a8cff; }"
+            "QPushButton#ordersFilterBtn:pressed { background:#2a6bdb; }"
+            /* 分页器按钮：白字蓝底，与筛选按钮一致 */
+            "QPushButton#ordersPrev, QPushButton#ordersNext { background:#1677ff; border:1px solid #1677ff; color:#ffffff; }"
+            "QPushButton#ordersPrev:hover, QPushButton#ordersNext:hover { background:#3a8cff; border-color:#3a8cff; }"
+            "QPushButton#ordersPrev:pressed, QPushButton#ordersNext:pressed { background:#2a6bdb; }"
+            "QLineEdit, QComboBox { border:1px solid #ddd; border-radius:6px; padding:4px 6px; }"
+        );
+
+        // 顶部栏
+    auto *topBar = new QHBoxLayout();
+        auto *title = new QLabel(tr("历史订单"), container); title->setStyleSheet("font-weight:600;font-size:16px;");
+    auto *back = new QPushButton(tr("返回"), container); back->setMinimumWidth(64); back->setStyleSheet("QPushButton{color:#333;}");
+        topBar->addWidget(title); topBar->addStretch(1); topBar->addWidget(back); v->addLayout(topBar);
+
+        // 筛选栏
+        auto *filterBar = new QHBoxLayout();
+        auto *statusLbl = new QLabel(tr("状态"), container);
+        auto *statusCmb = new QComboBox(container); statusCmb->setObjectName("ordersStatus");
+        statusCmb->addItems({ tr("全部"), tr("已支付"), tr("待支付"), tr("已取消") });
+        auto *kwLbl = new QLabel(tr("关键字"), container);
+        auto *kwEdit = new QLineEdit(container); kwEdit->setObjectName("ordersKeyword"); kwEdit->setPlaceholderText(tr("订单号/用户名"));
+    auto *filterBtn = new QPushButton(tr("筛选"), container); filterBtn->setObjectName("ordersFilterBtn");
+        filterBar->addWidget(statusLbl); filterBar->addWidget(statusCmb);
+        filterBar->addSpacing(8);
+        filterBar->addWidget(kwLbl); filterBar->addWidget(kwEdit);
+        filterBar->addSpacing(8);
+        filterBar->addStretch(1);
+        filterBar->addWidget(filterBtn);
+        v->addLayout(filterBar);
+
+        // 表格
+        auto *table = new QTableWidget(container); table->setObjectName("ordersTable"); table->setColumnCount(5);
+        QStringList headers; headers << tr("订单号") << tr("用户名") << tr("金额") << tr("状态") << tr("时间");
+        table->setHorizontalHeaderLabels(headers); table->horizontalHeader()->setStretchLastSection(true);
+        v->addWidget(table);
+
+        // 分页栏
+        auto *pager = new QHBoxLayout();
+        auto *pageInfo = new QLabel(container); pageInfo->setObjectName("ordersPageInfo");
+        auto *prevBtn = new QPushButton(tr("上一页"), container); prevBtn->setObjectName("ordersPrev");
+        auto *nextBtn = new QPushButton(tr("下一页"), container); nextBtn->setObjectName("ordersNext");
+        pager->addWidget(pageInfo); pager->addStretch(1); pager->addWidget(prevBtn); pager->addWidget(nextBtn);
+        v->addLayout(pager);
+
+        // 数据与刷新函数
+    QJsonArray arr = response.value("orders").toArray();
+    container->setProperty("ordersData", arr.toVariantList());
+        container->setProperty("ordersPageNo", 1);
+        container->setProperty("ordersPageSize", 10);
+
+        auto refresh = [this, container]() {
+            auto *table = container->findChild<QTableWidget*>("ordersTable");
+            auto *statusCmb = container->findChild<QComboBox*>("ordersStatus");
+            auto *kwEdit = container->findChild<QLineEdit*>("ordersKeyword");
+            auto *pageInfo = container->findChild<QLabel*>("ordersPageInfo");
+            auto *prevBtn = container->findChild<QPushButton*>("ordersPrev");
+            auto *nextBtn = container->findChild<QPushButton*>("ordersNext");
+            if (!table || !statusCmb || !kwEdit || !pageInfo || !prevBtn || !nextBtn) return;
+
+            const QVariantList data = container->property("ordersData").toList();
+            const int pageSize = container->property("ordersPageSize").toInt();
+            int pageNo = container->property("ordersPageNo").toInt(); if (pageNo < 1) pageNo = 1;
+            const QString statusSel = statusCmb->currentText();
+            const QString kw = kwEdit->text().trimmed();
+
+            // 过滤
+            QVariantList filtered;
+            filtered.reserve(data.size());
+            for (const QVariant &v : data) {
+                const QVariantMap m = v.toMap();
+                const QString status = m.value("status").toString();
+                const QString uname = m.value("username").toString();
+                const QString idStr = QString::number(m.value("orderId").toLongLong());
+                if (statusSel != tr("全部") && status != statusSel) continue;
+                if (!kw.isEmpty() && !(idStr.contains(kw, Qt::CaseInsensitive) || uname.contains(kw, Qt::CaseInsensitive))) continue;
+                filtered.push_back(v);
             }
-            table.setItem(r, 2, new QTableWidgetItem(QString::number(o.value("total_price").toDouble(), 'f', 2)));
-            table.setItem(r, 3, new QTableWidgetItem(o.value("status").toString()));
-            table.setItem(r, 4, new QTableWidgetItem(o.value("order_time").toString()));
-            ++r;
-        }
-        v.addWidget(&table);
-        QHBoxLayout btns; QPushButton close(tr("关闭")); btns.addStretch(1); btns.addWidget(&close); v.addLayout(&btns); QObject::connect(&close, &QPushButton::clicked, &dlg, &QDialog::accept);
-        dlg.resize(720, 420);
-        dlg.exec();
+
+            const int total = filtered.size();
+            const int totalPages = qMax(1, (total + pageSize - 1) / pageSize);
+            if (pageNo > totalPages) pageNo = totalPages;
+            container->setProperty("ordersPageNo", pageNo);
+
+            // 填充当前页
+            const int start = (pageNo - 1) * pageSize;
+            const int end = qMin(start + pageSize, total);
+            table->setRowCount(qMax(0, end - start));
+            int r = 0;
+            for (int i = start; i < end; ++i) {
+                const QVariantMap o = filtered.at(i).toMap();
+                table->setItem(r, 0, new QTableWidgetItem(QString::number(o.value("orderId").toLongLong())));
+                QString uname = o.value("username").toString(); if (uname.isEmpty()) uname = currentUsername;
+                table->setItem(r, 1, new QTableWidgetItem(uname));
+                table->setItem(r, 2, new QTableWidgetItem(QString::number(o.value("total_price").toDouble(), 'f', 2)));
+                table->setItem(r, 3, new QTableWidgetItem(o.value("status").toString()));
+                table->setItem(r, 4, new QTableWidgetItem(o.value("order_time").toString()));
+                ++r;
+            }
+            pageInfo->setText(tr("第 %1 / %2 页 · 共 %3 条").arg(pageNo).arg(totalPages).arg(total));
+            prevBtn->setEnabled(pageNo > 1);
+            nextBtn->setEnabled(pageNo < totalPages);
+        };
+
+        // 交互
+        connect(filterBtn, &QPushButton::clicked, this, [container, refresh]{ container->setProperty("ordersPageNo", 1); refresh(); });
+        connect(kwEdit, &QLineEdit::returnPressed, this, [container, refresh]{ container->setProperty("ordersPageNo", 1); refresh(); });
+    connect(statusCmb, qOverload<int>(&QComboBox::currentIndexChanged), this, [container, refresh](int){ container->setProperty("ordersPageNo", 1); refresh(); });
+        connect(prevBtn, &QPushButton::clicked, this, [container, refresh]{ int p = container->property("ordersPageNo").toInt(); if (p>1) { container->setProperty("ordersPageNo", p-1); refresh(); } });
+        connect(nextBtn, &QPushButton::clicked, this, [container, refresh]{ int p = container->property("ordersPageNo").toInt(); container->setProperty("ordersPageNo", p+1); refresh(); });
+
+        // 返回
+    connect(back, &QPushButton::clicked, this, [this, container]{ container->hide(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
+
+        // 首次渲染
+        refresh();
+        clearToFullPage(container);
     }
     else if (type == "add_to_cart_response") {
         bool ok = response.value("success").toBool();
@@ -593,6 +808,31 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
     auto *container = ui->recommendationsArea;
     auto *layout = ensureVBoxLayout(container);
     clearLayout(layout);
+    // 首页标题行：精选折扣商品  +  更多 >
+    {
+        auto *titleRow = new QHBoxLayout();
+        titleRow->setContentsMargins(0,0,0,0);
+        auto *title = new QLabel(tr("首页精选折扣商品"), container);
+        title->setWordWrap(true);
+        title->setStyleSheet("font-weight:600;margin:6px 0;");
+        titleRow->addWidget(title);
+        titleRow->addStretch(1);
+        auto *moreBtn = new QPushButton(tr("更多 >"), container);
+        moreBtn->setObjectName("homeMoreDiscountBtn");
+        moreBtn->setFlat(true);
+        // 改为白字蓝底，保持 hover 有轻微高亮
+        moreBtn->setStyleSheet(
+            "QPushButton{color:#ffffff;background:#1677ff;border:1px solid #1677ff;border-radius:6px;padding:2px 10px;}"
+            "QPushButton:hover{background:#3a8cff;border-color:#3a8cff;}"
+        );
+    titleRow->addWidget(moreBtn);
+    // 将标题行放入一个容器后添加到父布局
+    auto *titleHost = new QWidget(container);
+    titleHost->setLayout(titleRow);
+    layout->addWidget(titleHost);
+        // 点击“更多”进入商城视图
+        connect(moreBtn, &QPushButton::clicked, this, [this]{ showMallView(); });
+    }
     if (products.isEmpty()) {
         renderRecommendationsPlaceholder();
         return;
@@ -666,8 +906,10 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
         btnRow->addStretch(1);
 
         vbox->addWidget(nameLbl);
-    vbox->addWidget(priceLbl);
+        vbox->addWidget(priceLbl);
         if (discountLbl) vbox->addWidget(discountLbl);
+        vbox->addStretch(1); // 将按钮推到底部
+        vbox->addLayout(btnRow); // 把按钮行加入布局，防止浮动遮挡
 
         int r = idx / colCount;
         int c = idx % colCount;
@@ -785,8 +1027,10 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
         btnRow->addWidget(addBtn);
         btnRow->addStretch(1);
         vbox->addWidget(nameLbl);
-    vbox->addWidget(priceLbl2);
+        vbox->addWidget(priceLbl2);
         if (discountLbl2) vbox->addWidget(discountLbl2);
+        vbox->addStretch(1); // 将按钮推到底部
+        vbox->addLayout(btnRow); // 把按钮行加入布局
 
         int r = idx / colCount;
         int c = idx % colCount;
@@ -864,16 +1108,21 @@ void MainWindow::showProductDetail(const QJsonObject &product)
     } else {
         priceLine = QStringLiteral("\x00A5%1").arg(QString::number(price, 'f', 2));
     }
-    QString text = QString("%1\n%2 %3")
-                    .arg(name)
-                    .arg(QStringLiteral("价格:"))
-                    .arg(priceLine);
-    if (stock >= 0) text += QString("\n库存：%1").arg(stock);
+    // 可选描述；将属性改为竖排逐行展示
+    const QString desc = product.value("description").toString();
+    QString text;
+    text += QString("<div><b>名称：</b>%1</div>").arg(name.toHtmlEscaped());
+    if (!desc.isEmpty()) {
+        text += QString("<div><b>描述：</b>%1</div>").arg(desc.toHtmlEscaped());
+    }
+    text += QString("<div><b>价格：</b>%1</div>").arg(priceLine);
+    if (stock >= 0) text += QString("<div><b>库存：</b>%1</div>").arg(stock);
     // 库存为0显示醒目的售罄徽标
     bool soldOut = (stock == 0);
     if (soldOut) {
         // 使用富文本渲染一个红底白字圆角徽标
-        text += QString("\n\n%1").arg("<span style='background:#E53935;color:#fff;border-radius:12px;padding:4px 10px;font-weight:600;'>售罄</span>");
+        text += QString("<div style='margin-top:6px;'>%1</div>")
+                    .arg("<span style='background:#E53935;color:#fff;border-radius:12px;padding:4px 10px;font-weight:600;'>售罄</span>");
     }
     box.setTextFormat(Qt::RichText);
     box.setText(text);
@@ -940,4 +1189,221 @@ void MainWindow::on_nextPage_clicked()
     if (currentPage < totalPages) {
         requestProductsPage(currentPage + 1);
     }
+}
+
+// ---- 视图模式切换 ----
+void MainWindow::showHomeView()
+{
+    currentView = ViewMode::Home;
+    lastNonCartView = ViewMode::Home;
+    setTabActive("home");
+    setSearchBarVisible(true);
+    if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(true);
+    updateGreeting();
+    if (ui->carouselArea) ui->carouselArea->setVisible(true);
+    if (ui->promotionsArea) ui->promotionsArea->setVisible(true);
+    if (ui->recommendationsArea) ui->recommendationsArea->setVisible(true);
+    // 隐藏分页器
+    if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
+    if (auto totalInfo = findChild<QWidget*>("totalInfoLabel")) totalInfo->setVisible(false);
+    if (auto gotoLbl = findChild<QWidget*>("gotoLabel")) gotoLbl->setVisible(false);
+    if (auto gotoSpin = findChild<QWidget*>("gotoPageSpin")) gotoSpin->setVisible(false);
+    if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(false);
+    // 隐藏购物车页（如存在）
+    if (cart) cart->hide();
+    // 刷新首页数据
+    loadCarousel();
+    loadPromotions();
+    loadRecommendations();
+}
+
+void MainWindow::showMallView()
+{
+    currentView = ViewMode::Mall;
+    lastNonCartView = ViewMode::Mall;
+    setTabActive("mall");
+    setSearchBarVisible(true);
+    if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
+    if (ui->carouselArea) ui->carouselArea->setVisible(false);
+    if (ui->promotionsArea) ui->promotionsArea->setVisible(false);
+    if (ui->recommendationsArea) ui->recommendationsArea->setVisible(true);
+    // 显示分页器
+    if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(true);
+    if (auto totalInfo = findChild<QWidget*>("totalInfoLabel")) totalInfo->setVisible(true);
+    if (auto gotoLbl = findChild<QWidget*>("gotoLabel")) gotoLbl->setVisible(true);
+    if (auto gotoSpin = findChild<QWidget*>("gotoPageSpin")) gotoSpin->setVisible(true);
+    if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(true);
+    // 隐藏购物车页
+    if (cart) cart->hide();
+    // 请求列表第一页
+    requestProductsPage(1);
+}
+
+void MainWindow::showCartView()
+{
+    setTabActive("cart");
+    setSearchBarVisible(false);
+    if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
+    // 创建或重用购物车，并嵌入主布局区域
+    if (!cart) {
+        cart = new ShoppingCart(socket, this);
+        if (!currentUsername.isEmpty()) cart->setUsername(currentUsername);
+        // 嵌入到 rootLayout 的末尾（在底部分页之前或之后均可，这里放在分页下方同级，显示时隐藏其他区域）
+        if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) {
+            root->addWidget(cart);
+        } else {
+            // 回退：直接设置父子关系
+            cart->setParent(this);
+        }
+        if (auto backBtn = cart->findChild<QPushButton*>("backButton")) {
+            connect(backBtn, &QPushButton::clicked, this, &MainWindow::exitCartView);
+        }
+    }
+    currentView = ViewMode::Cart;
+    // 隐藏首页/商城区域和分页器
+    if (ui->carouselArea) ui->carouselArea->setVisible(false);
+    if (ui->promotionsArea) ui->promotionsArea->setVisible(false);
+    if (ui->recommendationsArea) ui->recommendationsArea->setVisible(false);
+    if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
+    if (auto totalInfo = findChild<QWidget*>("totalInfoLabel")) totalInfo->setVisible(false);
+    if (auto gotoLbl = findChild<QWidget*>("gotoLabel")) gotoLbl->setVisible(false);
+    if (auto gotoSpin = findChild<QWidget*>("gotoPageSpin")) gotoSpin->setVisible(false);
+    if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(false);
+    // 显示购物车页面并尽量铺满主界面区域
+    cart->setVisible(true);
+    cart->raise();
+}
+
+void MainWindow::exitCartView()
+{
+    if (cart) cart->hide();
+    // 返回之前的非购物车视图
+    if (lastNonCartView == ViewMode::Mall) {
+        showMallView();
+    } else {
+        showHomeView();
+    }
+}
+
+void MainWindow::clearToFullPage(QWidget *page)
+{
+    // 隐藏首页/商城区域、分页器、问候标题
+    if (ui->carouselArea) ui->carouselArea->setVisible(false);
+    if (ui->promotionsArea) ui->promotionsArea->setVisible(false);
+    if (ui->recommendationsArea) ui->recommendationsArea->setVisible(false);
+    // 非首页/发现好物页时，隐藏搜索栏
+    setSearchBarVisible(false);
+    if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
+    if (auto totalInfo = findChild<QWidget*>("totalInfoLabel")) totalInfo->setVisible(false);
+    if (auto gotoLbl = findChild<QWidget*>("gotoLabel")) gotoLbl->setVisible(false);
+    if (auto gotoSpin = findChild<QWidget*>("gotoPageSpin")) gotoSpin->setVisible(false);
+    if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(false);
+    if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
+    if (cart) cart->hide();
+    // 隐藏其他全屏页（不 deleteLater，避免频繁构建造成卡顿）
+    if (auto oldOrders = findChild<QWidget*>("ordersPage")) { if (oldOrders != page) oldOrders->hide(); }
+    if (auto oldAccount = findChild<QWidget*>("accountPage")) { if (oldAccount != page) oldAccount->hide(); }
+    if (auto oldChat = findChild<QWidget*>("chatPage")) { if (oldChat != page) oldChat->hide(); }
+    // 注意：聊天被内嵌在 chatPage 内部，这里不要额外隐藏 chat，否则会出现“只有页面没有内容”
+    // 添加并显示当前页
+    if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) {
+        if (page->parent() != this) page->setParent(this);
+        // 避免重复添加：如果已经在 root 中，则不再 addWidget
+        bool alreadyIn = false;
+        for (int i=0;i<root->count();++i) {
+            if (root->itemAt(i)->widget() == page) { alreadyIn = true; break; }
+        }
+        if (!alreadyIn) root->addWidget(page);
+    }
+    page->show();
+    page->raise();
+}
+
+void MainWindow::updateGreeting()
+{
+    if (auto lbl = findChild<QLabel*>("greetingLabel")) {
+        if (!currentUsername.isEmpty()) lbl->setText(tr("你好！%1").arg(currentUsername));
+        else lbl->setText(tr("你好！"));
+    }
+}
+
+void MainWindow::showAccountView()
+{
+    setTabActive("account");
+    setSearchBarVisible(false);
+    // 若不存在，先创建一个占位的 accountPage，并使用 clearToFullPage 显示
+    QWidget *page = findChild<QWidget*>("accountPage");
+    if (!page) {
+        page = new QWidget(this);
+        page->setObjectName("accountPage");
+        auto *v = new QVBoxLayout(page);
+        auto *topBar = new QHBoxLayout();
+        auto *title = new QLabel(tr("个人中心"), page); title->setStyleSheet("font-weight:600;font-size:16px;");
+        auto *back = new QPushButton(tr("返回"), page);
+        auto *saveTop = new QPushButton(tr("修改"), page); saveTop->setObjectName("saveTopButton");
+        topBar->addWidget(title); topBar->addStretch(1); topBar->addWidget(saveTop); topBar->addWidget(back); v->addLayout(topBar);
+        // 仅在尚未创建表单时显示占位
+        auto *info = new QLabel(tr("正在加载账号信息…"), page);
+        info->setObjectName("acc_loading");
+        v->addWidget(info);
+        if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) root->addWidget(page);
+        connect(back, &QPushButton::clicked, this, [this, page]{ page->hide(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
+    }
+    // 已有页面：若已存在表单，隐藏占位；否则确保占位显示
+    if (page->findChild<QLineEdit*>("acc_user")) {
+        if (auto info = page->findChild<QLabel*>("acc_loading", Qt::FindDirectChildrenOnly)) info->hide();
+    } else {
+        if (auto info = page->findChild<QLabel*>("acc_loading", Qt::FindDirectChildrenOnly)) { info->setText(tr("正在加载账号信息…")); info->show(); }
+    }
+    // 进入账号页时强制把顶部按钮文案设为“修改”
+    if (auto saveToggle = page->findChild<QPushButton*>("saveTopButton")) saveToggle->setText(tr("修改"));
+    clearToFullPage(page);
+    // 请求账号信息，填充内容（重用已有请求）
+    if (socket) {
+        QJsonObject req; req["type"] = "get_account_info"; if (!currentUsername.isEmpty()) req["username"] = currentUsername; QJsonDocument d(req); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+    }
+}
+
+void MainWindow::showOrdersView()
+{
+    setTabActive("orders");
+    setSearchBarVisible(false);
+    if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
+    // 发送请求；在 orders_response 分支中构建/展示内嵌页面
+    if (!socket) return;
+    QJsonObject req; req["type"] = "get_orders"; QJsonDocument d(req); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+    statusBar()->showMessage(tr("正在获取历史订单…"), 2000);
+}
+
+void MainWindow::showChatView()
+{
+    setTabActive("chat");
+    setSearchBarVisible(false);
+    if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
+    // 若已存在 chatPage，直接复用
+    if (auto exist = findChild<QWidget*>("chatPage")) {
+        clearToFullPage(exist);
+        return;
+    }
+    if (!chat) chat = new ChatWindow(this);
+    QWidget *page = new QWidget(this);
+    page->setObjectName("chatPage");
+    auto *v = new QVBoxLayout(page);
+    auto *topBar = new QHBoxLayout();
+    auto *title = new QLabel(tr("客服聊天"), page); title->setStyleSheet("font-weight:600;font-size:16px;");
+    auto *back = new QPushButton(tr("返回"), page);
+    topBar->addWidget(title); topBar->addStretch(1); topBar->addWidget(back); v->addLayout(topBar);
+    chat->setParent(page);
+    chat->setWindowFlags(Qt::Widget);
+    chat->setMinimumSize(0,300);
+    v->addWidget(chat);
+    connect(back, &QPushButton::clicked, this, [this, page]{ page->hide(); page->deleteLater(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
+    clearToFullPage(page);
+}
+
+// 顶部搜索栏显隐：仅在首页/发现好物显示
+void MainWindow::setSearchBarVisible(bool visible)
+{
+    if (auto w = findChild<QWidget*>("searchInput")) w->setVisible(visible);
+    if (auto w = findChild<QWidget*>("searchButton")) w->setVisible(visible);
 }

@@ -510,4 +510,10 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSizePolicy \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgraphicseffect.h
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgraphicseffect.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTabBar \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabbar.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QComboBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcombobox.h

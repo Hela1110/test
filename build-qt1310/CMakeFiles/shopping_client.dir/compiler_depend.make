@@ -2592,6 +2592,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
@@ -2784,6 +2785,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QAbstractButton \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QComboBox \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFormLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFrame \
@@ -2803,6 +2805,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSizePolicy \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpinBox \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTabBar \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
@@ -2815,6 +2818,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qapplication.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcombobox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qformlayout.h \
@@ -5470,6 +5474,8 @@ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/iomanip:
 
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/c++allocator.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcombobox.h:
+
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/c++config.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qdirlisting.h:
@@ -5612,11 +5618,17 @@ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ostream:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QDebug:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QComboBox:
+
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFormLayout:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFrame:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTabBar:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget:
 
@@ -5629,8 +5641,6 @@ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qinputdialog.h:
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtableview.h:
 
 shopping_client_autogen/include/ui_registerdialog.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QAbstractItemView:
 
