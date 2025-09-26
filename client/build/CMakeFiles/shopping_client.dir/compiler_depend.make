@@ -1437,6 +1437,11 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
@@ -1581,11 +1586,15 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QKeyEvent \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
@@ -1593,6 +1602,7 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h \
@@ -1601,10 +1611,13 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpicture.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtextcursor.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtextformat.h \
@@ -1614,6 +1627,8 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
@@ -5630,6 +5645,8 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/QDateTime:
 D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/QKeyEvent:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qpicture.h:
 

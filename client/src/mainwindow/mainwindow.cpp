@@ -97,7 +97,7 @@ QTabBar* MainWindow::ensureSideTabBar()
 
     // 添加 Tabs（带 key）
     struct TabDef { const char* key; const char* text; } defs[] = {
-        {"home", "首页"}, {"mall", "发现好物"}, {"cart", "购物车"}, {"orders", "历史订单"}, {"chat", "客服"}, {"account", "个人中心"}
+        {"home", "首页"}, {"mall", "发现好物"}, {"cart", "购物车"}, {"orders", "历史订单"}, {"chat", "客服/聊天"}, {"account", "个人中心"}
     };
     for (auto &d : defs) {
         int idx = tab->addTab(tr(d.text));

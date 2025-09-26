@@ -231,7 +231,9 @@ public class AdminFrame extends JFrame {
         JButton btnSend = new JButton("发送");
         JButton btnReload = new JButton("刷新历史");
         JButton btnDelete = new JButton("删除与对方的历史");
-        JLabel online = new JLabel("在线用户: ");
+    JLabel online = new JLabel("在线用户: ");
+    JComboBox<String> onlineCombo = new JComboBox<>();
+    onlineCombo.setPrototypeDisplayValue("someverylongusername____");
 
         JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
         top.add(new JLabel("发送者:")); top.add(tfFrom);
@@ -243,14 +245,18 @@ public class AdminFrame extends JFrame {
         JPanel bottom = new JPanel(new BorderLayout(4, 4));
         bottom.add(new JScrollPane(input), BorderLayout.CENTER);
         JPanel ctrl = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        ctrl.add(online); ctrl.add(btnSend);
+    ctrl.add(new JLabel("选择在线用户:"));
+    ctrl.add(onlineCombo);
+    ctrl.add(online);
+    ctrl.add(btnSend);
         bottom.add(ctrl, BorderLayout.SOUTH);
         root.add(bottom, BorderLayout.SOUTH);
 
         Runnable reload = () -> {
             historyModel.clear();
             java.util.List<ChatMessage> msgs;
-            String peer = tfTo.getText().trim();
+            String peerRaw = tfTo.getText().trim();
+            String peer = "全体".equals(peerRaw) ? "" : peerRaw;
             if (peer.isEmpty()) {
                 msgs = chatRepo.findLatestGlobal(org.springframework.data.domain.PageRequest.of(0, 100));
             } else {
@@ -263,7 +269,29 @@ public class AdminFrame extends JFrame {
             // 在线用户列表（从 SocketMessageHandler 获取）
             java.util.Set<String> on = SocketMessageHandler.getOnlineUsernames();
             online.setText("在线用户: " + (on.isEmpty()?"(无)":String.join(", ", on)));
+            // 刷新下拉：以当前接收者决定应选项，空=全体
+            String desired = tfTo.getText().trim();
+            if (desired.isEmpty()) desired = "全体";
+            onlineCombo.removeAllItems();
+            java.util.List<String> list = new java.util.ArrayList<>(on);
+            java.util.Collections.sort(list);
+            // 先加入“全体”，再置顶 admin，最后其余在线用户
+            onlineCombo.addItem("全体");
+            onlineCombo.addItem("admin");
+            for (String u : list) if (!"admin".equals(u)) onlineCombo.addItem(u);
+            // 选择对应项
+            onlineCombo.setSelectedItem(desired);
         };
+        // 选择在线用户即填充接收者并刷新
+        onlineCombo.addActionListener(e -> {
+            Object sel = onlineCombo.getSelectedItem();
+            if (sel == null) return;
+            String u = sel.toString();
+            if (u.isBlank()) return;
+            // 选择“全体”时，上方接收者也显示“全体”，并在 reload 中当作群聊处理
+            tfTo.setText("全体".equals(u) ? "全体" : u);
+            reload.run();
+        });
         btnReload.addActionListener(e -> reload.run());
 
         btnSend.addActionListener(e -> {
@@ -288,10 +316,20 @@ public class AdminFrame extends JFrame {
         btnDelete.addActionListener(e -> {
             String peer = tfTo.getText().trim();
             String from = tfFrom.getText().trim();
-            if (peer.isEmpty()) { JOptionPane.showMessageDialog(this, "请输入对方用户名以删除会话"); return; }
-            long n1 = chatRepo.deleteByFromUserAndToUser(from, peer);
-            long n2 = chatRepo.deleteByFromUserAndToUser(peer, from);
-            JOptionPane.showMessageDialog(this, "已删除条目: " + (n1+n2));
+            if (peer.isEmpty()) { JOptionPane.showMessageDialog(this, "请选择具体用户或选择‘全体’"); return; }
+            if ("全体".equals(peer)) {
+                int res = JOptionPane.showConfirmDialog(this, "确定要清空公共聊天（全体）历史吗？该操作不可撤销。", "确认删除全体", JOptionPane.YES_NO_OPTION);
+                if (res != JOptionPane.YES_OPTION) return;
+                // 走 SocketMessageHandler 的群聊删除逻辑（需要 admin 权限）；此处直接通过仓库删除也可以，但为了统一使用服务端口径，调用仓库即可
+                long deleted = chatRepo.deleteByToUserIsNull();
+                JOptionPane.showMessageDialog(this, "已删除公共聊天条目: " + deleted);
+            } else {
+                int res = JOptionPane.showConfirmDialog(this, "确定要删除与 "+peer+" 的历史记录吗？该操作不可撤销。", "确认删除", JOptionPane.YES_NO_OPTION);
+                if (res != JOptionPane.YES_OPTION) return;
+                long n1 = chatRepo.deleteByFromUserAndToUser(from, peer);
+                long n2 = chatRepo.deleteByFromUserAndToUser(peer, from);
+                JOptionPane.showMessageDialog(this, "已删除条目: " + (n1+n2));
+            }
             reload.run();
         });
 

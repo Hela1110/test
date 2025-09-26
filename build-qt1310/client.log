@@ -1662,3 +1662,7 @@
 [2025-09-26 09:34:27] [INFO] [cart_load] skip duplicate build sig= "3|18:1,19:1,4:1"
 [2025-09-26 09:34:42] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
 [2025-09-26 09:34:42] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-09-26 23:32:59] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/client.log"
+[2025-09-26 23:32:59] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-26 23:32:59] [INFO] LoginWindow created and shown
+[2025-09-26 23:33:04] [ERROR] Socket error: "Connection refused"

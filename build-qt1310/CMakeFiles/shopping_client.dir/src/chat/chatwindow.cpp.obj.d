@@ -490,4 +490,17 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
  D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
- D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QColor \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QFont \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QComboBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcombobox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h

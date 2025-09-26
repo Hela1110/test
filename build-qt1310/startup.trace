@@ -322,3 +322,12 @@
 [2025-09-26 09:33:50] stage-6: LoginWindow constructed
 [2025-09-26 09:33:50] stage-7: LoginWindow shown
 [2025-09-26 09:33:50] stage-8: entering app.exec()
+[2025-09-26 23:32:59] pre-0: entering main()
+[2025-09-26 23:32:59] stage-1: QApplication constructed
+[2025-09-26 23:32:59] stage-2: setQuitOnLastWindowClosed(false)
+[2025-09-26 23:32:59] stage-3: app meta set
+[2025-09-26 23:32:59] stage-4: logger initialized (or attempted)
+[2025-09-26 23:32:59] stage-5: stylesheet loaded (if any)
+[2025-09-26 23:32:59] stage-6: LoginWindow constructed
+[2025-09-26 23:33:00] stage-7: LoginWindow shown
+[2025-09-26 23:33:00] stage-8: entering app.exec()

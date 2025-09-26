@@ -25,6 +25,9 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
 	// 删除某两个用户之间的所有消息
 	long deleteByFromUserAndToUser(String fromUser, String toUser);
 
+	// 删除所有公共（群聊）消息（toUser 为 null）
+	long deleteByToUserIsNull();
+
 	// 清理早于某时间的消息
 	long deleteByCreatedAtBefore(LocalDateTime threshold);
 }

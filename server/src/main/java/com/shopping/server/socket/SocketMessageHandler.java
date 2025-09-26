@@ -619,16 +619,31 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         String peer = (String) request.get("peer");
         Map<String,Object> resp = new HashMap<>();
         resp.put("type", "chat_delete_response");
-        if (username == null || peer == null || peer.isEmpty()) {
+        if (username == null) {
             resp.put("success", false);
-            resp.put("message", "缺少 peer 或未登录");
+            resp.put("message", "未登录");
             ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
-        long n1 = chatMessageRepository.deleteByFromUserAndToUser(username, peer);
-        long n2 = chatMessageRepository.deleteByFromUserAndToUser(peer, username);
+        long deleted = 0L;
+        // 支持删除群聊（全体）历史：约定 peer 为空或值为 "__GLOBAL__" 时删除 toUser is null 的消息，权限限定 admin 或服务端
+        if (peer == null || peer.isEmpty() || "__GLOBAL__".equals(peer)) {
+            // 仅 admin 可清理公共聊天
+            if (!"admin".equals(username)) {
+                resp.put("success", false);
+                resp.put("message", "仅管理员可删除群聊历史");
+                ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+                return;
+            }
+            // 直接通过 repository 自定义删除
+            deleted = chatMessageRepository.deleteByToUserIsNull();
+        } else {
+            long n1 = chatMessageRepository.deleteByFromUserAndToUser(username, peer);
+            long n2 = chatMessageRepository.deleteByFromUserAndToUser(peer, username);
+            deleted = n1 + n2;
+        }
         resp.put("success", true);
-        resp.put("deleted", n1 + n2);
+        resp.put("deleted", deleted);
         ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
     }
 
