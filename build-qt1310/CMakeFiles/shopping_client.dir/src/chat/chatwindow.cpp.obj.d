@@ -441,4 +441,53 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QDateTime \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcborvalue.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcborcommon.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/quuid.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QInputDialog \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qinputdialog.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlineedit.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlabel.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpicture.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLineEdit \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlineedit.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QKeyEvent \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qsize.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h

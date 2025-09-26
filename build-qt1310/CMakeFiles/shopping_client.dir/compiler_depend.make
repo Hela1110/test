@@ -1205,6 +1205,14 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   C:/Users/Edward/Desktop/test/client/include/chat/chatwindow.h \
   C:/Users/Edward/Desktop/test/client/include/chatwindow.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QDateTime \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
@@ -1228,6 +1236,8 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearraylist.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayview.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcborcommon.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcborvalue.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qchar.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare_impl.h \
@@ -1261,10 +1271,15 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtCore/qglobalstatic.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qhash.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qhashfunctions.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevicebase.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qline.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
@@ -1336,16 +1351,21 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtypes.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qutf8stringview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/quuid.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QKeyEvent \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
@@ -1353,17 +1373,22 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpalette.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpen.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpicture.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtextcursor.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtextformat.h \
@@ -1373,10 +1398,22 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QInputDialog \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLineEdit \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QListWidget \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMenuBar \
@@ -1393,10 +1430,14 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qapplication.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qinputdialog.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlabel.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlineedit.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistview.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistwidget.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
@@ -5552,29 +5593,33 @@ D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/stdarg.h:
 
 shopping_client_autogen/include/ui_chatwindow.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMenuBar:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmenu.h:
-
-shopping_client_autogen/include/ui_loginwindow.h:
-
 D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h:
+D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/QKeyEvent:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qpicture.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel:
 
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpacerItem:
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMenuBar:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qinputdialog.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlabel.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlineedit.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmenu.h:
+
+shopping_client_autogen/include/ui_loginwindow.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpacerItem:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/QMouseEvent:
 
@@ -5635,8 +5680,6 @@ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget:
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qformlayout.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgraphicseffect.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qinputdialog.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtableview.h:
 

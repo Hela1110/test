@@ -85,6 +85,21 @@ StartAll.bat 8081 9090
 
 > 仍无法定位时，请提供服务端启动完整日志 (首尾 200 行) 与应用版本号。
 
+### 新增聊天表（chat_messages）
+
+引入客服聊天功能后，需要数据库存在表 `chat_messages`。如果你已经用旧版脚本初始化过数据库，请执行增量脚本：
+
+- 使用 MySQL 客户端导入：`database/sql/alter_20250926_add_chat_messages.sql`
+
+仅用于本地开发调试时，也可以临时打开自动建表探针（生产环境不建议）：
+
+- 在 `server/src/main/resources/application.yml` 中设置：
+	- `probe.db: true`
+	- `probe.db.ensureChat: true`
+- 或在启动参数里加：`--probe.db=true --probe.db.ensureChat=true`
+
+成功后，服务端日志会输出 `[DB-PROBE] chat_messages table created.` 或 `exists.` 提示。
+
 ## 日志位置
 
 - 客户端：同目录 `client.log`（交互、协议、错误）

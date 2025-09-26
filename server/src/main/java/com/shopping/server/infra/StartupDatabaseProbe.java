@@ -36,10 +36,47 @@ public class StartupDatabaseProbe implements CommandLineRunner {
             Object single = q.getSingleResult();
             long cost = System.currentTimeMillis() - start;
             System.out.println("[DB-PROBE] SUCCESS result=" + single + " cost=" + cost + "ms dialect=" + entityManager.getEntityManagerFactory().getProperties().get("hibernate.dialect"));
+
+            // 可选：自动确保 chat_messages 表已存在（仅当 probe.db.ensureChat=true）
+            ensureChatMessagesTable();
         } catch (Exception e) {
             long cost = System.currentTimeMillis() - start;
             System.err.println("[DB-PROBE] FAILURE cost=" + cost + "ms -> " + e.getClass().getName() + ": " + e.getMessage());
             e.printStackTrace(System.err);
+        }
+    }
+
+    @Value("${probe.db.ensureChat:false}")
+    private boolean ensureChat;
+
+    private void ensureChatMessagesTable() {
+        if (!ensureChat) {
+            System.out.println("[DB-PROBE] ensureChat=false, skip ensuring chat_messages table");
+            return;
+        }
+        try {
+            // 检查是否存在 chat_messages 表
+            Query exists = entityManager.createNativeQuery("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = 'chat_messages'");
+            Number cnt = (Number) exists.getSingleResult();
+            if (cnt != null && cnt.longValue() > 0) {
+                System.out.println("[DB-PROBE] chat_messages table exists.");
+                return;
+            }
+            System.out.println("[DB-PROBE] chat_messages table not found, creating...");
+            String ddl = "CREATE TABLE IF NOT EXISTS chat_messages (" +
+                    "id BIGINT NOT NULL AUTO_INCREMENT, " +
+                    "from_user VARCHAR(64) NOT NULL, " +
+                    "to_user VARCHAR(64) NULL, " +
+                    "content VARCHAR(2000) NOT NULL, " +
+                    "created_at DATETIME(6) NOT NULL, " +
+                    "PRIMARY KEY (id), " +
+                    "INDEX idx_chat_created_at (created_at), " +
+                    "INDEX idx_chat_from_to_created (from_user, to_user, created_at)" +
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci";
+            entityManager.createNativeQuery(ddl).executeUpdate();
+            System.out.println("[DB-PROBE] chat_messages table created.");
+        } catch (Exception ex) {
+            System.err.println("[DB-PROBE] Failed to ensure chat_messages table: " + ex.getMessage());
         }
     }
 }

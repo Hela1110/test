@@ -786,6 +786,17 @@ void MainWindow::onReadyRead()
             cart->handleMessage(response);
         }
     }
+
+    // 将聊天相关消息转发给 ChatWindow（若已创建）
+    if (chat) {
+        const QString t = response.value("type").toString();
+        if (t == QLatin1String("chat_init_response")
+            || t == QLatin1String("chat_message")
+            || t == QLatin1String("presence")
+            || t == QLatin1String("chat_delete_response")) {
+            chat->handleMessage(response);
+        }
+    }
     }
 }
 
@@ -1561,6 +1572,9 @@ void MainWindow::showChatView()
         return;
     }
     if (!chat) chat = new ChatWindow(this);
+    // 注入网络依赖与当前用户名
+    if (socket) chat->setSocket(socket);
+    if (!currentUsername.isEmpty()) chat->setUsername(currentUsername);
     QWidget *page = new QWidget(this);
     page->setObjectName("chatPage");
     auto *v = new QVBoxLayout(page);
@@ -1574,6 +1588,8 @@ void MainWindow::showChatView()
     v->addWidget(chat);
     connect(back, &QPushButton::clicked, this, [this, page]{ page->hide(); page->deleteLater(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
     clearToFullPage(page);
+    // 进入聊天页时，拉取历史并刷新在线用户
+    chat->initChat();
 }
 
 // 顶部搜索栏显隐：仅在首页/发现好物显示

@@ -24,4 +24,20 @@ public interface OrderHeaderRepository extends JpaRepository<OrderHeader, Long> 
     // 获取某用户的所有订单并抓取明细和商品（不包含购物车过滤逻辑，调用方自行跳过 CART）
     @Query("select distinct h from OrderHeader h left join fetch h.items i left join fetch i.product p where h.client = :client")
     List<OrderHeader> findByClientWithItems(@Param("client") Client client);
+
+    // ========== 统计相关（用于图表） ==========
+    // 每月订单金额汇总（全体用户），限定时间范围与状态
+    @Query("select year(h.createdAt) as y, month(h.createdAt) as m, sum(h.totalPrice) as total " +
+        "from OrderHeader h where h.createdAt between :start and :end and h.status = com.shopping.server.model.OrderStatus.PAID " +
+        "group by year(h.createdAt), month(h.createdAt) order by y, m")
+    List<Object[]> sumByMonth(@Param("start") java.time.LocalDateTime start,
+                  @Param("end") java.time.LocalDateTime end);
+
+    // 指定用户的每月订单金额
+    @Query("select year(h.createdAt) as y, month(h.createdAt) as m, sum(h.totalPrice) as total " +
+        "from OrderHeader h where h.client = :client and h.createdAt between :start and :end and h.status = com.shopping.server.model.OrderStatus.PAID " +
+        "group by year(h.createdAt), month(h.createdAt) order by y, m")
+    List<Object[]> sumByMonthForClient(@Param("client") Client client,
+                        @Param("start") java.time.LocalDateTime start,
+                        @Param("end") java.time.LocalDateTime end);
 }

@@ -2,6 +2,7 @@ param(
     [int]$HttpPort = 8081,
     [int]$SocketPort = 8080,
     [switch]$SkipBuild,
+    [switch]$EnsureChat,
     [string]$DbUrl,
     [string]$DbUser,
     [string]$DbPass
@@ -27,6 +28,7 @@ Write-Host "Using Spring Boot HTTP port: $HttpPort"
 Write-Host "Using Socket Server   port: $SocketPort"
 if ($DbUrl)  { Write-Host "Using DB URL      : $DbUrl" }
 if ($DbUser) { Write-Host "Using DB User     : $DbUser" }
+if ($EnsureChat) { Write-Host "Ensure chat_messages table on startup: ON" }
 
 if (-not $SkipBuild) {
     Write-Host "[1/3] Packaging server (skip tests)..."
@@ -67,6 +69,7 @@ $javaArgs = @(
 if ($DbUrl)  { $javaArgs += "--spring.datasource.url=$DbUrl" }
 if ($DbUser) { $javaArgs += "--spring.datasource.username=$DbUser" }
 if ($DbPass) { $javaArgs += "--spring.datasource.password=$DbPass" }
+if ($EnsureChat) { $javaArgs += "--probe.db.ensureChat=true" }
 
 Write-Host '[3/3] Launching with PropertiesLauncher...'
 Write-Host ('java ' + ($javaArgs -join ' '))

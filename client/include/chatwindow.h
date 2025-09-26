@@ -8,6 +8,12 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
+// 前置声明，避免在头文件中包含大量 Qt 头
+class QTcpSocket;
+class QLabel;
+class QLineEdit;
+class QJsonObject;
+
 namespace Ui {
 class ChatWindow;
 }
@@ -18,14 +24,28 @@ class ChatWindow : public QMainWindow {
 public:
     explicit ChatWindow(QWidget *parent = nullptr);
     ~ChatWindow();
+    void setSocket(QTcpSocket *s) { socket = s; }
+    void setUsername(const QString &u) { username = u; }
+    void initChat();
+    void handleMessage(const QJsonObject &msg);
 
 private slots:
     void on_sendButton_clicked();
     void on_messageInput_returnPressed();
+    void on_clearButton_clicked();
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
     Ui::ChatWindow *ui;
+    QTcpSocket *socket = nullptr;
+    QString username;
+    QLineEdit *peerEdit = nullptr;
+    QLabel *onlineLabel = nullptr;
     void sendMessage();
+    void sendDelete();
+    void appendLine(const QString &text);
 };
 
 #endif // CHATWINDOW_H

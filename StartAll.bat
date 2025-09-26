@@ -32,9 +32,9 @@ if defined SKIP_BUILD echo Will skip server mvn build.
 REM 1) Start server in a new window (delegate to PowerShell script that is known-good)
 echo [1/4] Starting server window (run.ps1)...
 if defined SKIP_BUILD (
-    start "shopping-server" powershell -NoExit -NoProfile -ExecutionPolicy Bypass -Command "& { Set-Location -Path 'server'; .\run.ps1 -HttpPort %SERVER_PORT% -SocketPort %SOCKET_PORT% -SkipBuild }"
+    start "shopping-server" powershell -NoExit -NoProfile -ExecutionPolicy Bypass -Command "& { Set-Location -Path 'server'; .\run.ps1 -HttpPort %SERVER_PORT% -SocketPort %SOCKET_PORT% -SkipBuild -EnsureChat }"
 ) else (
-    start "shopping-server" powershell -NoExit -NoProfile -ExecutionPolicy Bypass -Command "& { Set-Location -Path 'server'; .\run.ps1 -HttpPort %SERVER_PORT% -SocketPort %SOCKET_PORT% }"
+    start "shopping-server" powershell -NoExit -NoProfile -ExecutionPolicy Bypass -Command "& { Set-Location -Path 'server'; .\run.ps1 -HttpPort %SERVER_PORT% -SocketPort %SOCKET_PORT% -EnsureChat }"
 )
 
 REM 2) Wait for server to be ready (Netty 8080 OR Spring Boot %SERVER_PORT%) max ~60s

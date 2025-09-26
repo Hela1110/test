@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.shopping.server.repository.ClientRepository;
 import com.shopping.server.repository.ProductRepository;
 import com.shopping.server.repository.OrderHeaderRepository;
+import com.shopping.server.repository.OrderItemRepository;
+import com.shopping.server.repository.ChatMessageRepository;
 import com.shopping.server.service.OrderProcessingService;
 import com.shopping.server.model.*;
 
@@ -30,16 +32,22 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     private final ProductRepository productRepository;
     private final OrderHeaderRepository orderHeaderRepository;
     private final OrderProcessingService orderProcessingService;
+    private final ChatMessageRepository chatMessageRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Autowired
     public SocketMessageHandler(ClientRepository clientRepository,
                                 ProductRepository productRepository,
                                 OrderHeaderRepository orderHeaderRepository,
-                                OrderProcessingService orderProcessingService) {
+                                OrderProcessingService orderProcessingService,
+                                ChatMessageRepository chatMessageRepository,
+                                OrderItemRepository orderItemRepository) {
         this.clientRepository = clientRepository;
         this.productRepository = productRepository;
         this.orderHeaderRepository = orderHeaderRepository;
         this.orderProcessingService = orderProcessingService;
+        this.chatMessageRepository = chatMessageRepository;
+        this.orderItemRepository = orderItemRepository;
     }
     private static final Map<String, ChannelHandlerContext> clientChannels = new ConcurrentHashMap<>();
     // 临时内存用户存储（演示用）：用户名 -> 明文密码
@@ -115,6 +123,32 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     public static java.util.Set<String> getOnlineUsernames() {
         return java.util.Collections.unmodifiableSet(clientChannels.keySet());
     }
+
+    /**
+     * 供管理端 UI 等调用：将一条聊天消息推送到目标（或全体在线）。
+     * 注意：不会做权限校验；调用方应确保内容安全。
+     */
+    public static void pushChatToTargets(com.shopping.server.model.ChatMessage m) {
+        try {
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            java.util.Map<String,Object> push = new java.util.HashMap<>();
+            push.put("type", "chat_message");
+            push.put("id", m.getId());
+            push.put("from", m.getFromUser());
+            push.put("to", m.getToUser());
+            push.put("content", m.getContent());
+            push.put("createdAt", String.valueOf(m.getCreatedAt()));
+            String json = mapper.writeValueAsString(push) + "\n";
+            if (m.getToUser() == null) {
+                clientChannels.values().forEach(ch -> ch.writeAndFlush(json));
+            } else {
+                ChannelHandlerContext toCtx = clientChannels.get(m.getToUser());
+                if (toCtx != null) toCtx.writeAndFlush(json);
+                ChannelHandlerContext fromCtx = clientChannels.get(m.getFromUser());
+                if (fromCtx != null) fromCtx.writeAndFlush(json);
+            }
+        } catch (Exception ignore) {}
+    }
     
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
@@ -186,6 +220,27 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 break;
             case "get_promotions":
                 handleGetPromotions(ctx);
+                break;
+            case "chat_init":
+                handleChatInit(ctx, request);
+                break;
+            case "chat_send":
+                handleChatSend(ctx, request);
+                break;
+            case "chat_delete":
+                handleChatDelete(ctx, request);
+                break;
+            case "set_discount":
+                handleSetDiscount(ctx, request);
+                break;
+            case "remove_discount":
+                handleRemoveDiscount(ctx, request);
+                break;
+            case "list_discounts":
+                handleListDiscounts(ctx, request);
+                break;
+            case "get_stats":
+                handleGetStats(ctx, request);
                 break;
             case "search":
                 handleSearch(ctx, request);
@@ -339,6 +394,17 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 response.put("success", true);
                 response.put("message", "登录成功");
                 clientChannels.put(username, ctx);
+                // 广播上线通知
+                try {
+                    Map<String,Object> presence = new HashMap<>();
+                    presence.put("type", "presence");
+                    presence.put("event", "online");
+                    presence.put("username", username);
+                    String json = objectMapper.writeValueAsString(presence) + "\n";
+                    clientChannels.values().forEach(ch -> {
+                        if (ch != ctx) ch.writeAndFlush(json);
+                    });
+                } catch (Exception ignore) {}
             } else {
                 response.put("success", false);
                 response.put("message", saved == null ? "用户不存在，请先注册" : "密码错误");
@@ -466,6 +532,218 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         promos.add(mapOf("title", "开学季", "desc", "全场满 1000 减 100"));
         promos.add(mapOf("title", "会员日", "desc", "PLUS 额外 95 折"));
         resp.put("promotions", promos);
+        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    }
+
+    // ========== 聊天：初始化、发送、删除 ==========
+    private void handleChatInit(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
+        String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
+        int limit = ((Number)request.getOrDefault("limit", 50)).intValue();
+        if (limit < 1) limit = 50; if (limit > 200) limit = 200;
+        Map<String,Object> resp = new HashMap<>();
+        resp.put("type", "chat_init_response");
+        resp.put("success", true);
+        java.util.List<Map<String,Object>> messages = new CopyOnWriteArrayList<>();
+        // 简化：返回全局客服群最近消息；若指定 peer，则返回双方会话
+        String peer = (String) request.get("peer");
+        var pageable = org.springframework.data.domain.PageRequest.of(0, limit);
+        if (peer == null || peer.isEmpty()) {
+            chatMessageRepository.findLatestGlobal(pageable).forEach(m -> messages.add(mapOf(
+                "id", m.getId(),
+                "from", m.getFromUser(),
+                "to", m.getToUser(),
+                "content", m.getContent(),
+                "createdAt", String.valueOf(m.getCreatedAt())
+            )));
+        } else {
+            String u1 = username == null ? "" : username;
+            chatMessageRepository.findConversation(u1, peer, pageable).forEach(m -> messages.add(mapOf(
+                "id", m.getId(),
+                "from", m.getFromUser(),
+                "to", m.getToUser(),
+                "content", m.getContent(),
+                "createdAt", String.valueOf(m.getCreatedAt())
+            )));
+        }
+        // 逆序为时间升序
+        java.util.Collections.reverse(messages);
+        resp.put("messages", messages);
+        // 在线用户列表（用于 presence）
+        resp.put("onlineUsers", getOnlineUsernames());
+        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    }
+
+    private void handleChatSend(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
+        String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
+        String content = String.valueOf(request.getOrDefault("content", "")).trim();
+        String to = (String) request.get("to"); // 可为空表示群聊
+        Map<String,Object> resp = new HashMap<>();
+        resp.put("type", "chat_send_response");
+        if (username == null || content.isEmpty()) {
+            resp.put("success", false);
+            resp.put("message", "未登录或内容为空");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+        com.shopping.server.model.ChatMessage m = new com.shopping.server.model.ChatMessage();
+        m.setFromUser(username);
+        m.setToUser((to==null||to.isEmpty())?null:to);
+        m.setContent(content);
+        m.setCreatedAt(java.time.LocalDateTime.now());
+        m = chatMessageRepository.save(m);
+        resp.put("success", true);
+        resp.put("messageId", m.getId());
+        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+        // 推送给接收方或群（在线）
+        Map<String,Object> push = new HashMap<>();
+        push.put("type", "chat_message");
+        push.put("id", m.getId());
+        push.put("from", m.getFromUser());
+        push.put("to", m.getToUser());
+        push.put("content", m.getContent());
+        push.put("createdAt", String.valueOf(m.getCreatedAt()));
+        String json = objectMapper.writeValueAsString(push) + "\n";
+        if (m.getToUser() == null) {
+            // 群发给所有在线用户（含自己）
+            clientChannels.values().forEach(ch -> ch.writeAndFlush(json));
+        } else {
+            ChannelHandlerContext toCtx = clientChannels.get(m.getToUser());
+            if (toCtx != null) toCtx.writeAndFlush(json);
+            // 回显给发送者
+            ctx.writeAndFlush(json);
+        }
+    }
+
+    private void handleChatDelete(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
+        String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
+        String peer = (String) request.get("peer");
+        Map<String,Object> resp = new HashMap<>();
+        resp.put("type", "chat_delete_response");
+        if (username == null || peer == null || peer.isEmpty()) {
+            resp.put("success", false);
+            resp.put("message", "缺少 peer 或未登录");
+            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            return;
+        }
+        long n1 = chatMessageRepository.deleteByFromUserAndToUser(username, peer);
+        long n2 = chatMessageRepository.deleteByFromUserAndToUser(peer, username);
+        resp.put("success", true);
+        resp.put("deleted", n1 + n2);
+        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    }
+
+    // ========== 促销/折扣管理 ==========
+    private void handleSetDiscount(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
+        Object pidObj = request.get("product_id");
+        if (pidObj == null) pidObj = request.get("productId");
+        Map<String,Object> resp = new HashMap<>();
+        resp.put("type", "set_discount_response");
+        if (pidObj == null) { resp.put("success", false); resp.put("message", "缺少 productId"); ctx.writeAndFlush(objectMapper.writeValueAsString(resp)+"\n"); return; }
+        long pid = ((Number)pidObj).longValue();
+        java.math.BigDecimal discountPrice = null;
+        if (request.get("discountPrice") != null) {
+            Object dp = request.get("discountPrice");
+            if (dp instanceof Number) discountPrice = new java.math.BigDecimal(((Number) dp).toString());
+            else discountPrice = new java.math.BigDecimal(String.valueOf(dp));
+        }
+        var opt = productRepository.findById(pid);
+        if (opt.isEmpty()) { resp.put("success", false); resp.put("message", "商品不存在"); ctx.writeAndFlush(objectMapper.writeValueAsString(resp)+"\n"); return; }
+        var p = opt.get();
+        if (discountPrice == null || discountPrice.compareTo(java.math.BigDecimal.ZERO) <= 0 || discountPrice.compareTo(p.getPrice()) >= 0) {
+            resp.put("success", false); resp.put("message", "折扣价必须大于 0 且小于原价"); ctx.writeAndFlush(objectMapper.writeValueAsString(resp)+"\n"); return;
+        }
+        p.setOnSale(true);
+        p.setDiscountPrice(discountPrice);
+        productRepository.save(p);
+        resp.put("success", true);
+        resp.put("productId", p.getProductId());
+        resp.put("onSale", p.getOnSale());
+        resp.put("discountPrice", p.getDiscountPrice());
+        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    }
+
+    private void handleRemoveDiscount(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
+        Object pidObj = request.get("product_id"); if (pidObj == null) pidObj = request.get("productId");
+        Map<String,Object> resp = new HashMap<>(); resp.put("type", "remove_discount_response");
+        if (pidObj == null) { resp.put("success", false); resp.put("message", "缺少 productId"); ctx.writeAndFlush(objectMapper.writeValueAsString(resp)+"\n"); return; }
+        long pid = ((Number)pidObj).longValue();
+        var opt = productRepository.findById(pid);
+        if (opt.isEmpty()) { resp.put("success", false); resp.put("message", "商品不存在"); ctx.writeAndFlush(objectMapper.writeValueAsString(resp)+"\n"); return; }
+        var p = opt.get();
+        p.setOnSale(false);
+        p.setDiscountPrice(null);
+        productRepository.save(p);
+        resp.put("success", true);
+        resp.put("productId", p.getProductId());
+        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    }
+
+    private void handleListDiscounts(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
+        List<Map<String,Object>> list = new CopyOnWriteArrayList<>();
+        for (var p : productRepository.findByOnSaleTrue()) {
+            list.add(mapOf(
+                "productId", p.getProductId(),
+                "name", p.getName(),
+                "price", p.getPrice(),
+                "discountPrice", p.getDiscountPrice(),
+                "stock", p.getStock()
+            ));
+        }
+        Map<String,Object> resp = new HashMap<>();
+        resp.put("type", "discounts_response");
+        resp.put("items", list);
+        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    }
+
+    // ========== 数据统计 ==========
+    private void handleGetStats(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
+        String startStr = String.valueOf(request.getOrDefault("start", ""));
+        String endStr = String.valueOf(request.getOrDefault("end", ""));
+        java.time.LocalDate start = startStr.isEmpty()? java.time.LocalDate.now().minusMonths(6) : java.time.LocalDate.parse(startStr);
+        java.time.LocalDate end = endStr.isEmpty()? java.time.LocalDate.now() : java.time.LocalDate.parse(endStr);
+        var startDt = start.atStartOfDay();
+        var endDt = end.plusDays(1).atStartOfDay().minusSeconds(1);
+        Map<String,Object> resp = new HashMap<>();
+        resp.put("type", "stats_response");
+        // 全体用户每月汇总
+        List<Map<String,Object>> monthly = new CopyOnWriteArrayList<>();
+        for (Object[] row : orderHeaderRepository.sumByMonth(startDt, endDt)) {
+            Integer y = (Integer) row[0];
+            Integer m = (Integer) row[1];
+            java.math.BigDecimal total = (java.math.BigDecimal) row[2];
+            monthly.add(mapOf("year", y, "month", m, "total", total));
+        }
+        resp.put("monthly", monthly);
+        // 商品维度：销量与销售额 Top 列表
+        List<Map<String,Object>> productSales = new CopyOnWriteArrayList<>();
+        for (Object[] row : orderItemRepository.sumSalesByProduct(startDt, endDt)) {
+            Long productId = (Long) row[0];
+            String name = (String) row[1];
+            Number qtyNum = (Number) row[2];
+            Object amountObj = row[3];
+            long qty = qtyNum == null ? 0L : qtyNum.longValue();
+            java.math.BigDecimal amount;
+            if (amountObj instanceof java.math.BigDecimal) amount = (java.math.BigDecimal) amountObj;
+            else if (amountObj instanceof Number) amount = new java.math.BigDecimal(amountObj.toString());
+            else amount = java.math.BigDecimal.ZERO;
+            productSales.add(mapOf("productId", productId, "name", name, "quantity", qty, "amount", amount));
+        }
+        resp.put("productSales", productSales);
+        // 若传了 username，返回该用户的每月汇总
+        String username = (String) request.get("username");
+        if (username != null && !username.isEmpty()) {
+            var clientOpt = clientRepository.findByUsername(username);
+            if (clientOpt.isPresent()) {
+                List<Map<String,Object>> userMonthly = new CopyOnWriteArrayList<>();
+                for (Object[] row : orderHeaderRepository.sumByMonthForClient(clientOpt.get(), startDt, endDt)) {
+                    Integer y = (Integer) row[0];
+                    Integer m = (Integer) row[1];
+                    java.math.BigDecimal total = (java.math.BigDecimal) row[2];
+                    userMonthly.add(mapOf("year", y, "month", m, "total", total));
+                }
+                resp.put("userMonthly", userMonthly);
+            }
+        }
         ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
     }
 
@@ -1147,9 +1425,21 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
         System.out.println("Client disconnected: " + ctx.channel().remoteAddress());
+        // 提前找出用户名用于广播
+        String username = findUsernameByCtx(ctx);
         // 清理连接对应的用户映射
         clientChannels.entrySet().removeIf(e -> e.getValue() == ctx);
         recentByCtx.remove(ctx);
+        if (username != null) {
+            try {
+                Map<String,Object> presence = new HashMap<>();
+                presence.put("type", "presence");
+                presence.put("event", "offline");
+                presence.put("username", username);
+                String json = objectMapper.writeValueAsString(presence) + "\n";
+                clientChannels.values().forEach(ch -> ch.writeAndFlush(json));
+            } catch (Exception ignore) {}
+        }
     }
     
     @Override
