@@ -108,6 +108,13 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             }
         }
     }
+
+    /**
+     * 提供当前在线用户名列表（基于活跃的 Netty 连接）。
+     */
+    public static java.util.Set<String> getOnlineUsernames() {
+        return java.util.Collections.unmodifiableSet(clientChannels.keySet());
+    }
     
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
@@ -232,6 +239,8 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             it.put("imageUrl", p.getImageUrl());
             it.put("image", p.getImageUrl());
             it.put("stock", p.getStock());
+                it.put("onSale", p.getOnSale());
+                it.put("discountPrice", p.getDiscountPrice());
             products.add(it);
         });
         Map<String,Object> resp = new HashMap<>();
@@ -262,6 +271,8 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             it.put("imageUrl", p.getImageUrl());
             it.put("image", p.getImageUrl());
             it.put("stock", p.getStock());
+                it.put("onSale", p.getOnSale());
+                it.put("discountPrice", p.getDiscountPrice());
             products.add(it);
         });
         Map<String,Object> resp = new HashMap<>();
@@ -336,7 +347,9 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 "price", p.getPrice(),
                 "description", p.getDescription(),
                 "imageUrl", p.getImageUrl(),
-                "stock", p.getStock()
+                "stock", p.getStock(),
+                "onSale", p.getOnSale(),
+                "discountPrice", p.getDiscountPrice()
             )));
         } catch (Exception ignore) {
             // 兜底：取所有上架商品前 4 个
@@ -348,7 +361,9 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 "price", p.getPrice(),
                 "description", p.getDescription(),
                 "imageUrl", p.getImageUrl(),
-                "stock", p.getStock()
+                "stock", p.getStock(),
+                "onSale", p.getOnSale(),
+                "discountPrice", p.getDiscountPrice()
             )));
         }
         // 如果依然为空（比如没有标记 on_sale 的商品），再做一次强兜底：返回任意商品前 4 个
@@ -362,7 +377,9 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 "price", p.getPrice(),
                 "description", p.getDescription(),
                 "imageUrl", p.getImageUrl(),
-                "stock", p.getStock()
+                "stock", p.getStock(),
+                "onSale", p.getOnSale(),
+                "discountPrice", p.getDiscountPrice()
             )));
         }
         resp.put("products", list);
@@ -395,7 +412,9 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                     "price", p.getPrice(),
                     "description", p.getDescription(),
                     "imageUrl", p.getImageUrl(),
-                    "stock", p.getStock()
+                    "stock", p.getStock(),
+                    "onSale", p.getOnSale(),
+                    "discountPrice", p.getDiscountPrice()
             ));
         }
         Map<String, Object> resp = new HashMap<>();
@@ -421,7 +440,9 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                         "price", p.getPrice(),
                         "description", p.getDescription(),
                         "imageUrl", p.getImageUrl(),
-                        "stock", p.getStock()
+                        "stock", p.getStock(),
+                        "onSale", p.getOnSale(),
+                        "discountPrice", p.getDiscountPrice()
                 );
             }
         }
@@ -820,6 +841,10 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             m.put("price", it.getPrice());
             m.put("quantity", it.getQuantity());
             m.put("stock", it.getProduct().getStock());
+            // 新增：为购物车项补充原价与促销信息，客户端可用于展示双价
+            m.put("listPrice", it.getProduct().getPrice());
+            m.put("onSale", it.getProduct().getOnSale());
+            m.put("discountPrice", it.getProduct().getDiscountPrice());
             itemList.add(m);
         }
         itemsMsg.put("items", itemList);
@@ -837,6 +862,10 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             m.put("price", it.getPrice());
             m.put("quantity", it.getQuantity());
             m.put("stock", it.getProduct().getStock());
+            // 同步补充原价与促销信息
+            m.put("listPrice", it.getProduct().getPrice());
+            m.put("onSale", it.getProduct().getOnSale());
+            m.put("discountPrice", it.getProduct().getDiscountPrice());
             items2.add(m);
         }
         resp2.put("items", items2);

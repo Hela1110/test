@@ -354,6 +354,9 @@ void MainWindow::onReadyRead()
             if (o.contains("description")) item["description"] = o.value("description");
             if (o.contains("imageUrl")) item["image_url"] = o.value("imageUrl");
             if (o.contains("stock")) item["stock"] = o.value("stock");
+                // 新增：传递促销字段到渲染层
+                if (o.contains("onSale")) item["onSale"] = o.value("onSale");
+                if (o.contains("discountPrice")) item["discountPrice"] = o.value("discountPrice");
             results.append(item);
         }
         renderSearchResults(results);
@@ -633,7 +636,19 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
     nameLbl->setStyleSheet("font-weight:600;");
     nameLbl->setWordWrap(true);
     // 避免编码差异引起的货币符号乱码，使用 Unicode 码点或替代字符
-    auto *priceLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
+    QLabel *priceLbl = nullptr;
+    QLabel *discountLbl = nullptr;
+    bool onSale = o.value("onSale").toBool();
+    double discount = o.value("discountPrice").toDouble(0.0);
+    bool hasDiscount = onSale && discount > 0.0 && discount < price;
+    if (hasDiscount) {
+        priceLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
+        priceLbl->setStyleSheet("color:#999;text-decoration:line-through;");
+        discountLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(discount, 'f', 2)), card);
+        discountLbl->setStyleSheet("color:#E53935;font-weight:700;");
+    } else {
+        priceLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
+    }
     // 隐藏商品卡片上的库存显示，改为详情查看
         auto *btnRow = new QHBoxLayout();
     auto *detailBtn = new QPushButton(tr("详情"), card);
@@ -652,7 +667,7 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
 
         vbox->addWidget(nameLbl);
     vbox->addWidget(priceLbl);
-        vbox->addLayout(btnRow);
+        if (discountLbl) vbox->addWidget(discountLbl);
 
         int r = idx / colCount;
         int c = idx % colCount;
@@ -743,8 +758,19 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
             nameLbl->setFixedHeight(fm.lineSpacing()*2 + 4);
             nameLbl->setToolTip(name);
         }
-    auto *priceLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
-    // 隐藏商品卡片上的库存显示，改为详情查看
+    QLabel *priceLbl2 = nullptr;
+    QLabel *discountLbl2 = nullptr;
+    bool onSale2 = o.value("onSale").toBool();
+    double discount2 = o.value("discountPrice").toDouble(0.0);
+    bool hasDiscount2 = onSale2 && discount2 > 0.0 && discount2 < price;
+    if (hasDiscount2) {
+        priceLbl2 = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
+        priceLbl2->setStyleSheet("color:#999;text-decoration:line-through;");
+        discountLbl2 = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(discount2, 'f', 2)), card);
+        discountLbl2->setStyleSheet("color:#E53935;font-weight:700;");
+    } else {
+        priceLbl2 = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
+    }
         auto *btnRow = new QHBoxLayout();
     auto *detailBtn = new QPushButton(tr("详情"), card);
     auto *addBtn = new QPushButton(tr("加入购物车"), card);
@@ -752,15 +778,15 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
     addBtn->setMinimumSize(86, 28);
         if (stock == 0) {
             auto *nmEff = new QGraphicsOpacityEffect(card); nmEff->setOpacity(0.6); nameLbl->setGraphicsEffect(nmEff);
-            auto *prEff = new QGraphicsOpacityEffect(card); prEff->setOpacity(0.6); priceLbl->setGraphicsEffect(prEff);
+            auto *prEff = new QGraphicsOpacityEffect(card); prEff->setOpacity(0.6); priceLbl2->setGraphicsEffect(prEff);
             addBtn->setEnabled(false);
         }
         btnRow->addWidget(detailBtn);
         btnRow->addWidget(addBtn);
         btnRow->addStretch(1);
         vbox->addWidget(nameLbl);
-    vbox->addWidget(priceLbl);
-        vbox->addLayout(btnRow);
+    vbox->addWidget(priceLbl2);
+        if (discountLbl2) vbox->addWidget(discountLbl2);
 
         int r = idx / colCount;
         int c = idx % colCount;
@@ -825,11 +851,23 @@ void MainWindow::showProductDetail(const QJsonObject &product)
     double price = product.value("price").toDouble();
     int stock = product.value("stock").toInt(-1);
     QMessageBox box(this);
-    box.setWindowTitle(tr("商品详情"));
+    // in showProductDetail, read discount and render both prices if applicable
+    // before composing text
+    bool onSaleD = product.value("onSale").toBool();
+    double discountD = product.value("discountPrice").toDouble(0.0);
+    bool hasDiscountD = onSaleD && discountD > 0.0 && discountD < price;
+    QString priceLine;
+    if (hasDiscountD) {
+        priceLine = QString("<span style='color:#999;text-decoration:line-through;'>%1</span> <span style='color:#E53935;font-weight:700;'>%2</span>")
+                    .arg(QStringLiteral("\x00A5%1").arg(QString::number(price, 'f', 2)))
+                    .arg(QStringLiteral("\x00A5%1").arg(QString::number(discountD, 'f', 2)));
+    } else {
+        priceLine = QStringLiteral("\x00A5%1").arg(QString::number(price, 'f', 2));
+    }
     QString text = QString("%1\n%2 %3")
-                        .arg(name)
-                        .arg(QStringLiteral("价格:"))
-                        .arg(QStringLiteral("\x00A5%1").arg(QString::number(price, 'f', 2)));
+                    .arg(name)
+                    .arg(QStringLiteral("价格:"))
+                    .arg(priceLine);
     if (stock >= 0) text += QString("\n库存：%1").arg(stock);
     // 库存为0显示醒目的售罄徽标
     bool soldOut = (stock == 0);

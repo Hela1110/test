@@ -5,6 +5,7 @@ C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\ShoppingSe
 C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\model\ProductType.java
 C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\service\ProductService.java
 C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\repository\ProductTypeRepository.java
+C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\admin\AdminConsoleLauncher.java
 C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\socket\SocketServer.java
 C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\model\CartItem.java
 C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\model\Client.java
@@ -14,6 +15,7 @@ C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\repository
 C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\repository\OrderRepository.java
 C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\infra\StartupDatabaseProbe.java
 C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\model\Product.java
+C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\admin\AdminFrame.java
 C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\model\ChatMessage.java
 C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\model\OrderItem.java
 C:\Users\Edward\Desktop\test\server\src\main\java\com\shopping\server\repository\OrderItemRepository.java

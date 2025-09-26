@@ -55,7 +55,16 @@ public class OrderProcessingService {
             OrderItem item = new OrderItem();
             item.setProduct(product);
             item.setQuantity(quantity);
-            item.setPrice(product.getPrice()); // 快照价格
+            // 使用“当前售卖价”的快照：若促销且折后价有效且低于原价，则用折后价；否则用原价
+            java.math.BigDecimal sellPrice = product.getPrice();
+            if (Boolean.TRUE.equals(product.getOnSale()) && product.getDiscountPrice() != null) {
+                try {
+                    if (product.getDiscountPrice().compareTo(product.getPrice()) < 0) {
+                        sellPrice = product.getDiscountPrice();
+                    }
+                } catch (Exception ignore) {}
+            }
+            item.setPrice(sellPrice);
             cartHeader.addItem(item);
         }
         cartHeader.setTotalPrice(cartHeader.calcTotal());

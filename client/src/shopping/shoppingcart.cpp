@@ -166,7 +166,27 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
             ui->cartTable->setCellWidget(row, 0, wrap);
 
             ui->cartTable->setItem(row, 1, new QTableWidgetItem(item.value("name").toString()));
-            ui->cartTable->setItem(row, 2, new QTableWidgetItem(QString::number(price, 'f', 2)));
+            // 单价列：若存在促销（onSale 且 discountPrice < listPrice），显示 原价(划线灰)+红色折扣价
+            {
+                const double listPrice = item.contains("listPrice") ? item.value("listPrice").toDouble() : price; // 回退
+                const bool onSale = item.value("onSale").toBool();
+                const double dprice = item.contains("discountPrice") ? item.value("discountPrice").toDouble() : 0.0;
+                const bool hasDiscount = onSale && dprice > 0.0 && dprice < listPrice;
+                QWidget *cell = new QWidget(ui->cartTable);
+                auto *v = new QVBoxLayout(cell); v->setContentsMargins(2,2,2,2); v->setSpacing(0);
+                if (hasDiscount) {
+                    auto *orig = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(listPrice, 'f', 2), cell);
+                    orig->setStyleSheet("color:#999;text-decoration:line-through;font-size:12px;");
+                    auto *disc = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(dprice, 'f', 2), cell);
+                    disc->setStyleSheet("color:#E53935;font-weight:700;");
+                    v->addWidget(orig);
+                    v->addWidget(disc);
+                } else {
+                    auto *only = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(price, 'f', 2), cell);
+                    v->addWidget(only);
+                }
+                ui->cartTable->setCellWidget(row, 2, cell);
+            }
             // 数量使用 SpinBox，带上下箭头
             auto *spin = new QSpinBox(ui->cartTable);
             int maxQty = (stock >= 0 ? qMax(0, stock) : 9999);
@@ -174,7 +194,28 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
             spin->setValue(quantity);
             ui->cartTable->setCellWidget(row, 3, spin);
             // 小计
-            ui->cartTable->setItem(row, 4, new QTableWidgetItem(QString::number(price * quantity, 'f', 2)));
+            // 小计列：若有折扣，按折扣价计算，并同样展示双价（按件价×数量）
+            {
+                const double listPrice = item.contains("listPrice") ? item.value("listPrice").toDouble() : price;
+                const bool onSale = item.value("onSale").toBool();
+                const double dprice = item.contains("discountPrice") ? item.value("discountPrice").toDouble() : 0.0;
+                const bool hasDiscount = onSale && dprice > 0.0 && dprice < listPrice;
+                const double unit = hasDiscount ? dprice : price;
+                QWidget *cell = new QWidget(ui->cartTable);
+                auto *v = new QVBoxLayout(cell); v->setContentsMargins(2,2,2,2); v->setSpacing(0);
+                if (hasDiscount) {
+                    auto *orig = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(listPrice * quantity, 'f', 2), cell);
+                    orig->setStyleSheet("color:#999;text-decoration:line-through;font-size:12px;");
+                    auto *disc = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(unit * quantity, 'f', 2), cell);
+                    disc->setStyleSheet("color:#E53935;font-weight:700;");
+                    v->addWidget(orig);
+                    v->addWidget(disc);
+                } else {
+                    auto *only = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(unit * quantity, 'f', 2), cell);
+                    v->addWidget(only);
+                }
+                ui->cartTable->setCellWidget(row, 4, cell);
+            }
 
             // 连接数量变更：立即发送 set_cart_quantity，并本地更新小计/总计与 cartItems
             connect(spin, QOverload<int>::of(&QSpinBox::valueChanged), this, [this, pid, price, row](int val){
@@ -186,8 +227,32 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
                 sendRequest(req);
                 // 本地更新：小计 & cartItems 中对应项数量
                 if (ui->cartTable && row >= 0 && row < ui->cartTable->rowCount()) {
-                    auto *sub = ui->cartTable->item(row, 4);
-                    if (sub) sub->setText(QString::number(price * val, 'f', 2));
+                    // 重新渲染该行的小计单元，以便折扣价变化生效
+                    // 读取该行对应的数据项（含 listPrice/onSale/discountPrice）
+                    double listPrice = price;
+                    bool onSale = false; double dprice = 0.0;
+                    if (row >= 0 && row < cartItems.size()) {
+                        const auto it = cartItems[row];
+                        listPrice = it.contains("listPrice") ? it.value("listPrice").toDouble() : (it.value("price").toDouble());
+                        onSale = it.value("onSale").toBool();
+                        dprice = it.contains("discountPrice") ? it.value("discountPrice").toDouble() : 0.0;
+                    }
+                    const bool hasDiscount = onSale && dprice > 0.0 && dprice < listPrice;
+                    const double unit = hasDiscount ? dprice : price;
+                    QWidget *cell = new QWidget(ui->cartTable);
+                    auto *v = new QVBoxLayout(cell); v->setContentsMargins(2,2,2,2); v->setSpacing(0);
+                    if (hasDiscount) {
+                        auto *orig = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(listPrice * val, 'f', 2), cell);
+                        orig->setStyleSheet("color:#999;text-decoration:line-through;font-size:12px;");
+                        auto *disc = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(unit * val, 'f', 2), cell);
+                        disc->setStyleSheet("color:#E53935;font-weight:700;");
+                        v->addWidget(orig);
+                        v->addWidget(disc);
+                    } else {
+                        auto *only = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(unit * val, 'f', 2), cell);
+                        v->addWidget(only);
+                    }
+                    ui->cartTable->setCellWidget(row, 4, cell);
                 }
                 for (auto &ci : cartItems) {
                     if (ci.value("product_id").toInt() == pid) { ci["quantity"] = val; break; }
@@ -376,15 +441,15 @@ void ShoppingCart::updateTotalPrice()
             if (!wrap) continue;
             auto chk = wrap->findChild<QCheckBox*>();
             if (chk && chk->isChecked()) {
-                // 优先以小计列为准
-                if (auto *sub = ui->cartTable->item(r, 4)) {
-                    bool ok = false; double v = sub->text().toDouble(&ok);
-                    if (ok) { total += v; continue; }
-                }
-                // 兜底：从数据模型计算（避免显示格式导致 toDouble 失败）
+                // 从数据模型计算（兼容折扣）：单位价优先使用折扣价
                 if (r >=0 && r < cartItems.size()) {
                     const auto &it = cartItems[r];
-                    total += it.value("price").toDouble() * it.value("quantity").toInt();
+                    const double listPrice = it.contains("listPrice") ? it.value("listPrice").toDouble() : it.value("price").toDouble();
+                    const bool onSale = it.value("onSale").toBool();
+                    const double dprice = it.contains("discountPrice") ? it.value("discountPrice").toDouble() : 0.0;
+                    const bool hasDiscount = onSale && dprice > 0.0 && dprice < listPrice;
+                    const double unit = hasDiscount ? dprice : it.value("price").toDouble();
+                    total += unit * it.value("quantity").toInt();
                 }
             }
         }

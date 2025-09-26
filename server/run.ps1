@@ -54,6 +54,7 @@ if (-not (Test-Path $jarPath)) {
 
 $javaArgs = @(
     '-Xms512m','-Xmx1024m','-XX:+UseG1GC',
+    '-Djava.awt.headless=false',
     "-Dloader.path=$libDir",
     '-cp', $jarPath,
     'org.springframework.boot.loader.PropertiesLauncher',
