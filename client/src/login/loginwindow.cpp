@@ -47,7 +47,7 @@ void LoginWindow::setupUi()
             v->setSpacing(8);
             QLabel *title = central->findChild<QLabel*>(QStringLiteral("welcomeTitleFixed"));
             if (!title) {
-                title = new QLabel(QString::fromUtf8("欢迎来到微商系统"), central);
+                title = new QLabel(QString::fromUtf8("欢迎使用微商系统"), central);
                 title->setObjectName(QStringLiteral("welcomeTitleFixed"));
                 QFont f; f.setPointSize(18); f.setBold(true);
                 title->setFont(f);
@@ -58,7 +58,7 @@ void LoginWindow::setupUi()
                 // 插入到布局最顶部
                 v->insertWidget(0, title);
             } else {
-                title->setText(QString::fromUtf8("欢迎来到微商系统"));
+                title->setText(QString::fromUtf8("欢迎使用微商系统"));
                 title->setMaximumHeight(40);
                 title->show();
             }

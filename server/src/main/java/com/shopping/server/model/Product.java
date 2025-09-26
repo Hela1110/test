@@ -23,4 +23,6 @@ public class Product {
     private Integer stock;
     private Boolean onSale;
     private BigDecimal discountPrice;
+    // 商品累计销量
+    private Integer sales;
 }

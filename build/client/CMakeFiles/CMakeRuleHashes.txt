@@ -1,0 +1,5 @@
+# Hashes of file build rules.
+c521707b7b27dac15a604fb06fbd9bb9 CMakeFiles/package_app
+a409d20c56a0310be23fe3eb3128812e CMakeFiles/shopping_client_autogen
+eaaf815ad703a7ebd5fbb1ba7070ecef shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp
+d5d11e97708775bac4442b07cef6c855 shopping_client_autogen/timestamp

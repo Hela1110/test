@@ -43,6 +43,9 @@ public class ProductService {
             Product product = productOpt.get();
             if (product.getStock() >= quantity) {
                 product.setStock(product.getStock() - quantity);
+                Integer s = product.getSales();
+                if (s == null) s = 0;
+                product.setSales(s + quantity);
                 productRepository.save(product);
                 return true;
             }

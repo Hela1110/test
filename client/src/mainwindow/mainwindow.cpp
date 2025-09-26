@@ -377,9 +377,13 @@ void MainWindow::onReadyRead()
             if (o.contains("description")) item["description"] = o.value("description");
             if (o.contains("imageUrl")) item["image_url"] = o.value("imageUrl");
             if (o.contains("stock")) item["stock"] = o.value("stock");
+            // 新增：销量字段（若后端提供）
+            if (o.contains("sales")) item["sales"] = o.value("sales");
                 // 新增：传递促销字段到渲染层
                 if (o.contains("onSale")) item["onSale"] = o.value("onSale");
                 if (o.contains("discountPrice")) item["discountPrice"] = o.value("discountPrice");
+            // 新增：传递 isNew 字段以在商城卡片显示“新品”角标
+            if (o.contains("isNew")) item["isNew"] = o.value("isNew");
             results.append(item);
         }
         renderSearchResults(results);
@@ -597,9 +601,14 @@ void MainWindow::onReadyRead()
         // 分页栏
         auto *pager = new QHBoxLayout();
         auto *pageInfo = new QLabel(container); pageInfo->setObjectName("ordersPageInfo");
-        auto *prevBtn = new QPushButton(tr("上一页"), container); prevBtn->setObjectName("ordersPrev");
-        auto *nextBtn = new QPushButton(tr("下一页"), container); nextBtn->setObjectName("ordersNext");
-        pager->addWidget(pageInfo); pager->addStretch(1); pager->addWidget(prevBtn); pager->addWidget(nextBtn);
+    auto *prevBtn = new QPushButton(tr("上一页"), container); prevBtn->setObjectName("ordersPrev");
+    auto *nextBtn = new QPushButton(tr("下一页"), container); nextBtn->setObjectName("ordersNext");
+    // 分页条左对齐：信息 + 上一页/下一页，右侧留空
+    pager->addWidget(pageInfo);
+    pager->addSpacing(12);
+    pager->addWidget(prevBtn);
+    pager->addWidget(nextBtn);
+    pager->addStretch(1);
         v->addLayout(pager);
 
         // 数据与刷新函数
@@ -648,7 +657,10 @@ void MainWindow::onReadyRead()
             int r = 0;
             for (int i = start; i < end; ++i) {
                 const QVariantMap o = filtered.at(i).toMap();
-                table->setItem(r, 0, new QTableWidgetItem(QString::number(o.value("orderId").toLongLong())));
+                auto *idItem = new QTableWidgetItem(QString::number(o.value("orderId").toLongLong()));
+                // 绑定整单数据供双击时查看详情
+                idItem->setData(Qt::UserRole, o);
+                table->setItem(r, 0, idItem);
                 QString uname = o.value("username").toString(); if (uname.isEmpty()) uname = currentUsername;
                 table->setItem(r, 1, new QTableWidgetItem(uname));
                 table->setItem(r, 2, new QTableWidgetItem(QString::number(o.value("total_price").toDouble(), 'f', 2)));
@@ -667,6 +679,63 @@ void MainWindow::onReadyRead()
     connect(statusCmb, qOverload<int>(&QComboBox::currentIndexChanged), this, [container, refresh](int){ container->setProperty("ordersPageNo", 1); refresh(); });
         connect(prevBtn, &QPushButton::clicked, this, [container, refresh]{ int p = container->property("ordersPageNo").toInt(); if (p>1) { container->setProperty("ordersPageNo", p-1); refresh(); } });
         connect(nextBtn, &QPushButton::clicked, this, [container, refresh]{ int p = container->property("ordersPageNo").toInt(); container->setProperty("ordersPageNo", p+1); refresh(); });
+
+        // 双击表格行查看订单详情（小票样式）
+        if (auto *tbl = container->findChild<QTableWidget*>("ordersTable")) {
+            connect(tbl, &QTableWidget::itemDoubleClicked, this, [this, tbl](QTableWidgetItem *item){
+                int row = item->row();
+                auto *idItem = tbl->item(row, 0);
+                if (!idItem) return;
+                const QVariantMap order = idItem->data(Qt::UserRole).toMap();
+                if (order.isEmpty()) return;
+                const qlonglong orderId = order.value("orderId").toLongLong();
+                const QString status = order.value("status").toString();
+                QString timeStr = order.value("order_time").toString();
+                // 友好化时间显示：将 ISO 8601 中的 'T' 替换为空格
+                if (!timeStr.isEmpty()) timeStr.replace('T', ' ');
+                const QVariantList items = order.value("items").toList();
+                // 生成小票 HTML
+                QString html;
+                html += QString("<div style='font-weight:700;font-size:14px;margin-bottom:6px;'>订单 #%1</div>").arg(orderId);
+                if (!timeStr.isEmpty()) html += QString("<div style='color:#666;'>时间：%1</div>").arg(timeStr);
+                if (!status.isEmpty()) html += QString("<div style='color:#666;margin-bottom:6px;'>状态：%1</div>").arg(status);
+                html += QString("<table style='width:100%;border-collapse:collapse;%1%2%3'>")
+                            .arg("font-family:'Microsoft YaHei','Segoe UI','PingFang SC','Helvetica Neue',Arial,sans-serif;")
+                            .arg("font-size:13px;")
+                            .arg("");
+                html += "<tr><th style='text-align:left;border-bottom:1px solid #eee;padding:4px 0;'>商品</th>"
+                        "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>数量</th>"
+                        "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>单价</th>"
+                        "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>小计</th></tr>";
+                double sum = 0.0;
+                for (const QVariant &iv : items) {
+                    const QVariantMap it = iv.toMap();
+                    const QString name = it.value("name").toString();
+                    const int qty = it.value("quantity").toInt();
+                    const double price = it.value("price").toDouble();
+                    const double sub = price * qty;
+                    sum += sub;
+                    html += QString("<tr><td style='padding:4px 0;'>%1</td>"
+                                    "<td style='text-align:right;padding:4px 0;'>%2</td>"
+                                    "<td style='text-align:right;padding:4px 0;'>&yen;&nbsp;%3</td>"
+                                    "<td style='text-align:right;padding:4px 0;'>&yen;&nbsp;%4</td></tr>")
+                                .arg(name.toHtmlEscaped())
+                                .arg(qty)
+                                .arg(QString::number(price, 'f', 2))
+                                .arg(QString::number(sub, 'f', 2));
+                }
+                html += QString("<tr><td colspan='4' style='border-top:1px solid #eee;padding-top:6px;text-align:right;font-weight:700;'>合计：&yen;&nbsp;%1</td></tr>")
+                        .arg(QString::number(sum, 'f', 2));
+                html += "</table>";
+
+                QMessageBox box(this);
+                box.setWindowTitle(tr("订单详情"));
+                box.setTextFormat(Qt::RichText);
+                box.setText(html);
+                box.addButton(tr("关闭"), QMessageBox::RejectRole);
+                box.exec();
+            });
+        }
 
         // 返回
     connect(back, &QPushButton::clicked, this, [this, container]{ container->hide(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
@@ -861,13 +930,16 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
         vbox->setContentsMargins(8,8,8,8);
         vbox->setSpacing(4);
 
-        // 右上角“售罄”徽标（仅当库存为0显示）
-        if (stock == 0) {
+        // 右上角角标：优先显示“售罄”（库存=0），否则若 isNew=true 显示“新品”（绿色）
+        bool showSoldOut = (stock == 0);
+        bool showNew = (!showSoldOut && o.value("isNew").toBool());
+        if (showSoldOut || showNew) {
             auto *badgeRow = new QHBoxLayout();
             badgeRow->setContentsMargins(0,0,0,0);
             badgeRow->addStretch(1);
-            auto *badge = new QLabel(tr("售罄"), card);
-            badge->setStyleSheet("QLabel{background:#E53935;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}");
+            auto *badge = new QLabel(showSoldOut ? tr("售罄") : tr("新品"), card);
+            if (showSoldOut) badge->setStyleSheet("QLabel{background:#E53935;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}");
+            else badge->setStyleSheet("QLabel{background:#34A853;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}");
             badgeRow->addWidget(badge, 0, Qt::AlignRight);
             vbox->addLayout(badgeRow);
         }
@@ -908,6 +980,13 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
         vbox->addWidget(nameLbl);
         vbox->addWidget(priceLbl);
         if (discountLbl) vbox->addWidget(discountLbl);
+        // 销量标签（若返回了 sales 字段）
+        if (o.contains("sales")) {
+            const int sales = o.value("sales").toInt();
+            auto *salesLbl = new QLabel(tr("销量 %1").arg(sales), card);
+            salesLbl->setStyleSheet("color:#666;font-size:12px;");
+            vbox->addWidget(salesLbl);
+        }
         vbox->addStretch(1); // 将按钮推到底部
         vbox->addLayout(btnRow); // 把按钮行加入布局，防止浮动遮挡
 
@@ -951,6 +1030,31 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
     auto *container = ui->recommendationsArea;
     auto *layout = ensureVBoxLayout(container);
     clearLayout(layout);
+    // 排序工具条（商城页）
+    {
+        auto *bar = new QHBoxLayout();
+        bar->setContentsMargins(0,0,0,0);
+        auto *lbl = new QLabel(tr("排序:"), container);
+        auto *cmb = new QComboBox(container); cmb->setObjectName("mallSortCombo");
+        // 四个选项：销量优先、价格升序、价格降序、打折优先
+        cmb->addItem(tr("销量优先"), QStringLiteral("sales_desc"));
+        cmb->addItem(tr("价格升序"), QStringLiteral("price_asc"));
+        cmb->addItem(tr("价格降序"), QStringLiteral("price_desc"));
+        cmb->addItem(tr("打折优先"), QStringLiteral("discount_first"));
+        // 从窗口属性恢复选择，默认打折优先
+        QString mode = this->property("mallSortMode").toString();
+        if (mode.isEmpty()) mode = QStringLiteral("discount_first");
+        for (int i=0;i<cmb->count();++i) { if (cmb->itemData(i).toString()==mode) { cmb->setCurrentIndex(i); break; } }
+        bar->addWidget(lbl); bar->addWidget(cmb); bar->addStretch(1);
+        auto *barHost = new QWidget(container); barHost->setLayout(bar); layout->addWidget(barHost);
+        // 选择变化时，记录到属性并按最新规则重新渲染当前 lastResults，同时请求第一页（服务端排序覆盖全量）
+        connect(cmb, qOverload<int>(&QComboBox::currentIndexChanged), this, [this, cmb]{
+            this->setProperty("mallSortMode", cmb->currentData().toString());
+            // 立即请求第一页，带上排序参数；本地立即重排作为视觉反馈
+            requestProductsPage(1);
+            if (!lastResults.isEmpty()) renderSearchResults(lastResults);
+        });
+    }
     auto *title = new QLabel(tr("商品列表"), container);
     title->setWordWrap(true);
     title->setStyleSheet("font-weight:600;margin:6px 0;");
@@ -959,6 +1063,47 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
         layout->addWidget(new QLabel(tr("未找到相关商品"), container));
         return;
     }
+    // 根据选择应用排序（本地排序，若后端已排序则保持一致；此处只对当前页数据排序）
+    QString mode = this->property("mallSortMode").toString();
+    if (mode.isEmpty()) mode = QStringLiteral("discount_first");
+    QList<QJsonObject> list; list.reserve(results.size());
+    for (const auto &v : results) list.push_back(v.toObject());
+    auto effectivePrice = [](const QJsonObject &o){
+        const double price = o.value("price").toDouble();
+        const double discount = o.value("discountPrice").toDouble(0.0);
+        const bool onSale = o.value("onSale").toBool();
+        if (onSale && discount>0.0 && discount<price) return discount; else return price;
+    };
+    auto hasDiscount = [](const QJsonObject &o){
+        const double price = o.value("price").toDouble();
+        const double discount = o.value("discountPrice").toDouble(0.0);
+        const bool onSale = o.value("onSale").toBool();
+        return onSale && discount>0.0 && discount<price;
+    };
+    std::sort(list.begin(), list.end(), [&](const QJsonObject &a, const QJsonObject &b){
+        if (mode == QLatin1String("sales_desc")) {
+            const int sa = a.value("sales").toInt();
+            const int sb = b.value("sales").toInt();
+            if (sa != sb) return sa > sb; // 降序
+            return effectivePrice(a) < effectivePrice(b); // 次级：低价优先
+        } else if (mode == QLatin1String("price_asc")) {
+            const double pa = effectivePrice(a), pb = effectivePrice(b);
+            if (pa != pb) return pa < pb;
+            return a.value("sales").toInt() > b.value("sales").toInt();
+        } else if (mode == QLatin1String("price_desc")) {
+            const double pa = effectivePrice(a), pb = effectivePrice(b);
+            if (pa != pb) return pa > pb;
+            return a.value("sales").toInt() > b.value("sales").toInt();
+        } else /* discount_first */ {
+            const bool da = hasDiscount(a), db = hasDiscount(b);
+            if (da != db) return da && !db; // 有折扣在前
+            // 次级：按有效价升序
+            const double pa = effectivePrice(a), pb = effectivePrice(b);
+            if (pa != pb) return pa < pb;
+            return a.value("sales").toInt() > b.value("sales").toInt();
+        }
+    });
+    QJsonArray sorted; for (const auto &o : list) sorted.append(o);
     auto *grid = new QGridLayout();
     grid->setContentsMargins(4,4,4,4);
     grid->setHorizontalSpacing(8);
@@ -966,7 +1111,7 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
     int available = container->width();
     int colCount = computeColumns(available);
     int idx = 0;
-    for (auto v : results) {
+    for (auto v : sorted) {
         const auto o = v.toObject();
         int pid = o.value("product_id").toInt();
         QString name = o.value("name").toString(QLatin1String("商品"));
@@ -980,13 +1125,16 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
             auto *vbox = new QVBoxLayout(card);
         vbox->setContentsMargins(8,8,8,8);
         vbox->setSpacing(4);
-        // 右上角“售罄”徽标（仅当库存为0显示）
-        if (stock == 0) {
+        // 右上角角标：优先“售罄”，否则“新品”
+        bool showSoldOut2 = (stock == 0);
+        bool showNew2 = (!showSoldOut2 && o.value("isNew").toBool());
+        if (showSoldOut2 || showNew2) {
             auto *badgeRow = new QHBoxLayout();
             badgeRow->setContentsMargins(0,0,0,0);
             badgeRow->addStretch(1);
-            auto *badge = new QLabel(tr("售罄"), card);
-            badge->setStyleSheet("QLabel{background:#E53935;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}");
+            auto *badge = new QLabel(showSoldOut2 ? tr("售罄") : tr("新品"), card);
+            if (showSoldOut2) badge->setStyleSheet("QLabel{background:#E53935;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}");
+            else badge->setStyleSheet("QLabel{background:#34A853;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}");
             badgeRow->addWidget(badge, 0, Qt::AlignRight);
             vbox->addLayout(badgeRow);
         }
@@ -1029,6 +1177,13 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
         vbox->addWidget(nameLbl);
         vbox->addWidget(priceLbl2);
         if (discountLbl2) vbox->addWidget(discountLbl2);
+        // 销量标签（若返回了 sales 字段）
+        if (o.contains("sales")) {
+            const int sales = o.value("sales").toInt();
+            auto *salesLbl = new QLabel(tr("销量 %1").arg(sales), card);
+            salesLbl->setStyleSheet("color:#666;font-size:12px;");
+            vbox->addWidget(salesLbl);
+        }
         vbox->addStretch(1); // 将按钮推到底部
         vbox->addLayout(btnRow); // 把按钮行加入布局
 
@@ -1170,6 +1325,10 @@ void MainWindow::requestProductsPage(int page)
     req["type"] = "get_products";
     req["page"] = currentPage;
     req["size"] = pageSize;
+    // 携带排序参数（如果未设置则使用默认：打折优先）
+    QString mode = this->property("mallSortMode").toString();
+    if (mode.isEmpty()) mode = QStringLiteral("discount_first");
+    req["sort"] = mode;
     QJsonDocument doc(req);
     QByteArray payload = doc.toJson(QJsonDocument::Compact);
     payload.append('\n');
@@ -1203,12 +1362,14 @@ void MainWindow::showHomeView()
     if (ui->carouselArea) ui->carouselArea->setVisible(true);
     if (ui->promotionsArea) ui->promotionsArea->setVisible(true);
     if (ui->recommendationsArea) ui->recommendationsArea->setVisible(true);
-    // 隐藏分页器
+    // 隐藏全局分页器（仅商城显示）
     if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
     if (auto totalInfo = findChild<QWidget*>("totalInfoLabel")) totalInfo->setVisible(false);
     if (auto gotoLbl = findChild<QWidget*>("gotoLabel")) gotoLbl->setVisible(false);
     if (auto gotoSpin = findChild<QWidget*>("gotoPageSpin")) gotoSpin->setVisible(false);
     if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(false);
+    if (auto prevBtn = findChild<QWidget*>("prevPage")) prevBtn->setVisible(false);
+    if (auto nextBtn = findChild<QWidget*>("nextPage")) nextBtn->setVisible(false);
     // 隐藏购物车页（如存在）
     if (cart) cart->hide();
     // 刷新首页数据
@@ -1227,12 +1388,14 @@ void MainWindow::showMallView()
     if (ui->carouselArea) ui->carouselArea->setVisible(false);
     if (ui->promotionsArea) ui->promotionsArea->setVisible(false);
     if (ui->recommendationsArea) ui->recommendationsArea->setVisible(true);
-    // 显示分页器
+    // 仅商城显示全局分页器
     if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(true);
     if (auto totalInfo = findChild<QWidget*>("totalInfoLabel")) totalInfo->setVisible(true);
     if (auto gotoLbl = findChild<QWidget*>("gotoLabel")) gotoLbl->setVisible(true);
     if (auto gotoSpin = findChild<QWidget*>("gotoPageSpin")) gotoSpin->setVisible(true);
     if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(true);
+    if (auto prevBtn = findChild<QWidget*>("prevPage")) prevBtn->setVisible(true);
+    if (auto nextBtn = findChild<QWidget*>("nextPage")) nextBtn->setVisible(true);
     // 隐藏购物车页
     if (cart) cart->hide();
     // 请求列表第一页
@@ -1260,7 +1423,7 @@ void MainWindow::showCartView()
         }
     }
     currentView = ViewMode::Cart;
-    // 隐藏首页/商城区域和分页器
+    // 隐藏首页/商城区域和全局分页器
     if (ui->carouselArea) ui->carouselArea->setVisible(false);
     if (ui->promotionsArea) ui->promotionsArea->setVisible(false);
     if (ui->recommendationsArea) ui->recommendationsArea->setVisible(false);
@@ -1269,6 +1432,8 @@ void MainWindow::showCartView()
     if (auto gotoLbl = findChild<QWidget*>("gotoLabel")) gotoLbl->setVisible(false);
     if (auto gotoSpin = findChild<QWidget*>("gotoPageSpin")) gotoSpin->setVisible(false);
     if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(false);
+    if (auto prevBtn = findChild<QWidget*>("prevPage")) prevBtn->setVisible(false);
+    if (auto nextBtn = findChild<QWidget*>("nextPage")) nextBtn->setVisible(false);
     // 显示购物车页面并尽量铺满主界面区域
     cart->setVisible(true);
     cart->raise();
@@ -1287,7 +1452,7 @@ void MainWindow::exitCartView()
 
 void MainWindow::clearToFullPage(QWidget *page)
 {
-    // 隐藏首页/商城区域、分页器、问候标题
+    // 隐藏首页/商城区域、全局分页器、问候标题
     if (ui->carouselArea) ui->carouselArea->setVisible(false);
     if (ui->promotionsArea) ui->promotionsArea->setVisible(false);
     if (ui->recommendationsArea) ui->recommendationsArea->setVisible(false);
@@ -1298,6 +1463,8 @@ void MainWindow::clearToFullPage(QWidget *page)
     if (auto gotoLbl = findChild<QWidget*>("gotoLabel")) gotoLbl->setVisible(false);
     if (auto gotoSpin = findChild<QWidget*>("gotoPageSpin")) gotoSpin->setVisible(false);
     if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(false);
+    if (auto prevBtn = findChild<QWidget*>("prevPage")) prevBtn->setVisible(false);
+    if (auto nextBtn = findChild<QWidget*>("nextPage")) nextBtn->setVisible(false);
     if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
     if (cart) cart->hide();
     // 隐藏其他全屏页（不 deleteLater，避免频繁构建造成卡顿）
@@ -1369,6 +1536,14 @@ void MainWindow::showOrdersView()
     setTabActive("orders");
     setSearchBarVisible(false);
     if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
+    // 隐藏全局分页器，避免与订单分页重复
+    if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
+    if (auto totalInfo = findChild<QWidget*>("totalInfoLabel")) totalInfo->setVisible(false);
+    if (auto gotoLbl = findChild<QWidget*>("gotoLabel")) gotoLbl->setVisible(false);
+    if (auto gotoSpin = findChild<QWidget*>("gotoPageSpin")) gotoSpin->setVisible(false);
+    if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(false);
+    if (auto prevBtn = findChild<QWidget*>("prevPage")) prevBtn->setVisible(false);
+    if (auto nextBtn = findChild<QWidget*>("nextPage")) nextBtn->setVisible(false);
     // 发送请求；在 orders_response 分支中构建/展示内嵌页面
     if (!socket) return;
     QJsonObject req; req["type"] = "get_orders"; QJsonDocument d(req); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);

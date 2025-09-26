@@ -90,6 +90,10 @@ public class OrderProcessingService {
                     throw new IllegalStateException("Stock not enough for product " + p.getProductId());
                 }
                 p.setStock(remain);
+                // 累计销量
+                Integer s = p.getSales();
+                if (s == null) s = 0;
+                p.setSales(s + item.getQuantity());
             }
         });
         header.setStatus(OrderStatus.PAID);
@@ -159,6 +163,10 @@ public class OrderProcessingService {
                     throw new IllegalStateException("Stock not enough for product " + p.getProductId());
                 }
                 p.setStock(remain);
+                // 累计销量
+                Integer s = p.getSales();
+                if (s == null) s = 0;
+                p.setSales(s + useQty);
             }
             // 放入新订单
             OrderItem oi = new OrderItem();

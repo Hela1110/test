@@ -3168,3 +3168,240 @@ necting to 127.0.0.1:8080
 [2025-09-26 18:49:51] [INFO] Connecting to 127.0.0.1:8080
 [2025-09-26 18:49:51] [INFO] LoginWindow created and shown
 [2025-09-26 18:49:51] [DEBUG] Connected to server
+[2025-09-26 18:53:47] [ERROR] Socket error: "The remote host closed the connection"
+[2025-09-26 18:53:47] [DEBUG] Disconnected from server
+[2025-09-26 18:54:17] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-09-26 18:54:17] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-26 18:54:17] [INFO] LoginWindow created and shown
+[2025-09-26 18:54:18] [DEBUG] Connected to server
+[2025-09-26 18:54:57] [ERROR] Socket error: "The remote host closed the connection"
+[2025-09-26 18:54:57] [DEBUG] Disconnected from server
+[2025-09-26 18:55:21] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-09-26 18:55:21] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-26 18:55:21] [INFO] LoginWindow created and shown
+[2025-09-26 18:55:21] [DEBUG] Connected to server
+[2025-09-26 18:56:09] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-09-26 18:56:09] [INFO] onReadyRead bytes= 66
+[2025-09-26 18:56:09] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-26 18:56:09] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-26 18:56:09] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-26 18:56:09] [INFO] MainWindow constructed
+[2025-09-26 18:56:09] [INFO] setupConnections: searchButton= 0x15b1552d290 cartButton= 0x15b1552d800 chatButton= 0x15b1552cdb0
+[2025-09-26 18:56:09] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-26 18:56:09] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-26 18:56:09] [INFO] recv carousel_data images= 3
+[2025-09-26 18:56:09] [INFO] recv promotions count= 2
+[2025-09-26 18:56:09] [INFO] recv recommendations products= 4
+[2025-09-26 18:56:12] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 18:56:26] [INFO] recv products_response total= 22  page= 3
+[2025-09-26 18:56:26] [INFO] recv products_response total= 22  page= 4
+[2025-09-26 18:56:27] [INFO] recv products_response total= 22  page= 3
+[2025-09-26 18:56:27] [INFO] recv products_response total= 22  page= 2
+[2025-09-26 18:56:27] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 18:56:30] [INFO] recv products_response total= 22  page= 2
+[2025-09-26 18:56:33] [INFO] recv products_response total= 22  page= 3
+[2025-09-26 18:56:35] [INFO] recv products_response total= 22  page= 2
+[2025-09-26 18:56:35] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 18:56:48] [INFO] recv products_response total= 22  page= 2
+[2025-09-26 18:56:53] [INFO] recv products_response total= 22  page= 3
+[2025-09-26 18:56:55] [INFO] recv products_response total= 22  page= 4
+[2025-09-26 18:56:58] [INFO] recv products_response total= 22  page= 3
+[2025-09-26 18:56:58] [INFO] recv products_response total= 22  page= 2
+[2025-09-26 18:56:58] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 18:57:03] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 18:57:04] [INFO] recv products_response total= 22  page= 2
+[2025-09-26 18:59:13] [WARN] Socket disconnected
+[2025-09-26 19:07:43] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-09-26 19:07:43] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-26 19:07:43] [INFO] LoginWindow created and shown
+[2025-09-26 19:07:43] [DEBUG] Connected to server
+[2025-09-26 19:07:50] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-09-26 19:07:50] [INFO] onReadyRead bytes= 66
+[2025-09-26 19:07:50] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-26 19:07:50] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-26 19:07:50] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-26 19:07:50] [INFO] MainWindow constructed
+[2025-09-26 19:07:50] [INFO] setupConnections: searchButton= 0x1e2a88501f0 cartButton= 0x1e2a2ddf4c0 chatButton= 0x1e2a2ddf340
+[2025-09-26 19:07:50] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-26 19:07:50] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-26 19:07:50] [INFO] recv carousel_data images= 3
+[2025-09-26 19:07:50] [INFO] recv promotions count= 2
+[2025-09-26 19:07:50] [INFO] recv recommendations products= 4
+[2025-09-26 19:07:51] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:08:11] [INFO] recv products_response total= 22  page= 4
+[2025-09-26 19:08:32] [INFO] recv carousel_data images= 3
+[2025-09-26 19:08:32] [INFO] recv promotions count= 2
+[2025-09-26 19:08:32] [INFO] recv recommendations products= 4
+[2025-09-26 19:08:34] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:08:34] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-26 19:08:34] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-26 19:08:34] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-09-26 19:08:34] [WARN] Socket disconnected
+[2025-09-26 19:13:54] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-09-26 19:13:54] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-26 19:13:54] [INFO] LoginWindow created and shown
+[2025-09-26 19:13:54] [DEBUG] Connected to server
+[2025-09-26 19:14:01] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-09-26 19:14:01] [INFO] onReadyRead bytes= 66
+[2025-09-26 19:14:01] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-26 19:14:01] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-26 19:14:01] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-26 19:14:01] [INFO] MainWindow constructed
+[2025-09-26 19:14:01] [INFO] setupConnections: searchButton= 0x22c9deaaaf0 cartButton= 0x22c9deaa910 chatButton= 0x22c9de22960
+[2025-09-26 19:14:01] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-26 19:14:01] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-26 19:14:01] [INFO] recv carousel_data images= 3
+[2025-09-26 19:14:01] [INFO] recv promotions count= 2
+[2025-09-26 19:14:01] [INFO] recv recommendations products= 4
+[2025-09-26 19:14:05] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:14:09] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:14:11] [INFO] recv products_response total= 22  page= 3
+[2025-09-26 19:14:12] [INFO] recv products_response total= 22  page= 4
+[2025-09-26 19:14:16] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:14:18] [INFO] recv products_response total= 22  page= 2
+[2025-09-26 19:14:18] [INFO] recv products_response total= 22  page= 3
+[2025-09-26 19:14:20] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:14:25] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:14:29] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-26 19:14:29] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-26 19:14:29] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-09-26 19:14:29] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-26 19:14:29] [INFO] [cart_load] skip duplicate build sig= "1|15:1"
+[2025-09-26 19:14:30] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= false
+[2025-09-26 19:14:30] [INFO] showOnce show tag= "order_ok" title= "下单成功" text= "订单已创建：#2\n本次金额：￥299.00"
+[2025-09-26 19:14:31] [INFO] [cart_load] empty cart
+[2025-09-26 19:14:31] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-26 19:14:32] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-26 19:14:32] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-26 19:14:32] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:14:39] [INFO] recv carousel_data images= 3
+[2025-09-26 19:14:39] [INFO] recv promotions count= 2
+[2025-09-26 19:14:39] [INFO] recv recommendations products= 4
+[2025-09-26 19:14:41] [INFO] recv carousel_data images= 3
+[2025-09-26 19:14:41] [INFO] recv promotions count= 2
+[2025-09-26 19:14:41] [INFO] recv recommendations products= 4
+[2025-09-26 19:14:49] [INFO] recv carousel_data images= 3
+[2025-09-26 19:14:49] [INFO] recv promotions count= 2
+[2025-09-26 19:14:49] [INFO] recv recommendations products= 4
+[2025-09-26 19:14:58] [INFO] recv carousel_data images= 3
+[2025-09-26 19:14:58] [INFO] recv promotions count= 2
+[2025-09-26 19:14:58] [INFO] recv recommendations products= 4
+[2025-09-26 19:14:59] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:15:02] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:15:17] [WARN] Socket disconnected
+[2025-09-26 19:15:17] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-09-26 19:15:17] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-09-26 19:22:18] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-09-26 19:22:18] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-26 19:22:18] [INFO] LoginWindow created and shown
+[2025-09-26 19:22:18] [DEBUG] Connected to server
+[2025-09-26 19:22:24] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-09-26 19:22:24] [INFO] onReadyRead bytes= 66
+[2025-09-26 19:22:24] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-26 19:22:24] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-26 19:22:24] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-26 19:22:24] [INFO] MainWindow constructed
+[2025-09-26 19:22:24] [INFO] setupConnections: searchButton= 0x148edde03a0 cartButton= 0x148e67a0cd0 chatButton= 0x148e67a1120
+[2025-09-26 19:22:24] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-26 19:22:24] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-26 19:22:24] [INFO] recv carousel_data images= 3
+[2025-09-26 19:22:24] [INFO] recv promotions count= 2
+[2025-09-26 19:22:24] [INFO] recv recommendations products= 4
+[2025-09-26 19:22:28] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:22:34] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-26 19:22:34] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-26 19:22:34] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-09-26 19:22:34] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-09-26 19:22:34] [INFO] [cart_load] skip duplicate build sig= "3|16:1,18:1,20:1"
+[2025-09-26 19:22:45] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:36:15] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-09-26 19:36:15] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-26 19:36:15] [INFO] LoginWindow created and shown
+[2025-09-26 19:36:15] [DEBUG] Connected to server
+[2025-09-26 19:36:22] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-09-26 19:36:22] [INFO] onReadyRead bytes= 66
+[2025-09-26 19:36:22] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-26 19:36:22] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-26 19:36:22] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-26 19:36:22] [INFO] MainWindow constructed
+[2025-09-26 19:36:22] [INFO] setupConnections: searchButton= 0x1de7a66e370 cartButton= 0x1de7a61f900 chatButton= 0x1de7a61f960
+[2025-09-26 19:36:22] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-26 19:36:22] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-26 19:36:22] [INFO] recv carousel_data images= 3
+[2025-09-26 19:36:22] [INFO] recv promotions count= 2
+[2025-09-26 19:36:22] [INFO] recv recommendations products= 4
+[2025-09-26 19:36:32] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:36:36] [INFO] recv products_response total= 22  page= 3
+[2025-09-26 19:36:37] [INFO] recv products_response total= 22  page= 4
+[2025-09-26 19:36:38] [INFO] recv products_response total= 22  page= 3
+[2025-09-26 19:36:39] [INFO] recv products_response total= 22  page= 2
+[2025-09-26 19:36:40] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:36:43] [INFO] recv carousel_data images= 3
+[2025-09-26 19:36:43] [INFO] recv promotions count= 2
+[2025-09-26 19:36:43] [INFO] recv recommendations products= 4
+[2025-09-26 19:36:44] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:36:47] [INFO] recv products_response total= 22  page= 2
+[2025-09-26 19:36:48] [INFO] recv products_response total= 22  page= 3
+[2025-09-26 19:36:49] [INFO] recv products_response total= 22  page= 4
+[2025-09-26 19:36:51] [INFO] recv products_response total= 22  page= 3
+[2025-09-26 19:36:52] [INFO] recv products_response total= 22  page= 2
+[2025-09-26 19:36:54] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:36:58] [INFO] recv products_response total= 22  page= 2
+[2025-09-26 19:37:00] [INFO] recv products_response total= 22  page= 3
+[2025-09-26 19:37:02] [INFO] recv products_response total= 22  page= 4
+[2025-09-26 19:37:11] [INFO] recv products_response total= 1  page= 4
+[2025-09-26 19:37:11] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:37:14] [INFO] recv products_response total= 1  page= 1
+[2025-09-26 19:37:19] [INFO] recv products_response total= 1  page= 1
+[2025-09-26 19:37:21] [INFO] recv products_response total= 5  page= 1
+[2025-09-26 19:37:26] [WARN] Socket disconnected
+[2025-09-26 19:37:26] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-09-26 19:37:26] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-09-26 19:48:32] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-09-26 19:48:32] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-26 19:48:32] [INFO] LoginWindow created and shown
+[2025-09-26 19:48:32] [DEBUG] Connected to server
+[2025-09-26 19:48:38] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-09-26 19:48:38] [INFO] onReadyRead bytes= 66
+[2025-09-26 19:48:38] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-26 19:48:38] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-26 19:48:38] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-26 19:48:38] [INFO] MainWindow constructed
+[2025-09-26 19:48:38] [INFO] setupConnections: searchButton= 0x20066eb2a20 cartButton= 0x20066eb2bd0 chatButton= 0x20066e319e0
+[2025-09-26 19:48:38] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-26 19:48:38] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-26 19:48:38] [INFO] recv carousel_data images= 3
+[2025-09-26 19:48:38] [INFO] recv promotions count= 2
+[2025-09-26 19:48:38] [INFO] recv recommendations products= 4
+[2025-09-26 19:48:47] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 19:49:22] [WARN] Socket disconnected
+[2025-09-26 20:48:22] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-09-26 20:48:22] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-26 20:48:22] [INFO] LoginWindow created and shown
+[2025-09-26 20:48:22] [DEBUG] Connected to server
+[2025-09-26 20:48:30] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-09-26 20:48:30] [INFO] onReadyRead bytes= 66
+[2025-09-26 20:48:30] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-26 20:48:30] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-26 20:48:30] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-26 20:48:30] [INFO] MainWindow constructed
+[2025-09-26 20:48:30] [INFO] setupConnections: searchButton= 0x1aed99deb80 cartButton= 0x1aed9961cb0 chatButton= 0x1aed999fee0
+[2025-09-26 20:48:30] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-26 20:48:30] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-26 20:48:30] [INFO] recv carousel_data images= 3
+[2025-09-26 20:48:30] [INFO] recv promotions count= 2
+[2025-09-26 20:48:30] [INFO] recv recommendations products= 4
+[2025-09-26 20:48:35] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 20:48:39] [INFO] recv products_response total= 22  page= 3
+[2025-09-26 20:48:44] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 20:48:48] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 20:48:51] [INFO] recv products_response total= 22  page= 2
+[2025-09-26 20:48:53] [INFO] recv products_response total= 22  page= 3
+[2025-09-26 20:48:56] [INFO] recv products_response total= 22  page= 4
+[2025-09-26 20:48:58] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-26 20:48:58] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-26 20:48:58] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-09-26 20:48:58] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-09-26 20:48:58] [INFO] [cart_load] skip duplicate build sig= "3|16:1,18:1,20:1"
+[2025-09-26 20:49:00] [INFO] recv products_response total= 22  page= 1
+[2025-09-26 20:49:13] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()

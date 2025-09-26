@@ -224,9 +224,30 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (page < 1) page = 1; if (size < 1) size = 10;
         // Spring Data page 从 0 开始
         var pageable = org.springframework.data.domain.PageRequest.of(page-1, size);
-        var pageData = productRepository.findAll(pageable);
-        List<Map<String,Object>> products = new CopyOnWriteArrayList<>();
-        pageData.getContent().forEach(p -> {
+        String sort = String.valueOf(request.getOrDefault("sort", "discount_first"));
+        java.util.List<com.shopping.server.model.Product> list;
+        long total;
+    // 总量直接使用 count()
+    total = productRepository.count();
+        switch (sort) {
+            case "sales_desc":
+                list = productRepository.findAllOrderBySalesDesc(pageable);
+                break;
+            case "price_asc":
+                list = productRepository.findAllOrderByEffectivePriceAsc(pageable);
+                break;
+            case "price_desc":
+                list = productRepository.findAllOrderByEffectivePriceDesc(pageable);
+                break;
+            case "discount_first":
+            default:
+                list = productRepository.findAllDiscountFirst(pageable);
+                break;
+        }
+    Long _tmpMaxPid = null; try { _tmpMaxPid = productRepository.findMaxProductId(); } catch (Exception ignore) {}
+    final Long maxPid = _tmpMaxPid;
+    List<Map<String,Object>> products = new CopyOnWriteArrayList<>();
+        list.forEach(p -> {
             Map<String,Object> it = new HashMap<>();
             // 同时返回多种 id 命名，兼容旧客户端
             it.put("id", p.getProductId());
@@ -239,13 +260,15 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             it.put("imageUrl", p.getImageUrl());
             it.put("image", p.getImageUrl());
             it.put("stock", p.getStock());
+            it.put("sales", p.getSales());
+            if (maxPid != null) it.put("isNew", java.util.Objects.equals(maxPid, p.getProductId()));
                 it.put("onSale", p.getOnSale());
                 it.put("discountPrice", p.getDiscountPrice());
             products.add(it);
         });
         Map<String,Object> resp = new HashMap<>();
         resp.put("type", "products_response");
-        resp.put("total", pageData.getTotalElements());
+        resp.put("total", total);
         resp.put("products", products);
         ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
     }
@@ -258,6 +281,8 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         } else {
             list = productRepository.findByNameContainingIgnoreCase(keyword);
         }
+        Long _tmpMaxPid = null; try { _tmpMaxPid = productRepository.findMaxProductId(); } catch (Exception ignore) {}
+        final Long maxPid = _tmpMaxPid;
         List<Map<String,Object>> products = new CopyOnWriteArrayList<>();
         list.forEach(p -> {
             Map<String,Object> it = new HashMap<>();
@@ -271,6 +296,8 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             it.put("imageUrl", p.getImageUrl());
             it.put("image", p.getImageUrl());
             it.put("stock", p.getStock());
+            it.put("sales", p.getSales());
+            if (maxPid != null) it.put("isNew", java.util.Objects.equals(maxPid, p.getProductId()));
                 it.put("onSale", p.getOnSale());
                 it.put("discountPrice", p.getDiscountPrice());
             products.add(it);
@@ -336,7 +363,9 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         Map<String, Object> resp = new HashMap<>();
         resp.put("type", "recommendations");
         // 使用数据库：优先按折扣力度排序的前 4 个（若仓库方法可用），否则取 onSale 前 4 个
-        List<Map<String,Object>> list = new CopyOnWriteArrayList<>();
+    List<Map<String,Object>> list = new CopyOnWriteArrayList<>();
+    Long _tmpMaxPid = null; try { _tmpMaxPid = productRepository.findMaxProductId(); } catch (Exception ignore) {}
+    final Long maxPid = _tmpMaxPid;
         try {
             var top = productRepository.findTopDiscountProducts(org.springframework.data.domain.PageRequest.of(0, 4));
             top.forEach(p -> list.add(mapOf(
@@ -348,8 +377,10 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 "description", p.getDescription(),
                 "imageUrl", p.getImageUrl(),
                 "stock", p.getStock(),
+                "sales", p.getSales(),
                 "onSale", p.getOnSale(),
-                "discountPrice", p.getDiscountPrice()
+                "discountPrice", p.getDiscountPrice(),
+                "isNew", (maxPid != null && java.util.Objects.equals(maxPid, p.getProductId()))
             )));
         } catch (Exception ignore) {
             // 兜底：取所有上架商品前 4 个
@@ -362,8 +393,10 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 "description", p.getDescription(),
                 "imageUrl", p.getImageUrl(),
                 "stock", p.getStock(),
+                "sales", p.getSales(),
                 "onSale", p.getOnSale(),
-                "discountPrice", p.getDiscountPrice()
+                "discountPrice", p.getDiscountPrice(),
+                "isNew", (maxPid != null && java.util.Objects.equals(maxPid, p.getProductId()))
             )));
         }
         // 如果依然为空（比如没有标记 on_sale 的商品），再做一次强兜底：返回任意商品前 4 个
@@ -378,11 +411,51 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 "description", p.getDescription(),
                 "imageUrl", p.getImageUrl(),
                 "stock", p.getStock(),
+                "sales", p.getSales(),
                 "onSale", p.getOnSale(),
-                "discountPrice", p.getDiscountPrice()
+                "discountPrice", p.getDiscountPrice(),
+                "isNew", (maxPid != null && java.util.Objects.equals(maxPid, p.getProductId()))
             )));
         }
-        resp.put("products", list);
+        // 强制包含最新商品
+        if (maxPid != null) {
+            try {
+                var newest = productRepository.findTopByOrderByProductIdDesc();
+                if (newest != null) {
+                    boolean exists = list.stream().anyMatch(m -> {
+                        Object pidObj = m.get("product_id");
+                        return (pidObj instanceof Number) && java.util.Objects.equals(((Number)pidObj).longValue(), maxPid);
+                    });
+                    if (!exists) {
+                        list.add(0, mapOf(
+                            "product_id", newest.getProductId(),
+                            "id", newest.getProductId(),
+                            "productId", newest.getProductId(),
+                            "name", newest.getName(),
+                            "price", newest.getPrice(),
+                            "description", newest.getDescription(),
+                            "imageUrl", newest.getImageUrl(),
+                            "stock", newest.getStock(),
+                            "sales", newest.getSales(),
+                            "onSale", newest.getOnSale(),
+                            "discountPrice", newest.getDiscountPrice(),
+                            "isNew", true
+                        ));
+                    } else {
+                        // 已在列表，确保 isNew 为 true
+                        for (var m : list) {
+                            Object pidObj = m.get("product_id");
+                            if (pidObj instanceof Number && java.util.Objects.equals(((Number)pidObj).longValue(), maxPid)) {
+                                m.put("isNew", true);
+                                break;
+                            }
+                        }
+                    }
+                }
+            } catch (Exception ignore) {}
+        }
+        List<Map<String,Object>> out = list.size() > 4 ? new java.util.ArrayList<>(list.subList(0, 4)) : list;
+        resp.put("products", out);
         ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
     }
 
@@ -405,7 +478,8 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         } else {
             list = productRepository.findByNameContainingIgnoreCase(keyword);
         }
-        for (var p : list) {
+    Long maxPid = null; try { maxPid = productRepository.findMaxProductId(); } catch (Exception ignore) {}
+    for (var p : list) {
             results.add(mapOf(
                     "product_id", p.getProductId(),
                     "name", p.getName(),
@@ -413,8 +487,9 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                     "description", p.getDescription(),
                     "imageUrl", p.getImageUrl(),
                     "stock", p.getStock(),
-                    "onSale", p.getOnSale(),
-                    "discountPrice", p.getDiscountPrice()
+            "onSale", p.getOnSale(),
+            "discountPrice", p.getDiscountPrice(),
+            "isNew", (maxPid != null && java.util.Objects.equals(maxPid, p.getProductId()))
             ));
         }
         Map<String, Object> resp = new HashMap<>();
@@ -429,20 +504,23 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         Map<String, Object> resp = new HashMap<>();
         resp.put("type", "product_detail");
         Map<String, Object> productMap = null;
-        if (pid != null) {
+    if (pid != null) {
             long id = ((Number)pid).longValue();
             var opt = productRepository.findById(id);
             if (opt.isPresent()) {
                 var p = opt.get();
-                productMap = mapOf(
+        Long maxPid = null; try { maxPid = productRepository.findMaxProductId(); } catch (Exception ignore) {}
+        productMap = mapOf(
                         "product_id", p.getProductId(),
                         "name", p.getName(),
                         "price", p.getPrice(),
                         "description", p.getDescription(),
                         "imageUrl", p.getImageUrl(),
                         "stock", p.getStock(),
-                        "onSale", p.getOnSale(),
-                        "discountPrice", p.getDiscountPrice()
+            "sales", p.getSales(),
+            "onSale", p.getOnSale(),
+            "discountPrice", p.getDiscountPrice(),
+            "isNew", (maxPid != null && java.util.Objects.equals(maxPid, p.getProductId()))
                 );
             }
         }

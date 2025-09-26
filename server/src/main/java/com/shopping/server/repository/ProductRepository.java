@@ -87,4 +87,27 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @return 库存不足的商品数量
      */
     long countByStockLessThan(Integer stockThreshold);
+
+       // 最新上架（按 productId 最大）
+       Product findTopByOrderByProductIdDesc();
+    
+       @Query("SELECT MAX(p.productId) FROM Product p")
+       Long findMaxProductId();
+
+       // ========== 自定义分页排序查询 ==========
+       // 销量倒序
+       @Query("SELECT p FROM Product p ORDER BY p.sales DESC, p.price ASC")
+       List<Product> findAllOrderBySalesDesc(Pageable pageable);
+
+       // 价格升序（有效价格：onSale 且 discountPrice < price 时取 discountPrice，否则取 price）
+       @Query("SELECT p FROM Product p ORDER BY CASE WHEN p.onSale = true AND p.discountPrice IS NOT NULL AND p.discountPrice < p.price THEN p.discountPrice ELSE p.price END ASC, p.sales DESC")
+       List<Product> findAllOrderByEffectivePriceAsc(Pageable pageable);
+
+       // 价格降序（有效价格）
+       @Query("SELECT p FROM Product p ORDER BY CASE WHEN p.onSale = true AND p.discountPrice IS NOT NULL AND p.discountPrice < p.price THEN p.discountPrice ELSE p.price END DESC, p.sales DESC")
+       List<Product> findAllOrderByEffectivePriceDesc(Pageable pageable);
+
+       // 打折优先 -> 有折扣的在前，其次按有效价格升序，其次销量降序
+       @Query("SELECT p FROM Product p ORDER BY CASE WHEN p.onSale = true AND p.discountPrice IS NOT NULL AND p.discountPrice < p.price THEN 0 ELSE 1 END ASC, CASE WHEN p.onSale = true AND p.discountPrice IS NOT NULL AND p.discountPrice < p.price THEN p.discountPrice ELSE p.price END ASC, p.sales DESC")
+       List<Product> findAllDiscountFirst(Pageable pageable);
 }
