@@ -7,3 +7,39 @@
 [2025-09-27 13:00:48] stage-6: LoginWindow constructed
 [2025-09-27 13:00:49] stage-7: LoginWindow shown
 [2025-09-27 13:00:49] stage-8: entering app.exec()
+[2025-09-27 21:58:11] pre-0: entering main()
+[2025-09-27 21:58:11] stage-1: QApplication constructed
+[2025-09-27 21:58:11] stage-2: setQuitOnLastWindowClosed(false)
+[2025-09-27 21:58:11] stage-3: app meta set
+[2025-09-27 21:58:11] stage-4: logger initialized (or attempted)
+[2025-09-27 21:58:11] stage-5: stylesheet loaded (if any)
+[2025-09-27 21:58:11] stage-6: LoginWindow constructed
+[2025-09-27 21:58:12] stage-7: LoginWindow shown
+[2025-09-27 21:58:12] stage-8: entering app.exec()
+[2025-09-27 21:59:48] pre-0: entering main()
+[2025-09-27 21:59:48] stage-1: QApplication constructed
+[2025-09-27 21:59:48] stage-2: setQuitOnLastWindowClosed(false)
+[2025-09-27 21:59:48] stage-3: app meta set
+[2025-09-27 21:59:48] stage-4: logger initialized (or attempted)
+[2025-09-27 21:59:48] stage-5: stylesheet loaded (if any)
+[2025-09-27 21:59:48] stage-6: LoginWindow constructed
+[2025-09-27 21:59:48] stage-7: LoginWindow shown
+[2025-09-27 21:59:48] stage-8: entering app.exec()
+[2025-09-27 22:03:09] pre-0: entering main()
+[2025-09-27 22:03:09] stage-1: QApplication constructed
+[2025-09-27 22:03:09] stage-2: setQuitOnLastWindowClosed(false)
+[2025-09-27 22:03:09] stage-3: app meta set
+[2025-09-27 22:03:09] stage-4: logger initialized (or attempted)
+[2025-09-27 22:03:09] stage-5: stylesheet loaded (if any)
+[2025-09-27 22:03:09] stage-6: LoginWindow constructed
+[2025-09-27 22:03:09] stage-7: LoginWindow shown
+[2025-09-27 22:03:09] stage-8: entering app.exec()
+[2025-09-27 22:03:39] pre-0: entering main()
+[2025-09-27 22:03:39] stage-1: QApplication constructed
+[2025-09-27 22:03:39] stage-2: setQuitOnLastWindowClosed(false)
+[2025-09-27 22:03:39] stage-3: app meta set
+[2025-09-27 22:03:39] stage-4: logger initialized (or attempted)
+[2025-09-27 22:03:39] stage-5: stylesheet loaded (if any)
+[2025-09-27 22:03:39] stage-6: LoginWindow constructed
+[2025-09-27 22:03:39] stage-7: LoginWindow shown
+[2025-09-27 22:03:39] stage-8: entering app.exec()

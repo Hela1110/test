@@ -24,6 +24,13 @@
 #include <QTabBar>
 #include <QSignalBlocker>
 #include <QComboBox>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QUrl>
+#include <QBuffer>
+#include <QPixmap>
+#include <QLabel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -33,6 +40,10 @@ MainWindow::MainWindow(QWidget *parent)
     , chat(nullptr)
 {
     ui->setupUi(this);
+    // 初始化网络图片加载器
+    http = new QNetworkAccessManager(this);
+    // 默认 HTTP 基址为空，等 socket 建立后从对端地址推断（例如 http://127.0.0.1:8081）
+    httpBase.clear();
     qInfo() << "MainWindow constructed";
     monotonic.start();
     setupUi();
@@ -74,6 +85,21 @@ void MainWindow::setSocket(QTcpSocket *s)
         qWarning() << "Socket disconnected";
         statusBar()->showMessage(tr("网络连接已断开"), 4000);
     });
+    // 通过 TCP 连接对端推断静态资源 HTTP 基址（同一台服务器通常同时提供 9090 套接字与 8081 HTTP）
+    // 若对端是 127.0.0.1 或 ::1，则使用 localhost
+    if (socket) {
+        const QHostAddress addr = socket->peerAddress();
+        QString host;
+        if (addr.isNull()) {
+            host = QStringLiteral("localhost");
+        } else if (addr == QHostAddress::LocalHost || addr == QHostAddress::LocalHostIPv6) {
+            host = QStringLiteral("localhost");
+        } else {
+            host = addr.toString();
+        }
+        httpBase = QStringLiteral("http://%1:8081").arg(host);
+        qInfo() << "HTTP base resolved to" << httpBase;
+    }
     // 刚设置好 socket 时，主动进入首页并加载内容
     showHomeView();
 }
@@ -1202,6 +1228,20 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
             badgeRow->addWidget(badge, 0, Qt::AlignRight);
             vbox->addLayout(badgeRow);
         }
+        // 图片区域（固定高，等比缩放）
+        {
+            auto *img = new QLabel(card);
+            img->setObjectName("img");
+            img->setAlignment(Qt::AlignCenter);
+            img->setMinimumHeight(100);
+            img->setStyleSheet("QLabel{background:#fafafa;border:1px solid #eee;border-radius:6px;}");
+            vbox->addWidget(img);
+            // 若有 image_url 字段，发起加载
+            const QString imgUrl = o.value("image_url").toString();
+            if (!imgUrl.isEmpty()) {
+                setImageFromUrl(imgUrl, img, QSize(160, 100));
+            }
+        }
         auto *nameLbl = new QLabel(name, card);
         nameLbl->setStyleSheet("font-weight:600;");
         nameLbl->setWordWrap(true);
@@ -1667,4 +1707,58 @@ void MainWindow::setSearchBarVisible(bool visible)
 {
     if (auto w = findChild<QWidget*>("searchInput")) w->setVisible(visible);
     if (auto w = findChild<QWidget*>("searchButton")) w->setVisible(visible);
+}
+// 加载网络图片（带简单内存缓存），按目标尺寸等比缩放后设置到 QLabel
+void MainWindow::setImageFromUrl(const QString &url, QLabel *label, const QSize &targetSize)
+{
+    if (!label) return;
+    // 归一化：将相对路径或以 /images 开头的路径补齐为完整 URL
+    const QString fullUrl = resolveHttpUrl(url);
+    // 命中缓存
+    if (imageCache.contains(fullUrl)) {
+        label->setPixmap(scaledAspect(imageCache.value(fullUrl), targetSize));
+        return;
+    }
+    QUrl qurl(fullUrl);
+    if (!qurl.isValid() || qurl.scheme().isEmpty()) return;
+    QNetworkRequest req(qurl);
+    auto *reply = http->get(req);
+    connect(reply, &QNetworkReply::finished, this, [this, reply, fullUrl, label, targetSize]{
+        reply->deleteLater();
+        if (reply->error() != QNetworkReply::NoError) {
+            qWarning() << "Image load failed" << fullUrl << ":" << reply->errorString();
+            if (label) label->setText(tr("图片加载失败"));
+            return;
+        }
+        const QByteArray bytes = reply->readAll();
+        QPixmap pm; if (!pm.loadFromData(bytes)) return;
+        imageCache.insert(fullUrl, pm);
+        if (label) label->setPixmap(scaledAspect(pm, targetSize));
+    });
+}
+
+QPixmap MainWindow::scaledAspect(const QPixmap &src, const QSize &target)
+{
+    if (src.isNull() || !target.isValid()) return src;
+    return src.scaled(target, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+}
+
+QString MainWindow::resolveHttpUrl(const QString &url) const
+{
+    QString u = url.trimmed();
+    if (u.isEmpty()) return u;
+    // 已经是 http/https，直接返回
+    if (u.startsWith("http://", Qt::CaseInsensitive) || u.startsWith("https://", Qt::CaseInsensitive)) return u;
+    // 以 // 开头的协议相对 URL，补 http:
+    if (u.startsWith("//")) return QStringLiteral("http:%1").arg(u);
+    // 以 /images 或 images 开头的相对路径，拼上 httpBase
+    if (u.startsWith("/")) {
+        return httpBase.isEmpty() ? (QStringLiteral("http://localhost:8081") + u) : (httpBase + u);
+    }
+    if (u.startsWith("images/", Qt::CaseInsensitive)) {
+        return httpBase.isEmpty() ? (QStringLiteral("http://localhost:8081/") + u) : (httpBase + "/" + u);
+    }
+    // 其他相对路径，按 images/ 子目录处理
+    return httpBase.isEmpty() ? (QStringLiteral("http://localhost:8081/images/") + u)
+                              : (httpBase + "/images/" + u);
 }

@@ -75,7 +75,7 @@
             "name": "商品名称",
             "price": 价格,
             "description": "描述",
-            "imageUrl": "图片URL",
+            "imageUrl": "图片URL(推荐使用 http/https/CDN 或可访问的静态服务器路径)",
             "stock": 库存量
         }
     ]
@@ -199,6 +199,7 @@
     - 请求：优先使用 `search_products` 与 `get_products { page, size }`
     - 响应：`products_response { total, products[] }`
     - 客户端会将 `products[].id/name/price/[description]/[imageUrl]` 映射为内部使用的 `product_id/name/price/[description]/[image_url]`，以复用既有渲染逻辑
+    - 图片字段：支持 `imageUrl`（首选），兼容 `image` 与 `image_url`。若提供 URL，客户端会直接加载；若为本地路径，需保证客户端可访问（如放在 HTTP 静态目录或共享盘）。
 
 - 购物车
     - 请求：`get_cart`

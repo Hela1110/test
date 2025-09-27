@@ -484,6 +484,8 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
  C:/Users/Edward/Desktop/test/client/include/chatwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
  C:\Users\Edward\Desktop\test\build-qt1310\shopping_client_autogen\LQ5S74IWJL/moc_registerdialog.cpp \
  C:/Users/Edward/Desktop/test/client/include/register/registerdialog.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \

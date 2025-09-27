@@ -48,4 +48,22 @@ public interface OrderHeaderRepository extends JpaRepository<OrderHeader, Long> 
     List<Object[]> sumByMonthForClient(@Param("client") Client client,
                         @Param("start") java.time.LocalDateTime start,
                         @Param("end") java.time.LocalDateTime end);
+
+    // 统计：某用户已支付(PAID)订单数量，用于回写 Client.purchaseCount
+    @Query("select count(h) from OrderHeader h where h.client = :client and h.status = com.shopping.server.model.OrderStatus.PAID")
+    long countPaidByClient(@Param("client") Client client);
+
+    // 管理端：获取所有订单概要（避免 LAZY 问题，直接投影为简单数组）
+    @Query("select h.id, c.username, h.status, h.totalPrice, h.createdAt from OrderHeader h join h.client c order by h.createdAt desc")
+    java.util.List<Object[]> findAllOrderSummaries();
+
+    // 管理端：按时间/用户/状态可选条件过滤订单概要
+    @Query("select h.id, c.username, h.status, h.totalPrice, h.createdAt from OrderHeader h join h.client c " +
+           "where (:start is null or h.createdAt >= :start) and (:end is null or h.createdAt <= :end) " +
+           "and (:username is null or lower(c.username) like lower(concat('%', :username, '%'))) " +
+           "and (:status is null or h.status = :status) order by h.createdAt desc")
+    java.util.List<Object[]> findOrderSummaries(@Param("start") java.time.LocalDateTime start,
+                                                @Param("end") java.time.LocalDateTime end,
+                                                @Param("username") String username,
+                                                @Param("status") com.shopping.server.model.OrderStatus status);
 }

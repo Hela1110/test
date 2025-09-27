@@ -21,6 +21,11 @@
 - JDK 11+ (服务端)
 - MySQL 8.0+
 
+### 新增特性（2025-09）
+- 管理端“系统/用户”：支持分页浏览、搜索，并可禁用/启用用户；禁用用户将无法通过 Socket/REST 登录。
+- 数据统计导出：导出的 CSV 采用 UTF-8 BOM 与 CRLF，便于 Windows Excel 直接双击打开。
+- 图片展示：客户端优先读取后端返回的 `imageUrl` 字段加载图片（支持 http/https/CDN）。
+
 ## 启动方式
 
 ### 一键启动（推荐）
@@ -100,6 +105,11 @@ StartAll.bat 8081 9090
 
 成功后，服务端日志会输出 `[DB-PROBE] chat_messages table created.` 或 `exists.` 提示。
 
+### 数据库增量脚本（用户启用/禁用）
+
+- 执行：`database/sql/alter_20250927_add_enabled_to_clients.sql` 为 `clients` 增加 `enabled` 列（默认启用）。
+	- 禁用用户后，Socket 与 REST 登录都会拒绝并提示“该账号已被禁用，请联系管理员”。
+
 ## 日志位置
 
 - 客户端：同目录 `client.log`（交互、协议、错误）
@@ -126,6 +136,12 @@ StartAll.bat 8081 9090
 - 下单
 	- 购物车“结算”使用 `create_order`，将购物车中的 `productId/quantity` 作为 `items` 提交
 	- 成功只提示一次“下单成功（含订单号）”；失败根据 `code/message` 提示
+
+### 图片字段说明
+
+- 商品/首页图片字段：`imageUrl`
+  - 推荐提供完整 URL（http/https），客户端直接加载。
+  - 若为本地路径，请确保客户端运行环境可访问；或在服务端配置静态资源目录并返回对应 URL。
 
 	## 数据库重构后的 Socket 协议要点（2025 重构）
 

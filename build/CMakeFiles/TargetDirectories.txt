@@ -1,6 +1,0 @@
-C:/Users/Edward/Desktop/test/build/CMakeFiles/shopping_client.dir
-C:/Users/Edward/Desktop/test/build/CMakeFiles/package_app.dir
-C:/Users/Edward/Desktop/test/build/CMakeFiles/edit_cache.dir
-C:/Users/Edward/Desktop/test/build/CMakeFiles/rebuild_cache.dir
-C:/Users/Edward/Desktop/test/build/CMakeFiles/shopping_client_autogen_timestamp_deps.dir
-C:/Users/Edward/Desktop/test/build/CMakeFiles/shopping_client_autogen.dir

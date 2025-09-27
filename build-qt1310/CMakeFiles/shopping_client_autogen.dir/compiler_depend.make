@@ -225,6 +225,7 @@ shopping_client_autogen/timestamp: CMakeFiles/4.1.1/CMakeCCompiler.cmake \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
   D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent \
   D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
@@ -1450,6 +1451,14 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h:
 
+D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/pthread.h:
+
+D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/corecrt_wstdlib.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreAdditionalTargetInfo.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap:
+
 D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform:
@@ -1727,12 +1736,6 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicSbomSystemDepHelpers.cmake:
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginConfig.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicTestHelpers.cmake:
-
-D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/pthread.h:
-
-D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/corecrt_wstdlib.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreAdditionalTargetInfo.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfigVersionImpl.cmake:
 

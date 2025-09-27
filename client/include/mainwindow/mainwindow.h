@@ -8,8 +8,12 @@
 #include "chat/chatwindow.h"
 #include <QElapsedTimer>
 #include <QJsonArray>
+#include <QHash>
+#include <QPixmap>
 
 class QTabBar;
+class QNetworkAccessManager;
+class QLabel;
 
 namespace Ui {
 class MainWindow;
@@ -100,6 +104,15 @@ private:
 
     // 防止 Tab 切换递归触发
     bool tabSwitching = false;
+
+    // 网络图片加载与缓存
+    QNetworkAccessManager *http = nullptr;
+    QHash<QString, QPixmap> imageCache;
+    void setImageFromUrl(const QString &url, QLabel *label, const QSize &targetSize);
+    static QPixmap scaledAspect(const QPixmap &src, const QSize &target);
+    // HTTP 服务器基址（用于将相对路径如 /images/1.jpg 自动补齐为完整 URL）
+    QString httpBase;
+    QString resolveHttpUrl(const QString &url) const;
 
 protected:
     void resizeEvent(QResizeEvent *event) override;

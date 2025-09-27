@@ -30,3 +30,9 @@ probe:
   db: true   # 控制是否在启动后执行一次数据库探针（可在启动参数 --probe.db=false 关闭）
   ensureChat: false  # 若为 true，则在启动探针时确保 chat_messages 表存在（开发环境便捷用）
 
+# 本地图片静态资源配置
+# 将本地目录映射为 /images/** 静态资源
+app:
+  images:
+    dir: "c:/Users/Edward/Desktop/test/images"
+

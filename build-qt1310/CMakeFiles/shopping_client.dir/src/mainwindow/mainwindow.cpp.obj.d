@@ -445,6 +445,8 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
  C:/Users/Edward/Desktop/test/client/include/ui_mainwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
@@ -516,4 +518,43 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QComboBox \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcombobox.h
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcombobox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkAccessManager \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkaccessmanager.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkrequest.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhttpheaders.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSharedDataPointer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QUrl \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/q26numeric.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslConfiguration \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslconfiguration.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslsocket.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslerror.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslcertificate.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcryptographichash.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qssl.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QFlags \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QMetaType \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qmetatype.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkReply \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkreply.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QIODevice \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkRequest \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkrequest.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkAccessManager \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkRequest \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QUrl \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QBuffer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbuffer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel

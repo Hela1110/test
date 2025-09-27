@@ -225,6 +225,7 @@ shopping_client_autogen/timestamp: CMakeFiles/4.1.1/CMakeCCompiler.cmake \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
   D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent \
   D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
@@ -890,6 +891,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
   D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
   D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent \
   D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
@@ -1865,6 +1867,7 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: C:/Users/Edward/De
   D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
   D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent \
   D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
@@ -2648,14 +2651,22 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   C:/Users/Edward/Desktop/test/client/include/mainwindow/mainwindow.h \
   C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h \
   C:/Users/Edward/Desktop/test/client/include/ui_mainwindow.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QBuffer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QDebug \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QFlags \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QIODevice \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QMetaType \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSharedDataPointer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QUrl \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
@@ -2664,6 +2675,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20type_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20utility.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q23utility.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q26numeric.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractitemmodel.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qalgorithms.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qanystringview.h \
@@ -2675,6 +2687,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbuffer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearraylist.h \
@@ -2696,6 +2709,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcryptographichash.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdarwinhelpers.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
@@ -2803,6 +2817,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/QFontMetrics \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
@@ -2838,9 +2853,24 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkAccessManager \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkReply \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkRequest \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslConfiguration \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhttpheaders.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkaccessmanager.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkreply.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkrequest.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qssl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslcertificate.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslconfiguration.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslerror.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslsocket.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
@@ -4144,6 +4174,8 @@ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/memo
 
 D:/CMake/share/cmake-4.1/Modules/CMakeCommonLanguageInclude.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslsocket.h:
+
 D:/CMake/share/cmake-4.1/Modules/Platform/Windows-windres.cmake:
 
 D:/CMake/share/cmake-4.1/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake:
@@ -4194,6 +4226,8 @@ C:/Users/Edward/Desktop/test/client/ui/loginwindow.ui:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateConfigVersion.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/QBuffer:
+
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_iterator_base_types.h:
 
 C:/Users/Edward/Desktop/test/client/ui/shoppingcart.ui:
@@ -4203,6 +4237,8 @@ D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h:
 D:/CMake/share/cmake-4.1/Modules/FindThreads.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkrequest.h:
 
 D:/CMake/share/cmake-4.1/Modules/CMakeSystemSpecificInitialize.cmake:
 
@@ -4352,6 +4388,8 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QList:
 
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslerror.h:
+
 D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h:
 
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/ctype_inline.h:
@@ -4455,6 +4493,8 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearraylist.h:
 D:/Qt/6.8.3/mingw_64/include/QtCore/qstringconverter_base.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsTargets.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkReply:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h:
 
@@ -4588,6 +4628,8 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qgenericatomic.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemview.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/QMetaType:
+
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/system_error:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qglobal.h:
@@ -4659,6 +4701,8 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qmap.h:
 D:/Qt/6.8.3/mingw_64/include/QtCore/qmath.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QSharedDataPointer:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qmetacontainer.h:
 
@@ -4824,6 +4868,16 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h:
 
+shopping_client_autogen/include/ui_shoppingcart.h:
+
+D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/pthread.h:
+
+D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/corecrt_wstdlib.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreAdditionalTargetInfo.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap:
+
 D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform:
@@ -4923,6 +4977,8 @@ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/tr1/beta_
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ptr_traits.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslPreSharedKeyAuthenticator:
 
 D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h:
 
@@ -5117,14 +5173,6 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicSbomSystemDepHelpers.cmake:
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QODBCDriverPluginConfig.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicTestHelpers.cmake:
-
-shopping_client_autogen/include/ui_shoppingcart.h:
-
-D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/pthread.h:
-
-D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/corecrt_wstdlib.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreAdditionalTargetInfo.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfigVersionImpl.cmake:
 
@@ -5510,6 +5558,8 @@ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/exec
 
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/numeric:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/q26numeric.h:
+
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/glue_numeric_defs.h:
 
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/string:
@@ -5537,6 +5587,8 @@ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/tr1/speci
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/type_traits:
 
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/typeinfo:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkAccessManager:
 
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/vector:
 
@@ -5708,7 +5760,37 @@ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ostream:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QDebug:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/QFlags:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QIODevice:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QUrl:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgraphicseffect.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qbuffer.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qcryptographichash.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkRequest:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslConfiguration:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhttpheaders.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkaccessmanager.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkreply.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qssl.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslcertificate.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslconfiguration.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslpresharedkeyauthenticator.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFormLayout:
 
@@ -5721,8 +5803,6 @@ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTabBar:
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qformlayout.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgraphicseffect.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtableview.h:
 

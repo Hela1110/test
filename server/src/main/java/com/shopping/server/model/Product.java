@@ -23,6 +23,17 @@ public class Product {
     private Integer stock;
     private Boolean onSale;
     private BigDecimal discountPrice;
-    // 商品累计销量
-    private Integer sales;
+    // 商品累计销量（非空），默认为 0
+    @Column(nullable = false)
+    private Integer sales = 0;
+
+    @PrePersist
+    public void prePersist() {
+        if (sales == null) sales = 0;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        if (sales == null) sales = 0;
+    }
 }

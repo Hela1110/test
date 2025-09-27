@@ -498,6 +498,8 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
  C:/Users/Edward/Desktop/test/client/include/register/registerdialog.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \

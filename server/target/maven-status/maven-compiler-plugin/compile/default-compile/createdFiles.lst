@@ -7,6 +7,7 @@ com\shopping\server\socket\SocketServer$1.class
 com\shopping\server\admin\AdminFrame$4.class
 com\shopping\server\repository\CartItemRepository.class
 com\shopping\server\admin\AdminFrame$6.class
+com\shopping\server\admin\AdminFrame$9.class
 com\shopping\server\repository\OrderItemRepository.class
 com\shopping\server\socket\SocketMessageHandler.class
 com\shopping\server\web\DebugController.class
@@ -16,6 +17,7 @@ com\shopping\server\model\OrderHeader.class
 com\shopping\server\admin\AdminFrame$1.class
 com\shopping\server\model\OrderStatus.class
 com\shopping\server\socket\SocketMessageHandler$1.class
+com\shopping\server\admin\AdminFrame$8.class
 com\shopping\server\web\AuthController.class
 com\shopping\server\service\OrderService.class
 com\shopping\server\socket\SocketMessageHandler$3.class

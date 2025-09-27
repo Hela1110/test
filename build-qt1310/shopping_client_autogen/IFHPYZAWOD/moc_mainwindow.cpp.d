@@ -146,6 +146,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/IFHPYZAWOD/moc
   D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
