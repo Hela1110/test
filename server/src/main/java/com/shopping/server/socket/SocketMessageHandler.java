@@ -925,6 +925,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         String username = (String) request.get("username");
         String password = (String) request.get("password");
         String phone = (String) request.getOrDefault("phone", "");
+        String email = (String) request.getOrDefault("email", "");
 
         Map<String, Object> response = new HashMap<>();
         response.put("type", "register_response");
@@ -966,11 +967,30 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             return;
         }
 
+        // 若提供了手机号，检查数据库中是否已存在
+        if (phone != null && !phone.isEmpty()) {
+            if (clientRepository.existsByPhone(phone)) {
+                response.put("success", false);
+                response.put("message", "手机号已存在");
+                ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+                return;
+            }
+        }
+        // 若提供了邮箱，检查数据库中是否已存在
+        if (email != null && !email.isEmpty()) {
+            if (clientRepository.existsByEmail(email)) {
+                response.put("success", false);
+                response.put("message", "邮箱已存在");
+                ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+                return;
+            }
+        }
+
         // TODO: 生产环境请对密码进行哈希存储
         userStore.put(username, password);
         // 初始化或更新用户资料
         Map<String,Object> prof = userProfiles.computeIfAbsent(username, k -> new ConcurrentHashMap<>());
-        if (phone != null) prof.put("phone", phone);
+    if (phone != null) prof.put("phone", phone);
         try { saveUsers(); } catch (Exception ignore) {}
         try { saveProfiles(); } catch (Exception ignore) {}
 
@@ -980,6 +1000,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             client.setUsername(username);
             client.setPassword(password); // 明文存储仅用于演示，生产环境请使用哈希
             client.setPhone(phone);
+            if (email != null && !email.isEmpty()) client.setEmail(email);
             client.setPurchaseCount(0);
             clientRepository.save(client);
         } catch (Exception dbEx) {
@@ -1033,6 +1054,9 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
         Map<String,Object> resp = new HashMap<>();
         resp.put("type", "orders_response");
+        // 透传调用来源（例如 chat），便于客户端做差异化处理
+        Object origin = request.get("origin");
+        if (origin != null) resp.put("origin", origin);
         if (username == null) {
             resp.put("orders", List.of());
             ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
@@ -1076,9 +1100,21 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         resp.put("success", username != null);
         if (username != null) {
             resp.put("username", username);
-            resp.put("phone", String.valueOf(prof.getOrDefault("phone", "")));
-            // 从数据库补齐用户ID
-            clientRepository.findByUsername(username).ifPresent(c -> resp.put("clientId", c.getClientId()));
+            // 优先使用数据库中的手机号；若数据库为空则回退到内存资料
+            var cOpt = clientRepository.findByUsername(username);
+            if (cOpt.isPresent()) {
+                Client c = cOpt.get();
+                String dbPhone = c.getPhone();
+                if (dbPhone != null && !dbPhone.isEmpty()) {
+                    resp.put("phone", dbPhone);
+                } else {
+                    resp.put("phone", String.valueOf(prof.getOrDefault("phone", "")));
+                }
+                resp.put("email", c.getEmail());
+                resp.put("clientId", c.getClientId());
+            } else {
+                resp.put("phone", String.valueOf(prof.getOrDefault("phone", "")));
+            }
         } else {
             resp.put("message", "未登录");
         }
@@ -1097,7 +1133,8 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         }
         String newPhone = (String) request.get("phone");
         String newPassword = (String) request.get("password");
-        String newUsername = (String) request.get("new_username");
+    String newUsername = (String) request.get("new_username");
+    String newEmail = (String) request.get("email");
         // 更新手机号
         Map<String,Object> prof = userProfiles.computeIfAbsent(username, k -> new ConcurrentHashMap<>());
         if (newPhone != null) prof.put("phone", newPhone);
@@ -1141,9 +1178,54 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             }
             username = newUsername;
         }
+        // 在保存前进行手机号唯一性校验（仅当提供了新手机号时）
+        String trimmedPhone = (newPhone == null) ? null : newPhone.trim();
+        if (trimmedPhone != null && !trimmedPhone.isEmpty()) {
+            boolean conflict;
+            if (dbClient == null) {
+                conflict = clientRepository.existsByPhone(trimmedPhone);
+            } else {
+                String currentDbPhone = dbClient.getPhone();
+                if (currentDbPhone != null && currentDbPhone.equals(trimmedPhone)) {
+                    conflict = false; // 自己当前的手机号，允许
+                } else {
+                    conflict = clientRepository.existsByPhone(trimmedPhone);
+                }
+            }
+            if (conflict) {
+                resp.put("success", false);
+                resp.put("message", "手机号已存在");
+                ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+                return;
+            }
+        }
+
+        // 在保存前进行邮箱唯一性校验（仅当提供了新邮箱时）
+        String trimmedEmail = (newEmail == null) ? null : newEmail.trim();
+        if (trimmedEmail != null && !trimmedEmail.isEmpty()) {
+            boolean conflictEmail;
+            if (dbClient == null) {
+                conflictEmail = clientRepository.existsByEmail(trimmedEmail);
+            } else {
+                String currentDbEmail = dbClient.getEmail();
+                if (currentDbEmail != null && currentDbEmail.equalsIgnoreCase(trimmedEmail)) {
+                    conflictEmail = false;
+                } else {
+                    conflictEmail = clientRepository.existsByEmail(trimmedEmail);
+                }
+            }
+            if (conflictEmail) {
+                resp.put("success", false);
+                resp.put("message", "邮箱已存在");
+                ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+                return;
+            }
+        }
+
         // 同步数据库中的手机号/密码；若 DB 还不存在该用户，进行兜底创建
         if (dbClient != null) {
             if (newPhone != null) dbClient.setPhone(newPhone);
+            if (newEmail != null) dbClient.setEmail(newEmail);
             if (newPassword != null && !newPassword.isEmpty()) dbClient.setPassword(newPassword);
             clientRepository.save(dbClient);
         } else {
@@ -1161,6 +1243,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                     phoneFallback = ph == null ? null : String.valueOf(ph);
                 }
                 create.setPhone(phoneFallback);
+                if (newEmail != null) create.setEmail(newEmail);
                 create.setPurchaseCount(0);
                 clientRepository.save(create);
             } catch (Exception ignore) {}
@@ -1172,9 +1255,23 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         resp.put("success", true);
         resp.put("message", "账户信息已更新");
         resp.put("username", username);
-        resp.put("phone", String.valueOf(userProfiles.getOrDefault(username, new HashMap<>()).getOrDefault("phone", "")));
-        // 返回最新的 clientId（若可用）
-        clientRepository.findByUsername(username).ifPresent(c -> resp.put("clientId", c.getClientId()));
+        // 返回数据库中的 phone/email/clientId，若 DB 中 phone 为空则回退内存
+        var latestOpt = clientRepository.findByUsername(username);
+        if (latestOpt.isPresent()) {
+            Client c2 = latestOpt.get();
+            String dbPhone2 = c2.getPhone();
+            if (dbPhone2 == null || dbPhone2.isEmpty()) {
+                String memPhone = String.valueOf(userProfiles.getOrDefault(username, new HashMap<>()).getOrDefault("phone", ""));
+                resp.put("phone", memPhone);
+            } else {
+                resp.put("phone", dbPhone2);
+            }
+            resp.put("clientId", c2.getClientId());
+            resp.put("email", c2.getEmail());
+        } else {
+            String memPhone = String.valueOf(userProfiles.getOrDefault(username, new HashMap<>()).getOrDefault("phone", ""));
+            resp.put("phone", memPhone);
+        }
         ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
     }
     

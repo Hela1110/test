@@ -12,7 +12,7 @@ public:
     ~RegisterDialog();
 
 signals:
-    void submitRegister(const QString& username, const QString& password, const QString& phone);
+    void submitRegister(const QString& username, const QString& password, const QString& phone, const QString& email);
 
 public slots:
     void onRegisterResult(bool success, const QString& message);

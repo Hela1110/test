@@ -25,6 +25,14 @@ public interface OrderHeaderRepository extends JpaRepository<OrderHeader, Long> 
     @Query("select distinct h from OrderHeader h left join fetch h.items i left join fetch i.product p where h.client = :client")
     List<OrderHeader> findByClientWithItems(@Param("client") Client client);
 
+    // 根据 ID 抓取订单，连带抓取明细、商品与用户，避免懒加载会话关闭问题
+    @Query("select distinct h from OrderHeader h " +
+        "left join fetch h.items i " +
+        "left join fetch i.product p " +
+        "left join fetch h.client c " +
+        "where h.id = :id")
+    java.util.Optional<OrderHeader> fetchByIdWithItemsAndClient(@Param("id") Long id);
+
     // ========== 统计相关（用于图表） ==========
     // 每月订单金额汇总（全体用户），限定时间范围与状态
     @Query("select year(h.createdAt) as y, month(h.createdAt) as m, sum(h.totalPrice) as total " +

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>360</width>
-    <height>220</height>
+  <height>260</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,16 +54,26 @@
        </property>
       </widget>
      </item>
-    <item row="3" column="0">
+   <item row="3" column="0">
      <widget class="QLabel" name="labelPhone">
       <property name="text">
-       <string>手机号：</string>
+     <string>手机号（选填）：</string>
       </property>
      </widget>
     </item>
     <item row="3" column="1">
      <widget class="QLineEdit" name="phoneInput"/>
     </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="labelEmail">
+    <property name="text">
+     <string>邮箱（选填）：</string>
+    </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLineEdit" name="emailInput"/>
+   </item>
     </layout>
    </item>
    <item>

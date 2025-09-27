@@ -18,7 +18,9 @@ public class Client {
     private String password;
     
     private String avatar;
+    @Column(unique = true)
     private String email;
+    @Column(unique = true)
     private String phone;
     private Integer purchaseCount;
 }

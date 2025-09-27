@@ -8,5 +8,7 @@ import java.util.Optional;
 public interface ClientRepository extends JpaRepository<Client, Long> {
     Optional<Client> findByUsername(String username);
     boolean existsByUsername(String username);
+    boolean existsByPhone(String phone);
+    boolean existsByEmail(String email);
     java.util.List<Client> findTop50ByOrderByClientIdDesc();
 }

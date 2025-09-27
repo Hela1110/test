@@ -24,7 +24,9 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
 	@Query("select c from ChatMessage c where c.toUser = :to order by c.createdAt desc")
 	List<ChatMessage> findLatestForUser(@Param("to") String to, Pageable pageable);
 
-	// 删除某两个用户之间的所有消息
+	// 删除某两个用户之间的所有消息（需要事务）
+	@Modifying(clearAutomatically = true)
+	@Transactional
 	long deleteByFromUserAndToUser(String fromUser, String toUser);
 
 	// 删除所有公共（群聊）消息（toUser 为 NULL、空串或误写为“全体”）

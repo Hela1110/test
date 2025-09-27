@@ -182,12 +182,13 @@ void LoginWindow::on_registerButton_clicked()
 {
     RegisterDialog dlg(this);
     // 当用户在对话框提交注册时，发送注册请求
-    connect(&dlg, &RegisterDialog::submitRegister, this, [this](const QString& username, const QString& password, const QString& phone){
+    connect(&dlg, &RegisterDialog::submitRegister, this, [this](const QString& username, const QString& password, const QString& phone, const QString& email){
         QJsonObject regRequest;
         regRequest["type"] = "register";
         regRequest["username"] = username;
         regRequest["password"] = password;
         if (!phone.isEmpty()) regRequest["phone"] = phone;
+        if (!email.isEmpty()) regRequest["email"] = email;
         sendJson(regRequest);
     });
     dlg.exec();

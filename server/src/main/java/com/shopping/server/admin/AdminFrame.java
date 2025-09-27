@@ -1,7 +1,10 @@
 package com.shopping.server.admin;
 
 import com.shopping.server.model.Product;
+import com.shopping.server.model.OrderHeader;
+import com.shopping.server.model.OrderStatus;
 import com.shopping.server.model.ChatMessage;
+import com.shopping.server.model.OrderItem;
 import com.shopping.server.repository.ProductRepository;
 import com.shopping.server.repository.ChatMessageRepository;
 import com.shopping.server.repository.OrderHeaderRepository;
@@ -223,17 +226,41 @@ public class AdminFrame extends JFrame {
         JPanel root = new JPanel(new BorderLayout(8, 8));
         root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
         DefaultListModel<String> historyModel = new DefaultListModel<>();
+        // 额外保存一份实体列表，和显示行一一对应，便于后续解析出订单ID与原始消息
+        java.util.List<ChatMessage> historyEntities = new java.util.ArrayList<>();
         JList<String> history = new JList<>(historyModel);
         JTextArea input = new JTextArea(4, 40);
         input.setLineWrap(true);
         JTextField tfFrom = new JTextField("admin", 12);
         JTextField tfTo = new JTextField("", 12);
-        JButton btnSend = new JButton("发送");
-        JButton btnReload = new JButton("刷新历史");
-        JButton btnDelete = new JButton("删除与对方的历史");
+    JButton btnSend = new JButton("发送");
+    JButton btnReload = new JButton("刷新历史");
+    JButton btnDelete = new JButton("删除与对方的历史");
     JLabel online = new JLabel("在线用户: ");
     JComboBox<String> onlineCombo = new JComboBox<>();
     onlineCombo.setPrototypeDisplayValue("someverylongusername____");
+    // 用颜色区分在线/离线：通过一个可变集合记录在线用户，渲染时着色
+    final java.util.Set<String> onlineSet = new java.util.HashSet<>();
+    onlineCombo.setRenderer(new javax.swing.DefaultListCellRenderer() {
+        @Override
+        public java.awt.Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            java.awt.Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+            String u = (value == null) ? "" : String.valueOf(value);
+            if (!isSelected) {
+                if ("全体".equals(u)) {
+                    setForeground(java.awt.Color.DARK_GRAY);
+                } else if ("admin".equalsIgnoreCase(u)) {
+                    setForeground(new java.awt.Color(52, 152, 219)); // 蓝色
+                } else if (onlineSet.contains(u)) {
+                    setForeground(new java.awt.Color(34, 139, 34)); // 绿色 在线
+                } else {
+                    setForeground(new java.awt.Color(128, 128, 128)); // 灰色 离线
+                }
+            }
+            setText(u);
+            return c;
+        }
+    });
 
         JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
         top.add(new JLabel("发送者:")); top.add(tfFrom);
@@ -245,7 +272,7 @@ public class AdminFrame extends JFrame {
         JPanel bottom = new JPanel(new BorderLayout(4, 4));
         bottom.add(new JScrollPane(input), BorderLayout.CENTER);
         JPanel ctrl = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-    ctrl.add(new JLabel("选择在线用户:"));
+    ctrl.add(new JLabel("选择用户:"));
     ctrl.add(onlineCombo);
     ctrl.add(online);
     ctrl.add(btnSend);
@@ -254,6 +281,7 @@ public class AdminFrame extends JFrame {
 
         Runnable reload = () -> {
             historyModel.clear();
+            historyEntities.clear();
             java.util.List<ChatMessage> msgs;
             String peerRaw = tfTo.getText().trim();
             String peer = "全体".equals(peerRaw) ? "" : peerRaw;
@@ -267,21 +295,30 @@ public class AdminFrame extends JFrame {
             for (ChatMessage m : msgs) {
                 String ts = m.getCreatedAt() == null ? "" : m.getCreatedAt().format(fmt);
                 historyModel.addElement("[" + ts + "] " + m.getFromUser() + (m.getToUser()==null?" -> 全体":" -> "+m.getToUser()) + ": " + m.getContent());
+                historyEntities.add(m);
             }
-            // 在线用户列表（从 SocketMessageHandler 获取）
+            // 在线用户集合
             java.util.Set<String> on = SocketMessageHandler.getOnlineUsernames();
+            onlineSet.clear(); onlineSet.addAll(on); // 更新渲染器参考集合
             online.setText("在线用户: " + (on.isEmpty()?"(无)":String.join(", ", on)));
-            // 刷新下拉：以当前接收者决定应选项，空=全体
+            // 刷新下拉：显示“全体”+“admin”+所有注册用户（包括离线）
             String desired = tfTo.getText().trim();
             if (desired.isEmpty()) desired = "全体";
+            java.util.Set<String> all = new java.util.TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+            try {
+                for (var c : clientRepo.findAll()) {
+                    String u = String.valueOf(c.getUsername());
+                    if (u != null && !u.isBlank()) all.add(u);
+                }
+            } catch (Exception ignore) {}
+            // 合并当前在线（可能包含未在表里的）
+            all.addAll(on);
+            // 去掉 admin，稍后强制置顶
+            all.remove("admin");
             onlineCombo.removeAllItems();
-            java.util.List<String> list = new java.util.ArrayList<>(on);
-            java.util.Collections.sort(list);
-            // 先加入“全体”，再置顶 admin，最后其余在线用户
             onlineCombo.addItem("全体");
             onlineCombo.addItem("admin");
-            for (String u : list) if (!"admin".equals(u)) onlineCombo.addItem(u);
-            // 选择对应项
+            for (String u : all) onlineCombo.addItem(u);
             onlineCombo.setSelectedItem(desired);
         };
         // 选择在线用户即填充接收者并刷新
@@ -332,6 +369,69 @@ public class AdminFrame extends JFrame {
                 JOptionPane.showMessageDialog(this, "已删除条目: " + (n1+n2));
             }
             reload.run();
+        });
+
+        // ===== 售后处理辅助：解析包含 ORDER_ID 的消息 =====
+        java.util.function.Function<String, Long> parseOrderId = (content) -> {
+            if (content == null) return null;
+            // 支持两种格式：
+            // 1) "[售后申请] ORDER_ID=123"
+            // 2) "ORDER_ID=123"（任意位置）
+            String mark = "ORDER_ID=";
+            int idx = content.indexOf(mark);
+            if (idx >= 0) {
+                int start = idx + mark.length();
+                StringBuilder num = new StringBuilder();
+                while (start < content.length()) {
+                    char ch = content.charAt(start++);
+                    if (Character.isDigit(ch)) num.append(ch); else break;
+                }
+                try { return Long.parseLong(num.toString()); } catch (Exception ignore) {}
+            }
+            // 简单 JSON 场景：{"type":"refund_request","orderId":123}
+            try {
+                if (content.trim().startsWith("{")) {
+                    com.fasterxml.jackson.databind.ObjectMapper om = new com.fasterxml.jackson.databind.ObjectMapper();
+                    java.util.Map<?,?> m = om.readValue(content, java.util.Map.class);
+                    Object t = m.get("type"); Object oid = m.get("orderId");
+                    if (t != null && "refund_request".equals(String.valueOf(t)) && oid != null) {
+                        return Long.parseLong(String.valueOf(oid));
+                    }
+                }
+            } catch (Exception ignore) {}
+            return null;
+        };
+
+        // 解析退款原因（来自 JSON）
+        java.util.function.Function<String, String> parseRefundReason = (content) -> {
+            if (content == null) return null;
+            try {
+                if (content.trim().startsWith("{")) {
+                    com.fasterxml.jackson.databind.ObjectMapper om = new com.fasterxml.jackson.databind.ObjectMapper();
+                    java.util.Map<?,?> m = om.readValue(content, java.util.Map.class);
+                    Object t = m.get("type"); Object rs = m.get("reason");
+                    if (t != null && "refund_request".equals(String.valueOf(t)) && rs != null) {
+                        String s = String.valueOf(rs);
+                        return (s == null || s.isBlank()) ? null : s;
+                    }
+                }
+            } catch (Exception ignore) {}
+            return null;
+        };
+
+        // 双击历史记录，若消息中带 ORDER_ID，则弹出订单卡片对话框
+        history.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getClickCount() != 2) return;
+                int idx = history.locationToIndex(e.getPoint());
+                if (idx < 0 || idx >= historyEntities.size()) return;
+                ChatMessage sel = historyEntities.get(idx);
+                Long orderId = parseOrderId.apply(sel.getContent());
+                if (orderId == null) return;
+                // 展示订单卡片，并传递申请原因（可能为空）
+                String refundReason = parseRefundReason.apply(sel.getContent());
+                showOrderCardDialog(orderId, sel.getFromUser(), tfTo.getText().trim(), refundReason, reload);
+            }
         });
 
         reload.run();
@@ -603,6 +703,163 @@ public class AdminFrame extends JFrame {
         return root;
     }
 
+    // 弹出“订单卡片”对话框：展示订单详情，并提供“退款/驳回”操作
+    private void showOrderCardDialog(Long orderId, String requestFromUser, String currentToField, String refundReason, Runnable reloadHistory) {
+        try {
+            // 使用 fetch join 一次性抓取 client/items/product，避免延迟加载导致的 no Session
+            var opt = orderHeaderRepo.fetchByIdWithItemsAndClient(orderId);
+            if (opt.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "未找到该订单: " + orderId, "提示", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            OrderHeader header = opt.get();
+
+            JDialog dlg = new JDialog(this, "售后申请 - 订单#" + orderId, true);
+            dlg.setSize(600, 480);
+            dlg.setLocationRelativeTo(this);
+            dlg.setLayout(new BorderLayout(8, 8));
+
+        // 顶部信息（使用 HTML 分两行展示，避免单行过长被截断）
+        String topHtml = String.format(
+            "<html><div style='padding:6px 8px;'>" +
+            "<b>订单ID:</b> %d &nbsp;&nbsp; <b>用户:</b> %s &nbsp;&nbsp; <b>状态:</b> %s &nbsp;&nbsp; <b>金额:</b> %s" +
+            "<br/><b>下单时间:</b> %s" +
+            "</div></html>",
+            header.getId(),
+            header.getClient() == null ? "-" : String.valueOf(header.getClient().getUsername()),
+            String.valueOf(header.getStatus()),
+            String.valueOf(header.getTotalPrice()),
+            String.valueOf(header.getCreatedAt()));
+        JLabel topLabel = new JLabel(topHtml);
+        dlg.add(topLabel, BorderLayout.NORTH);
+
+            // 明细表
+            String[] cols = {"商品ID", "名称", "数量", "单价", "小计"};
+            var model = new DefaultTableModel(cols, 0) { @Override public boolean isCellEditable(int r,int c){ return false; } };
+            JTable tbl = new JTable(model);
+            dlg.add(new JScrollPane(tbl), BorderLayout.CENTER);
+
+            // items 已通过 fetch join 初始化，优先直接读取；如为空再通过仓库查询兜底
+            java.util.List<OrderItem> items = header.getItems();
+            if (items == null || items.isEmpty()) {
+                try { items = orderItemRepo.findByOrder(header); } catch (Exception ignore) {}
+            }
+            if (items != null) {
+                for (OrderItem it : items) {
+                    Long pid = null; String name = "-"; java.math.BigDecimal price = java.math.BigDecimal.ZERO; Integer qty = 0;
+                    try {
+                        if (it.getProduct() != null) {
+                            pid = it.getProduct().getProductId();
+                            name = it.getProduct().getName();
+                        }
+                        price = it.getPrice();
+                        qty = it.getQuantity();
+                    } catch (Exception ignore) {}
+                    java.math.BigDecimal subtotal = (price == null || qty == null) ? java.math.BigDecimal.ZERO : price.multiply(java.math.BigDecimal.valueOf(qty));
+                    model.addRow(new Object[]{pid, name, qty, price, subtotal});
+                }
+            }
+
+            // SOUTH：退款原因 + 按钮
+            JPanel south = new JPanel(new BorderLayout(4,4));
+            String reasonText = (refundReason == null || refundReason.isBlank()) ? "(无)" : refundReason;
+            JLabel reasonLbl = new JLabel("<html><div style='padding:4px 6px;'><b>退款原因:</b> " +
+                                         escapeHtml(reasonText) +
+                                         "</div></html>");
+            // 按钮行
+            JPanel bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            JButton btnRefund = new JButton("退款");
+            JButton btnReject = new JButton("驳回");
+            JButton btnClose = new JButton("关闭");
+            bottom.add(btnReject); bottom.add(btnRefund); bottom.add(btnClose);
+            south.add(reasonLbl, BorderLayout.CENTER);
+            south.add(bottom, BorderLayout.SOUTH);
+            dlg.add(south, BorderLayout.SOUTH);
+
+            // 工具函数：向用户发送系统消息
+            java.util.function.Consumer<String> notifyUser = (text) -> {
+                try {
+                    ChatMessage m = new ChatMessage();
+                    m.setFromUser("admin");
+                    String to = (requestFromUser == null || requestFromUser.isBlank() || "全体".equals(requestFromUser)) ? null : requestFromUser;
+                    m.setToUser(to); // 如果为 null 则群发；我们更倾向于定向发送
+                    m.setContent(text);
+                    m.setCreatedAt(java.time.LocalDateTime.now());
+                    m = chatRepo.save(m);
+                    SocketMessageHandler.pushChatToTargets(m);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            };
+
+            btnRefund.addActionListener(ev -> {
+                try {
+                    // 仅支持已支付订单退款
+                    if (header.getStatus() != OrderStatus.PAID) {
+                        JOptionPane.showMessageDialog(dlg, "该订单当前状态不支持退款: " + header.getStatus());
+                        return;
+                    }
+                    int confirm = JOptionPane.showConfirmDialog(dlg, "确定要退款并回滚库存/销量吗？", "确认退款", JOptionPane.YES_NO_OPTION);
+                    if (confirm != JOptionPane.YES_OPTION) return;
+
+                    // 回滚库存与销量
+                    java.util.List<OrderItem> its = orderItemRepo.findByOrder(header);
+                    for (OrderItem it : its) {
+                        if (it.getProduct() == null) continue;
+                        Long pid = it.getProduct().getProductId();
+                        var prodOpt = productRepository.findById(pid);
+                        if (prodOpt.isPresent()) {
+                            Product p = prodOpt.get();
+                            int stock = p.getStock() == null ? 0 : p.getStock();
+                            int sales = p.getSales() == null ? 0 : p.getSales();
+                            int qty = it.getQuantity() == null ? 0 : it.getQuantity();
+                            p.setStock(stock + qty);
+                            int newSales = sales - qty; if (newSales < 0) newSales = 0;
+                            p.setSales(newSales);
+                            productRepository.save(p);
+                        }
+                    }
+
+                    // 更新订单状态
+                    header.setStatus(OrderStatus.REFUNDED);
+                    orderHeaderRepo.save(header);
+
+                    // 通知用户
+                    notifyUser.accept("[售后结果] 订单#" + orderId + " 已退款，感谢理解。");
+
+                    JOptionPane.showMessageDialog(dlg, "已退款并回滚库存/销量");
+                    dlg.dispose();
+                    if (reloadHistory != null) reloadHistory.run();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(dlg, "退款失败: " + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+                }
+            });
+
+            btnReject.addActionListener(ev -> {
+                try {
+                    int confirm = JOptionPane.showConfirmDialog(dlg, "确定要驳回该售后申请吗？", "确认驳回", JOptionPane.YES_NO_OPTION);
+                    if (confirm != JOptionPane.YES_OPTION) return;
+                    // 驳回不修改订单，仅通知
+                    notifyUser.accept("[售后结果] 订单#" + orderId + " 的退款申请已被驳回。");
+                    JOptionPane.showMessageDialog(dlg, "已驳回");
+                    dlg.dispose();
+                    if (reloadHistory != null) reloadHistory.run();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(dlg, "操作失败: " + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+                }
+            });
+
+            btnClose.addActionListener(ev -> dlg.dispose());
+
+            dlg.setVisible(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "无法展示订单卡片: " + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     private static void fillTable(DefaultTableModel model, List<Product> list) {
         model.setRowCount(0);
         for (Product p : list) {
@@ -623,4 +880,15 @@ public class AdminFrame extends JFrame {
     private static Integer parseInt(String s) { if (s == null || s.isEmpty()) return null; try { return Integer.parseInt(s); } catch (Exception e) { return null; } }
     private static BigDecimal parseBig(String s) { if (s == null || s.isEmpty()) return null; try { return new BigDecimal(s); } catch (Exception e) { return null; } }
     private static String emptyToNull(String s) { return (s == null || s.trim().isEmpty()) ? null : s.trim(); }
+
+    private static String escapeHtml(String s) {
+        if (s == null) return "";
+        String r = s;
+        r = r.replace("&", "&amp;");
+        r = r.replace("<", "&lt;");
+        r = r.replace(">", "&gt;");
+        r = r.replace("\"", "&quot;");
+        r = r.replace("'", "&#39;");
+        return r;
+    }
 }

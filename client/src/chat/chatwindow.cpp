@@ -69,6 +69,7 @@ ChatWindow::ChatWindow(QWidget *parent)
     // 新增：删除与对方的历史（仅私聊有效）
     auto *delPeerBtn = new QPushButton(tr("删除与对方的历史"), this);
     auto *refreshBtn = new QPushButton(tr("刷新"), this);
+    auto *sendOrderBtn = new QPushButton(tr("发送订单"), this);
     connect(delPeerBtn, &QPushButton::clicked, this, [this](){
         if (!socket) return;
         const QString to = peerEdit? peerEdit->text().trimmed() : QString();
@@ -126,6 +127,15 @@ ChatWindow::ChatWindow(QWidget *parent)
     ui->horizontalLayout->addWidget(delPeerBtn);
     connect(refreshBtn, &QPushButton::clicked, this, [this](){ initChat(); });
     ui->horizontalLayout->addWidget(refreshBtn);
+    // 发送订单（售后申请）
+    connect(sendOrderBtn, &QPushButton::clicked, this, [this](){
+        if (!socket) { appendSystem(tr("[系统] 未连接服务器")); return; }
+        // 拉取当前用户订单，标记来源为 chat，便于区分展示
+        QJsonObject r; r["type"] = "get_orders"; if (!username.isEmpty()) r["username"] = username; r["origin"] = "chat";
+        QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+        appendSystem(tr("[系统] 正在载入你的订单列表…"));
+    });
+    ui->horizontalLayout->addWidget(sendOrderBtn);
 
     // 选择在线用户即切换对话对象
     connect(onlineCombo, &QComboBox::currentTextChanged, this, [this](const QString &u){
@@ -247,18 +257,51 @@ void ChatWindow::appendSystem(const QString &text) {
 }
 
 void ChatWindow::appendBubble(const QString &from, const QString &to, const QString &content, const QString &ts, bool isSelf) {
-    // 文本 + 简易 HTML 气泡
-    QString arrow = isSelf ? QStringLiteral("▶") : QStringLiteral("◀");
+    // 文本 + 简易 HTML 气泡（内置“售后申请”卡片渲染）
     QString who = isSelf ? tr("我") : from;
     QString toText = to.isEmpty()? tr("(群)") : to;
     QString bubbleColor = isSelf ? "#C8F7C5" : "#F0F0F0"; // 绿 / 灰
     QString align = isSelf ? "right" : "left";
+
+    // 检测 refund_request JSON 并构造卡片内容
+    bool isRefundCard = false; qint64 oid = 0; QString reason;
+    {
+        QJsonParseError perr{};
+        QJsonDocument jd = QJsonDocument::fromJson(content.toUtf8(), &perr);
+        if (perr.error == QJsonParseError::NoError && jd.isObject()) {
+            auto o = jd.object();
+            if (o.value("type").toString() == QLatin1String("refund_request")) {
+                isRefundCard = true;
+                oid = static_cast<qint64>(o.value("orderId").toDouble());
+                reason = o.value("reason").toString();
+            }
+        }
+    }
+
+    QString contentHtml;
+    if (isRefundCard) {
+        // 卡片样式：标题 + 订单ID + 原因；保留原始 JSON 在 tooltip，便于复制
+        QString title = QStringLiteral("🧾 %1").arg(tr("售后申请"));
+        QString idLine = tr("订单ID: #%1").arg(oid);
+        QString rsLine = tr("原因: %1").arg(reason.isEmpty()? tr("(未填写)") : reason.toHtmlEscaped());
+        contentHtml = QString("<div style='border-left:4px solid #f39c12; padding:6px 10px; background:#fffbe6;'>"
+                              "<div style='font-weight:600; color:#8a6d3b; margin-bottom:4px;'>%1</div>"
+                              "<div style='color:#333; margin-bottom:2px;'>%2</div>"
+                              "<div style='color:#555;'>%3</div>"
+                              "</div>"
+                              // 附带一行可见文本，方便服务端无法解析 JSON 时手工识别
+                              "<div style='color:#999;font-size:12px;margin-top:4px;'>ORDER_ID=%4</div>")
+                              .arg(title).arg(idLine).arg(rsLine).arg(oid);
+    } else {
+        contentHtml = content.toHtmlEscaped();
+    }
+
     QString html = QString("<div style='text-align:%1; margin:6px 8px;'>"
                           "<div style='display:inline-block; max-width:72%%; background:%2; border-radius:8px; padding:8px 10px; box-shadow:0 1px 2px rgba(0,0,0,.1);'>"
                           "<div style='color:#666;font-size:12px;margin-bottom:4px;'>%3 → %4 · %5</div>"
                           "<div style='white-space:pre-wrap; font-size:14px; color:#222;'>%6</div>"
                           "</div></div>")
-                          .arg(align).arg(bubbleColor).arg(who).arg(toText).arg(ts).arg(content.toHtmlEscaped());
+                          .arg(align).arg(bubbleColor).arg(who).arg(toText).arg(ts).arg(contentHtml);
     auto *item = new QListWidgetItem();
     auto *lbl = new QLabel(html);
     lbl->setTextFormat(Qt::RichText);
@@ -376,6 +419,52 @@ void ChatWindow::handleMessageUi(const QJsonObject &msg) {
         if (ok) appendSystem(tr("[系统] 会话已清空，删除条目: ") + QString::number(n));
         else appendSystem(tr("[系统] 删除失败：") + msg.value("message").toString());
         initChat();
+    } else if (type == QLatin1String("orders_response")) {
+        // 仅处理 origin=chat 的订单列表（聊天里的“发送订单”）
+        const QString origin = msg.value("origin").toString();
+        if (origin != QLatin1String("chat")) return;
+        QJsonArray arr = msg.value("orders").toArray();
+        // 过滤出已支付订单
+        struct OrderRow { qint64 id; QString label; };
+        QVector<OrderRow> list;
+        for (const auto &v : arr) {
+            const auto o = v.toObject();
+            const QString status = o.value("status").toString();
+            if (status != QLatin1String("PAID")) continue;
+            const qint64 id = o.value("orderId").toVariant().toLongLong();
+            const QString price = QString::number(o.value("total_price").toDouble(), 'f', 2);
+            const QString time = o.value("order_time").toString();
+            const QString label = tr("订单 #%1  金额 ￥%2  时间 %3").arg(id).arg(price).arg(time);
+            list.push_back({id, label});
+        }
+        if (list.isEmpty()) {
+            appendSystem(tr("[系统] 没有可申请售后的已支付订单"));
+            return;
+        }
+        // 弹出简单选择框
+        QStringList options; for (const auto &r : list) options << r.label;
+        bool ok = false;
+        QString chosen = QInputDialog::getItem(this, tr("选择订单"), tr("请选择要提交售后申请的订单"), options, 0, false, &ok);
+        if (!ok || chosen.isEmpty()) return;
+        qint64 orderId = -1;
+        for (const auto &r : list) { if (r.label == chosen) { orderId = r.id; break; } }
+        if (orderId <= 0) return;
+        // 可选：填写原因（单行简易版）
+        QString reason = QInputDialog::getText(this, tr("申请原因(可空)"), tr("请填写退款原因(可留空)"), QLineEdit::Normal, QString());
+        // 组装 JSON 内容并发送给 admin
+        QJsonObject content; content["type"] = "refund_request"; content["orderId"] = static_cast<double>(orderId); if (!reason.trimmed().isEmpty()) content["reason"] = reason.trimmed();
+        QJsonDocument contentDoc(content);
+        if (socket) {
+            // 切换到与 admin 的会话，便于查看消息
+            if (onlineCombo) {
+                int idx = onlineCombo->findText(QStringLiteral("admin"));
+                if (idx >= 0) onlineCombo->setCurrentIndex(idx);
+            }
+            if (peerEdit) peerEdit->setText(QStringLiteral("admin"));
+            QJsonObject r; r["type"] = "chat_send"; if (!username.isEmpty()) r["username"] = username; r["to"] = QStringLiteral("admin"); r["content"] = QString::fromUtf8(contentDoc.toJson(QJsonDocument::Compact));
+            QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+            appendSystem(tr("[系统] 已提交售后申请：订单 #%1，等待客服处理…").arg(orderId));
+        }
     }
 }
 

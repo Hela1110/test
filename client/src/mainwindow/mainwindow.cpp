@@ -430,38 +430,42 @@ void MainWindow::onReadyRead()
             auto *idEdit = new QLineEdit(page); idEdit->setObjectName("acc_id"); idEdit->setReadOnly(true);
             auto *user = new QLineEdit(page); user->setObjectName("acc_user");
             auto *phone = new QLineEdit(page); phone->setObjectName("acc_phone");
+            auto *email = new QLineEdit(page); email->setObjectName("acc_email");
             auto *pwd = new QLineEdit(page); pwd->setObjectName("acc_pwd"); pwd->setEchoMode(QLineEdit::Password);
             form->addRow(tr("账号ID"), idEdit);
             form->addRow(tr("用户名"), user);
             form->addRow(tr("手机号"), phone);
+            form->addRow(tr("邮箱"), email);
             form->addRow(tr("新密码"), pwd);
             v->addLayout(form);
             // 默认禁用编辑，点击“修改”后启用并把按钮文案变为“保存”
-            user->setEnabled(false); phone->setEnabled(false); pwd->setEnabled(false);
+            user->setEnabled(false); phone->setEnabled(false); email->setEnabled(false); pwd->setEnabled(false);
             if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) root->addWidget(page);
             // 行为
-            connect(back, &QPushButton::clicked, this, [this, page]{ page->hide(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
-            auto sendSave = [this, user, phone, pwd]{
+            connect(back, &QPushButton::clicked, this, [this, page]{ page->hide(); page->deleteLater(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
+            auto sendSave = [this, user, phone, email, pwd]{
                 QJsonObject r; r["type"] = "update_account_info";
                 const QString newName = user->text().trimmed();
                 const QString newPhone = phone->text().trimmed();
+                const QString newEmail = email->text().trimmed();
                 const QString newPwd = pwd->text();
                 if (!newName.isEmpty()) r["new_username"] = newName;
                 if (!newPhone.isEmpty()) r["phone"] = newPhone;
+                if (!newEmail.isEmpty()) r["email"] = newEmail;
                 if (!newPwd.isEmpty()) r["password"] = newPwd;
                 if (!currentUsername.isEmpty()) r["username"] = currentUsername;
                 QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
                 statusBar()->showMessage(tr("正在保存修改…"), 2000);
             };
             // 单按钮切换：修改 <-> 保存
-            connect(saveToggle, &QPushButton::clicked, this, [saveToggle, user, phone, pwd, sendSave]() mutable {
+            connect(saveToggle, &QPushButton::clicked, this, [saveToggle, user, phone, email, pwd, sendSave]() mutable {
                 if (saveToggle->text() == QObject::tr("修改")) {
-                    user->setEnabled(true); phone->setEnabled(true); pwd->setEnabled(true);
+                    user->setEnabled(true); phone->setEnabled(true); email->setEnabled(true); pwd->setEnabled(true);
                     user->setFocus();
                     saveToggle->setText(QObject::tr("保存"));
                 } else {
                     sendSave();
-                    user->setEnabled(false); phone->setEnabled(false); pwd->setEnabled(false);
+                    user->setEnabled(false); phone->setEnabled(false); email->setEnabled(false); pwd->setEnabled(false);
                     saveToggle->setText(QObject::tr("修改"));
                 }
             });
@@ -479,36 +483,40 @@ void MainWindow::onReadyRead()
                 auto *idEdit = new QLineEdit(page); idEdit->setObjectName("acc_id"); idEdit->setReadOnly(true);
                 auto *user = new QLineEdit(page); user->setObjectName("acc_user");
                 auto *phone = new QLineEdit(page); phone->setObjectName("acc_phone");
+                auto *email = new QLineEdit(page); email->setObjectName("acc_email");
                 auto *pwd = new QLineEdit(page); pwd->setObjectName("acc_pwd"); pwd->setEchoMode(QLineEdit::Password);
                 form->addRow(tr("账号ID"), idEdit);
                 form->addRow(tr("用户名"), user);
                 form->addRow(tr("手机号"), phone);
+                form->addRow(tr("邮箱"), email);
                 form->addRow(tr("新密码"), pwd);
                 v->addLayout(form);
                 // 默认禁用编辑
-                user->setEnabled(false); phone->setEnabled(false); pwd->setEnabled(false);
+                user->setEnabled(false); phone->setEnabled(false); email->setEnabled(false); pwd->setEnabled(false);
                 if (auto saveToggle = page->findChild<QPushButton*>("saveTopButton")) {
                     QObject::disconnect(saveToggle, nullptr, nullptr, nullptr);
-                    connect(saveToggle, &QPushButton::clicked, this, [saveToggle, user, phone, pwd, this]() mutable {
-                        auto sendSave = [this, user, phone, pwd]{
+                    connect(saveToggle, &QPushButton::clicked, this, [saveToggle, user, phone, email, pwd, this]() mutable {
+                        auto sendSave = [this, user, phone, email, pwd]{
                             QJsonObject r; r["type"] = "update_account_info";
                             const QString newName = user->text().trimmed();
                             const QString newPhone = phone->text().trimmed();
+                            const QString newEmail = email->text().trimmed();
                             const QString newPwd = pwd->text();
                             if (!newName.isEmpty()) r["new_username"] = newName;
                             if (!newPhone.isEmpty()) r["phone"] = newPhone;
+                            if (!newEmail.isEmpty()) r["email"] = newEmail;
                             if (!newPwd.isEmpty()) r["password"] = newPwd;
                             if (!currentUsername.isEmpty()) r["username"] = currentUsername;
                             QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
                             statusBar()->showMessage(tr("正在保存修改…"), 2000);
                         };
                         if (saveToggle->text() == QObject::tr("修改")) {
-                            user->setEnabled(true); phone->setEnabled(true); pwd->setEnabled(true);
+                            user->setEnabled(true); phone->setEnabled(true); email->setEnabled(true); pwd->setEnabled(true);
                             user->setFocus();
                             saveToggle->setText(QObject::tr("保存"));
                         } else {
                             sendSave();
-                            user->setEnabled(false); phone->setEnabled(false); pwd->setEnabled(false);
+                            user->setEnabled(false); phone->setEnabled(false); email->setEnabled(false); pwd->setEnabled(false);
                             saveToggle->setText(QObject::tr("修改"));
                         }
                     });
@@ -523,6 +531,8 @@ void MainWindow::onReadyRead()
             user->setText(response.value("username").toString());
         if (auto phone = page->findChild<QLineEdit*>("acc_phone"))
             phone->setText(response.value("phone").toString());
+        if (auto email = page->findChild<QLineEdit*>("acc_email"))
+            email->setText(response.value("email").toString());
         if (auto pwd = page->findChild<QLineEdit*>("acc_pwd"))
             pwd->clear();
         clearToFullPage(page);
@@ -530,6 +540,9 @@ void MainWindow::onReadyRead()
     else if (type == "update_account_response") {
         bool ok = response.value("success").toBool(); QString msg = response.value("message").toString();
         statusBar()->showMessage(ok ? (msg.isEmpty()? tr("保存成功"): msg) : (msg.isEmpty()? tr("保存失败"): msg), 3000);
+        if (ok) {
+            QMessageBox::information(this, tr("修改成功"), msg.isEmpty() ? tr("账户信息已更新") : msg);
+        }
         if (ok) {
             // 若用户名被修改，更新本地状态与问候语
             if (auto page = findChild<QWidget*>("accountPage")) {
@@ -546,10 +559,19 @@ void MainWindow::onReadyRead()
         }
     }
     else if (type == "orders_response") {
+        // 如果这次是从聊天窗口发起（origin=chat），则交由 ChatWindow 自行处理，不构建订单页
+        const QString origin = response.value("origin").toString();
+        if (origin == QLatin1String("chat")) {
+            if (chat) chat->handleMessage(response);
+            return;
+        }
         // 构建或复用内嵌订单页面（统一顶部返回栏 + 筛选 + 分页，样式统一）
     QWidget *container = findChild<QWidget*>("ordersPage");
-    if (!container) container = new QWidget(this);
-    container->setObjectName("ordersPage");
+    if (!container) {
+        container = new QWidget(this);
+        container->setObjectName("ordersPage");
+        if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) root->addWidget(container);
+    }
     // 复用已有布局，避免重复叠加导致控件跑位（例如“下一页”出现在左上角）
     auto *v = qobject_cast<QVBoxLayout*>(container->layout());
     if (!v) v = new QVBoxLayout(container); else clearLayout(v);
@@ -578,9 +600,9 @@ void MainWindow::onReadyRead()
 
         // 筛选栏
         auto *filterBar = new QHBoxLayout();
-        auto *statusLbl = new QLabel(tr("状态"), container);
-        auto *statusCmb = new QComboBox(container); statusCmb->setObjectName("ordersStatus");
-        statusCmb->addItems({ tr("全部"), tr("已支付"), tr("待支付"), tr("已取消") });
+    auto *statusLbl = new QLabel(tr("状态"), container);
+    auto *statusCmb = new QComboBox(container); statusCmb->setObjectName("ordersStatus");
+    statusCmb->addItems({ tr("全部"), tr("已支付"), tr("待支付"), tr("已取消") });
         auto *kwLbl = new QLabel(tr("关键字"), container);
         auto *kwEdit = new QLineEdit(container); kwEdit->setObjectName("ordersKeyword"); kwEdit->setPlaceholderText(tr("订单号/用户名"));
     auto *filterBtn = new QPushButton(tr("筛选"), container); filterBtn->setObjectName("ordersFilterBtn");
@@ -593,7 +615,11 @@ void MainWindow::onReadyRead()
         v->addLayout(filterBar);
 
         // 表格
-        auto *table = new QTableWidget(container); table->setObjectName("ordersTable"); table->setColumnCount(5);
+    auto *table = new QTableWidget(container); table->setObjectName("ordersTable"); table->setColumnCount(5);
+    table->setSelectionBehavior(QAbstractItemView::SelectRows);
+    table->setSelectionMode(QAbstractItemView::SingleSelection);
+    table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    table->setFocusPolicy(Qt::StrongFocus);
         QStringList headers; headers << tr("订单号") << tr("用户名") << tr("金额") << tr("状态") << tr("时间");
         table->setHorizontalHeaderLabels(headers); table->horizontalHeader()->setStretchLastSection(true);
         v->addWidget(table);
@@ -637,7 +663,11 @@ void MainWindow::onReadyRead()
             filtered.reserve(data.size());
             for (const QVariant &v : data) {
                 const QVariantMap m = v.toMap();
-                const QString status = m.value("status").toString();
+                QString status = m.value("status").toString();
+                // 兼容后端或数据里出现的英文枚举，统一映射到中文以用于比较
+                if (status.compare("PAID", Qt::CaseInsensitive) == 0) status = tr("已支付");
+                else if (status.compare("CART", Qt::CaseInsensitive) == 0 || status.compare("PENDING", Qt::CaseInsensitive) == 0) status = tr("待支付");
+                else if (status.compare("REFUNDED", Qt::CaseInsensitive) == 0 || status.compare("CANCELLED", Qt::CaseInsensitive) == 0) status = tr("已取消");
                 const QString uname = m.value("username").toString();
                 const QString idStr = QString::number(m.value("orderId").toLongLong());
                 if (statusSel != tr("全部") && status != statusSel) continue;
@@ -674,20 +704,27 @@ void MainWindow::onReadyRead()
         };
 
         // 交互
+        // 为避免重复连接导致的重复回调/野指针，先断开旧的（如果有），再建立一次新的连接
+        QObject::disconnect(filterBtn, nullptr, nullptr, nullptr);
+        QObject::disconnect(kwEdit, nullptr, nullptr, nullptr);
+        QObject::disconnect(statusCmb, nullptr, nullptr, nullptr);
+        QObject::disconnect(prevBtn, nullptr, nullptr, nullptr);
+        QObject::disconnect(nextBtn, nullptr, nullptr, nullptr);
         connect(filterBtn, &QPushButton::clicked, this, [container, refresh]{ container->setProperty("ordersPageNo", 1); refresh(); });
         connect(kwEdit, &QLineEdit::returnPressed, this, [container, refresh]{ container->setProperty("ordersPageNo", 1); refresh(); });
-    connect(statusCmb, qOverload<int>(&QComboBox::currentIndexChanged), this, [container, refresh](int){ container->setProperty("ordersPageNo", 1); refresh(); });
+        connect(statusCmb, qOverload<int>(&QComboBox::currentIndexChanged), this, [container, refresh](int){ container->setProperty("ordersPageNo", 1); refresh(); });
         connect(prevBtn, &QPushButton::clicked, this, [container, refresh]{ int p = container->property("ordersPageNo").toInt(); if (p>1) { container->setProperty("ordersPageNo", p-1); refresh(); } });
         connect(nextBtn, &QPushButton::clicked, this, [container, refresh]{ int p = container->property("ordersPageNo").toInt(); container->setProperty("ordersPageNo", p+1); refresh(); });
 
         // 双击表格行查看订单详情（小票样式）
         if (auto *tbl = container->findChild<QTableWidget*>("ordersTable")) {
-            connect(tbl, &QTableWidget::itemDoubleClicked, this, [this, tbl](QTableWidgetItem *item){
-                int row = item->row();
+            QObject::disconnect(tbl, nullptr, nullptr, nullptr);
+            auto showOrderDetail = [this, tbl](int row){
+                if (row < 0) return;
                 auto *idItem = tbl->item(row, 0);
-                if (!idItem) return;
+                if (!idItem) { QMessageBox::warning(this, tr("提示"), tr("未获取到订单数据")); return; }
                 const QVariantMap order = idItem->data(Qt::UserRole).toMap();
-                if (order.isEmpty()) return;
+                if (order.isEmpty()) { QMessageBox::warning(this, tr("提示"), tr("未获取到订单数据")); return; }
                 const qlonglong orderId = order.value("orderId").toLongLong();
                 const QString status = order.value("status").toString();
                 QString timeStr = order.value("order_time").toString();
@@ -734,11 +771,17 @@ void MainWindow::onReadyRead()
                 box.setText(html);
                 box.addButton(tr("关闭"), QMessageBox::RejectRole);
                 box.exec();
-            });
+            };
+            connect(tbl, &QTableWidget::itemDoubleClicked, this, [showOrderDetail](QTableWidgetItem *item){ showOrderDetail(item ? item->row() : -1); });
+            connect(tbl, &QTableWidget::cellDoubleClicked, this, [showOrderDetail](int row, int /*column*/){ showOrderDetail(row); });
+            connect(tbl, &QTableWidget::itemActivated, this, [showOrderDetail](QTableWidgetItem *item){ showOrderDetail(item ? item->row() : -1); });
+            connect(tbl, &QTableWidget::cellActivated, this, [showOrderDetail](int row, int /*column*/){ showOrderDetail(row); });
+            connect(static_cast<QTableView*>(tbl), &QTableView::doubleClicked, this, [showOrderDetail](const QModelIndex &idx){ showOrderDetail(idx.isValid() ? idx.row() : -1); });
         }
 
         // 返回
-    connect(back, &QPushButton::clicked, this, [this, container]{ container->hide(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
+    QObject::disconnect(back, nullptr, nullptr, nullptr);
+    connect(back, &QPushButton::clicked, this, [this, container]{ container->hide(); container->deleteLater(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
 
         // 首次渲染
         refresh();
@@ -818,9 +861,19 @@ void MainWindow::clearLayout(QLayout *layout)
 {
     if (!layout) return;
     while (QLayoutItem *it = layout->takeAt(0)) {
-        if (auto *w = it->widget()) w->deleteLater();
+        if (auto *childLayout = it->layout()) {
+            // 递归清理并销毁子布局，防止遗留的控件/布局导致下次构建时错乱
+            clearLayout(childLayout);
+            delete childLayout;
+        } else if (auto *w = it->widget()) {
+            // 控件用 deleteLater，避免同步销毁引发信号回调访问已释放对象
+            w->deleteLater();
+        }
+        // QSpacerItem 等通过删除 it 即可清理
         delete it;
     }
+    // 失效布局缓存，确保后续计算重新进行
+    layout->invalidate();
 }
 
 void MainWindow::renderCarouselPlaceholder()
@@ -1260,6 +1313,7 @@ void MainWindow::showProductDetail(const QJsonObject &product)
     QString name = product.value("name").toString();
     double price = product.value("price").toDouble();
     int stock = product.value("stock").toInt(-1);
+    int sales = product.value("sales").toInt(-1);
     QMessageBox box(this);
     // in showProductDetail, read discount and render both prices if applicable
     // before composing text
@@ -1283,6 +1337,7 @@ void MainWindow::showProductDetail(const QJsonObject &product)
     }
     text += QString("<div><b>价格：</b>%1</div>").arg(priceLine);
     if (stock >= 0) text += QString("<div><b>库存：</b>%1</div>").arg(stock);
+    if (sales >= 0) text += QString("<div><b>销量：</b>%1</div>").arg(sales);
     // 库存为0显示醒目的售罄徽标
     bool soldOut = (stock == 0);
     if (soldOut) {
@@ -1525,7 +1580,7 @@ void MainWindow::showAccountView()
         info->setObjectName("acc_loading");
         v->addWidget(info);
         if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) root->addWidget(page);
-        connect(back, &QPushButton::clicked, this, [this, page]{ page->hide(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
+            connect(back, &QPushButton::clicked, this, [this, page]{ page->hide(); page->deleteLater(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
     }
     // 已有页面：若已存在表单，隐藏占位；否则确保占位显示
     if (page->findChild<QLineEdit*>("acc_user")) {
@@ -1555,6 +1610,8 @@ void MainWindow::showOrdersView()
     if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(false);
     if (auto prevBtn = findChild<QWidget*>("prevPage")) prevBtn->setVisible(false);
     if (auto nextBtn = findChild<QWidget*>("nextPage")) nextBtn->setVisible(false);
+    // 为避免遗留的旧 ordersPage 上的信号/控件导致再次进入时闪退，进入前先彻底销毁旧页面
+    if (auto old = findChild<QWidget*>("ordersPage")) { old->hide(); old->deleteLater(); }
     // 发送请求；在 orders_response 分支中构建/展示内嵌页面
     if (!socket) return;
     QJsonObject req; req["type"] = "get_orders"; QJsonDocument d(req); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
@@ -1594,7 +1651,7 @@ void MainWindow::showChatView()
     chat->setMinimumSize(0,300);
     v->addWidget(chat);
     connect(back, &QPushButton::clicked, this, [this, page]{
-        // 隐藏聊天页，但不销毁 ChatWindow，避免后台网络回调访问已释放 UI
+        // 隐藏并释放聊天页；ChatWindow 脱离父子关系以保持存活
         page->hide();
         if (chat) chat->setParent(nullptr);
         page->deleteLater();
