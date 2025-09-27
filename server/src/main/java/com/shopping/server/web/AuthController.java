@@ -74,9 +74,15 @@ public class AuthController {
             return ResponseEntity.badRequest().body(resp);
         }
         var opt = clientRepository.findByUsername(username);
-        boolean ok = opt.isPresent() && password.equals(opt.get().getPassword());
+        boolean ok = opt.isPresent() && Boolean.TRUE.equals(opt.get().getEnabled()) && password.equals(opt.get().getPassword());
         resp.put("success", ok);
-        resp.put("message", ok ? "登录成功" : "用户名或密码错误");
+        if (!opt.isPresent()) {
+            resp.put("message", "用户名或密码错误");
+        } else if (Boolean.FALSE.equals(opt.get().getEnabled())) {
+            resp.put("message", "该账号已被禁用，请联系管理员");
+        } else {
+            resp.put("message", ok ? "登录成功" : "用户名或密码错误");
+        }
         if (ok) {
             Map<String, Object> user = new HashMap<>();
             user.put("username", opt.get().getUsername());

@@ -4421,3 +4421,65 @@ d shown
 [2025-09-27 16:08:43] [DEBUG] Connected to server
 [2025-09-27 16:08:53] [ERROR] Socket error: "The remote host closed the connection"
 [2025-09-27 16:08:53] [DEBUG] Disconnected from server
+[2025-09-27 16:10:43] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-09-27 16:10:43] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-27 16:10:43] [INFO] LoginWindow created and shown
+[2025-09-27 16:10:43] [DEBUG] Connected to server
+[2025-09-27 16:10:59] [ERROR] Socket error: "The remote host closed the connection"
+[2025-09-27 16:10:59] [DEBUG] Disconnected from server
+[2025-09-27 21:33:07] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-09-27 21:33:07] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-27 21:33:07] [INFO] LoginWindow created and shown
+[2025-09-27 21:33:07] [DEBUG] Connected to server
+[2025-09-27 21:40:36] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-09-27 21:40:36] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-27 21:40:36] [INFO] LoginWindow created and shown
+[2025-09-27 21:40:36] [DEBUG] Connected to server
+[2025-09-27 21:41:38] [ERROR] Socket error: "The remote host closed the connection"
+[2025-09-27 21:41:38] [DEBUG] Disconnected from server
+[2025-09-27 21:42:52] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-09-27 21:42:52] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-27 21:42:52] [INFO] LoginWindow created and shown
+[2025-09-27 21:42:52] [DEBUG] Connected to server
+[2025-09-27 21:43:07] [INFO] sendJson "{\"password\":\"111111\",\"type\":\"login\",\"username\":\"qwq\"}\n"
+[2025-09-27 21:43:07] [INFO] onReadyRead bytes= 97
+[2025-09-27 21:43:14] [INFO] sendJson "{\"password\":\"111111\",\"type\":\"login\",\"username\":\"qwq\"}\n"
+[2025-09-27 21:43:14] [INFO] onReadyRead bytes= 66
+[2025-09-27 21:43:14] [INFO] Login success, creating MainWindow and handing off socket
+[2025-09-27 21:43:14] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-27 21:43:14] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-27 21:43:14] [INFO] MainWindow constructed
+[2025-09-27 21:43:14] [INFO] setupConnections: searchButton= 0x29853f2db10 cartButton= 0x29853f6f7d0 chatButton= 0x29853f6f6e0
+[2025-09-27 21:43:14] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-09-27 21:43:14] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-09-27 21:43:14] [INFO] recv carousel_data images= 3
+[2025-09-27 21:43:14] [INFO] recv promotions count= 2
+[2025-09-27 21:43:14] [INFO] recv recommendations products= 4
+[2025-09-27 21:43:17] [INFO] recv products_response total= 22  page= 1
+[2025-09-27 21:43:18] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-09-27 21:43:18] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-09-27 21:43:18] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-09-27 21:43:18] [INFO] [cart_load] empty cart
+[2025-09-27 21:43:20] [INFO] recv products_response total= 22  page= 1
+[2025-09-27 21:43:23] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-09-27 21:43:23] [INFO] [cart_load] skip duplicate build sig= "1|20:1"
+[2025-09-27 21:43:23] [INFO] [cart_load] skip duplicate build sig= "1|20:1"
+[2025-09-27 21:43:23] [INFO] [cart_load] skip duplicate build sig= "1|20:1"
+[2025-09-27 21:43:24] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-09-27 21:43:24] [INFO] [cart_load] skip duplicate build sig= "2|18:1,20:1"
+[2025-09-27 21:43:24] [INFO] [cart_load] skip duplicate build sig= "2|18:1,20:1"
+[2025-09-27 21:43:24] [INFO] [cart_load] skip duplicate build sig= "2|18:1,20:1"
+[2025-09-27 21:43:26] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= false
+[2025-09-27 21:43:26] [INFO] showOnce show tag= "order_ok" title= "下单成功" text= "订单已创建：#8\n本次金额：￥1798.00"
+[2025-09-27 21:43:27] [INFO] [cart_load] empty cart
+[2025-09-27 21:43:27] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-27 21:43:27] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-27 21:43:27] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-27 21:43:27] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-27 21:43:27] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-09-27 21:43:28] [INFO] recv products_response total= 22  page= 1
+[2025-09-27 21:43:32] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-09-27 21:43:36] [INFO] recv products_response total= 22  page= 1
+[2025-09-27 21:43:54] [WARN] Socket disconnected
+[2025-09-27 21:43:55] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-09-27 21:43:55] [WARN] QObject::~QObject: Timers cannot be stopped from another thread

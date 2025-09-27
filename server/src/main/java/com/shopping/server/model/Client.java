@@ -23,4 +23,6 @@ public class Client {
     @Column(unique = true)
     private String phone;
     private Integer purchaseCount;
+    @Column(nullable = false)
+    private Boolean enabled = true;
 }

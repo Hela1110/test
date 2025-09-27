@@ -388,6 +388,12 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             if (!ok) {
                 var dbOpt = clientRepository.findByUsername(username);
                 if (dbOpt.isPresent()) {
+                    if (Boolean.FALSE.equals(dbOpt.get().getEnabled())) {
+                        response.put("success", false);
+                        response.put("message", "该账号已被禁用，请联系管理员");
+                        ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+                        return;
+                    }
                     // 注意：当前为明文密码对比，生产应使用哈希（如 BCrypt）
                     ok = password.equals(dbOpt.get().getPassword());
                     if (ok && saved == null) {

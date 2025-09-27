@@ -1,6 +1,7 @@
 package com.shopping.server.admin;
 
 import com.shopping.server.model.Product;
+import com.shopping.server.model.Client;
 import com.shopping.server.model.OrderHeader;
 import com.shopping.server.model.OrderStatus;
 import com.shopping.server.model.ChatMessage;
@@ -17,6 +18,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,7 +63,7 @@ public class AdminFrame extends JFrame {
         tabs.addTab("聊天/反馈", buildChatPanel());
         tabs.addTab("活动商品", buildPromotionPanel());
         tabs.addTab("数据统计", buildStatsPanel());
-        tabs.addTab("系统/用户(预留)", new JLabel("即将上线：服务状态与用户信息"));
+        tabs.addTab("系统/用户", buildUsersPanel());
         setContentPane(tabs);
     }
 
@@ -667,12 +669,27 @@ public class AdminFrame extends JFrame {
             chooser.setDialogTitle("保存月度统计 CSV");
             if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 java.io.File f = chooser.getSelectedFile();
-                try (java.io.PrintWriter pw = new java.io.PrintWriter(new java.io.OutputStreamWriter(new java.io.FileOutputStream(f), java.nio.charset.StandardCharsets.UTF_8))) {
-                    // 表头
-                    pw.println("year,month,total_amount");
-                    for (int i=0;i<mModel.getRowCount();++i) {
-                        pw.println(mModel.getValueAt(i,0)+","+mModel.getValueAt(i,1)+","+mModel.getValueAt(i,2));
+                // 自动补全 .csv 扩展名
+                if (f != null) {
+                    String path = f.getAbsolutePath();
+                    if (!path.toLowerCase().endsWith(".csv")) {
+                        f = new java.io.File(path + ".csv");
                     }
+                }
+             if (f == null) return;
+             try (java.io.FileOutputStream fos = new java.io.FileOutputStream(f);
+                     java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(fos, java.nio.charset.StandardCharsets.UTF_8);
+                     java.io.PrintWriter pw = new java.io.PrintWriter(osw)) {
+                    // 写入 UTF-8 BOM，便于 Windows Excel 正确识别编码
+                    pw.print('\uFEFF');
+                    // 表头与行数据，使用 CRLF 结尾
+                    pw.print("year,month,total_amount\r\n");
+                    for (int i=0;i<mModel.getRowCount();++i) {
+                        pw.print(String.valueOf(mModel.getValueAt(i,0)) + "," +
+                                 String.valueOf(mModel.getValueAt(i,1)) + "," +
+                                 String.valueOf(mModel.getValueAt(i,2)) + "\r\n");
+                    }
+                    pw.flush();
                     JOptionPane.showMessageDialog(this, "已导出: "+f.getAbsolutePath());
                 } catch (Exception ex) {
                     ex.printStackTrace(); JOptionPane.showMessageDialog(this, "导出失败: "+ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
@@ -684,13 +701,29 @@ public class AdminFrame extends JFrame {
             chooser.setDialogTitle("保存商品统计 CSV");
             if (chooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
                 java.io.File f = chooser.getSelectedFile();
-                try (java.io.PrintWriter pw = new java.io.PrintWriter(new java.io.OutputStreamWriter(new java.io.FileOutputStream(f), java.nio.charset.StandardCharsets.UTF_8))) {
-                    pw.println("product_id,name,quantity,amount");
+                // 自动补全 .csv 扩展名
+                if (f != null) {
+                    String path = f.getAbsolutePath();
+                    if (!path.toLowerCase().endsWith(".csv")) {
+                        f = new java.io.File(path + ".csv");
+                    }
+                }
+             if (f == null) return;
+             try (java.io.FileOutputStream fos = new java.io.FileOutputStream(f);
+                     java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(fos, java.nio.charset.StandardCharsets.UTF_8);
+                     java.io.PrintWriter pw = new java.io.PrintWriter(osw)) {
+                    // 写入 UTF-8 BOM
+                    pw.print('\uFEFF');
+                    pw.print("product_id,name,quantity,amount\r\n");
                     for (int i=0;i<pModel.getRowCount();++i) {
                         // 简单转义逗号
                         String name = String.valueOf(pModel.getValueAt(i,1)).replace(","," ");
-                        pw.println(pModel.getValueAt(i,0)+","+name+","+pModel.getValueAt(i,2)+","+pModel.getValueAt(i,3));
+                        pw.print(String.valueOf(pModel.getValueAt(i,0)) + "," +
+                                 name + "," +
+                                 String.valueOf(pModel.getValueAt(i,2)) + "," +
+                                 String.valueOf(pModel.getValueAt(i,3)) + "\r\n");
                     }
+                    pw.flush();
                     JOptionPane.showMessageDialog(this, "已导出: "+f.getAbsolutePath());
                 } catch (Exception ex) {
                     ex.printStackTrace(); JOptionPane.showMessageDialog(this, "导出失败: "+ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
@@ -701,6 +734,191 @@ public class AdminFrame extends JFrame {
         // 初始触发一次
         btnLoad.doClick();
         return root;
+    }
+
+    // 用户管理页：列出所有用户，双击查看详情
+    private JPanel buildUsersPanel() {
+        JPanel root = new JPanel(new BorderLayout(8, 8));
+        root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+
+        // 顶部：搜索与刷新
+        JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JTextField keyword = new JTextField(22);
+        JButton btnSearch = new JButton("搜索");
+        JButton btnRefresh = new JButton("刷新");
+        top.add(new JLabel("关键字(用户名/邮箱/手机号):"));
+        top.add(keyword);
+        top.add(btnSearch);
+        top.add(btnRefresh);
+        root.add(top, BorderLayout.NORTH);
+
+        // 表格：只读
+        String[] cols = {"ID", "用户名", "邮箱", "手机号", "购买次数", "状态"};
+        DefaultTableModel model = new DefaultTableModel(cols, 0) {
+            @Override public boolean isCellEditable(int r, int c) { return false; }
+        };
+        JTable table = new JTable(model);
+        table.setAutoCreateRowSorter(true);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane sp = new JScrollPane(table);
+        root.add(sp, BorderLayout.CENTER);
+
+        // 底部：分页与启用/禁用按钮
+        JPanel bottom = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JComboBox<Integer> pageSize = new JComboBox<>(new Integer[]{10, 20, 50, 100});
+        pageSize.setSelectedItem(20);
+        JButton prev = new JButton("上一页");
+        JButton next = new JButton("下一页");
+        JLabel pageInfo = new JLabel("第 1/1 页，共 0 条");
+        JButton toggle = new JButton("禁用/启用");
+        bottom.add(new JLabel("每页:")); bottom.add(pageSize);
+        bottom.add(prev); bottom.add(next); bottom.add(pageInfo);
+        bottom.add(Box.createHorizontalStrut(18)); bottom.add(toggle);
+        root.add(bottom, BorderLayout.SOUTH);
+
+        final int[] currentPage = {0}; // 从 0 开始
+        final long[] totalItems = {0};
+
+        java.util.function.Consumer<String> doLoad = (kw) -> {
+            try {
+                int size = (Integer) pageSize.getSelectedItem();
+                var pageable = org.springframework.data.domain.PageRequest.of(currentPage[0], size, org.springframework.data.domain.Sort.by("clientId").descending());
+                org.springframework.data.domain.Page<Client> page;
+                if (kw != null && !kw.isBlank()) page = clientRepo.searchByKeyword(kw.trim(), pageable); else page = clientRepo.findAll(pageable);
+                model.setRowCount(0);
+                for (Client c : page.getContent()) {
+                    model.addRow(new Object[]{ c.getClientId(), c.getUsername(), c.getEmail(), c.getPhone(), c.getPurchaseCount(), (c.getEnabled()!=null && c.getEnabled())?"启用":"禁用" });
+                }
+                totalItems[0] = page.getTotalElements();
+                int totalPages = Math.max(1, page.getTotalPages());
+                int showPage = Math.min(currentPage[0]+1, totalPages);
+                pageInfo.setText("第 " + showPage + "/" + totalPages + " 页，共 " + totalItems[0] + " 条");
+                prev.setEnabled(currentPage[0] > 0);
+                next.setEnabled(currentPage[0] < totalPages - 1);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "加载用户失败: " + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+            }
+        };
+
+        btnRefresh.addActionListener(e -> { currentPage[0] = 0; doLoad.accept(keyword.getText()); });
+        btnSearch.addActionListener(e -> {
+            String kw = keyword.getText().trim().toLowerCase();
+            currentPage[0] = 0; doLoad.accept(kw);
+        });
+
+        pageSize.addActionListener(e -> { currentPage[0] = 0; doLoad.accept(keyword.getText()); });
+        prev.addActionListener(e -> { if (currentPage[0] > 0) currentPage[0]--; doLoad.accept(keyword.getText()); });
+        next.addActionListener(e -> { currentPage[0]++; doLoad.accept(keyword.getText()); });
+
+        toggle.addActionListener(e -> {
+            int row = table.getSelectedRow();
+            if (row < 0) { JOptionPane.showMessageDialog(this, "请先选择一名用户"); return; }
+            int idx = table.convertRowIndexToModel(row);
+            Object idObj = model.getValueAt(idx, 0);
+            if (idObj == null) return;
+            long cid = Long.parseLong(String.valueOf(idObj));
+            try {
+                var opt = clientRepo.findById(cid);
+                if (opt.isEmpty()) { JOptionPane.showMessageDialog(this, "用户不存在"); return; }
+                Client c = opt.get();
+                boolean cur = Boolean.TRUE.equals(c.getEnabled());
+                c.setEnabled(!cur);
+                clientRepo.save(c);
+                JOptionPane.showMessageDialog(this, (c.getEnabled()?"已启用: ":"已禁用: ") + c.getUsername());
+                doLoad.accept(keyword.getText());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "操作失败: " + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // 双击查看详情
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getClickCount() != 2) return;
+                int row = table.getSelectedRow();
+                if (row < 0) return;
+                int idx = table.convertRowIndexToModel(row);
+                Object idObj = model.getValueAt(idx, 0);
+                if (idObj == null) return;
+                long cid = Long.parseLong(String.valueOf(idObj));
+                showClientDetailDialog(cid);
+            }
+        });
+
+        // 初次加载
+        doLoad.accept(keyword.getText());
+        return root;
+    }
+
+    // 用户详情对话框
+    private void showClientDetailDialog(long clientId) {
+        try {
+            var opt = clientRepo.findById(clientId);
+            if (opt.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "未找到该用户: " + clientId, "提示", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            Client c = opt.get();
+
+            JDialog dlg = new JDialog(this, "用户详情 - " + String.valueOf(c.getUsername()), true);
+            dlg.setSize(460, 420);
+            dlg.setLocationRelativeTo(this);
+            dlg.setLayout(new BorderLayout(8,8));
+
+            JPanel center = new JPanel();
+            center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
+            center.add(line("用户ID:", String.valueOf(c.getClientId())));
+            center.add(line("用户名:", String.valueOf(c.getUsername())));
+            center.add(line("邮箱:", nullToDash(c.getEmail())));
+            center.add(line("手机号:", nullToDash(c.getPhone())));
+            center.add(line("购买次数:", c.getPurchaseCount()==null?"0":String.valueOf(c.getPurchaseCount())));
+
+            // 头像（若有）
+            String av = c.getAvatar();
+            if (av != null && !av.isBlank()) {
+                try {
+                    JLabel img = new JLabel();
+                    img.setHorizontalAlignment(SwingConstants.CENTER);
+                    img.setBorder(BorderFactory.createTitledBorder("头像预览"));
+                    ImageIcon ico = new ImageIcon(new URL(av));
+                    // 尝试缩放到较小尺寸
+                    Image scaled = ico.getImage().getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+                    img.setIcon(new ImageIcon(scaled));
+                    center.add(Box.createVerticalStrut(6));
+                    center.add(img);
+                } catch (Exception ignore) {
+                    center.add(line("头像URL:", av));
+                }
+            }
+
+            dlg.add(new JScrollPane(center), BorderLayout.CENTER);
+            JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            JButton btnClose = new JButton("关闭");
+            btnClose.addActionListener(e -> dlg.dispose());
+            south.add(btnClose);
+            dlg.add(south, BorderLayout.SOUTH);
+
+            dlg.setVisible(true);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "无法展示用户详情: " + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // 小工具：一行 label-value 展示
+    private JPanel line(String label, String value) {
+        JPanel p = new JPanel(new BorderLayout(6, 6));
+        p.add(new JLabel(label), BorderLayout.WEST);
+        JTextField tf = new JTextField(value == null ? "-" : value);
+        tf.setEditable(false);
+        p.add(tf, BorderLayout.CENTER);
+        return p;
+    }
+
+    private static String nullToDash(String s) {
+        return (s == null || s.isBlank()) ? "-" : s;
     }
 
     // 弹出“订单卡片”对话框：展示订单详情，并提供“退款/驳回”操作
