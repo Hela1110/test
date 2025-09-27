@@ -31,11 +31,11 @@ public:
     void setUsername(const QString &u) { username = u; }
     void initChat();
     void handleMessage(const QJsonObject &msg);
+    void handleMessageUi(const QJsonObject &msg);
 
 private slots:
     void on_sendButton_clicked();
     void on_messageInput_returnPressed();
-    void on_clearButton_clicked();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;

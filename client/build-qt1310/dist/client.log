@@ -216,3 +216,7 @@
 [2025-09-25 16:38:16] [INFO] Connecting to 127.0.0.1:8080
 [2025-09-25 16:38:16] [INFO] LoginWindow created and shown
 [2025-09-25 16:38:16] [DEBUG] Connected to server
+[2025-09-27 13:00:48] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-27 13:00:48] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-27 13:00:48] [INFO] LoginWindow created and shown
+[2025-09-27 13:00:49] [DEBUG] Connected to server

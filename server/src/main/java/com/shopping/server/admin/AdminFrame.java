@@ -263,8 +263,10 @@ public class AdminFrame extends JFrame {
                 msgs = chatRepo.findConversation(tfFrom.getText().trim(), peer, org.springframework.data.domain.PageRequest.of(0, 100));
             }
             java.util.Collections.reverse(msgs);
+            java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             for (ChatMessage m : msgs) {
-                historyModel.addElement("[" + m.getCreatedAt() + "] " + m.getFromUser() + (m.getToUser()==null?" -> 全体":" -> "+m.getToUser()) + ": " + m.getContent());
+                String ts = m.getCreatedAt() == null ? "" : m.getCreatedAt().format(fmt);
+                historyModel.addElement("[" + ts + "] " + m.getFromUser() + (m.getToUser()==null?" -> 全体":" -> "+m.getToUser()) + ": " + m.getContent());
             }
             // 在线用户列表（从 SocketMessageHandler 获取）
             java.util.Set<String> on = SocketMessageHandler.getOnlineUsernames();
@@ -299,7 +301,8 @@ public class AdminFrame extends JFrame {
                 ChatMessage m = new ChatMessage();
                 m.setFromUser(tfFrom.getText().trim());
                 String to = tfTo.getText().trim();
-                m.setToUser(to.isEmpty()?null:to);
+                // "全体" 或 空 都当作群聊（toUser = null）
+                if (to.isEmpty() || "全体".equals(to)) m.setToUser(null); else m.setToUser(to);
                 m.setContent(input.getText().trim());
                 m.setCreatedAt(java.time.LocalDateTime.now());
                 if (m.getContent().isEmpty()) return;
@@ -316,12 +319,10 @@ public class AdminFrame extends JFrame {
         btnDelete.addActionListener(e -> {
             String peer = tfTo.getText().trim();
             String from = tfFrom.getText().trim();
-            if (peer.isEmpty()) { JOptionPane.showMessageDialog(this, "请选择具体用户或选择‘全体’"); return; }
-            if ("全体".equals(peer)) {
+            if (peer.isEmpty() || "全体".equals(peer)) {
                 int res = JOptionPane.showConfirmDialog(this, "确定要清空公共聊天（全体）历史吗？该操作不可撤销。", "确认删除全体", JOptionPane.YES_NO_OPTION);
                 if (res != JOptionPane.YES_OPTION) return;
-                // 走 SocketMessageHandler 的群聊删除逻辑（需要 admin 权限）；此处直接通过仓库删除也可以，但为了统一使用服务端口径，调用仓库即可
-                long deleted = chatRepo.deleteByToUserIsNull();
+                int deleted = chatRepo.deleteAllGlobalCompat();
                 JOptionPane.showMessageDialog(this, "已删除公共聊天条目: " + deleted);
             } else {
                 int res = JOptionPane.showConfirmDialog(this, "确定要删除与 "+peer+" 的历史记录吗？该操作不可撤销。", "确认删除", JOptionPane.YES_NO_OPTION);

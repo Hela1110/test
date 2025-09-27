@@ -503,4 +503,17 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QFontMetrics \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QThread \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qthread.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/future \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/mutex \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_mutex.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unique_lock.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/condition_variable \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_futex.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_thread.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QCoreApplication \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h

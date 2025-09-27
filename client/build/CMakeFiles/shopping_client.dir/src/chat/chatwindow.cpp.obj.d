@@ -502,4 +502,17 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QFontMetrics \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QThread \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qthread.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/future \
+ C:/msys64/ucrt64/include/c++/15.2.0/mutex \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/std_mutex.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_lock.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/condition_variable \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_futex.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/std_thread.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QCoreApplication \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h

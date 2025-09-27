@@ -1566,12 +1566,19 @@ void MainWindow::showChatView()
     setTabActive("chat");
     setSearchBarVisible(false);
     if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
-    // 若已存在 chatPage，直接复用
+    // 若已存在 chatPage，直接复用；ChatWindow 采用单例持有，避免 page 删除后异步回调访问已销毁控件
+    if (!chat) chat = new ChatWindow(this);
     if (auto exist = findChild<QWidget*>("chatPage")) {
+        // 已有页面则仅重新挂载 ChatWindow 并刷新
+        chat->setParent(exist);
+        chat->setWindowFlags(Qt::Widget);
+        chat->setMinimumSize(0,300);
+        if (socket) chat->setSocket(socket);
+        if (!currentUsername.isEmpty()) chat->setUsername(currentUsername);
+        chat->initChat();
         clearToFullPage(exist);
         return;
     }
-    if (!chat) chat = new ChatWindow(this);
     // 注入网络依赖与当前用户名
     if (socket) chat->setSocket(socket);
     if (!currentUsername.isEmpty()) chat->setUsername(currentUsername);
@@ -1586,7 +1593,13 @@ void MainWindow::showChatView()
     chat->setWindowFlags(Qt::Widget);
     chat->setMinimumSize(0,300);
     v->addWidget(chat);
-    connect(back, &QPushButton::clicked, this, [this, page]{ page->hide(); page->deleteLater(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
+    connect(back, &QPushButton::clicked, this, [this, page]{
+        // 隐藏聊天页，但不销毁 ChatWindow，避免后台网络回调访问已释放 UI
+        page->hide();
+        if (chat) chat->setParent(nullptr);
+        page->deleteLater();
+        if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView();
+    });
     clearToFullPage(page);
     // 进入聊天页时，拉取历史并刷新在线用户
     chat->initChat();

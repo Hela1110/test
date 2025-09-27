@@ -6,6 +6,7 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.shopping.server.repository.ClientRepository;
@@ -23,6 +24,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.List;
 import java.nio.file.*;
 import java.util.concurrent.atomic.AtomicLong;
+import java.time.format.DateTimeFormatter;
 
 @Component
 @ChannelHandler.Sharable
@@ -34,6 +36,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     private final OrderProcessingService orderProcessingService;
     private final ChatMessageRepository chatMessageRepository;
     private final OrderItemRepository orderItemRepository;
+    private final TransactionTemplate transactionTemplate;
 
     @Autowired
     public SocketMessageHandler(ClientRepository clientRepository,
@@ -41,13 +44,15 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                                 OrderHeaderRepository orderHeaderRepository,
                                 OrderProcessingService orderProcessingService,
                                 ChatMessageRepository chatMessageRepository,
-                                OrderItemRepository orderItemRepository) {
+                                OrderItemRepository orderItemRepository,
+                                TransactionTemplate transactionTemplate) {
         this.clientRepository = clientRepository;
         this.productRepository = productRepository;
         this.orderHeaderRepository = orderHeaderRepository;
         this.orderProcessingService = orderProcessingService;
         this.chatMessageRepository = chatMessageRepository;
         this.orderItemRepository = orderItemRepository;
+        this.transactionTemplate = transactionTemplate;
     }
     private static final Map<String, ChannelHandlerContext> clientChannels = new ConcurrentHashMap<>();
     // 临时内存用户存储（演示用）：用户名 -> 明文密码
@@ -57,6 +62,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     private static final Map<String, Map<String,Object>> userProfiles = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static final ObjectMapper PERSIST = new ObjectMapper();
+    private static final DateTimeFormatter CHAT_TS_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     /**
      * 下列内存结构已被数据库 (JPA) 替代，仅保留空壳防止旧方法引用编译错误。
      */
@@ -137,7 +143,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             push.put("from", m.getFromUser());
             push.put("to", m.getToUser());
             push.put("content", m.getContent());
-            push.put("createdAt", String.valueOf(m.getCreatedAt()));
+            push.put("createdAt", m.getCreatedAt() == null ? null : m.getCreatedAt().format(CHAT_TS_FMT));
             String json = mapper.writeValueAsString(push) + "\n";
             if (m.getToUser() == null) {
                 clientChannels.values().forEach(ch -> ch.writeAndFlush(json));
@@ -553,7 +559,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 "from", m.getFromUser(),
                 "to", m.getToUser(),
                 "content", m.getContent(),
-                "createdAt", String.valueOf(m.getCreatedAt())
+                "createdAt", m.getCreatedAt() == null ? null : m.getCreatedAt().format(CHAT_TS_FMT)
             )));
         } else {
             String u1 = username == null ? "" : username;
@@ -562,7 +568,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 "from", m.getFromUser(),
                 "to", m.getToUser(),
                 "content", m.getContent(),
-                "createdAt", String.valueOf(m.getCreatedAt())
+                "createdAt", m.getCreatedAt() == null ? null : m.getCreatedAt().format(CHAT_TS_FMT)
             )));
         }
         // 逆序为时间升序
@@ -601,7 +607,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         push.put("from", m.getFromUser());
         push.put("to", m.getToUser());
         push.put("content", m.getContent());
-        push.put("createdAt", String.valueOf(m.getCreatedAt()));
+    push.put("createdAt", m.getCreatedAt() == null ? null : m.getCreatedAt().format(CHAT_TS_FMT));
         String json = objectMapper.writeValueAsString(push) + "\n";
         if (m.getToUser() == null) {
             // 群发给所有在线用户（含自己）
@@ -625,22 +631,29 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
+        final String peerStr = peer == null ? "" : peer.trim();
+        final boolean isGlobal = peerStr.isEmpty() || "__GLOBAL__".equals(peerStr) || "全体".equals(peerStr);
         long deleted = 0L;
-        // 支持删除群聊（全体）历史：约定 peer 为空或值为 "__GLOBAL__" 时删除 toUser is null 的消息，权限限定 admin 或服务端
-        if (peer == null || peer.isEmpty() || "__GLOBAL__".equals(peer)) {
-            // 仅 admin 可清理公共聊天
+        if (isGlobal) {
             if (!"admin".equals(username)) {
                 resp.put("success", false);
                 resp.put("message", "仅管理员可删除群聊历史");
                 ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
                 return;
             }
-            // 直接通过 repository 自定义删除
-            deleted = chatMessageRepository.deleteByToUserIsNull();
+            // 在事务中执行删除以确保提交
+            System.out.println("[chat_delete] admin requested global delete by " + username);
+            Integer res = transactionTemplate.execute(status -> Integer.valueOf(chatMessageRepository.deleteAllGlobalCompat()));
+            deleted = (res == null ? 0L : res.longValue());
+            System.out.println("[chat_delete] global deleted rows = " + deleted);
         } else {
-            long n1 = chatMessageRepository.deleteByFromUserAndToUser(username, peer);
-            long n2 = chatMessageRepository.deleteByFromUserAndToUser(peer, username);
-            deleted = n1 + n2;
+            Long res = transactionTemplate.execute(status -> {
+                long n1 = chatMessageRepository.deleteByFromUserAndToUser(username, peerStr);
+                long n2 = chatMessageRepository.deleteByFromUserAndToUser(peerStr, username);
+                return Long.valueOf(n1 + n2);
+            });
+            deleted = (res == null ? 0L : res.longValue());
+            System.out.println("[chat_delete] private delete (" + username + " <-> " + peerStr + ") rows = " + deleted);
         }
         resp.put("success", true);
         resp.put("deleted", deleted);

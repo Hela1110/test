@@ -19,6 +19,26 @@
 #include <QTimer>
 #include <QHBoxLayout>
 #include <QListWidget>
+#include <QFontMetrics>
+#include <QThread>
+#include <QCoreApplication>
+
+namespace {
+// 统一规范服务器/历史中的时间戳为 yyyy-MM-dd HH:mm:ss
+static QString normalizeTs(const QString &raw) {
+    if (raw.isEmpty()) {
+        return QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
+    }
+    // 优先解析 ISO8601，其次按常见格式兜底
+    QDateTime dt = QDateTime::fromString(raw, Qt::ISODate);
+    if (!dt.isValid()) dt = QDateTime::fromString(raw, "yyyy-MM-dd HH:mm:ss");
+    if (!dt.isValid()) dt = QDateTime::fromString(raw, "yyyy/M/d H:m:s");
+    if (!dt.isValid()) dt = QDateTime::fromString(raw, "yyyy.MM.dd HH:mm:ss");
+    if (!dt.isValid()) dt = QDateTime::currentDateTime();
+    if (dt.timeSpec() == Qt::UTC) dt = dt.toLocalTime();
+    return dt.toString("yyyy-MM-dd HH:mm:ss");
+}
+}
 
 ChatWindow::ChatWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::ChatWindow) {
@@ -29,6 +49,9 @@ ChatWindow::ChatWindow(QWidget *parent)
     onlineCombo->setEditable(false);
     onlineCombo->setSizeAdjustPolicy(QComboBox::AdjustToContents);
     peerEdit = new QLineEdit(this);
+    // 隐藏该输入框：由下拉框 onlineCombo 负责切换对话对象
+    peerEdit->setVisible(false);
+    peerEdit->setEnabled(false);
     // 顶部条：在线下拉 + 标签（初始化仅包含“全体”，真实在线列表在 chat_init_response 收到后重建）
     onlineCombo->clear();
     onlineCombo->addItem(QStringLiteral("全体"));
@@ -42,25 +65,32 @@ ChatWindow::ChatWindow(QWidget *parent)
     auto *host = new QWidget(this);
     host->setLayout(bar);
     ui->verticalLayout->insertWidget(0, host);
-    // 添加“清空会话”按钮
-    auto *clearBtn = new QPushButton(tr("清空会话"), this);
-    connect(clearBtn, &QPushButton::clicked, this, &ChatWindow::on_clearButton_clicked);
-    ui->horizontalLayout->addWidget(clearBtn);
+    // 移除“清空会话”按钮，统一使用“删除与对方的历史”（带撤销）
     // 新增：删除与对方的历史（仅私聊有效）
     auto *delPeerBtn = new QPushButton(tr("删除与对方的历史"), this);
+    auto *refreshBtn = new QPushButton(tr("刷新"), this);
     connect(delPeerBtn, &QPushButton::clicked, this, [this](){
         if (!socket) return;
         const QString to = peerEdit? peerEdit->text().trimmed() : QString();
         if (to.isEmpty() || to == QStringLiteral("全体")) {
-            appendSystem(tr("[系统] 请选择具体用户进行删除，群聊不支持该操作"));
-            return;
-        }
-        // 确认对话框
-        auto reply = QMessageBox::question(this, tr("确认删除"), tr("确定要删除与 %1 的历史记录吗？此操作可在 5 秒内撤销。").arg(to),
+            // 群聊删除：仅 admin 允许
+            if (username == QLatin1String("admin")) {
+                auto reply = QMessageBox::question(this, tr("确认删除"), tr("确定要清空公共聊天（全体）的历史记录吗？此操作可在 3 秒内撤销。"),
+                                               QMessageBox::Yes|QMessageBox::No, QMessageBox::No);
+                if (reply != QMessageBox::Yes) return;
+                pendingDeletePeer = QStringLiteral("__GLOBAL__");
+            } else {
+                appendSystem(tr("[系统] 请选择具体用户进行删除，群聊仅管理员支持该操作"));
+                return;
+            }
+        } else {
+            // 私聊删除
+            auto reply = QMessageBox::question(this, tr("确认删除"), tr("确定要删除与 %1 的历史记录吗？此操作可在 3 秒内撤销。").arg(to),
                                            QMessageBox::Yes|QMessageBox::No, QMessageBox::No);
-        if (reply != QMessageBox::Yes) return;
-        // 设置待删除状态并显示撤销按钮，5 秒后真正发送删除请求
-        pendingDeletePeer = to;
+            if (reply != QMessageBox::Yes) return;
+            pendingDeletePeer = to;
+        }
+        // 设置待删除状态并显示撤销按钮，3 秒后真正发送删除请求
         if (!deleteTimer) {
             deleteTimer = new QTimer(this);
             deleteTimer->setSingleShot(true);
@@ -69,15 +99,16 @@ ChatWindow::ChatWindow(QWidget *parent)
                 if (pendingDeletePeer.isEmpty()) return; // 已撤销
                 QJsonObject r; r["type"] = "chat_delete"; if (!username.isEmpty()) r["username"] = username; r["peer"] = pendingDeletePeer;
                 QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
-                appendSystem(tr("[系统] 正在删除与 %1 的历史...").arg(pendingDeletePeer));
+                if (pendingDeletePeer == QLatin1String("__GLOBAL__")) appendSystem(tr("[系统] 正在清空公共聊天历史..."));
+                else appendSystem(tr("[系统] 正在删除与 %1 的历史...").arg(pendingDeletePeer));
                 pendingDeletePeer.clear();
                 if (undoDeleteBtn) undoDeleteBtn->setVisible(false);
             });
         }
-        deleteTimer->start(5000);
+        deleteTimer->start(3000);
         if (!undoDeleteBtn) {
             undoDeleteBtn = new QPushButton(tr("撤销删除"), this);
-            undoDeleteBtn->setToolTip(tr("在 5 秒内撤销删除操作"));
+            undoDeleteBtn->setToolTip(tr("在 3 秒内撤销删除操作"));
             ui->horizontalLayout->addWidget(undoDeleteBtn);
             connect(undoDeleteBtn, &QPushButton::clicked, this, [this](){
                 if (deleteTimer && deleteTimer->isActive()) deleteTimer->stop();
@@ -87,9 +118,14 @@ ChatWindow::ChatWindow(QWidget *parent)
             });
         }
         undoDeleteBtn->setVisible(true);
-        appendSystem(tr("[系统] 将在 5 秒后删除与 %1 的历史，可点击‘撤销删除’取消。 ").arg(to));
+        if (pendingDeletePeer == QLatin1String("__GLOBAL__"))
+            appendSystem(tr("[系统] 将在 3 秒后清空公共聊天历史，可点击‘撤销删除’取消。 "));
+        else
+            appendSystem(tr("[系统] 将在 3 秒后删除与 %1 的历史，可点击‘撤销删除’取消。 ").arg(to));
     });
     ui->horizontalLayout->addWidget(delPeerBtn);
+    connect(refreshBtn, &QPushButton::clicked, this, [this](){ initChat(); });
+    ui->horizontalLayout->addWidget(refreshBtn);
 
     // 选择在线用户即切换对话对象
     connect(onlineCombo, &QComboBox::currentTextChanged, this, [this](const QString &u){
@@ -111,6 +147,11 @@ ChatWindow::ChatWindow(QWidget *parent)
     // 回车发送已在 ui 中通过 returnPressed 信号连接
     // 额外事件过滤：Enter 发送，Shift+Enter 换行
     if (ui->messageInput) ui->messageInput->installEventFilter(this);
+
+    // 默认选中“全体”，确保进入页面即可群聊
+    if (onlineCombo) onlineCombo->setCurrentIndex(0);
+    if (peerEdit) peerEdit->setText("");
+    initChat();
 }
 
 ChatWindow::~ChatWindow() {
@@ -152,9 +193,7 @@ void ChatWindow::sendMessage() {
     if (message.isEmpty()) {
         return;
     }
-    // 本地追加（右侧绿色气泡）
-    appendBubble(username.isEmpty()?QStringLiteral("我"):username, peerEdit?peerEdit->text().trimmed():QString(), message,
-                     QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss"), /*isSelf=*/true);
+    // 不做本地回显，等待服务端推送，避免重复显示
     ui->messageInput->clear();
     // 发送到服务器
     if (socket) {
@@ -167,9 +206,29 @@ void ChatWindow::sendMessage() {
 void ChatWindow::sendDelete() {
     if (!socket) return;
     const QString to = peerEdit? peerEdit->text().trimmed() : QString();
-    if (to.isEmpty()) { appendLine(tr("[系统] 请输入要清空的对话对象")); return; }
-    QJsonObject r; r["type"] = "chat_delete"; if (!username.isEmpty()) r["username"] = username; r["peer"] = to;
-    QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+    if (to.isEmpty() || to == QStringLiteral("全体")) {
+        // 群聊清空仅 admin 可用
+        if (username == QLatin1String("admin")) {
+            auto reply = QMessageBox::question(this, tr("确认删除"), tr("确定要清空公共聊天（全体）的历史记录吗？"),
+                                              QMessageBox::Yes|QMessageBox::No, QMessageBox::No);
+            if (reply != QMessageBox::Yes) return;
+            QJsonObject r; r["type"] = "chat_delete"; if (!username.isEmpty()) r["username"] = username; r["peer"] = QStringLiteral("__GLOBAL__");
+            QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+            appendSystem(tr("[系统] 正在请求清空公共聊天历史..."));
+        } else {
+            appendSystem(tr("[系统] 请选择具体用户进行删除，群聊仅管理员支持该操作"));
+        }
+        return;
+    }
+    // 私聊删除
+    {
+        auto reply = QMessageBox::question(this, tr("确认删除"), tr("确定要删除与 %1 的历史记录吗？").arg(to),
+                                          QMessageBox::Yes|QMessageBox::No, QMessageBox::No);
+        if (reply != QMessageBox::Yes) return;
+        QJsonObject r; r["type"] = "chat_delete"; if (!username.isEmpty()) r["username"] = username; r["peer"] = to;
+        QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+        appendSystem(tr("[系统] 正在请求删除与 %1 的历史...").arg(to));
+    }
 }
 
 void ChatWindow::appendLine(const QString &text) {
@@ -218,6 +277,7 @@ void ChatWindow::appendBubble(const QString &from, const QString &to, const QStr
 }
 
 void ChatWindow::initChat() {
+    if (!ui) return;
     ui->chatList->clear();
     if (!socket) return;
     QJsonObject r; r["type"] = "chat_init"; if (!username.isEmpty()) r["username"] = username; const QString to = peerEdit? peerEdit->text().trimmed():QString(); if (!to.isEmpty()) r["peer"] = to; r["limit"] = 50;
@@ -225,14 +285,23 @@ void ChatWindow::initChat() {
 }
 
 void ChatWindow::handleMessage(const QJsonObject &msg) {
+    // 如果当前线程不是 GUI 线程，则投递到 GUI 线程处理
+    if (QThread::currentThread() != qApp->thread()) {
+        QMetaObject::invokeMethod(this, [this, msg]() { handleMessageUi(msg); }, Qt::QueuedConnection);
+        return;
+    }
+    handleMessageUi(msg);
+}
+
+void ChatWindow::handleMessageUi(const QJsonObject &msg) {
     const QString type = msg.value("type").toString();
     if (type == QLatin1String("chat_init_response")) {
         // 历史（用气泡）
-        ui->chatList->clear();
+    if (!ui) return; ui->chatList->clear();
         const QJsonArray arr = msg.value("messages").toArray();
         for (const auto &v : arr) {
             const auto o = v.toObject();
-            const QString ts = o.value("createdAt").toString();
+            const QString ts = normalizeTs(o.value("createdAt").toString());
             const QString from = o.value("from").toString();
             const QString to = o.value("to").toString();
             const QString content = o.value("content").toString();
@@ -241,17 +310,24 @@ void ChatWindow::handleMessage(const QJsonObject &msg) {
         }
         // 在线用户
         QStringList ons; for (const auto &v : msg.value("onlineUsers").toArray()) ons << v.toString();
-        if (onlineLabel) onlineLabel->setText(tr("在线用户: ") + (ons.isEmpty()? tr("(无)"): ons.join(", ")));
+        if (onlineLabel) {
+            const QString fullText = tr("在线用户: ") + (ons.isEmpty()? tr("(无)") : ons.join(", "));
+            QFontMetrics fm(onlineLabel->font());
+            int maxW = onlineLabel->width();
+            if (maxW < 80) maxW = 480; // 初次可能宽度尚未计算完，给个合理上限
+            const QString elided = fm.elidedText(fullText, Qt::ElideRight, maxW);
+            onlineLabel->setText(elided);
+            onlineLabel->setToolTip(fullText);
+        }
         if (onlineCombo) {
             // 以当前 peerEdit 文本决定应选项：空=全体，否则选该用户
             QString desired = peerEdit ? peerEdit->text().trimmed() : QString();
             if (desired.isEmpty()) desired = QStringLiteral("全体");
 
-            // 排序：全体 -> admin -> 其他
-            bool hasAdmin = false;
+            // 排序：全体 -> admin(始终展示) -> 其他（在线）
             QStringList others;
             for (const auto &u : ons) {
-                if (u == QLatin1String("admin")) { hasAdmin = true; continue; }
+                if (u == QLatin1String("admin")) continue; // admin 单独固定插入
                 others << u;
             }
             others.removeAll(QString());
@@ -260,7 +336,8 @@ void ChatWindow::handleMessage(const QJsonObject &msg) {
             onlineCombo->blockSignals(true);
             onlineCombo->clear();
             onlineCombo->addItem(QStringLiteral("全体"));
-            if (hasAdmin) onlineCombo->addItem(QStringLiteral("admin"));
+            // 始终展示 admin
+            onlineCombo->addItem(QStringLiteral("admin"));
             for (const auto &u : others) onlineCombo->addItem(u);
             // 选择与当前 peer 对应的项
             int idx = onlineCombo->findText(desired);
@@ -268,11 +345,24 @@ void ChatWindow::handleMessage(const QJsonObject &msg) {
             onlineCombo->blockSignals(false);
         }
     } else if (type == QLatin1String("chat_message")) {
-        const QString ts = msg.value("createdAt").toString();
+        const QString ts = normalizeTs(msg.value("createdAt").toString());
         const QString from = msg.value("from").toString();
         const QString to = msg.value("to").toString();
         const QString content = msg.value("content").toString();
-    appendBubble(from, to, content, ts, (!username.isEmpty() && from == username));
+        // 仅显示当前会话相关消息：
+    if (!ui) return; const QString currentPeer = peerEdit ? peerEdit->text().trimmed() : QString();
+        bool show = false;
+        if (currentPeer.isEmpty()) {
+            // 群聊窗口只显示群消息（to 为空）
+            show = to.isEmpty();
+        } else {
+            // 私聊只显示双方互发消息
+            const bool iAm = !username.isEmpty();
+            show = (iAm && from == username && to == currentPeer) || (iAm && from == currentPeer && to == username);
+        }
+        if (show) {
+            appendBubble(from, to, content, ts, (!username.isEmpty() && from == username));
+        }
     } else if (type == QLatin1String("presence")) {
         // 简单提示
         const QString ev = msg.value("event").toString();
@@ -289,4 +379,4 @@ void ChatWindow::handleMessage(const QJsonObject &msg) {
     }
 }
 
-void ChatWindow::on_clearButton_clicked() { sendDelete(); }
+// 已移除“清空会话”按钮
