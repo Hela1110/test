@@ -447,6 +447,8 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
  C:/Users/Edward/Desktop/test/client/include/ui_mainwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
@@ -513,10 +515,54 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgraphicseffect.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QPropertyAnimation \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qpropertyanimation.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qvariantanimation.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractanimation.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qeasingcurve.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTabBar \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabbar.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QDir \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdir.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdirlisting.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qfiledevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qfile.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/filesystem \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_fwd.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_path.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/locale \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cwctype \
+ D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wctype.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/ctype_base.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/ctype_inline.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets.tcc \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets_nonio.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/time_members.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/messages_members.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/codecvt.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets_nonio.tcc \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_conv.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/iomanip \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/quoted_string.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/sstream \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/istream \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ios \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_ios.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_ios.tcc \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ostream \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ostream.tcc \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/istream.tcc \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/sstream.tcc \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/codecvt \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_dir.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_ops.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QFileInfo \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QComboBox \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcombobox.h \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkAccessManager \
@@ -557,4 +603,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QUrl \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QBuffer \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qbuffer.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h

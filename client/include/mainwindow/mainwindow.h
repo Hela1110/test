@@ -10,10 +10,13 @@
 #include <QJsonArray>
 #include <QHash>
 #include <QPixmap>
+#include <QStringList>
+#include <QVector>
 
 class QTabBar;
 class QNetworkAccessManager;
 class QLabel;
+class QTimer;
 
 namespace Ui {
 class MainWindow;
@@ -114,8 +117,28 @@ private:
     QString httpBase;
     QString resolveHttpUrl(const QString &url) const;
 
+    // 首页问候语下方的头图支持
+    QLabel *homeHeaderImage = nullptr;         // 首页头图标签（仅首页显示）
+    QString homeHeaderImagePath;               // 本地图片路径
+    QPixmap homeHeaderOriginal;                // 原始像素图，用于按窗口宽度等比缩放
+    void applyHomeHeaderImage();               // 根据当前宽度将图片缩放并显示
+
+    // 首页轮播图（carouselArea）使用本地图片实现
+    QStringList carouselLocalPaths;            // 本地轮播图片路径列表
+    QVector<QPixmap> carouselOriginals;        // 原始像素图缓存
+    QLabel *carouselImageLabel = nullptr;      // 展示轮播的大图
+    QLabel *carouselPrevLabel = nullptr;       // 左侧预览
+    QLabel *carouselNextLabel = nullptr;       // 右侧预览
+    QTimer *carouselTimer = nullptr;           // 自动轮播定时器
+    int carouselIndex = 0;                     // 当前轮播索引
+    QVector<QLabel*> carouselDots;             // 底部小圆点
+    void setupLocalCarousel();                 // 创建控件、加载本地图片并启动轮播
+    void refreshCarouselPixmap();              // 按容器宽度缩放当前帧
+    void updateCarouselDots();                 // 根据当前索引刷新指示器
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 };
 
 #endif // MAINWINDOW_H

@@ -81,6 +81,7 @@ shopping_client_autogen/timestamp: CMakeFiles/4.1.1/CMakeCCompiler.cmake \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
@@ -1047,6 +1048,10 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/QString:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginConfig.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/QVector:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h:
@@ -1636,8 +1641,6 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreTargets.cmake:
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h:
 
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_iterator_base_funcs.h:
 

@@ -21,8 +21,11 @@
 #include <QFontMetrics>
 #include <QSizePolicy>
 #include <QGraphicsOpacityEffect>
+#include <QPropertyAnimation>
 #include <QTabBar>
 #include <QSignalBlocker>
+#include <QDir>
+#include <QFileInfo>
 #include <QComboBox>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -31,6 +34,7 @@
 #include <QBuffer>
 #include <QPixmap>
 #include <QLabel>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -943,18 +947,114 @@ void MainWindow::renderPromotionsPlaceholder()
 
 void MainWindow::renderCarousel(const QJsonArray &images)
 {
+    Q_UNUSED(images);
     auto *layout = ensureVBoxLayout(ui->carouselArea);
     clearLayout(layout);
-    if (images.isEmpty()) {
-        renderCarouselPlaceholder();
-        return;
+    // 读取本地路径（用户提供目录 C:/Users/Edward/Desktop/test/images 下的 home_page 1-4.*）
+    {
+        const QString baseDir = QStringLiteral("C:/Users/Edward/Desktop/test/images");
+        QDir dir(baseDir);
+        QStringList fromFolder;
+        if (dir.exists()) {
+            const QStringList exts = {"png","jpg","jpeg","webp","bmp"};
+            for (int i = 1; i <= 4; ++i) {
+                bool found = false;
+                for (const QString &ext : exts) {
+                    const QString fp = QStringLiteral("%1/home_page %2.%3").arg(baseDir).arg(i).arg(ext);
+                    if (QFileInfo::exists(fp)) { fromFolder << fp; found = true; break; }
+                }
+                if (!found) {
+                    // 容错：允许没有扩展一致时跳过该序号
+                }
+            }
+        }
+        if (!fromFolder.isEmpty()) {
+            carouselLocalPaths = fromFolder;
+        }
+        // 预加载原图（每次刷新目录结果后都重建缓存）
+        carouselOriginals.clear();
+        for (const QString &p : carouselLocalPaths) carouselOriginals.push_back(QPixmap(p));
     }
-    // 简单以列表形式展示图片 URL/标题
-    for (auto v : images) {
-        const auto o = v.toObject();
-        auto *lbl = new QLabel(o.value("title").toString(QLatin1String("图片")) + ": " + o.value("url").toString(), ui->carouselArea);
-        lbl->setWordWrap(true);
-        layout->addWidget(lbl);
+    // 三联图容器：prev | main | next
+    QWidget *row = new QWidget(ui->carouselArea);
+    auto *h = new QHBoxLayout(row); h->setContentsMargins(0,0,0,0); h->setSpacing(10);
+    QLabel *prevLbl = new QLabel(row); prevLbl->setAlignment(Qt::AlignCenter); prevLbl->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    QLabel *mainLbl = new QLabel(row); mainLbl->setAlignment(Qt::AlignCenter); mainLbl->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    QLabel *nextLbl = new QLabel(row); nextLbl->setAlignment(Qt::AlignCenter); nextLbl->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    prevLbl->setObjectName("carouselPrev"); mainLbl->setObjectName("carouselMain"); nextLbl->setObjectName("carouselNext");
+    prevLbl->setStyleSheet("border-radius:6px; border:1px solid #ddd;");
+    mainLbl->setStyleSheet("border-radius:8px; border:1px solid #ccc;");
+    nextLbl->setStyleSheet("border-radius:6px; border:1px solid #ddd;");
+    auto *prevEff = new QGraphicsOpacityEffect(prevLbl); prevEff->setOpacity(0.45); prevLbl->setGraphicsEffect(prevEff);
+    auto *nextEff = new QGraphicsOpacityEffect(nextLbl); nextEff->setOpacity(0.45); nextLbl->setGraphicsEffect(nextEff);
+    h->addWidget(prevLbl, 15); h->addWidget(mainLbl, 70); h->addWidget(nextLbl, 15);
+    layout->addWidget(row);
+    // 保存主/侧标签并允许点击切换
+    carouselImageLabel = mainLbl; carouselPrevLabel = prevLbl; carouselNextLabel = nextLbl;
+    prevLbl->installEventFilter(this); nextLbl->installEventFilter(this);
+    auto idxWrap = [this](int i){ int n = carouselOriginals.size(); return (n==0)?0:((i%n)+n)%n; };
+    auto refreshAll = [this, prevLbl, nextLbl, idxWrap](){
+        refreshCarouselPixmap();
+        if (!carouselOriginals.isEmpty()) {
+            const QPixmap &p = carouselOriginals.at(idxWrap(carouselIndex-1));
+            const QPixmap &n = carouselOriginals.at(idxWrap(carouselIndex+1));
+            int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
+            int sideW = qMax(120, (contentW - 40) * 15 / 100);
+            int mainH = carouselImageLabel->pixmap(Qt::ReturnByValue).height();
+            const int maxSideH = qMax(120, mainH * 85 / 100);
+            prevLbl->setPixmap(scaledAspect(p, QSize(sideW, maxSideH)));
+            nextLbl->setPixmap(scaledAspect(n, QSize(sideW, maxSideH)));
+            prevLbl->setFixedHeight(prevLbl->pixmap(Qt::ReturnByValue).height());
+            nextLbl->setFixedHeight(nextLbl->pixmap(Qt::ReturnByValue).height());
+        }
+        updateCarouselDots();
+    };
+    // 初始帧
+    carouselIndex = 0;
+    refreshAll();
+    // 主图淡入动画
+    auto playFade = [this](){
+        if (!carouselImageLabel) return;
+        auto *eff = new QGraphicsOpacityEffect(carouselImageLabel);
+        carouselImageLabel->setGraphicsEffect(eff);
+        auto *ani = new QPropertyAnimation(eff, "opacity", carouselImageLabel);
+        ani->setDuration(400);
+        ani->setStartValue(0.0);
+        ani->setEndValue(1.0);
+        ani->start(QAbstractAnimation::DeleteWhenStopped);
+    };
+    // 定时自动轮播
+    if (!carouselTimer) {
+        carouselTimer = new QTimer(this);
+        carouselTimer->setInterval(2500);
+        connect(carouselTimer, &QTimer::timeout, this, [this, refreshAll, playFade]{
+            if (carouselOriginals.isEmpty()) return;
+            carouselIndex = (carouselIndex + 1) % carouselOriginals.size();
+            refreshAll();
+            playFade();
+        });
+        carouselTimer->start();
+    } else {
+        playFade();
+    }
+    // 底部小圆点
+    {
+        auto *dotRow = new QHBoxLayout(); dotRow->setContentsMargins(0,6,0,0);
+        dotRow->setSpacing(6); dotRow->addStretch(1);
+        carouselDots.clear();
+        for (int i=0;i<carouselOriginals.size();++i) {
+            auto *d = new QLabel(ui->carouselArea);
+            d->setFixedSize(10,10);
+            d->setStyleSheet("border-radius:5px;background:#ddd;");
+            d->setProperty("dotIndex", i);
+            d->installEventFilter(this);
+            carouselDots.push_back(d);
+            dotRow->addWidget(d);
+        }
+        dotRow->addStretch(1);
+        auto *host = new QWidget(ui->carouselArea); host->setLayout(dotRow);
+        layout->addWidget(host);
+        updateCarouselDots();
     }
 }
 
@@ -963,136 +1063,110 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
     // 保存最近数据并标记当前区域
     lastRecommendations = products;
     showingList = false;
-    // 使用网格矩形卡片展示
     auto *container = ui->recommendationsArea;
     auto *layout = ensureVBoxLayout(container);
     clearLayout(layout);
-    // 首页标题行：精选折扣商品  +  更多 >
+    // 标题行
     {
         auto *titleRow = new QHBoxLayout();
         titleRow->setContentsMargins(0,0,0,0);
-        auto *title = new QLabel(tr("首页精选折扣商品"), container);
-        title->setWordWrap(true);
+    auto *title = new QLabel(tr("首页精选"), container);
         title->setStyleSheet("font-weight:600;margin:6px 0;");
         titleRow->addWidget(title);
         titleRow->addStretch(1);
         auto *moreBtn = new QPushButton(tr("更多 >"), container);
         moreBtn->setObjectName("homeMoreDiscountBtn");
-        moreBtn->setFlat(true);
-        // 改为白字蓝底，保持 hover 有轻微高亮
         moreBtn->setStyleSheet(
             "QPushButton{color:#ffffff;background:#1677ff;border:1px solid #1677ff;border-radius:6px;padding:2px 10px;}"
             "QPushButton:hover{background:#3a8cff;border-color:#3a8cff;}"
         );
-    titleRow->addWidget(moreBtn);
-    // 将标题行放入一个容器后添加到父布局
-    auto *titleHost = new QWidget(container);
-    titleHost->setLayout(titleRow);
-    layout->addWidget(titleHost);
-        // 点击“更多”进入商城视图
+        titleRow->addWidget(moreBtn);
+        auto *host = new QWidget(container); host->setLayout(titleRow); layout->addWidget(host);
         connect(moreBtn, &QPushButton::clicked, this, [this]{ showMallView(); });
     }
-    if (products.isEmpty()) {
-        renderRecommendationsPlaceholder();
-        return;
+    if (products.isEmpty()) { renderRecommendationsPlaceholder(); return; }
+    // 选择规则：1 个新品 + 3 个打折；不足则用其它补齐，合计最多 4 个
+    QList<QJsonObject> items; items.reserve(products.size());
+    for (const auto &v : products) items.push_back(v.toObject());
+    auto isDiscounted = [](const QJsonObject &o){
+        const double price = o.value("price").toDouble();
+        const double discount = o.value("discountPrice").toDouble(0.0);
+        const bool onSale = o.value("onSale").toBool();
+        return onSale && discount>0.0 && discount<price;
+    };
+    QJsonArray picked;
+    int newIdx = -1;
+    for (int i=0;i<items.size();++i) if (items[i].value("isNew").toBool()) { picked.append(items[i]); newIdx = i; break; }
+    for (int i=0;i<items.size() && picked.size()<4; ++i) {
+        if (i==newIdx) continue;
+        if (isDiscounted(items[i])) picked.append(items[i]);
     }
-    // 创建网格（更紧凑）
+    for (int i=0;i<items.size() && picked.size()<4; ++i) {
+        if (i==newIdx) continue;
+        const int pid = items[i].value("product_id").toInt();
+        bool exists=false; for (const auto &pv : picked) { if (pv.toObject().value("product_id").toInt()==pid) { exists=true; break; } }
+        if (!exists) picked.append(items[i]);
+    }
+    // 渲染 2x2 网格
     auto *grid = new QGridLayout();
     grid->setContentsMargins(4,4,4,4);
     grid->setHorizontalSpacing(8);
     grid->setVerticalSpacing(8);
-    int available = container->width();
-    int colCount = computeColumns(available);
-    int idx = 0;
-    for (auto v : products) {
-        const auto o = v.toObject();
-        int pid = o.value("product_id").toInt();
-        QString name = o.value("name").toString(QLatin1String("商品"));
-        double price = o.value("price").toDouble();
-        int stock = o.value("stock").toInt(-1);
-
-        // 卡片
+    const int count = qMin(4, picked.size());
+    for (int i=0;i<count; ++i) {
+        const QJsonObject o = picked.at(i).toObject();
+        const int pid = o.value("product_id").toInt();
+        const QString name = o.value("name").toString(QLatin1String("商品"));
+        const double price = o.value("price").toDouble();
+        const int stock = o.value("stock").toInt(-1);
         auto *card = new QFrame(container);
         card->setFrameShape(QFrame::StyledPanel);
         card->setStyleSheet("QFrame{border:1px solid #ddd;border-radius:8px;background:#fff;} QLabel{color:#333;font-size:13px;}");
-        card->setMinimumSize(180, 120);
-        auto *vbox = new QVBoxLayout(card);
-        vbox->setContentsMargins(8,8,8,8);
-        vbox->setSpacing(4);
-
-        // 右上角角标：优先显示“售罄”（库存=0），否则若 isNew=true 显示“新品”（绿色）
-        bool showSoldOut = (stock == 0);
-        bool showNew = (!showSoldOut && o.value("isNew").toBool());
-        if (showSoldOut || showNew) {
-            auto *badgeRow = new QHBoxLayout();
-            badgeRow->setContentsMargins(0,0,0,0);
-            badgeRow->addStretch(1);
-            auto *badge = new QLabel(showSoldOut ? tr("售罄") : tr("新品"), card);
-            if (showSoldOut) badge->setStyleSheet("QLabel{background:#E53935;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}");
-            else badge->setStyleSheet("QLabel{background:#34A853;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}");
-            badgeRow->addWidget(badge, 0, Qt::AlignRight);
-            vbox->addLayout(badgeRow);
+        auto *vbox = new QVBoxLayout(card); vbox->setContentsMargins(8,8,8,8); vbox->setSpacing(4);
+        // 角标
+        bool soldOut = (stock==0);
+        bool isNew = o.value("isNew").toBool();
+        if (soldOut || isNew) {
+            auto *row = new QHBoxLayout(); row->setContentsMargins(0,0,0,0); row->addStretch(1);
+            auto *badge = new QLabel(soldOut ? tr("售罄") : tr("新品"), card);
+            badge->setStyleSheet(soldOut ? "QLabel{background:#E53935;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}"
+                                           : "QLabel{background:#34A853;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}");
+            row->addWidget(badge, 0, Qt::AlignRight); vbox->addLayout(row);
         }
-
-    auto *nameLbl = new QLabel(name, card);
-    nameLbl->setStyleSheet("font-weight:600;");
-    nameLbl->setWordWrap(true);
-    // 避免编码差异引起的货币符号乱码，使用 Unicode 码点或替代字符
-    QLabel *priceLbl = nullptr;
-    QLabel *discountLbl = nullptr;
-    bool onSale = o.value("onSale").toBool();
-    double discount = o.value("discountPrice").toDouble(0.0);
-    bool hasDiscount = onSale && discount > 0.0 && discount < price;
-    if (hasDiscount) {
-        priceLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
-        priceLbl->setStyleSheet("color:#999;text-decoration:line-through;");
-        discountLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(discount, 'f', 2)), card);
-        discountLbl->setStyleSheet("color:#E53935;font-weight:700;");
-    } else {
-        priceLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
-    }
-    // 隐藏商品卡片上的库存显示，改为详情查看
-        auto *btnRow = new QHBoxLayout();
-    auto *detailBtn = new QPushButton(tr("详情"), card);
-    auto *addBtn = new QPushButton(tr("加入购物车"), card);
-    detailBtn->setMinimumSize(64, 28);
-    addBtn->setMinimumSize(86, 28);
-        if (stock == 0) {
-            // 降低名称/价格不透明度
-            auto *nmEff = new QGraphicsOpacityEffect(card); nmEff->setOpacity(0.6); nameLbl->setGraphicsEffect(nmEff);
-            auto *prEff = new QGraphicsOpacityEffect(card); prEff->setOpacity(0.6); priceLbl->setGraphicsEffect(prEff);
-            addBtn->setEnabled(false);
-        }
-        btnRow->addWidget(detailBtn);
-        btnRow->addWidget(addBtn);
-        btnRow->addStretch(1);
-
+        // 图片
+    auto *img = new QLabel(card); img->setAlignment(Qt::AlignCenter); img->setMinimumHeight(100);
+    img->setStyleSheet("QLabel{background:#fafafa;border:1px solid #eee;border-radius:6px;}"); vbox->addWidget(img);
+    // 兼容后端字段名 image_url / imageUrl
+    QString imgUrl = o.value("image_url").toString();
+    if (imgUrl.isEmpty()) imgUrl = o.value("imageUrl").toString();
+    if (!imgUrl.isEmpty()) setImageFromUrl(imgUrl, img, QSize(160, 100));
+        // 名称
+        auto *nameLbl = new QLabel(name, card); nameLbl->setStyleSheet("font-weight:600;"); nameLbl->setWordWrap(true);
         vbox->addWidget(nameLbl);
-        vbox->addWidget(priceLbl);
-        if (discountLbl) vbox->addWidget(discountLbl);
-        // 销量标签（若返回了 sales 字段）
-        if (o.contains("sales")) {
-            const int sales = o.value("sales").toInt();
-            auto *salesLbl = new QLabel(tr("销量 %1").arg(sales), card);
-            salesLbl->setStyleSheet("color:#666;font-size:12px;");
-            vbox->addWidget(salesLbl);
+        // 价格
+        QLabel *priceLbl=nullptr, *discountLbl=nullptr;
+        const bool onSale = o.value("onSale").toBool(); const double discount = o.value("discountPrice").toDouble(0.0);
+        const bool hasDiscount = onSale && discount>0.0 && discount<price;
+        if (hasDiscount) {
+            priceLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
+            priceLbl->setStyleSheet("color:#999;text-decoration:line-through;");
+            discountLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(discount, 'f', 2)), card);
+            discountLbl->setStyleSheet("color:#E53935;font-weight:700;");
+        } else {
+            priceLbl = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
         }
-        vbox->addStretch(1); // 将按钮推到底部
-        vbox->addLayout(btnRow); // 把按钮行加入布局，防止浮动遮挡
-
-        int r = idx / colCount;
-        int c = idx % colCount;
-        grid->addWidget(card, r, c);
-        ++idx;
-
+        vbox->addWidget(priceLbl); if (discountLbl) vbox->addWidget(discountLbl);
+        // 按钮
+        auto *btnRow = new QHBoxLayout(); auto *detailBtn = new QPushButton(tr("详情"), card); auto *addBtn = new QPushButton(tr("加入购物车"), card);
+        detailBtn->setMinimumSize(64,28); addBtn->setMinimumSize(86,28); if (stock==0) addBtn->setEnabled(false);
+        btnRow->addWidget(detailBtn); btnRow->addWidget(addBtn); btnRow->addStretch(1); vbox->addLayout(btnRow);
         connect(detailBtn, &QPushButton::clicked, this, [this, pid]{ onProductClicked(pid); });
         connect(addBtn, &QPushButton::clicked, this, [this, pid, stock]{ addToCart(pid, stock); });
+        // 放入 2 列网格
+        grid->addWidget(card, i/2, i%2);
     }
-    // QLayout 没有 addLayout，这里用一个容器承载网格再添加
-    auto *gridHost = new QWidget(container);
-    gridHost->setLayout(grid);
-    layout->addWidget(gridHost);
-    lastColumns = colCount;
+    auto *gridHost = new QWidget(container); gridHost->setLayout(grid); layout->addWidget(gridHost);
+    lastColumns = 2;
 }
 
 void MainWindow::renderPromotions(const QJsonArray &promotions)
@@ -1335,6 +1409,26 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
     reflowGrids();
+    if (currentView == ViewMode::Home && homeHeaderImage && homeHeaderImage->isVisible()) {
+        applyHomeHeaderImage();
+    }
+    // 首页时联动刷新轮播尺寸与左右预览，避免主图显示不全
+    if (currentView == ViewMode::Home && carouselImageLabel) {
+        refreshCarouselPixmap();
+        if (carouselPrevLabel && carouselNextLabel && !carouselOriginals.isEmpty()) {
+            int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
+            int sideW = qMax(120, (contentW - 40) * 15 / 100);
+            int mainH = carouselImageLabel->pixmap(Qt::ReturnByValue).height();
+            const int maxSideH = qMax(120, mainH * 85 / 100);
+            auto idxWrap = [this](int i){ int n = carouselOriginals.size(); return (n==0)?0:((i%n)+n)%n; };
+            const QPixmap &p = carouselOriginals.at(idxWrap(carouselIndex-1));
+            const QPixmap &n = carouselOriginals.at(idxWrap(carouselIndex+1));
+            carouselPrevLabel->setPixmap(scaledAspect(p, QSize(sideW, maxSideH)));
+            carouselNextLabel->setPixmap(scaledAspect(n, QSize(sideW, maxSideH)));
+            carouselPrevLabel->setFixedHeight(carouselPrevLabel->pixmap(Qt::ReturnByValue).height());
+            carouselNextLabel->setFixedHeight(carouselNextLabel->pixmap(Qt::ReturnByValue).height());
+        }
+    }
     // 让购物车窗口随主窗缩放并居中停靠
     if (cart && cart->isVisible()) {
         const int w = qMax(720, this->width() * 85 / 100);
@@ -1465,8 +1559,10 @@ void MainWindow::showHomeView()
     setSearchBarVisible(true);
     if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(true);
     updateGreeting();
+    // 顶部头图已移除
     if (ui->carouselArea) ui->carouselArea->setVisible(true);
-    if (ui->promotionsArea) ui->promotionsArea->setVisible(true);
+    // 隐藏促销区（按用户要求去掉“开学季/会员日”两行）
+    if (ui->promotionsArea) ui->promotionsArea->setVisible(false);
     if (ui->recommendationsArea) ui->recommendationsArea->setVisible(true);
     // 隐藏全局分页器（仅商城显示）
     if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
@@ -1479,8 +1575,20 @@ void MainWindow::showHomeView()
     // 隐藏购物车页（如存在）
     if (cart) cart->hide();
     // 刷新首页数据
+    // 确保本地轮播就绪
+    if (!carouselImageLabel) {
+        // 先尝试构建一次本地轮播，避免服务器暂未返回数据时显示文字占位
+        // 具体内容在 renderCarousel 中也会再次确保
+        // 初始化路径列表以便后续 renderCarousel 使用
+        carouselLocalPaths = QStringList{
+            QString::fromUtf8("c:/Users/Edward/xwechat_files/wxid_zemit2lb8upw22_c69e/temp/RWTemp/2025-09/9e20f478899dc29eb19741386f9343c8/4fff3de19840e88d717fb372351454fe.png"),
+            QString::fromUtf8("c:/Users/Edward/xwechat_files/wxid_zemit2lb8upw22_c69e/temp/RWTemp/2025-09/9e20f478899dc29eb19741386f9343c8/888cc0d3b9d75bc12017b7f0c3393a38.png"),
+            QString::fromUtf8("c:/Users/Edward/xwechat_files/wxid_zemit2lb8upw22_c69e/temp/RWTemp/2025-09/9e20f478899dc29eb19741386f9343c8/1569583902c0ce638ebd23c952202400.png"),
+            QString::fromUtf8("c:/Users/Edward/xwechat_files/wxid_zemit2lb8upw22_c69e/temp/RWTemp/2025-09/9e20f478899dc29eb19741386f9343c8/dd96060742b6578bd89299dbc31c46c4.png")
+        };
+    }
     loadCarousel();
-    loadPromotions();
+    // 不再加载促销数据
     loadRecommendations();
 }
 
@@ -1513,6 +1621,7 @@ void MainWindow::showCartView()
     setTabActive("cart");
     setSearchBarVisible(false);
     if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
+    if (homeHeaderImage) homeHeaderImage->setVisible(false);
     // 创建或重用购物车，并嵌入主布局区域
     if (!cart) {
         cart = new ShoppingCart(socket, this);
@@ -1761,4 +1870,115 @@ QString MainWindow::resolveHttpUrl(const QString &url) const
     // 其他相对路径，按 images/ 子目录处理
     return httpBase.isEmpty() ? (QStringLiteral("http://localhost:8081/images/") + u)
                               : (httpBase + "/images/" + u);
+}
+
+// 根据当前窗口宽度，等比缩放本地图片并显示在首页问候语下方
+void MainWindow::applyHomeHeaderImage()
+{
+    if (!homeHeaderImage) return;
+    if (homeHeaderImagePath.isEmpty()) { homeHeaderImage->clear(); return; }
+    // 如果原始图未加载或上一次失败，尝试从本地路径读取
+    if (homeHeaderOriginal.isNull()) {
+        QPixmap pm(QString::fromUtf8(homeHeaderImagePath.toUtf8()));
+        if (!pm.isNull()) {
+            homeHeaderOriginal = pm;
+        } else {
+            homeHeaderImage->setText(tr("无法加载图片"));
+            return;
+        }
+    }
+    // 计算目标尺寸：尽量铺满右侧内容区宽度，限制最大高度以避免过高
+    int contentW = width();
+    if (auto central = ui->centralwidget) contentW = central->width();
+    // 右侧内容区大致是整体宽度减去左侧栏宽度（约 160-220px）与边距
+    int targetW = qMax(200, contentW - 220);
+    const int maxH = 260;
+    QPixmap scaled = scaledAspect(homeHeaderOriginal, QSize(targetW, maxH));
+    homeHeaderImage->setPixmap(scaled);
+    homeHeaderImage->setFixedHeight(scaled.height());
+}
+
+// 将当前索引的原图按 carouselArea 宽度等比缩放并显示
+void MainWindow::refreshCarouselPixmap()
+{
+    if (!carouselImageLabel) return;
+    if (carouselOriginals.isEmpty()) { carouselImageLabel->clear(); return; }
+    const QPixmap &orig = carouselOriginals.at(qBound(0, carouselIndex, carouselOriginals.size()-1));
+    if (orig.isNull()) { carouselImageLabel->setText(tr("图片不可用")); return; }
+    int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
+    int contentH = ui->carouselArea ? ui->carouselArea->height() : height();
+    // 主图占比约 70%，高度不超过容器可用高度的 70%（留给上下留白与指示器）
+    int targetW = qMax(320, (contentW - 40) * 70 / 100);
+    int maxH = qMax(220, (contentH > 0 ? (contentH * 70 / 100) : 360));
+    QPixmap scaled = scaledAspect(orig, QSize(targetW, maxH));
+    carouselImageLabel->setPixmap(scaled);
+    carouselImageLabel->setFixedHeight(scaled.height());
+}
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    // 左右侧预览点击
+    if ((obj == carouselPrevLabel || obj == carouselNextLabel) && event->type() == QEvent::MouseButtonRelease) {
+        if (carouselOriginals.isEmpty()) return false;
+        if (obj == carouselPrevLabel) {
+            carouselIndex = (carouselIndex - 1 + carouselOriginals.size()) % carouselOriginals.size();
+        } else {
+            carouselIndex = (carouselIndex + 1) % carouselOriginals.size();
+        }
+        // 刷新
+        refreshCarouselPixmap();
+        if (carouselPrevLabel && carouselNextLabel && !carouselOriginals.isEmpty()) {
+            int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
+            int sideW = qMax(120, (contentW - 40) * 15 / 100);
+            int mainH = carouselImageLabel->pixmap(Qt::ReturnByValue).height();
+            const int maxSideH = qMax(120, mainH * 85 / 100);
+            auto idxWrap = [this](int i){ int n = carouselOriginals.size(); return (n==0)?0:((i%n)+n)%n; };
+            const QPixmap &p = carouselOriginals.at(idxWrap(carouselIndex-1));
+            const QPixmap &n = carouselOriginals.at(idxWrap(carouselIndex+1));
+            carouselPrevLabel->setPixmap(scaledAspect(p, QSize(sideW, maxSideH)));
+            carouselNextLabel->setPixmap(scaledAspect(n, QSize(sideW, maxSideH)));
+            carouselPrevLabel->setFixedHeight(carouselPrevLabel->pixmap(Qt::ReturnByValue).height());
+            carouselNextLabel->setFixedHeight(carouselNextLabel->pixmap(Qt::ReturnByValue).height());
+        }
+        updateCarouselDots();
+        if (carouselTimer) { carouselTimer->stop(); carouselTimer->start(); }
+        return true;
+    }
+    // 底部小圆点点击
+    if (event->type() == QEvent::MouseButtonRelease) {
+        if (auto *lbl = qobject_cast<QLabel*>(obj)) {
+            bool ok = false; int idx = lbl->property("dotIndex").toInt(&ok);
+            if (ok && idx >= 0 && idx < carouselOriginals.size()) {
+                carouselIndex = idx;
+                refreshCarouselPixmap();
+                if (carouselPrevLabel && carouselNextLabel && !carouselOriginals.isEmpty()) {
+                    int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
+                    int sideW = qMax(120, (contentW - 40) * 15 / 100);
+                    int mainH = carouselImageLabel->pixmap(Qt::ReturnByValue).height();
+                    const int maxSideH = qMax(120, mainH * 85 / 100);
+                    auto idxWrap = [this](int i){ int n = carouselOriginals.size(); return (n==0)?0:((i%n)+n)%n; };
+                    const QPixmap &p = carouselOriginals.at(idxWrap(carouselIndex-1));
+                    const QPixmap &n = carouselOriginals.at(idxWrap(carouselIndex+1));
+                    carouselPrevLabel->setPixmap(scaledAspect(p, QSize(sideW, maxSideH)));
+                    carouselNextLabel->setPixmap(scaledAspect(n, QSize(sideW, maxSideH)));
+                    carouselPrevLabel->setFixedHeight(carouselPrevLabel->pixmap(Qt::ReturnByValue).height());
+                    carouselNextLabel->setFixedHeight(carouselNextLabel->pixmap(Qt::ReturnByValue).height());
+                }
+                updateCarouselDots();
+                if (carouselTimer) { carouselTimer->stop(); carouselTimer->start(); }
+                return true;
+            }
+        }
+    }
+    return QMainWindow::eventFilter(obj, event);
+}
+
+void MainWindow::updateCarouselDots()
+{
+    for (int i=0; i<carouselDots.size(); ++i) {
+        QLabel *d = carouselDots[i];
+        if (!d) continue;
+        if (i == carouselIndex) d->setStyleSheet("border-radius:5px;background:#1677ff;");
+        else d->setStyleSheet("border-radius:5px;background:#ddd;");
+    }
 }
