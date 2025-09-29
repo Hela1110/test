@@ -255,3 +255,7 @@
 [2025-09-27 22:03:55] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
 [2025-09-27 22:03:59] [INFO] recv products_response total= 22  page= 1
 [2025-09-27 22:04:00] [WARN] Socket disconnected
+[2025-09-29 18:31:37] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-09-29 18:31:37] [INFO] Connecting to 127.0.0.1:8080
+[2025-09-29 18:31:37] [INFO] LoginWindow created and shown
+[2025-09-29 18:31:42] [ERROR] Socket error: "Connection refused"

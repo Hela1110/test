@@ -100,6 +100,21 @@ void ShoppingCart::setupUi()
         clrBtn->setEnabled(true);
     }
     ensureSelectAllHook();
+
+    // 在底部操作区加入一个“满减提示”标签（红色小字），用于提示距离下一级满减还差多少
+    if (auto bottom = findChild<QHBoxLayout*>("bottomLayout")) {
+        QLabel *totalLbl = findChild<QLabel*>("totalLabel");
+        int insertPos = totalLbl ? (bottom->indexOf(totalLbl) + 1) : bottom->count();
+        if (!findChild<QLabel*>("promoHintLabel")) {
+            auto *hint = new QLabel(this);
+            hint->setObjectName("promoHintLabel");
+            hint->setStyleSheet("color:#E53935;margin:0 10px;");
+            hint->setText("");
+            // 默认插入到总计后面
+            if (insertPos < 0) insertPos = bottom->count();
+            bottom->insertWidget(insertPos, hint);
+        }
+    }
 }
 
 void ShoppingCart::loadCartItems()
@@ -433,7 +448,7 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
 void ShoppingCart::updateTotalPrice()
 {
     double totalOriginal = 0.0;   // 原价合计（黑色）
-    double totalEffective = 0.0;  // 折后合计（红色；若无折扣则与原价相同）
+    double totalEffective = 0.0;  // 折后合计（含单品折扣）
     bool anyDiscount = false;
     // 仅统计被勾选的行；若没有任何行被勾选，则为 0
     if (ui->cartTable) {
@@ -458,20 +473,51 @@ void ShoppingCart::updateTotalPrice()
             }
         }
     }
+    // 订单级“每满200减20”满减（基于折后合计 totalEffective）
+    // 使用“分”（整数）计算避免浮点误差
+    const qint64 cents = static_cast<qint64>(qRound64(totalEffective * 100.0));
+    const qint64 threshold = 20000;   // 200 元 -> 20000 分
+    const qint64 stepOff  = 2000;     // 20 元 -> 2000 分
+    const qint64 times    = (cents > 0 ? (cents / threshold) : 0);
+    const qint64 promoOff = times * stepOff;                // 满减金额（分）
+    const qint64 finalPay = qMax<qint64>(0, cents - promoOff); // 应付金额（分）
+    const qint64 remainToNext = (cents>0 && (cents % threshold)!=0)
+        ? (threshold - (cents % threshold)) : 0; // 距下一档阈值（分）；整倍数则为 0
+
     // 找到标签（兼容两种命名）
     QLabel *lbl = findChild<QLabel*>("totalLabel");
     if (!lbl) lbl = findChild<QLabel*>("totalPriceLabel");
     if (lbl) {
         lbl->setTextFormat(Qt::RichText);
-        // 若存在折扣且折后合计小于原价，则显示双价；否则仅显示一个黑色总计
+        const QString orig = QString::number(totalOriginal, 'f', 2);
+        const QString eff  = QString::number(totalEffective, 'f', 2);
+        const QString promo= QString::number(promoOff / 100.0, 'f', 2);
+        const QString pay  = QString::number(finalPay / 100.0, 'f', 2);
+
+        // 显示结构：原价(可选，灰划线)  折后(若有)  满减: -￥X（若有）  应付: ￥Y（红色加粗）
+        QString html = "总计: ";
         if (anyDiscount && (totalEffective + 1e-6) < totalOriginal) {
-            const QString orig = QString::number(totalOriginal, 'f', 2);
-            const QString disc = QString::number(totalEffective, 'f', 2);
-            const QString html = QString("总计: <span style='color:#999;text-decoration:line-through;'>￥%1</span>  <span style='color:#E53935;font-weight:700;'>￥%2</span>")
-                                  .arg(orig, disc);
-            lbl->setText(html);
+            html += QString("<span style='color:#999;text-decoration:line-through;'>￥%1</span>  ").arg(orig);
+            html += QString("<span>￥%1</span>  ").arg(eff);
         } else {
-            lbl->setText(QString("总计: ￥%1").arg(QString::number(totalEffective, 'f', 2)));
+            html += QString("<span>￥%1</span>  ").arg(eff);
+        }
+        if (promoOff > 0) {
+            html += QString("<span style='color:#43A047;'>满减 -￥%1</span>  ").arg(promo);
+        }
+        html += QString("<span style='color:#E53935;font-weight:700;'>应付 ￥%1</span>").arg(pay);
+        lbl->setText(html);
+    }
+
+    // 更新“还差X元可再减20元”的提示
+    if (auto hint = findChild<QLabel*>("promoHintLabel")) {
+        if (remainToNext > 0) {
+            hint->setText(QString("还差 ￥%1 可再减 20 元")
+                          .arg(QString::number(remainToNext/100.0, 'f', 2)));
+            hint->setVisible(true);
+        } else {
+            hint->clear();
+            hint->setVisible(false);
         }
     }
 }

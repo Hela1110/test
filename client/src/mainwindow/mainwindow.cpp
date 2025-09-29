@@ -35,6 +35,7 @@
 #include <QPixmap>
 #include <QLabel>
 #include <QTimer>
+#include <QPointer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -78,6 +79,62 @@ void MainWindow::setupUi()
 
     // 左侧垂直 Tab 导航（首页/商城/购物车/历史订单/客服/个人中心）
     ensureSideTabBar();
+
+    // 在问候语旁添加红色漂浮活动文案
+    if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) {
+        // 查找问候标签所在的索引
+        int greetIndex = -1;
+        for (int i=0;i<root->count();++i) {
+            if (root->itemAt(i)->widget() == ui->greetingLabel) { greetIndex = i; break; }
+        }
+        // 先从原布局中移除 greetingLabel 的项，避免重复持有
+        if (greetIndex >= 0) {
+            auto *item = root->takeAt(greetIndex);
+            // item 中持有的是 greetingLabel，对象仍然存活，无需 delete
+            delete item; item = nullptr;
+        }
+        // 构造一行：左侧问候，右侧活动文案
+        auto *row = new QWidget(this);
+        row->setObjectName("greetingRow");
+        auto *hl = new QHBoxLayout(row); hl->setContentsMargins(0,0,0,0); hl->setSpacing(8);
+        // 将原 greetingLabel 放入该行
+        ui->greetingLabel->setParent(row);
+        hl->addWidget(ui->greetingLabel, 0, Qt::AlignLeft);
+        // 活动文案（红色加粗，不使用 Qt 不支持的 CSS 动画）
+    auto *promo = new QLabel(row);
+        promo->setObjectName("promoFloatingLabel");
+    // 初始文本由定时器轮播填充
+    promo->setText("");
+        promo->setStyleSheet("color:#E53935;font-weight:700;");
+        hl->addSpacing(8);
+        hl->addWidget(promo, 0, Qt::AlignLeft);
+        hl->addStretch(1);
+        // 将新行插入原位置（若未知则放顶部）
+        if (greetIndex >= 0) root->insertWidget(greetIndex, row);
+        else root->insertWidget(0, row);
+
+        // 初始化活动文案轮播
+        promoMessages = QStringList{
+            tr("商城内商品单次订单每满200减20"),
+            tr("部分商品折扣中")
+        };
+        promoIndex = 0;
+        if (!promoTimer) promoTimer = new QTimer(this);
+        promoTimer->setInterval(2000);
+        QObject::disconnect(promoTimer, nullptr, nullptr, nullptr);
+        connect(promoTimer, &QTimer::timeout, this, [this]() {
+            auto *label = findChild<QLabel*>("promoFloatingLabel");
+            if (!label) return;
+            if (promoMessages.isEmpty()) { label->clear(); return; }
+            label->setText(promoMessages.at(promoIndex % promoMessages.size()));
+            promoIndex = (promoIndex + 1) % qMax(1, promoMessages.size());
+        });
+        // 立即触发一次并启动
+        if (auto label = findChild<QLabel*>("promoFloatingLabel")) {
+            if (!promoMessages.isEmpty()) label->setText(promoMessages.first());
+        }
+        promoTimer->start();
+    }
 }
 
 void MainWindow::setSocket(QTcpSocket *s)
@@ -949,6 +1006,11 @@ void MainWindow::renderCarousel(const QJsonArray &images)
 {
     Q_UNUSED(images);
     auto *layout = ensureVBoxLayout(ui->carouselArea);
+    // 重建前先停止并断开旧的计时器连接，防止回调引用已销毁的控件导致崩溃
+    if (carouselTimer) {
+        carouselTimer->stop();
+        QObject::disconnect(carouselTimer, nullptr, nullptr, nullptr);
+    }
     clearLayout(layout);
     // 读取本地路径（用户提供目录 C:/Users/Edward/Desktop/test/images 下的 home_page 1-4.*）
     {
@@ -977,17 +1039,18 @@ void MainWindow::renderCarousel(const QJsonArray &images)
     }
     // 三联图容器：prev | main | next
     QWidget *row = new QWidget(ui->carouselArea);
-    auto *h = new QHBoxLayout(row); h->setContentsMargins(0,0,0,0); h->setSpacing(10);
-    QLabel *prevLbl = new QLabel(row); prevLbl->setAlignment(Qt::AlignCenter); prevLbl->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    QLabel *mainLbl = new QLabel(row); mainLbl->setAlignment(Qt::AlignCenter); mainLbl->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    QLabel *nextLbl = new QLabel(row); nextLbl->setAlignment(Qt::AlignCenter); nextLbl->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    auto *h = new QHBoxLayout(row); h->setContentsMargins(0,0,0,0); h->setSpacing(4);
+    QLabel *prevLbl = new QLabel(row); prevLbl->setAlignment(Qt::AlignCenter); prevLbl->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QLabel *mainLbl = new QLabel(row); mainLbl->setAlignment(Qt::AlignCenter); mainLbl->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    QLabel *nextLbl = new QLabel(row); nextLbl->setAlignment(Qt::AlignCenter); nextLbl->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     prevLbl->setObjectName("carouselPrev"); mainLbl->setObjectName("carouselMain"); nextLbl->setObjectName("carouselNext");
     prevLbl->setStyleSheet("border-radius:6px; border:1px solid #ddd;");
     mainLbl->setStyleSheet("border-radius:8px; border:1px solid #ccc;");
     nextLbl->setStyleSheet("border-radius:6px; border:1px solid #ddd;");
     auto *prevEff = new QGraphicsOpacityEffect(prevLbl); prevEff->setOpacity(0.45); prevLbl->setGraphicsEffect(prevEff);
     auto *nextEff = new QGraphicsOpacityEffect(nextLbl); nextEff->setOpacity(0.45); nextLbl->setGraphicsEffect(nextEff);
-    h->addWidget(prevLbl, 15); h->addWidget(mainLbl, 70); h->addWidget(nextLbl, 15);
+    // 调整权重：中间主图更大，两侧预览更小
+    h->addWidget(prevLbl, 10); h->addWidget(mainLbl, 80); h->addWidget(nextLbl, 10);
     layout->addWidget(row);
     // 保存主/侧标签并允许点击切换
     carouselImageLabel = mainLbl; carouselPrevLabel = prevLbl; carouselNextLabel = nextLbl;
@@ -999,11 +1062,13 @@ void MainWindow::renderCarousel(const QJsonArray &images)
             const QPixmap &p = carouselOriginals.at(idxWrap(carouselIndex-1));
             const QPixmap &n = carouselOriginals.at(idxWrap(carouselIndex+1));
             int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
-            int sideW = qMax(120, (contentW - 40) * 15 / 100);
+            int sideW = qMax(110, (contentW - 40) * 10 / 100);
             int mainH = carouselImageLabel->pixmap(Qt::ReturnByValue).height();
-            const int maxSideH = qMax(120, mainH * 85 / 100);
+            const int maxSideH = qMax(110, mainH * 75 / 100);
             prevLbl->setPixmap(scaledAspect(p, QSize(sideW, maxSideH)));
             nextLbl->setPixmap(scaledAspect(n, QSize(sideW, maxSideH)));
+            prevLbl->setFixedWidth(sideW);
+            nextLbl->setFixedWidth(sideW);
             prevLbl->setFixedHeight(prevLbl->pixmap(Qt::ReturnByValue).height());
             nextLbl->setFixedHeight(nextLbl->pixmap(Qt::ReturnByValue).height());
         }
@@ -1024,22 +1089,22 @@ void MainWindow::renderCarousel(const QJsonArray &images)
         ani->start(QAbstractAnimation::DeleteWhenStopped);
     };
     // 定时自动轮播
+    // 统一（重新）配置计时器，并把回调上下文绑定到本次渲染生成的 row，
+    // 这样 row 被销毁时该连接会自动断开，避免悬空指针
     if (!carouselTimer) {
         carouselTimer = new QTimer(this);
-        carouselTimer->setInterval(2500);
-        connect(carouselTimer, &QTimer::timeout, this, [this, refreshAll, playFade]{
-            if (carouselOriginals.isEmpty()) return;
-            carouselIndex = (carouselIndex + 1) % carouselOriginals.size();
-            refreshAll();
-            playFade();
-        });
-        carouselTimer->start();
-    } else {
-        playFade();
     }
+    carouselTimer->setInterval(2500);
+    connect(carouselTimer, &QTimer::timeout, row, [this, refreshAll, playFade]{
+        if (carouselOriginals.isEmpty()) return;
+        carouselIndex = (carouselIndex + 1) % carouselOriginals.size();
+        refreshAll();
+        playFade();
+    });
+    carouselTimer->start();
     // 底部小圆点
     {
-        auto *dotRow = new QHBoxLayout(); dotRow->setContentsMargins(0,6,0,0);
+    auto *dotRow = new QHBoxLayout(); dotRow->setContentsMargins(0,4,0,0);
         dotRow->setSpacing(6); dotRow->addStretch(1);
         carouselDots.clear();
         for (int i=0;i<carouselOriginals.size();++i) {
@@ -1417,14 +1482,16 @@ void MainWindow::resizeEvent(QResizeEvent *event)
         refreshCarouselPixmap();
         if (carouselPrevLabel && carouselNextLabel && !carouselOriginals.isEmpty()) {
             int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
-            int sideW = qMax(120, (contentW - 40) * 15 / 100);
+            int sideW = qMax(110, (contentW - 40) * 10 / 100);
             int mainH = carouselImageLabel->pixmap(Qt::ReturnByValue).height();
-            const int maxSideH = qMax(120, mainH * 85 / 100);
+            const int maxSideH = qMax(110, mainH * 75 / 100);
             auto idxWrap = [this](int i){ int n = carouselOriginals.size(); return (n==0)?0:((i%n)+n)%n; };
             const QPixmap &p = carouselOriginals.at(idxWrap(carouselIndex-1));
             const QPixmap &n = carouselOriginals.at(idxWrap(carouselIndex+1));
             carouselPrevLabel->setPixmap(scaledAspect(p, QSize(sideW, maxSideH)));
             carouselNextLabel->setPixmap(scaledAspect(n, QSize(sideW, maxSideH)));
+            carouselPrevLabel->setFixedWidth(sideW);
+            carouselNextLabel->setFixedWidth(sideW);
             carouselPrevLabel->setFixedHeight(carouselPrevLabel->pixmap(Qt::ReturnByValue).height());
             carouselNextLabel->setFixedHeight(carouselNextLabel->pixmap(Qt::ReturnByValue).height());
         }
@@ -1557,7 +1624,17 @@ void MainWindow::showHomeView()
     lastNonCartView = ViewMode::Home;
     setTabActive("home");
     setSearchBarVisible(true);
+    // 切回首页时，确保全屏页（个人中心/订单/聊天）被销毁，避免叠加和回调访问已失效对象
+    if (auto p = findChild<QWidget*>("accountPage")) { p->hide(); p->deleteLater(); }
+    if (auto p = findChild<QWidget*>("ordersPage")) { p->hide(); p->deleteLater(); }
+    if (auto p = findChild<QWidget*>("chatPage")) { p->hide(); p->deleteLater(); }
+    if (chat) { chat->deleteLater(); chat = nullptr; }
+    // 回到首页前确保轮播计时器处于可控状态（若已存在，稍后 renderCarousel 会重建连接并启动）
+    if (carouselTimer) { carouselTimer->stop(); }
+    if (auto row = findChild<QWidget*>("greetingRow")) row->setVisible(true);
     if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(true);
+    if (auto pf = findChild<QLabel*>("promoFloatingLabel")) pf->setVisible(true);
+    if (promoTimer && !promoTimer->isActive()) promoTimer->start();
     updateGreeting();
     // 顶部头图已移除
     if (ui->carouselArea) ui->carouselArea->setVisible(true);
@@ -1598,7 +1675,17 @@ void MainWindow::showMallView()
     lastNonCartView = ViewMode::Mall;
     setTabActive("mall");
     setSearchBarVisible(true);
+    // 进入商城页时也直接销毁全屏页，避免叠加
+    if (auto p = findChild<QWidget*>("accountPage")) { p->hide(); p->deleteLater(); }
+    if (auto p = findChild<QWidget*>("ordersPage")) { p->hide(); p->deleteLater(); }
+    if (auto p = findChild<QWidget*>("chatPage")) { p->hide(); p->deleteLater(); }
+    if (chat) { chat->deleteLater(); chat = nullptr; }
+    // 离开首页，停止轮播
+    if (carouselTimer) { carouselTimer->stop(); }
+    if (auto row = findChild<QWidget*>("greetingRow")) row->setVisible(false);
     if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
+    if (auto pf = findChild<QLabel*>("promoFloatingLabel")) pf->setVisible(false);
+    if (promoTimer) promoTimer->stop();
     if (ui->carouselArea) ui->carouselArea->setVisible(false);
     if (ui->promotionsArea) ui->promotionsArea->setVisible(false);
     if (ui->recommendationsArea) ui->recommendationsArea->setVisible(true);
@@ -1620,8 +1707,18 @@ void MainWindow::showCartView()
 {
     setTabActive("cart");
     setSearchBarVisible(false);
+    if (auto row = findChild<QWidget*>("greetingRow")) row->setVisible(false);
     if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
+    if (auto pf = findChild<QLabel*>("promoFloatingLabel")) pf->setVisible(false);
+    if (promoTimer) promoTimer->stop();
     if (homeHeaderImage) homeHeaderImage->setVisible(false);
+    // 进入购物车时同样直接销毁全屏页
+    if (auto p = findChild<QWidget*>("accountPage")) { p->hide(); p->deleteLater(); }
+    if (auto p = findChild<QWidget*>("ordersPage")) { p->hide(); p->deleteLater(); }
+    if (auto p = findChild<QWidget*>("chatPage")) { p->hide(); p->deleteLater(); }
+    if (chat) { chat->deleteLater(); chat = nullptr; }
+    // 离开首页，停止轮播
+    if (carouselTimer) { carouselTimer->stop(); }
     // 创建或重用购物车，并嵌入主布局区域
     if (!cart) {
         cart = new ShoppingCart(socket, this);
@@ -1667,10 +1764,12 @@ void MainWindow::exitCartView()
 
 void MainWindow::clearToFullPage(QWidget *page)
 {
-    // 隐藏首页/商城区域、全局分页器、问候标题
+    if (!page) return;
+    // 隐藏首页/商城区域、全局分页器、问候标题与活动文案
     if (ui->carouselArea) ui->carouselArea->setVisible(false);
     if (ui->promotionsArea) ui->promotionsArea->setVisible(false);
     if (ui->recommendationsArea) ui->recommendationsArea->setVisible(false);
+    if (auto row = findChild<QWidget*>("greetingRow")) row->setVisible(false);
     // 非首页/发现好物页时，隐藏搜索栏
     setSearchBarVisible(false);
     if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
@@ -1682,14 +1781,16 @@ void MainWindow::clearToFullPage(QWidget *page)
     if (auto nextBtn = findChild<QWidget*>("nextPage")) nextBtn->setVisible(false);
     if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
     if (cart) cart->hide();
-    // 隐藏其他全屏页（不 deleteLater，避免频繁构建造成卡顿）
-    if (auto oldOrders = findChild<QWidget*>("ordersPage")) { if (oldOrders != page) oldOrders->hide(); }
-    if (auto oldAccount = findChild<QWidget*>("accountPage")) { if (oldAccount != page) oldAccount->hide(); }
-    if (auto oldChat = findChild<QWidget*>("chatPage")) { if (oldChat != page) oldChat->hide(); }
+    // 显示全屏页时停止轮播
+    if (carouselTimer) { carouselTimer->stop(); }
+    // 直接销毁其他全屏页，防止遗留信号/回调导致闪退
+    if (auto oldOrders = findChild<QWidget*>("ordersPage")) { if (oldOrders != page) { oldOrders->hide(); oldOrders->deleteLater(); } }
+    if (auto oldAccount = findChild<QWidget*>("accountPage")) { if (oldAccount != page) { oldAccount->hide(); oldAccount->deleteLater(); } }
+    if (auto oldChat = findChild<QWidget*>("chatPage")) { if (oldChat != page) { oldChat->hide(); oldChat->deleteLater(); } }
     // 注意：聊天被内嵌在 chatPage 内部，这里不要额外隐藏 chat，否则会出现“只有页面没有内容”
     // 添加并显示当前页
     if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) {
-        if (page->parent() != this) page->setParent(this);
+        if (page->parent() != this && page->parent() != ui->centralwidget) page->setParent(this);
         // 避免重复添加：如果已经在 root 中，则不再 addWidget
         bool alreadyIn = false;
         for (int i=0;i<root->count();++i) {
@@ -1802,7 +1903,7 @@ void MainWindow::showChatView()
     connect(back, &QPushButton::clicked, this, [this, page]{
         // 隐藏并释放聊天页；ChatWindow 脱离父子关系以保持存活
         page->hide();
-        if (chat) chat->setParent(nullptr);
+        if (chat) { chat->deleteLater(); chat = nullptr; }
         page->deleteLater();
         if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView();
     });
@@ -1832,7 +1933,8 @@ void MainWindow::setImageFromUrl(const QString &url, QLabel *label, const QSize 
     if (!qurl.isValid() || qurl.scheme().isEmpty()) return;
     QNetworkRequest req(qurl);
     auto *reply = http->get(req);
-    connect(reply, &QNetworkReply::finished, this, [this, reply, fullUrl, label, targetSize]{
+    // 以 label 作为上下文对象，若 label 已销毁则此回调不会被触发，避免悬空指针
+    connect(reply, &QNetworkReply::finished, label, [this, reply, fullUrl, targetSize, label]{
         reply->deleteLater();
         if (reply->error() != QNetworkReply::NoError) {
             qWarning() << "Image load failed" << fullUrl << ":" << reply->errorString();
@@ -1850,6 +1952,26 @@ QPixmap MainWindow::scaledAspect(const QPixmap &src, const QSize &target)
 {
     if (src.isNull() || !target.isValid()) return src;
     return src.scaled(target, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+}
+
+// 等比扩展并居中裁剪（类似 CSS cover）
+QPixmap MainWindow::scaledCover(const QPixmap &src, const QSize &target)
+{
+    if (src.isNull() || !target.isValid()) return src;
+    // 按目标高度等比缩放，保证纵向完整显示；若宽度超出则仅左右裁剪
+    const int tgtH = target.height();
+    if (tgtH <= 0) return src;
+    const qreal scale = static_cast<qreal>(tgtH) / qMax(1, src.height());
+    const int newW = qMax(1, static_cast<int>(qRound(src.width() * scale)));
+    const int newH = qMax(1, tgtH);
+    QPixmap scaled = src.scaled(newW, newH, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    if (newW <= target.width()) {
+        // 宽度不足目标宽，直接返回（由 QLabel 居中对齐留白）
+        return scaled;
+    }
+    // 宽度大于目标宽，水平居中裁剪，纵向不裁剪
+    const int x = (newW - target.width()) / 2;
+    return scaled.copy(x, 0, target.width(), newH);
 }
 
 QString MainWindow::resolveHttpUrl(const QString &url) const
@@ -1892,7 +2014,7 @@ void MainWindow::applyHomeHeaderImage()
     if (auto central = ui->centralwidget) contentW = central->width();
     // 右侧内容区大致是整体宽度减去左侧栏宽度（约 160-220px）与边距
     int targetW = qMax(200, contentW - 220);
-    const int maxH = 260;
+    const int maxH = 300; // 提高首页头图最大高度，减少留白
     QPixmap scaled = scaledAspect(homeHeaderOriginal, QSize(targetW, maxH));
     homeHeaderImage->setPixmap(scaled);
     homeHeaderImage->setFixedHeight(scaled.height());
@@ -1907,12 +2029,13 @@ void MainWindow::refreshCarouselPixmap()
     if (orig.isNull()) { carouselImageLabel->setText(tr("图片不可用")); return; }
     int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
     int contentH = ui->carouselArea ? ui->carouselArea->height() : height();
-    // 主图占比约 70%，高度不超过容器可用高度的 70%（留给上下留白与指示器）
-    int targetW = qMax(320, (contentW - 40) * 70 / 100);
-    int maxH = qMax(220, (contentH > 0 ? (contentH * 70 / 100) : 360));
-    QPixmap scaled = scaledAspect(orig, QSize(targetW, maxH));
-    carouselImageLabel->setPixmap(scaled);
-    carouselImageLabel->setFixedHeight(scaled.height());
+    // 改为“铺满并居中裁剪”，消除左右留白；目标宽度与布局权重（约80%）一致
+    int targetW = qMax(320, (contentW - 40) * 80 / 100);
+    int maxH = qMax(220, (contentH > 0 ? (contentH * 72 / 100) : 360));
+    QPixmap covered = scaledCover(orig, QSize(targetW, maxH));
+    carouselImageLabel->setPixmap(covered);
+    carouselImageLabel->setFixedWidth(targetW);
+    carouselImageLabel->setFixedHeight(covered.height());
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
@@ -1929,14 +2052,16 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         refreshCarouselPixmap();
         if (carouselPrevLabel && carouselNextLabel && !carouselOriginals.isEmpty()) {
             int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
-            int sideW = qMax(120, (contentW - 40) * 15 / 100);
+            int sideW = qMax(110, (contentW - 40) * 10 / 100);
             int mainH = carouselImageLabel->pixmap(Qt::ReturnByValue).height();
-            const int maxSideH = qMax(120, mainH * 85 / 100);
+            const int maxSideH = qMax(110, mainH * 75 / 100);
             auto idxWrap = [this](int i){ int n = carouselOriginals.size(); return (n==0)?0:((i%n)+n)%n; };
             const QPixmap &p = carouselOriginals.at(idxWrap(carouselIndex-1));
             const QPixmap &n = carouselOriginals.at(idxWrap(carouselIndex+1));
             carouselPrevLabel->setPixmap(scaledAspect(p, QSize(sideW, maxSideH)));
             carouselNextLabel->setPixmap(scaledAspect(n, QSize(sideW, maxSideH)));
+            carouselPrevLabel->setFixedWidth(sideW);
+            carouselNextLabel->setFixedWidth(sideW);
             carouselPrevLabel->setFixedHeight(carouselPrevLabel->pixmap(Qt::ReturnByValue).height());
             carouselNextLabel->setFixedHeight(carouselNextLabel->pixmap(Qt::ReturnByValue).height());
         }
@@ -1953,14 +2078,16 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
                 refreshCarouselPixmap();
                 if (carouselPrevLabel && carouselNextLabel && !carouselOriginals.isEmpty()) {
                     int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
-                    int sideW = qMax(120, (contentW - 40) * 15 / 100);
+                    int sideW = qMax(110, (contentW - 40) * 10 / 100);
                     int mainH = carouselImageLabel->pixmap(Qt::ReturnByValue).height();
-                    const int maxSideH = qMax(120, mainH * 85 / 100);
+                    const int maxSideH = qMax(110, mainH * 75 / 100);
                     auto idxWrap = [this](int i){ int n = carouselOriginals.size(); return (n==0)?0:((i%n)+n)%n; };
                     const QPixmap &p = carouselOriginals.at(idxWrap(carouselIndex-1));
                     const QPixmap &n = carouselOriginals.at(idxWrap(carouselIndex+1));
                     carouselPrevLabel->setPixmap(scaledAspect(p, QSize(sideW, maxSideH)));
                     carouselNextLabel->setPixmap(scaledAspect(n, QSize(sideW, maxSideH)));
+                    carouselPrevLabel->setFixedWidth(sideW);
+                    carouselNextLabel->setFixedWidth(sideW);
                     carouselPrevLabel->setFixedHeight(carouselPrevLabel->pixmap(Qt::ReturnByValue).height());
                     carouselNextLabel->setFixedHeight(carouselNextLabel->pixmap(Qt::ReturnByValue).height());
                 }

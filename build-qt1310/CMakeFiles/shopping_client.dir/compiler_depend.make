@@ -2668,6 +2668,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QMetaType \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QPointer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QPropertyAnimation \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSharedDataPointer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker \
@@ -2776,6 +2777,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtCore/qoverload.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qpair.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qpoint.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qpointer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qprocessordetection.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qpropertyanimation.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h \

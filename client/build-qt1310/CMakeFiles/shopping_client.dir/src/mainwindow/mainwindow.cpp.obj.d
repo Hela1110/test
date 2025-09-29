@@ -373,6 +373,8 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qstring.h \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
@@ -397,6 +399,14 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qregularexpression.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/quuid.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qhash.h \
  C:/Users/Edward/Desktop/test/client/include/chat/chatwindow.h \
  C:/Users/Edward/Desktop/test/client/include/chatwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QListWidget \
@@ -433,6 +443,12 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
  C:/Users/Edward/Desktop/test/client/include/ui_mainwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
@@ -448,8 +464,6 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qheaderview.h \
@@ -465,16 +479,133 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstatusbar.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/QToolButton \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtoolbutton.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpinBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qspinbox.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
- D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QDebug \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QAbstractButton \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QInputDialog \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qinputdialog.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlineedit.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpinBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFormLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qformlayout.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLineEdit \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtablewidget.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtableview.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFrame \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QFontMetrics \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSizePolicy \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgraphicseffect.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QPropertyAnimation \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qpropertyanimation.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qvariantanimation.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractanimation.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qeasingcurve.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTabBar \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabbar.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QDir \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdir.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdirlisting.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qfiledevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qfile.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/filesystem \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_fwd.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_path.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/locale \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cwctype \
+ D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/wctype.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/ctype_base.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/ctype_inline.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets.tcc \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets_nonio.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/time_members.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/messages_members.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/codecvt.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_facets_nonio.tcc \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/locale_conv.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/iomanip \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/quoted_string.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/sstream \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/istream \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ios \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_ios.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_ios.tcc \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ostream \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/ostream.tcc \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/istream.tcc \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/sstream.tcc \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/codecvt \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_dir.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fs_ops.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QFileInfo \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QComboBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcombobox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkAccessManager \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkaccessmanager.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkrequest.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhttpheaders.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSharedDataPointer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QUrl \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/q26numeric.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslConfiguration \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslconfiguration.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslsocket.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslerror.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslcertificate.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcryptographichash.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qssl.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QFlags \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QMetaType \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qmetatype.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkReply \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkreply.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QIODevice \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkRequest \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkrequest.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkAccessManager \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkRequest \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QUrl \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QBuffer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbuffer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QPointer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qpointer.h

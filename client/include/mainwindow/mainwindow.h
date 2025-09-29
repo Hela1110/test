@@ -113,6 +113,8 @@ private:
     QHash<QString, QPixmap> imageCache;
     void setImageFromUrl(const QString &url, QLabel *label, const QSize &targetSize);
     static QPixmap scaledAspect(const QPixmap &src, const QSize &target);
+    // 等比扩展并居中裁剪（类似 CSS background-size: cover）
+    static QPixmap scaledCover(const QPixmap &src, const QSize &target);
     // HTTP 服务器基址（用于将相对路径如 /images/1.jpg 自动补齐为完整 URL）
     QString httpBase;
     QString resolveHttpUrl(const QString &url) const;
@@ -135,6 +137,11 @@ private:
     void setupLocalCarousel();                 // 创建控件、加载本地图片并启动轮播
     void refreshCarouselPixmap();              // 按容器宽度缩放当前帧
     void updateCarouselDots();                 // 根据当前索引刷新指示器
+
+    // 首页活动文案交替显示
+    QTimer *promoTimer = nullptr;
+    QStringList promoMessages; // 例如：{"商城内商品单次订单每满200减20", "部分商品折扣中"}
+    int promoIndex = 0;
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
