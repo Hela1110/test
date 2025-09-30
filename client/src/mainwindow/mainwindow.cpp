@@ -780,7 +780,37 @@ void MainWindow::onReadyRead()
                 table->setItem(r, 0, idItem);
                 QString uname = o.value("username").toString(); if (uname.isEmpty()) uname = currentUsername;
                 table->setItem(r, 1, new QTableWidgetItem(uname));
-                table->setItem(r, 2, new QTableWidgetItem(QString::number(o.value("total_price").toDouble(), 'f', 2)));
+                // 计算订单维度的单品折扣与满减（每满200减20）并展示
+                auto items = o.value("items").toList();
+                double sumOriginal = 0.0;   // 原价合计
+                double sumEffective = 0.0;  // 单品折扣后合计
+                for (const QVariant &iv : items) {
+                    const QVariantMap it = iv.toMap();
+                    const int qty = it.value("quantity").toInt();
+                    const double price = it.value("price").toDouble();
+                    const double listPrice = it.contains("listPrice") ? it.value("listPrice").toDouble() : price;
+                    const bool onSale = it.value("onSale").toBool();
+                    const double dprice = it.contains("discountPrice") ? it.value("discountPrice").toDouble() : 0.0;
+                    const bool hasDiscount = onSale && dprice>0.0 && dprice<listPrice;
+                    const double unit = hasDiscount ? dprice : price;
+                    sumOriginal += listPrice * qty;
+                    sumEffective += unit * qty;
+                }
+                // 若后端列表未返回明细，则用 total_price 作为基准计算满减展示
+                if (items.isEmpty()) {
+                    sumOriginal = o.value("total_price").toDouble();
+                    sumEffective = sumOriginal;
+                }
+                // 满减：每满200减20（基于单品折后合计）
+                const qint64 cents = static_cast<qint64>(qRound64(sumEffective * 100.0));
+                const qint64 threshold = 20000; // 200元
+                const qint64 stepOff  = 2000;   // 20元
+                const qint64 times    = (cents>0 ? (cents/threshold) : 0);
+                const qint64 promoOff = times * stepOff;
+                const qint64 finalPay = qMax<qint64>(0, cents - promoOff);
+                const bool showStrike = finalPay < static_cast<qint64>(qRound64(sumOriginal * 100.0));
+                // 列表仅显示“实付金额”（黑色），满减拆解放在详情弹窗
+                table->setItem(r, 2, new QTableWidgetItem(QString::number(finalPay/100.0, 'f', 2)));
                 table->setItem(r, 3, new QTableWidgetItem(o.value("status").toString()));
                 table->setItem(r, 4, new QTableWidgetItem(o.value("order_time").toString()));
                 ++r;
@@ -831,25 +861,57 @@ void MainWindow::onReadyRead()
                         "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>数量</th>"
                         "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>单价</th>"
                         "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>小计</th></tr>";
-                double sum = 0.0;
+                double sumOriginal = 0.0;
+                double sumEffective = 0.0;
                 for (const QVariant &iv : items) {
                     const QVariantMap it = iv.toMap();
                     const QString name = it.value("name").toString();
                     const int qty = it.value("quantity").toInt();
-                    const double price = it.value("price").toDouble();
-                    const double sub = price * qty;
-                    sum += sub;
+            const double price = it.value("price").toDouble();
+            const double listPrice = it.contains("listPrice") ? it.value("listPrice").toDouble() : price;
+            const bool onSale = it.value("onSale").toBool();
+            const double dprice = it.contains("discountPrice") ? it.value("discountPrice").toDouble() : 0.0;
+            const bool hasDiscount = onSale && dprice>0.0 && dprice<listPrice;
+            const double unit = hasDiscount ? dprice : price;
+            const double sub = unit * qty;
+            sumOriginal += listPrice * qty;
+            sumEffective += sub;
                     html += QString("<tr><td style='padding:4px 0;'>%1</td>"
                                     "<td style='text-align:right;padding:4px 0;'>%2</td>"
-                                    "<td style='text-align:right;padding:4px 0;'>&yen;&nbsp;%3</td>"
+                    "<td style='text-align:right;padding:4px 0;'>&yen;&nbsp;%3</td>"
                                     "<td style='text-align:right;padding:4px 0;'>&yen;&nbsp;%4</td></tr>")
                                 .arg(name.toHtmlEscaped())
                                 .arg(qty)
-                                .arg(QString::number(price, 'f', 2))
-                                .arg(QString::number(sub, 'f', 2));
+                .arg(QString::number(unit, 'f', 2))
+                .arg(QString::number(sub, 'f', 2));
                 }
-                html += QString("<tr><td colspan='4' style='border-top:1px solid #eee;padding-top:6px;text-align:right;font-weight:700;'>合计：&yen;&nbsp;%1</td></tr>")
-                        .arg(QString::number(sum, 'f', 2));
+                // 若无明细，使用 total_price 作为基准（仍按活动规则展示合计信息）
+                if (items.isEmpty()) {
+                    sumOriginal = order.value("total_price").toDouble();
+                    sumEffective = sumOriginal;
+                }
+        // 订单级满减（每满200减20），基于单品折后合计
+        const qint64 cents = static_cast<qint64>(qRound64(sumEffective * 100.0));
+        const qint64 threshold = 20000; // 200元
+        const qint64 stepOff  = 2000;   // 20元
+        const qint64 times    = (cents>0 ? (cents/threshold) : 0);
+        const qint64 promoOff = times * stepOff;
+        const qint64 finalPay = qMax<qint64>(0, cents - promoOff);
+        // 合计区：原价（划线）/ 折后（可选）/ 满减 / 应付
+        html += QString("<tr><td colspan='4' style='border-top:1px solid #eee;padding-top:6px;text-align:right;'>");
+        if (sumOriginal > sumEffective + 1e-6) {
+            html += QString("<div style='color:#999;text-decoration:line-through;'>原价合计：&yen;&nbsp;%1</div>")
+                .arg(QString::number(sumOriginal, 'f', 2));
+        }
+        if (promoOff > 0) {
+            html += QString("<div>商品折后：&yen;&nbsp;%1</div>")
+                .arg(QString::number(sumEffective, 'f', 2));
+            html += QString("<div style='color:#43A047;'>满减：-&yen;&nbsp;%1</div>")
+                .arg(QString::number(promoOff/100.0, 'f', 2));
+        }
+        html += QString("<div style='font-weight:700;color:#E53935;'>应付：&yen;&nbsp;%1</div>")
+            .arg(QString::number(finalPay/100.0, 'f', 2));
+        html += "</td></tr>";
                 html += "</table>";
 
                 QMessageBox box(this);
@@ -1770,6 +1832,8 @@ void MainWindow::clearToFullPage(QWidget *page)
     if (ui->promotionsArea) ui->promotionsArea->setVisible(false);
     if (ui->recommendationsArea) ui->recommendationsArea->setVisible(false);
     if (auto row = findChild<QWidget*>("greetingRow")) row->setVisible(false);
+    if (auto pf = findChild<QLabel*>("promoFloatingLabel")) pf->setVisible(false);
+    if (promoTimer) promoTimer->stop();
     // 非首页/发现好物页时，隐藏搜索栏
     setSearchBarVisible(false);
     if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
