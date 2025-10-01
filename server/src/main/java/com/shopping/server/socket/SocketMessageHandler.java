@@ -18,6 +18,7 @@ import com.shopping.server.service.OrderProcessingService;
 import com.shopping.server.model.*;
 
 import java.util.Map;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -37,6 +38,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     private final ChatMessageRepository chatMessageRepository;
     private final OrderItemRepository orderItemRepository;
     private final TransactionTemplate transactionTemplate;
+    private final com.shopping.server.repository.ProductSizeInventoryRepository psiRepository;
 
     @Autowired
     public SocketMessageHandler(ClientRepository clientRepository,
@@ -45,7 +47,8 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                                 OrderProcessingService orderProcessingService,
                                 ChatMessageRepository chatMessageRepository,
                                 OrderItemRepository orderItemRepository,
-                                TransactionTemplate transactionTemplate) {
+                                TransactionTemplate transactionTemplate,
+                                com.shopping.server.repository.ProductSizeInventoryRepository psiRepository) {
         this.clientRepository = clientRepository;
         this.productRepository = productRepository;
         this.orderHeaderRepository = orderHeaderRepository;
@@ -53,6 +56,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         this.chatMessageRepository = chatMessageRepository;
         this.orderItemRepository = orderItemRepository;
         this.transactionTemplate = transactionTemplate;
+        this.psiRepository = psiRepository;
     }
     private static final Map<String, ChannelHandlerContext> clientChannels = new ConcurrentHashMap<>();
     // 临时内存用户存储（演示用）：用户名 -> 明文密码
@@ -77,6 +81,22 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         // 内存商品已废弃：改由数据库 products 表驱动
         // 尝试从本地文件恢复用户与购物车
         try { loadFromDisk(); } catch (Exception ignore) {}
+    }
+
+    // ====== 每满200减20：用于对外展示实付 ======
+    private static BigDecimal computeDiscount(BigDecimal subtotal) {
+        if (subtotal == null || subtotal.compareTo(BigDecimal.ZERO) <= 0) return BigDecimal.ZERO;
+        BigDecimal step = new BigDecimal("200");
+        BigDecimal off = new BigDecimal("20");
+        BigDecimal times = subtotal.divideToIntegralValue(step);
+        BigDecimal discount = times.multiply(off);
+        if (discount.compareTo(subtotal) > 0) return subtotal;
+        return discount;
+    }
+    private static BigDecimal computePayable(BigDecimal subtotal) {
+        BigDecimal d = computeDiscount(subtotal);
+        BigDecimal pay = (subtotal == null ? BigDecimal.ZERO : subtotal).subtract(d);
+        return pay.compareTo(BigDecimal.ZERO) < 0 ? BigDecimal.ZERO : pay;
     }
 
     // 简易重复请求抑制：每个连接，若在窗口期内收到完全相同的 raw 字符串，则忽略
@@ -325,6 +345,20 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             if (maxPid != null) it.put("isNew", java.util.Objects.equals(maxPid, p.getProductId()));
                 it.put("onSale", p.getOnSale());
                 it.put("discountPrice", p.getDiscountPrice());
+            // 附带尺码库存（若存在）
+            try {
+                var listPsi = psiRepository.findByProduct(p);
+                if (listPsi != null && !listPsi.isEmpty()) {
+                    List<Map<String,Object>> sizes = new java.util.ArrayList<>();
+                    for (var psi : listPsi) {
+                        Map<String,Object> si = new java.util.HashMap<>();
+                        si.put("size", psi.getSize());
+                        si.put("stock", psi.getStock());
+                        sizes.add(si);
+                    }
+                    it.put("sizes", sizes);
+                }
+            } catch (Exception ignore) {}
             products.add(it);
         });
         Map<String,Object> resp = new HashMap<>();
@@ -361,6 +395,19 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             if (maxPid != null) it.put("isNew", java.util.Objects.equals(maxPid, p.getProductId()));
                 it.put("onSale", p.getOnSale());
                 it.put("discountPrice", p.getDiscountPrice());
+            try {
+                var listPsi = psiRepository.findByProduct(p);
+                if (listPsi != null && !listPsi.isEmpty()) {
+                    List<Map<String,Object>> sizes = new java.util.ArrayList<>();
+                    for (var psi : listPsi) {
+                        Map<String,Object> si = new java.util.HashMap<>();
+                        si.put("size", psi.getSize());
+                        si.put("stock", psi.getStock());
+                        sizes.add(si);
+                    }
+                    it.put("sizes", sizes);
+                }
+            } catch (Exception ignore) {}
             products.add(it);
         });
         Map<String,Object> resp = new HashMap<>();
@@ -763,6 +810,22 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             productSales.add(mapOf("productId", productId, "name", name, "quantity", qty, "amount", amount));
         }
         resp.put("productSales", productSales);
+        // 新增：按尺码的销量/销售额统计（替代原“类别/款式/颜色”统计）
+        List<Map<String,Object>> sizeSales = new CopyOnWriteArrayList<>();
+        try {
+            for (Object[] row : orderItemRepository.sumSalesBySize(startDt, endDt)) {
+                Integer size = (Integer) row[0];
+                Number qtyNum = (Number) row[1];
+                Object amountObj = row[2];
+                long qty = qtyNum == null ? 0L : qtyNum.longValue();
+                java.math.BigDecimal amount;
+                if (amountObj instanceof java.math.BigDecimal) amount = (java.math.BigDecimal) amountObj;
+                else if (amountObj instanceof Number) amount = new java.math.BigDecimal(amountObj.toString());
+                else amount = java.math.BigDecimal.ZERO;
+                sizeSales.add(mapOf("size", size, "quantity", qty, "amount", amount));
+            }
+        } catch (Exception ignore) {}
+        resp.put("sizeSales", sizeSales);
         // 若传了 username，返回该用户的每月汇总
         String username = (String) request.get("username");
         if (username != null && !username.isEmpty()) {
@@ -792,7 +855,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         }
     Long maxPid = null; try { maxPid = productRepository.findMaxProductId(); } catch (Exception ignore) {}
     for (var p : list) {
-            results.add(mapOf(
+            Map<String,Object> it = mapOf(
                     "product_id", p.getProductId(),
                     "name", p.getName(),
                     "price", p.getPrice(),
@@ -802,7 +865,21 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             "onSale", p.getOnSale(),
             "discountPrice", p.getDiscountPrice(),
             "isNew", (maxPid != null && java.util.Objects.equals(maxPid, p.getProductId()))
-            ));
+            );
+            try {
+                var listPsi = psiRepository.findByProduct(p);
+                if (listPsi != null && !listPsi.isEmpty()) {
+                    List<Map<String,Object>> sizes = new java.util.ArrayList<>();
+                    for (var psi : listPsi) {
+                        Map<String,Object> si = new java.util.HashMap<>();
+                        si.put("size", psi.getSize());
+                        si.put("stock", psi.getStock());
+                        sizes.add(si);
+                    }
+                    it.put("sizes", sizes);
+                }
+            } catch (Exception ignore) {}
+            results.add(it);
         }
         Map<String, Object> resp = new HashMap<>();
         resp.put("type", "search_results");
@@ -815,7 +892,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (pid == null) pid = request.get("productId");
         Map<String, Object> resp = new HashMap<>();
         resp.put("type", "product_detail");
-        Map<String, Object> productMap = null;
+    Map<String, Object> productMap = null;
     if (pid != null) {
             long id = ((Number)pid).longValue();
             var opt = productRepository.findById(id);
@@ -834,6 +911,20 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             "discountPrice", p.getDiscountPrice(),
             "isNew", (maxPid != null && java.util.Objects.equals(maxPid, p.getProductId()))
                 );
+                // 附带每个尺码库存（若有），结构：sizes: [{size:37, stock:10}, ...]
+                try {
+                    var list = psiRepository.findByProduct(p);
+                    if (list != null && !list.isEmpty()) {
+                        List<Map<String,Object>> sizes = new java.util.ArrayList<>();
+                        for (var psi : list) {
+                            Map<String,Object> it = new java.util.HashMap<>();
+                            it.put("size", psi.getSize());
+                            it.put("stock", psi.getStock());
+                            sizes.add(it);
+                        }
+                        productMap.put("sizes", sizes);
+                    }
+                } catch (Exception ignore) {}
             }
         }
         resp.put("product", productMap);
@@ -844,6 +935,10 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
         Object pidObj = request.get("product_id");
         if (pidObj == null) pidObj = request.get("productId");
+        Integer sizeOpt = null; Object szObj = request.get("size");
+        if (szObj != null) {
+            try { sizeOpt = (szObj instanceof Number) ? ((Number) szObj).intValue() : Integer.parseInt(String.valueOf(szObj)); } catch (Exception ignore) {}
+        }
         Map<String,Object> resp = new HashMap<>();
         resp.put("type", "add_to_cart_response");
 
@@ -888,7 +983,9 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             return;
         }
         try {
-            OrderHeader saved = orderProcessingService.addToCart(clientOpt.get().getClientId(), productId, quantity);
+            OrderHeader saved = (sizeOpt == null)
+                    ? orderProcessingService.addToCart(clientOpt.get().getClientId(), productId, quantity)
+                    : orderProcessingService.addToCart(clientOpt.get().getClientId(), productId, sizeOpt, quantity);
             resp.put("success", true);
             resp.put("headerId", saved.getId());
             resp.put("message", "加入购物车成功");
@@ -1080,16 +1177,27 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             Map<String,Object> om = new HashMap<>();
             om.put("orderId", h.getId());
             om.put("status", h.getStatus().name());
-            om.put("total_price", h.calcTotal());
+            java.math.BigDecimal _subtotal = h.calcTotal();
+            java.math.BigDecimal _discount = computeDiscount(_subtotal);
+            java.math.BigDecimal _payable = computePayable(_subtotal);
+            om.put("total_price", _subtotal);
+            om.put("subtotal", _subtotal);
+            om.put("discount", _discount);
+            om.put("payable", _payable);
             om.put("order_time", h.getCreatedAt() != null ? h.getCreatedAt().toString() : null);
             List<Map<String,Object>> items = new CopyOnWriteArrayList<>();
             for (OrderItem it : h.getItems()) {
-                items.add(mapOf(
-                        "productId", it.getProduct().getProductId(),
-                        "name", it.getProduct().getName(),
-                        "price", it.getPrice(),
-                        "quantity", it.getQuantity()
-                ));
+                Map<String,Object> im = new HashMap<>();
+                im.put("productId", it.getProduct().getProductId());
+                im.put("name", it.getProduct().getName());
+                im.put("price", it.getPrice());
+                im.put("quantity", it.getQuantity());
+                if (it.getSize() != null) im.put("size", it.getSize());
+                // 可选补充：原价与促销信息，便于客户端展示
+                im.put("listPrice", it.getProduct().getPrice());
+                im.put("onSale", it.getProduct().getOnSale());
+                im.put("discountPrice", it.getProduct().getDiscountPrice());
+                items.add(im);
             }
             om.put("items", items);
             myOrders.add(om);
@@ -1327,6 +1435,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             m.put("name", it.getProduct().getName());
             m.put("price", it.getPrice());
             m.put("quantity", it.getQuantity());
+            if (it.getSize() != null) m.put("size", it.getSize());
             m.put("stock", it.getProduct().getStock());
             // 新增：为购物车项补充原价与促销信息，客户端可用于展示双价
             m.put("listPrice", it.getProduct().getPrice());
@@ -1348,6 +1457,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             m.put("name", it.getProduct().getName());
             m.put("price", it.getPrice());
             m.put("quantity", it.getQuantity());
+            if (it.getSize() != null) m.put("size", it.getSize());
             m.put("stock", it.getProduct().getStock());
             // 同步补充原价与促销信息
             m.put("listPrice", it.getProduct().getPrice());
@@ -1364,6 +1474,9 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         String username = (String) request.getOrDefault("username", findUsernameByCtx(ctx));
         Object pidLookup = request.get("product_id");
         if (pidLookup == null) pidLookup = request.get("productId");
+    Integer sizeOpt = null; Object szObj = request.get("size");
+    if (szObj != null) { try { sizeOpt = (szObj instanceof Number) ? ((Number) szObj).intValue() : Integer.parseInt(String.valueOf(szObj)); } catch (Exception ignore) {} }
+    final Integer finalSizeOpt = sizeOpt;
         final Object pidObj = pidLookup;
         if (username == null || pidObj == null) {
             handleGetCart(ctx, request);
@@ -1375,7 +1488,9 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             if (headerOpt.isPresent()) {
                 OrderHeader header = headerOpt.get();
                 long pid = ((Number)pidObj).longValue();
-                header.getItems().removeIf(i -> i.getProduct().getProductId().equals(pid));
+                final Integer fsz = finalSizeOpt;
+                header.getItems().removeIf(i -> i.getProduct().getProductId().equals(pid)
+                        && java.util.Objects.equals(i.getSize(), fsz));
                 header.setTotalPrice(header.calcTotal());
                 orderHeaderRepository.save(header);
                 try { sendCartDualResponses(ctx, header); } catch (Exception e) { e.printStackTrace(); }
@@ -1392,6 +1507,9 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     int qInput = ((Number)request.getOrDefault("quantity", 1)).intValue();
     if (qInput < 0) qInput = 0;
     final int quantity = qInput;
+    Integer sizeOpt = null; Object szObj2 = request.get("size");
+    if (szObj2 != null) { try { sizeOpt = (szObj2 instanceof Number) ? ((Number) szObj2).intValue() : Integer.parseInt(String.valueOf(szObj2)); } catch (Exception ignore) {} }
+    final Integer fSize = sizeOpt;
         if (username == null || pidObj == null) { handleGetCart(ctx, request); return; }
         var clientOpt = clientRepository.findByUsername(username);
         if (clientOpt.isEmpty()) { handleGetCart(ctx, request); return; }
@@ -1401,7 +1519,8 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     final long pid = ((Number)pidObj).longValue();
         boolean exists = false;
         for (OrderItem it : header.getItems()) {
-            if (it.getProduct().getProductId().equals(pid)) {
+        if (it.getProduct().getProductId().equals(pid)
+            && java.util.Objects.equals(it.getSize(), fSize)) {
                 exists = true;
                 Integer stock = it.getProduct().getStock();
                 int max = stock == null ? quantity : Math.min(quantity, stock);
@@ -1420,6 +1539,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 if (max > 0) {
                     OrderItem item = new OrderItem();
                     item.setProduct(prod);
+                    item.setSize(fSize);
                     item.setQuantity(max);
                     item.setPrice(prod.getPrice());
                     header.addItem(item);
@@ -1469,13 +1589,35 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             resp.put("success", true);
             resp.put("message", "结算成功");
             resp.put("headerId", paid.getId());
+            java.math.BigDecimal _subtotal = paid.getTotalPrice();
+            java.math.BigDecimal _discount = computeDiscount(_subtotal);
+            java.math.BigDecimal _payable = computePayable(_subtotal);
+            resp.put("subtotal", _subtotal);
+            resp.put("discount", _discount);
+            resp.put("payable", _payable);
             ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
             Map<String,Object> resp2 = new HashMap<>();
             resp2.put("type", "order_response");
             resp2.put("success", true);
             resp2.put("orderId", paid.getId());
+            resp2.put("subtotal", _subtotal);
+            resp2.put("discount", _discount);
+            resp2.put("payable", _payable);
             resp2.put("message", "订单创建成功");
             ctx.writeAndFlush(objectMapper.writeValueAsString(resp2) + "\n");
+            // 同步推送一条系统消息到客服群：包含 ORDER_ID 与应付金额（满减后）
+            try {
+                com.shopping.server.model.ChatMessage m = new com.shopping.server.model.ChatMessage();
+                m.setFromUser("system");
+                m.setToUser(null); // null 表示群发（客服群）
+                String uname = username == null ? "-" : username;
+                String content = String.format("[新订单] ORDER_ID=%d 用户=%s 应付=￥%s (小计=￥%s, 满减=￥%s)",
+                        paid.getId(), uname, _payable, _subtotal, _discount);
+                m.setContent(content);
+                m.setCreatedAt(java.time.LocalDateTime.now());
+                m = chatMessageRepository.save(m);
+                pushChatToTargets(m);
+            } catch (Exception ignore) {}
         } catch (IllegalStateException ex) {
             resp.put("success", false);
             resp.put("code", 2002);
@@ -1532,7 +1674,26 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             OrderHeader paid = orderProcessingService.createOrderForItems(clientOpt.get().getClientId(), reqItems);
             resp.put("success", true);
             resp.put("orderId", paid.getId());
+            java.math.BigDecimal _subtotal = paid.getTotalPrice();
+            java.math.BigDecimal _discount = computeDiscount(_subtotal);
+            java.math.BigDecimal _payable = computePayable(_subtotal);
+            resp.put("subtotal", _subtotal);
+            resp.put("discount", _discount);
+            resp.put("payable", _payable);
             resp.put("message", "订单创建成功");
+            // 同步推送一条系统消息到客服群：包含 ORDER_ID 与应付金额（满减后）
+            try {
+                com.shopping.server.model.ChatMessage m = new com.shopping.server.model.ChatMessage();
+                m.setFromUser("system");
+                m.setToUser(null);
+                String uname = username == null ? "-" : username;
+                String content = String.format("[新订单] ORDER_ID=%d 用户=%s 应付=￥%s (小计=￥%s, 满减=￥%s)",
+                        paid.getId(), uname, _payable, _subtotal, _discount);
+                m.setContent(content);
+                m.setCreatedAt(java.time.LocalDateTime.now());
+                m = chatMessageRepository.save(m);
+                pushChatToTargets(m);
+            } catch (Exception ignore) {}
         } catch (IllegalArgumentException | IllegalStateException ex) {
             resp.put("success", false);
             resp.put("code", 2002);

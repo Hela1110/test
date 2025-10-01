@@ -180,7 +180,14 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
             auto *hl = new QHBoxLayout(wrap); hl->setContentsMargins(6,0,6,0); hl->addWidget(chk); hl->addStretch();
             ui->cartTable->setCellWidget(row, 0, wrap);
 
-            ui->cartTable->setItem(row, 1, new QTableWidgetItem(item.value("name").toString()));
+            // 名称列：附加尺码（若存在）
+            {
+                QString nameText = item.value("name").toString();
+                if (item.contains("size") && item.value("size").toInt() > 0) {
+                    nameText += QString("  (尺码:%1)").arg(item.value("size").toInt());
+                }
+                ui->cartTable->setItem(row, 1, new QTableWidgetItem(nameText));
+            }
             // 单价列：若存在促销（onSale 且 discountPrice < listPrice），显示 原价(划线灰)+红色折扣价
             {
                 const double listPrice = item.contains("listPrice") ? item.value("listPrice").toDouble() : price; // 回退
@@ -233,12 +240,14 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
             }
 
             // 连接数量变更：立即发送 set_cart_quantity，并本地更新小计/总计与 cartItems
-            connect(spin, QOverload<int>::of(&QSpinBox::valueChanged), this, [this, pid, price, row](int val){
+            int size = item.contains("size") ? item.value("size").toInt() : -1;
+            connect(spin, QOverload<int>::of(&QSpinBox::valueChanged), this, [this, pid, size, price, row](int val){
                 // 发送到服务器
                 QJsonObject req;
                 req["type"] = "set_cart_quantity";
                 req["product_id"] = pid;
                 req["quantity"] = val;
+                if (size > 0) req["size"] = size;
                 sendRequest(req);
                 // 本地更新：小计 & cartItems 中对应项数量
                 if (ui->cartTable && row >= 0 && row < ui->cartTable->rowCount()) {
@@ -270,7 +279,7 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
                     ui->cartTable->setCellWidget(row, 4, cell);
                 }
                 for (auto &ci : cartItems) {
-                    if (ci.value("product_id").toInt() == pid) { ci["quantity"] = val; break; }
+                    if (ci.value("product_id").toInt() == pid && (!ci.contains("size") || ci.value("size").toInt()==size)) { ci["quantity"] = val; break; }
                 }
                 updateTotalPrice();
             });
@@ -318,22 +327,39 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
 
         checkoutInFlight = false; // 无论成功失败，结束本次流程
         if (response.value("success").toBool()) {
-            // 结算成功提示应仅统计本次勾选项金额
-            double total = 0;
-            if (ui->cartTable) {
-                const int rows = ui->cartTable->rowCount();
-                for (int r = 0; r < rows; ++r) {
-                    QWidget *wrap = ui->cartTable->cellWidget(r, 0);
-                    if (!wrap) continue;
-                    auto chk = wrap->findChild<QCheckBox*>();
-                    if (chk && chk->isChecked()) {
-                        if (r >=0 && r < cartItems.size()) {
-                            total += cartItems[r].value("price").toDouble() * cartItems[r].value("quantity").toInt();
+            // 优先使用服务器返回的满减后金额（payable）；若没有则回退到本地合计
+            const bool hasServer = response.contains("payable");
+            double payable = response.value("payable").toDouble(-1.0);
+            double discount = response.value("discount").toDouble(-1.0);
+            double subtotal = response.value("subtotal").toDouble(-1.0);
+            if (!hasServer || payable < 0.0) {
+                // 回退：仅统计本次勾选项金额（价格快照）
+                payable = 0.0;
+                if (ui->cartTable) {
+                    const int rows = ui->cartTable->rowCount();
+                    for (int r = 0; r < rows; ++r) {
+                        QWidget *wrap = ui->cartTable->cellWidget(r, 0);
+                        if (!wrap) continue;
+                        auto chk = wrap->findChild<QCheckBox*>();
+                        if (chk && chk->isChecked()) {
+                            if (r >=0 && r < cartItems.size()) {
+                                payable += cartItems[r].value("price").toDouble() * cartItems[r].value("quantity").toInt();
+                            }
                         }
                     }
                 }
+                showOnce("checkout_ok", QMessageBox::Information, "结算成功", QString("本次金额：￥%1").arg(QString::number(payable, 'f', 2)));
+            } else {
+                // 使用服务器提供的应付金额与折扣信息
+                QString text = QString("应付：￥%1").arg(QString::number(payable, 'f', 2));
+                if (subtotal >= 0.0) {
+                    text = QString("小计：￥%1\n满减：-%2\n应付：￥%3")
+                               .arg(QString::number(subtotal, 'f', 2))
+                               .arg(discount > 0.0 ? (QString("￥") + QString::number(discount, 'f', 2)) : QString("￥0.00"))
+                               .arg(QString::number(payable, 'f', 2));
+                }
+                showOnce("checkout_ok", QMessageBox::Information, "结算成功", text);
             }
-            showOnce("checkout_ok", QMessageBox::Information, "结算成功", QString("本次金额：￥%1").arg(QString::number(total, 'f', 2)));
             emit checkoutCompleted();
             // 结算成功后从购物车中移除已结算的商品
             // 逐个发送 remove_from_cart 请求
@@ -345,7 +371,7 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
                     auto chk = wrap->findChild<QCheckBox*>();
                     if (chk && chk->isChecked()) {
                         if (r >=0 && r < cartItems.size()) {
-                            QJsonObject request; request["type"] = "remove_from_cart"; request["product_id"] = cartItems[r]["product_id"]; if (!username.isEmpty()) request["username"] = username; sendRequest(request);
+                            QJsonObject request; request["type"] = "remove_from_cart"; request["product_id"] = cartItems[r]["product_id"]; if (cartItems[r].contains("size") && cartItems[r]["size"].toInt()>0) request["size"] = cartItems[r]["size"]; if (!username.isEmpty()) request["username"] = username; sendRequest(request);
                             qInfo() << "[checkout_response] remove_from_cart pid=" << cartItems[r]["product_id"].toInt() << "username=" << username;
                         }
                     }
@@ -367,22 +393,44 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
         const bool ok = response.value("success").toBool();
         if (ok) {
             const auto orderId = response.value("orderId").toVariant().toLongLong();
-            // 只统计本次勾选项金额
-            double total = 0;
-            if (ui->cartTable) {
-                const int rows = ui->cartTable->rowCount();
-                for (int r = 0; r < rows; ++r) {
-                    QWidget *wrap = ui->cartTable->cellWidget(r, 0);
-                    if (!wrap) continue;
-                    auto chk = wrap->findChild<QCheckBox*>();
-                    if (chk && chk->isChecked()) {
-                        if (r >= 0 && r < cartItems.size()) {
-                            total += cartItems[r].value("price").toDouble() * cartItems[r].value("quantity").toInt();
+            // 优先展示服务器返回的折后应付
+            const bool hasServer = response.contains("payable");
+            double payable = response.value("payable").toDouble(-1.0);
+            double discount = response.value("discount").toDouble(-1.0);
+            double subtotal = response.value("subtotal").toDouble(-1.0);
+            QString text;
+            if (!hasServer || payable < 0.0) {
+                // 回退：仅统计本次勾选项金额
+                double total = 0.0;
+                if (ui->cartTable) {
+                    const int rows = ui->cartTable->rowCount();
+                    for (int r = 0; r < rows; ++r) {
+                        QWidget *wrap = ui->cartTable->cellWidget(r, 0);
+                        if (!wrap) continue;
+                        auto chk = wrap->findChild<QCheckBox*>();
+                        if (chk && chk->isChecked()) {
+                            if (r >= 0 && r < cartItems.size()) {
+                                total += cartItems[r].value("price").toDouble() * cartItems[r].value("quantity").toInt();
+                            }
                         }
                     }
                 }
+                text = QString("订单已创建：#%1\n本次金额：￥%2").arg(orderId).arg(QString::number(total, 'f', 2));
+            } else {
+                // 使用服务器提供的应付金额与折扣信息
+                if (subtotal >= 0.0) {
+                    text = QString("订单已创建：#%1\n小计：￥%2\n满减：-%3\n应付：￥%4")
+                               .arg(orderId)
+                               .arg(QString::number(subtotal, 'f', 2))
+                               .arg(discount > 0.0 ? (QString("￥") + QString::number(discount, 'f', 2)) : QString("￥0.00"))
+                               .arg(QString::number(payable, 'f', 2));
+                } else {
+                    text = QString("订单已创建：#%1\n应付：￥%2")
+                               .arg(orderId)
+                               .arg(QString::number(payable, 'f', 2));
+                }
             }
-            showOnce("order_ok", QMessageBox::Information, "下单成功", QString("订单已创建：#%1\n本次金额：￥%2").arg(orderId).arg(QString::number(total, 'f', 2)));
+            showOnce("order_ok", QMessageBox::Information, "下单成功", text);
             emit checkoutCompleted();
             // 同步移除本次勾选的条目
             if (ui->cartTable) {
@@ -393,7 +441,7 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
                     auto chk = wrap->findChild<QCheckBox*>();
                     if (chk && chk->isChecked()) {
                         if (r >= 0 && r < cartItems.size()) {
-                            QJsonObject req; req["type"] = "remove_from_cart"; req["product_id"] = cartItems[r]["product_id"]; if (!username.isEmpty()) req["username"] = username; sendRequest(req);
+                            QJsonObject req; req["type"] = "remove_from_cart"; req["product_id"] = cartItems[r]["product_id"]; if (cartItems[r].contains("size") && cartItems[r]["size"].toInt()>0) req["size"] = cartItems[r]["size"]; if (!username.isEmpty()) req["username"] = username; sendRequest(req);
                         }
                     }
                 }
@@ -566,8 +614,8 @@ void ShoppingCart::on_checkoutButton_clicked()
     QJsonArray arr;
     for (int row : selectedRows) {
         if (row < 0 || row >= cartItems.size()) continue;
-        const auto &it = cartItems[row];
-        QJsonObject o; o["productId"] = it.value("product_id").toInt();
+    const auto &it = cartItems[row];
+    QJsonObject o; o["productId"] = it.value("product_id").toInt(); if (it.contains("size") && it.value("size").toInt()>0) o["size"] = it.value("size").toInt();
         o["quantity"] = it.value("quantity").toInt(); if (o["quantity"].toInt() < 1) o["quantity"] = 1;
         arr.append(o);
     }
@@ -609,7 +657,7 @@ void ShoppingCart::on_deleteButton_clicked()
     }
     for (int row : rows) {
         if (row < 0 || row >= cartItems.size()) continue;
-        QJsonObject request; request["type"] = "remove_from_cart"; request["product_id"] = cartItems[row]["product_id"]; sendRequest(request);
+    QJsonObject request; request["type"] = "remove_from_cart"; request["product_id"] = cartItems[row]["product_id"]; if (cartItems[row].contains("size") && cartItems[row]["size"].toInt()>0) request["size"] = cartItems[row]["size"]; sendRequest(request);
     }
 }
 

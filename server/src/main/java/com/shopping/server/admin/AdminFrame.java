@@ -38,15 +38,23 @@ public class AdminFrame extends JFrame {
     private final ChatMessageRepository chatRepo;
     private final OrderHeaderRepository orderHeaderRepo;
     private final OrderItemRepository orderItemRepo;
-    private final ProductTypeRepository typeRepo;
+    @SuppressWarnings("unused")
+    private final ProductTypeRepository typeRepo; // 仍保留引用，未来如需品类管理可继续使用
+    private final com.shopping.server.repository.ProductSizeInventoryRepository psiRepo;
     private final ClientRepository clientRepo;
+    // UI: 页签与未读管理
+    private JTabbedPane tabs;
+    private int chatTabIndex = -1;
+    private volatile long lastSeenChatId = 0L;
+    private static final String CHAT_TAB_TITLE = "聊天/反馈";
 
     public AdminFrame(ProductRepository productRepository,
                       ChatMessageRepository chatRepo,
                       OrderHeaderRepository orderHeaderRepo,
                       OrderItemRepository orderItemRepo,
                       ClientRepository clientRepo,
-                      ProductTypeRepository typeRepo) {
+                      ProductTypeRepository typeRepo,
+                      com.shopping.server.repository.ProductSizeInventoryRepository psiRepo) {
         super("微商系统 - 服务端管理控制台");
         this.productRepository = productRepository;
         this.chatRepo = chatRepo;
@@ -54,16 +62,31 @@ public class AdminFrame extends JFrame {
         this.orderItemRepo = orderItemRepo;
     this.clientRepo = clientRepo;
     this.typeRepo = typeRepo;
+    this.psiRepo = psiRepo;
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(1000, 700);
         setLocationRelativeTo(null);
 
-        JTabbedPane tabs = new JTabbedPane();
+        this.tabs = new JTabbedPane();
         tabs.addTab("商品管理", buildProductsPanel());
-        tabs.addTab("聊天/反馈", buildChatPanel());
+        JPanel chatPanel = buildChatPanel();
+        tabs.addTab(CHAT_TAB_TITLE, chatPanel);
+        this.chatTabIndex = tabs.indexOfComponent(chatPanel);
         tabs.addTab("活动商品", buildPromotionPanel());
         tabs.addTab("数据统计", buildStatsPanel());
         tabs.addTab("系统/用户", buildUsersPanel());
+        // 切换到聊天页签时，清除未读红点并更新 lastSeenChatId
+        tabs.addChangeListener(e -> {
+            if (tabs.getSelectedIndex() == chatTabIndex) {
+                clearChatTabUnread();
+                try {
+                    var latest = chatRepo.findLatestGlobal(org.springframework.data.domain.PageRequest.of(0, 1));
+                    if (!latest.isEmpty() && latest.get(0).getId() != null) {
+                        lastSeenChatId = Math.max(lastSeenChatId, latest.get(0).getId());
+                    }
+                } catch (Exception ignore) {}
+            }
+        });
         setContentPane(tabs);
     }
 
@@ -83,7 +106,7 @@ public class AdminFrame extends JFrame {
         root.add(top, BorderLayout.NORTH);
 
         // Table
-        String[] cols = {"ID", "名称", "价格", "库存", "在售", "折后价", "图片URL", "描述"};
+    String[] cols = {"ID", "名称", "价格", "库存", "在售", "折后价", "图片URL", "描述"};
         DefaultTableModel model = new DefaultTableModel(cols, 0) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -98,20 +121,47 @@ public class AdminFrame extends JFrame {
         JTextField tfId = new JTextField();
         JTextField tfName = new JTextField();
         JTextField tfPrice = new JTextField();
-        JTextField tfStock = new JTextField();
+    JTextField tfStock = new JTextField();
+    // 尺码编辑：改为下拉选择 + 库存输入
+    JComboBox<String> cbSize = new JComboBox<>();
+    JTextField tfSizeStock = new JTextField();
         JCheckBox cbOnSale = new JCheckBox("促销中");
         JTextField tfDiscount = new JTextField();
         JTextField tfImage = new JTextField();
         JTextArea taDesc = new JTextArea(6, 20);
         taDesc.setLineWrap(true);
         taDesc.setWrapStyleWord(true);
-        JButton btnNew = new JButton("新增/保存");
+    JButton btnNew = new JButton("新增/保存");
         JButton btnDelete = new JButton("删除选中");
 
         right.add(labeled("ID(留空为新增):", tfId));
         right.add(labeled("名称:", tfName));
         right.add(labeled("价格:", tfPrice));
-        right.add(labeled("库存:", tfStock));
+    right.add(labeled("库存:", tfStock));
+    // 初始化尺码下拉：提供 37-45
+    cbSize.addItem(""); // 空表示不改任何尺码；避免误全量
+    for (int s = 37; s <= 45; s++) cbSize.addItem(String.valueOf(s));
+    right.add(labeled("尺码(下拉选择 37-45):", cbSize));
+    right.add(labeled("尺码库存:", tfSizeStock));
+    // 一键批量设置按钮（将全部尺码统一设置为指定库存）
+    JButton btnSetAllSizes = new JButton("全部尺码设为");
+    JPanel pAll = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    pAll.add(new JLabel("使用上面的‘尺码库存’数值"));
+    pAll.add(btnSetAllSizes);
+    right.add(pAll);
+
+        // 当前尺码库存表（只读）
+        String[] sCols = {"尺码","库存"};
+        DefaultTableModel sizeModel = new DefaultTableModel(sCols, 0){ @Override public boolean isCellEditable(int r,int c){ return false; } };
+        JTable tblSizes = new JTable(sizeModel);
+        JScrollPane spSizes = new JScrollPane(tblSizes);
+        spSizes.setPreferredSize(new Dimension(260, 160));
+        right.add(new JLabel("当前尺码库存："));
+        right.add(spSizes);
+
+        // 用上方下拉与数值更新选中尺码
+        JButton btnUpdateOne = new JButton("用上方值更新选中尺码");
+        right.add(btnUpdateOne);
         right.add(cbOnSale);
         right.add(labeled("折后价(可空):", tfDiscount));
         right.add(labeled("图片URL(可空):", tfImage));
@@ -131,6 +181,7 @@ public class AdminFrame extends JFrame {
             fillTable(model, list);
         });
 
+        // 左侧选中商品时，载入右侧表单并刷新尺码库存表
         table.getSelectionModel().addListSelectionListener(e -> {
             if (e.getValueIsAdjusting()) return;
             int row = table.getSelectedRow();
@@ -144,6 +195,30 @@ public class AdminFrame extends JFrame {
             tfDiscount.setText(s(model.getValueAt(idx, 5)));
             tfImage.setText(s(model.getValueAt(idx, 6)));
             taDesc.setText(s(model.getValueAt(idx, 7)));
+            // 刷新尺码库存表
+            try {
+                sizeModel.setRowCount(0);
+                Object idObj = model.getValueAt(idx, 0);
+                if (idObj != null) {
+                    long pid = Long.parseLong(String.valueOf(idObj));
+                    var opt = productRepository.findById(pid);
+                    if (opt.isPresent()) {
+                        var p = opt.get();
+                        var list = psiRepo.findByProduct(p);
+                        // 若不存在尺码记录，则展示 37-45 为 0
+                        if (list == null || list.isEmpty()) {
+                            for (int s=37; s<=45; s++) sizeModel.addRow(new Object[]{s, 0});
+                        } else {
+                            java.util.Map<Integer,Integer> map = new java.util.LinkedHashMap<>();
+                            for (int s=37; s<=45; s++) map.put(s, 0);
+                            for (var psi : list) {
+                                map.put(psi.getSize(), psi.getStock()==null?0:psi.getStock());
+                            }
+                            for (int s=37; s<=45; s++) sizeModel.addRow(new Object[]{s, map.get(s)});
+                        }
+                    }
+                }
+            } catch (Exception ignoreRefreshSizes) {}
         });
 
         btnNew.addActionListener(e -> {
@@ -189,12 +264,112 @@ public class AdminFrame extends JFrame {
                     }
                 }
                 Product saved = productRepository.save(p);
+                // 若在右侧选择了具体尺码，则仅更新该尺码，不影响其他尺码
+                String sel = (cbSize.getSelectedItem()==null? "" : String.valueOf(cbSize.getSelectedItem()).trim());
+                String szQtyStr = tfSizeStock.getText().trim();
+                if (!sel.isEmpty() && !szQtyStr.isEmpty()) {
+                    int sVal = parseInt(sel);
+                    int q = parseInt(szQtyStr);
+                    var optPsi = psiRepo.findByProductAndSize(saved, sVal);
+                    if (optPsi.isPresent()) {
+                        var psi = optPsi.get();
+                        psi.setStock(q);
+                        psiRepo.save(psi);
+                    } else {
+                        var psi = new com.shopping.server.model.ProductSizeInventory();
+                        psi.setProduct(saved);
+                        psi.setSize(sVal);
+                        psi.setStock(q);
+                        psiRepo.save(psi);
+                    }
+                    // 汇总总库存：以数据库中所有尺码之和为准
+                    int total = psiRepo.findByProduct(saved).stream().mapToInt(x -> x.getStock()==null?0:x.getStock()).sum();
+                    saved.setStock(total);
+                    productRepository.save(saved);
+                }
+                // 刷新尺码表
+                try {
+                    sizeModel.setRowCount(0);
+                    var list = psiRepo.findByProduct(saved);
+                    if (list == null || list.isEmpty()) {
+                        for (int s=37; s<=45; s++) sizeModel.addRow(new Object[]{s, 0});
+                    } else {
+                        java.util.Map<Integer,Integer> map = new java.util.LinkedHashMap<>();
+                        for (int s=37; s<=45; s++) map.put(s, 0);
+                        for (var psi : list) map.put(psi.getSize(), psi.getStock()==null?0:psi.getStock());
+                        for (int s=37; s<=45; s++) sizeModel.addRow(new Object[]{s, map.get(s)});
+                    }
+                } catch (Exception ignoreAfterSave) {}
                 JOptionPane.showMessageDialog(this, "已保存，ID=" + saved.getProductId());
                 fillTable(model, productRepository.findAll());
                 tfId.setText(String.valueOf(saved.getProductId()));
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "保存失败: " + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // 用上方下拉与数值更新“尺码库存表”中选中行对应的尺码（不会影响其它尺码）
+        btnUpdateOne.addActionListener(e -> {
+            try {
+                String idText = tfId.getText().trim();
+                if (idText.isEmpty()) { JOptionPane.showMessageDialog(this, "请先保存商品"); return; }
+                long pid = Long.parseLong(idText);
+                var opt = productRepository.findById(pid);
+                if (opt.isEmpty()) { JOptionPane.showMessageDialog(this, "商品不存在"); return; }
+                Product p = opt.get();
+
+                int row = tblSizes.getSelectedRow();
+                if (row < 0) { JOptionPane.showMessageDialog(this, "请先在尺码表中选择一行"); return; }
+                int modelRow = tblSizes.convertRowIndexToModel(row);
+                int sizeFromTable = Integer.parseInt(String.valueOf(sizeModel.getValueAt(modelRow, 0)));
+
+                // 若上方下拉选了具体尺码，则以下拉为准；否则使用表格选中行的尺码
+                String sel = (cbSize.getSelectedItem()==null? "" : String.valueOf(cbSize.getSelectedItem()).trim());
+                int sizeToSet = sel.isEmpty()? sizeFromTable : Integer.parseInt(sel);
+                int q = parseInt(tfSizeStock.getText().trim());
+
+                var optPsi = psiRepo.findByProductAndSize(p, sizeToSet);
+                if (optPsi.isPresent()) { var psi = optPsi.get(); psi.setStock(q); psiRepo.save(psi);} else {
+                    var psi = new com.shopping.server.model.ProductSizeInventory(); psi.setProduct(p); psi.setSize(sizeToSet); psi.setStock(q); psiRepo.save(psi);
+                }
+                int total = psiRepo.findByProduct(p).stream().mapToInt(x -> x.getStock()==null?0:x.getStock()).sum();
+                p.setStock(total); productRepository.save(p);
+
+                // 刷新表格显示
+                for (int i=0;i<sizeModel.getRowCount();i++) {
+                    int s = Integer.parseInt(String.valueOf(sizeModel.getValueAt(i, 0)));
+                    if (s == sizeToSet) { sizeModel.setValueAt(q, i, 1); break; }
+                }
+                fillTable(model, productRepository.findAll());
+                JOptionPane.showMessageDialog(this, "已更新尺码 "+sizeToSet+" 库存为 "+q+"；总库存="+total);
+            } catch (Exception ex) {
+                ex.printStackTrace(); JOptionPane.showMessageDialog(this, "更新失败: "+ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        // 批量：全部尺码统一设置为 tfSizeStock 的数值
+        btnSetAllSizes.addActionListener(e -> {
+            try {
+                String idText = tfId.getText().trim();
+                if (idText.isEmpty()) { JOptionPane.showMessageDialog(this, "请先保存商品，再批量设置尺码库存"); return; }
+                long pid = Long.parseLong(idText);
+                var opt = productRepository.findById(pid);
+                if (opt.isEmpty()) { JOptionPane.showMessageDialog(this, "商品不存在，请先保存"); return; }
+                Product p = opt.get();
+                int q = parseInt(tfSizeStock.getText().trim());
+                for (int s=37; s<=45; s++) {
+                    var optPsi = psiRepo.findByProductAndSize(p, s);
+                    if (optPsi.isPresent()) { var psi = optPsi.get(); psi.setStock(q); psiRepo.save(psi);} else {
+                        var psi = new com.shopping.server.model.ProductSizeInventory(); psi.setProduct(p); psi.setSize(s); psi.setStock(q); psiRepo.save(psi);
+                    }
+                }
+                int total = psiRepo.findByProduct(p).stream().mapToInt(x -> x.getStock()==null?0:x.getStock()).sum();
+                p.setStock(total); productRepository.save(p);
+                JOptionPane.showMessageDialog(this, "已批量设置全部尺码库存为 " + q + "，总库存已同步为 " + total);
+                fillTable(model, productRepository.findAll());
+            } catch (Exception ex) {
+                ex.printStackTrace(); JOptionPane.showMessageDialog(this, "批量设置失败: "+ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
             }
         });
 
@@ -282,6 +457,27 @@ public class AdminFrame extends JFrame {
         JPanel bottom = new JPanel(new BorderLayout(4, 4));
         bottom.add(new JScrollPane(input), BorderLayout.CENTER);
         JPanel ctrl = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+    // 预设原因下拉 + 插入
+    JComboBox<String> cbPreset = new JComboBox<>(new String[]{
+        "尺码不合适", "质量/瑕疵问题", "发错货/漏发", "七天无理由退货", "拍错/不想要了", "其他"
+    });
+    JButton btnInsertPreset = new JButton("插入");
+    btnInsertPreset.setToolTipText("将所选原因插入到输入框");
+    btnInsertPreset.addActionListener(e -> {
+        String txt = String.valueOf(cbPreset.getSelectedItem());
+        if (txt != null && !txt.isBlank()) {
+            String cur = input.getText();
+            if (cur == null) cur = "";
+            if (!cur.isEmpty() && !cur.endsWith("\n")) cur += "\n";
+            input.setText(cur + txt);
+            input.requestFocus();
+            input.setCaretPosition(input.getText().length());
+        }
+    });
+    ctrl.add(new JLabel("预设:"));
+    ctrl.add(cbPreset);
+    ctrl.add(btnInsertPreset);
+    ctrl.add(Box.createHorizontalStrut(12));
     ctrl.add(new JLabel("选择用户:"));
     ctrl.add(onlineCombo);
     ctrl.add(online);
@@ -302,10 +498,17 @@ public class AdminFrame extends JFrame {
             }
             java.util.Collections.reverse(msgs);
             java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            long maxId = lastSeenChatId;
             for (ChatMessage m : msgs) {
                 String ts = m.getCreatedAt() == null ? "" : m.getCreatedAt().format(fmt);
                 historyModel.addElement("[" + ts + "] " + m.getFromUser() + (m.getToUser()==null?" -> 全体":" -> "+m.getToUser()) + ": " + m.getContent());
                 historyEntities.add(m);
+                try { if (m.getId() != null) maxId = Math.max(maxId, m.getId()); } catch (Exception ignore) {}
+            }
+            // 如果当前在聊天页，视为已读，更新 lastSeen 并清除红点
+            if (tabs != null && tabs.getSelectedIndex() == chatTabIndex) {
+                lastSeenChatId = maxId;
+                clearChatTabUnread();
             }
             // 在线用户集合
             java.util.Set<String> on = SocketMessageHandler.getOnlineUsernames();
@@ -444,6 +647,23 @@ public class AdminFrame extends JFrame {
             }
         });
 
+        // 定时轮询最新消息，若有未读在标签上加红点
+        javax.swing.Timer unreadTimer = new javax.swing.Timer(3000, ev -> {
+            try {
+                var latest = chatRepo.findLatestGlobal(org.springframework.data.domain.PageRequest.of(0, 1));
+                if (latest != null && !latest.isEmpty()) {
+                    Long id = latest.get(0).getId();
+                    if (id != null && id > lastSeenChatId) {
+                        // 仅在非聊天页时提示未读
+                        if (tabs != null && tabs.getSelectedIndex() != chatTabIndex) {
+                            setChatTabUnread();
+                        }
+                    }
+                }
+            } catch (Exception ignore) {}
+        });
+        unreadTimer.start();
+
         reload.run();
         return root;
     }
@@ -528,10 +748,12 @@ public class AdminFrame extends JFrame {
         root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
         JTextField tfStart = new JTextField("2025-01-01", 12);
         JTextField tfEnd = new JTextField(java.time.LocalDate.now().toString(), 12);
-        JComboBox<String> cbUser = new JComboBox<>();
+    JComboBox<String> cbUser = new JComboBox<>();
+    JComboBox<String> cbSizeFilter = new JComboBox<>();
+    cbSizeFilter.addItem("");
+    for (int s=37; s<=45; s++) cbSizeFilter.addItem(String.valueOf(s));
         cbUser.setEditable(true); // 可手输
-        JComboBox<String> cbCategory = new JComboBox<>();
-        cbCategory.setEditable(true);
+    // 类别统计改为尺码统计：移除类别下拉
         JButton btnLoad = new JButton("加载");
         JButton btnExportMonthly = new JButton("导出CSV(月度)");
         JButton btnExportProduct = new JButton("导出CSV(商品)");
@@ -547,8 +769,8 @@ public class AdminFrame extends JFrame {
         JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
         top.add(new JLabel("开始:")); top.add(tfStart);
         top.add(new JLabel("结束:")); top.add(tfEnd);
-        top.add(new JLabel("用户(可选):")); top.add(cbUser);
-        top.add(new JLabel("类别(可选):")); top.add(cbCategory);
+    top.add(new JLabel("用户(可选):")); top.add(cbUser);
+    top.add(new JLabel("尺码(可选):")); top.add(cbSizeFilter);
     JButton btnAllOrders = new JButton("查看所有订单");
     top.add(btnLoad); top.add(btnAllOrders); top.add(btnExportMonthly); top.add(btnExportProduct);
         root.add(top, BorderLayout.NORTH);
@@ -571,19 +793,10 @@ public class AdminFrame extends JFrame {
         mainSplit.setDividerLocation(560);
         root.add(mainSplit, BorderLayout.CENTER);
 
-        // 初始化下拉：用户（全部用户名）、类别（去重 type_name）
+        // 初始化下拉：用户（全部用户名）
         SwingUtilities.invokeLater(() -> {
             cbUser.addItem("");
             for (var c : clientRepo.findAll()) cbUser.addItem(String.valueOf(c.getUsername()));
-            cbCategory.addItem("");
-            try {
-                var typeNames = typeRepo.findAll().stream()
-                        .map(t -> t.getTypeName())
-                        .filter(n -> n != null && !n.isBlank())
-                        .distinct().sorted()
-                        .collect(Collectors.toList());
-                for (var n : typeNames) cbCategory.addItem(n);
-            } catch (Exception ignore) {}
         });
 
         btnLoad.addActionListener(e -> {
@@ -596,45 +809,76 @@ public class AdminFrame extends JFrame {
                 mModel.setRowCount(0);
                 java.util.List<Object[]> monthly = new java.util.ArrayList<>();
                 String u = String.valueOf(cbUser.getEditor().getItem()).trim();
+                String selSizeStr = (cbSizeFilter.getSelectedItem()==null)? "" : String.valueOf(cbSizeFilter.getSelectedItem()).trim();
+                Integer sizeFilterVal = (selSizeStr.isEmpty()? null : Integer.parseInt(selSizeStr));
                 if (u.isEmpty()) {
-                    for (Object[] row : orderHeaderRepo.sumByMonth(startDt, endDt)) { monthly.add(row); mModel.addRow(new Object[]{row[0], row[1], row[2]}); }
+                    if (sizeFilterVal == null) {
+                        for (Object[] row : orderHeaderRepo.sumByMonth(startDt, endDt)) { monthly.add(row); mModel.addRow(new Object[]{row[0], row[1], row[2]}); }
+                    } else {
+                        for (Object[] row : orderItemRepo.sumAmountByMonthForSize(startDt, endDt, sizeFilterVal)) { monthly.add(row); mModel.addRow(new Object[]{row[0], row[1], row[2]}); }
+                    }
                 } else {
                     var cOpt = clientRepo.findByUsername(u);
                     if (cOpt.isPresent()) {
-                        for (Object[] row : orderHeaderRepo.sumByMonthForClient(cOpt.get(), startDt, endDt)) { monthly.add(row); mModel.addRow(new Object[]{row[0], row[1], row[2]}); }
+                        if (sizeFilterVal == null) {
+                            for (Object[] row : orderHeaderRepo.sumByMonthForClient(cOpt.get(), startDt, endDt)) { monthly.add(row); mModel.addRow(new Object[]{row[0], row[1], row[2]}); }
+                        } else {
+                            for (Object[] row : orderItemRepo.sumAmountByMonthForClientAndSize(cOpt.get(), startDt, endDt, sizeFilterVal)) { monthly.add(row); mModel.addRow(new Object[]{row[0], row[1], row[2]}); }
+                        }
                     }
                 }
                 // 商品维度：未选用户 -> 全体；选了用户 -> 仅该用户
                 pModel.setRowCount(0);
-                String cate = String.valueOf(cbCategory.getEditor().getItem()).trim();
-                boolean filterByCate = !cate.isEmpty();
+                // 类别过滤移除
                 java.util.Map<String, java.math.BigDecimal> amountByName = new java.util.LinkedHashMap<>();
                 java.util.List<Object[]> productRows;
-                if (u.isEmpty()) productRows = orderItemRepo.sumSalesByProduct(startDt, endDt);
-                else {
+                if (u.isEmpty()) {
+                    productRows = (sizeFilterVal == null) ? orderItemRepo.sumSalesByProduct(startDt, endDt) : orderItemRepo.sumSalesByProductForSize(startDt, endDt, sizeFilterVal);
+                } else {
                     var cOpt = clientRepo.findByUsername(u);
-                    productRows = cOpt.isPresent()? orderItemRepo.sumSalesByProductForClient(cOpt.get(), startDt, endDt) : java.util.List.of();
+                    productRows = cOpt.isPresent()? ((sizeFilterVal == null)? orderItemRepo.sumSalesByProductForClient(cOpt.get(), startDt, endDt) : orderItemRepo.sumSalesByProductForClientAndSize(cOpt.get(), startDt, endDt, sizeFilterVal)) : java.util.List.of();
                 }
                 for (Object[] row : productRows) {
                     // row: productId, name, qty, amount
-                    Long pid = (row[0] instanceof Long) ? (Long) row[0] : Long.parseLong(String.valueOf(row[0]));
-                    if (filterByCate) {
-                        try {
-                            var prodOpt = productRepository.findById(pid);
-                            if (prodOpt.isPresent()) {
-                                var types = typeRepo.findByProduct(prodOpt.get());
-                                boolean any = false;
-                                for (var t : types) { if (t.getTypeName() != null && t.getTypeName().equalsIgnoreCase(cate)) { any = true; break; } }
-                                if (!any) continue; // 不匹配类别，跳过
-                            }
-                        } catch (Exception ignore) {}
-                    }
+                    //Long pid = (row[0] instanceof Long) ? (Long) row[0] : Long.parseLong(String.valueOf(row[0]));
                     pModel.addRow(new Object[]{row[0], row[1], row[2], row[3]});
                     // 聚合用于饼图（按商品名）
                     String name = String.valueOf(row[1]);
                     java.math.BigDecimal amt = (row[3] instanceof java.math.BigDecimal) ? (java.math.BigDecimal) row[3] : new java.math.BigDecimal(String.valueOf(row[3]));
                     amountByName.merge(name, amt, java.math.BigDecimal::add);
                 }
+
+                // 新增：右侧增加一个表格显示“按尺码统计”（可按下拉尺码过滤）
+                String[] scols = {"尺码","销量","销售额"};
+                DefaultTableModel sModel = new DefaultTableModel(scols, 0){@Override public boolean isCellEditable(int r,int c){return false;}};
+                JTable tblSize = new JTable(sModel);
+                // 放到右侧饼图上方的位置更改为一个分隔布局：上（尺码表）下（饼图+折线）
+                // 简化：将尺码表作为一个弹窗展示，避免大改布局
+                JButton btnSizeStats = new JButton("查看尺码统计");
+                top.add(btnSizeStats);
+                btnSizeStats.addActionListener(ev -> {
+                    sModel.setRowCount(0);
+                    String selSize = String.valueOf(cbSizeFilter.getSelectedItem());
+                    boolean filter = selSize != null && !selSize.trim().isEmpty();
+                    for (Object[] row : orderItemRepo.sumSalesBySize(startDt, endDt)) {
+                        // row: size, qty, amount
+                        if (filter) {
+                            try {
+                                int s = (row[0] instanceof Integer) ? ((Integer)row[0]).intValue() : Integer.parseInt(String.valueOf(row[0]));
+                                if (s != Integer.parseInt(selSize)) continue;
+                            } catch (Exception ignore) {}
+                        }
+                        sModel.addRow(new Object[]{row[0], row[1], row[2]});
+                    }
+                    JDialog d = new JDialog(this, "按尺码统计", true);
+                    d.setSize(400, 500);
+                    d.setLocationRelativeTo(this);
+                    d.setLayout(new BorderLayout());
+                    d.add(new JScrollPane(tblSize), BorderLayout.CENTER);
+                    JButton close = new JButton("关闭"); close.addActionListener(ev2 -> d.dispose());
+                    JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT)); south.add(close); d.add(south, BorderLayout.SOUTH);
+                    d.setVisible(true);
+                });
 
                 // 刷新饼图（显示 Top 6 + 其它）
                 pie.getSeriesMap().clear();
@@ -770,6 +1014,22 @@ public class AdminFrame extends JFrame {
                 t.setAutoCreateRowSorter(true);
                 dlg.add(new JScrollPane(t), BorderLayout.CENTER);
 
+                // 双击行 -> 打开订单卡片
+                t.addMouseListener(new java.awt.event.MouseAdapter() {
+                    @Override public void mouseClicked(java.awt.event.MouseEvent e2) {
+                        if (e2.getClickCount() != 2) return;
+                        int row = t.getSelectedRow();
+                        if (row < 0) return;
+                        int idx = t.convertRowIndexToModel(row);
+                        Object idObj = m.getValueAt(idx, 0);
+                        if (idObj == null) return;
+                        try {
+                            long oid = Long.parseLong(String.valueOf(idObj));
+                            showOrderCardDialog(oid, null, null, null, null);
+                        } catch (Exception ignoreOpen) {}
+                    }
+                });
+
                 JPanel south = new JPanel(new FlowLayout(FlowLayout.RIGHT));
                 JButton close = new JButton("关闭"); close.addActionListener(ev -> dlg.dispose());
                 south.add(close); dlg.add(south, BorderLayout.SOUTH);
@@ -841,15 +1101,19 @@ public class AdminFrame extends JFrame {
         JPanel root = new JPanel(new BorderLayout(8, 8));
         root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
-        // 顶部：搜索与刷新
-        JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JTextField keyword = new JTextField(22);
-        JButton btnSearch = new JButton("搜索");
-        JButton btnRefresh = new JButton("刷新");
-        top.add(new JLabel("关键字(用户名/邮箱/手机号):"));
-        top.add(keyword);
-        top.add(btnSearch);
-        top.add(btnRefresh);
+    // 顶部：搜索与刷新
+    JPanel top = new JPanel();
+    top.setLayout(new BoxLayout(top, BoxLayout.Y_AXIS));
+    JPanel tools1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    JTextField keyword = new JTextField(22);
+    JButton btnSearch = new JButton("搜索");
+    JButton btnRefresh = new JButton("刷新");
+        // 已移除：批量改码/随机补尺码相关工具
+    tools1.add(new JLabel("关键字(用户名/邮箱/手机号):"));
+    tools1.add(keyword);
+    tools1.add(btnSearch);
+    tools1.add(btnRefresh);
+        top.add(tools1);
         root.add(top, BorderLayout.NORTH);
 
         // 表格：只读
@@ -916,6 +1180,7 @@ public class AdminFrame extends JFrame {
         pageSize.addActionListener(e -> { currentPage[0] = 0; doLoad.accept(keyword.getText()); });
         prev.addActionListener(e -> { if (currentPage[0] > 0) currentPage[0]--; doLoad.accept(keyword.getText()); });
         next.addActionListener(e -> { currentPage[0]++; doLoad.accept(keyword.getText()); });
+
 
         toggle.addActionListener(e -> {
             int row = table.getSelectedRow();
@@ -1064,8 +1329,8 @@ public class AdminFrame extends JFrame {
         JLabel topLabel = new JLabel(topHtml);
         dlg.add(topLabel, BorderLayout.NORTH);
 
-            // 明细表
-            String[] cols = {"商品ID", "名称", "数量", "单价", "小计"};
+            // 明细表（新增只读“尺码”列）
+            String[] cols = {"商品ID", "名称", "尺码", "数量", "单价", "小计"};
             var model = new DefaultTableModel(cols, 0) { @Override public boolean isCellEditable(int r,int c){ return false; } };
             JTable tbl = new JTable(model);
             dlg.add(new JScrollPane(tbl), BorderLayout.CENTER);
@@ -1077,21 +1342,22 @@ public class AdminFrame extends JFrame {
             }
             if (items != null) {
                 for (OrderItem it : items) {
-                    Long pid = null; String name = "-"; java.math.BigDecimal price = java.math.BigDecimal.ZERO; Integer qty = 0;
+                    Long pid = null; String name = "-"; Integer size = null; java.math.BigDecimal price = java.math.BigDecimal.ZERO; Integer qty = 0;
                     try {
                         if (it.getProduct() != null) {
                             pid = it.getProduct().getProductId();
                             name = it.getProduct().getName();
                         }
+                        size = it.getSize();
                         price = it.getPrice();
                         qty = it.getQuantity();
                     } catch (Exception ignore) {}
                     java.math.BigDecimal subtotal = (price == null || qty == null) ? java.math.BigDecimal.ZERO : price.multiply(java.math.BigDecimal.valueOf(qty));
-                    model.addRow(new Object[]{pid, name, qty, price, subtotal});
+                    model.addRow(new Object[]{pid, name, size == null ? "-" : String.valueOf(size), qty, price, subtotal});
                 }
             }
 
-            // SOUTH：退款原因 + 按钮
+            // SOUTH：退款原因 + 快速回复 + 按钮
             JPanel south = new JPanel(new BorderLayout(4,4));
             String reasonText = (refundReason == null || refundReason.isBlank()) ? "(无)" : refundReason;
             JLabel reasonLbl = new JLabel("<html><div style='padding:4px 6px;'><b>退款原因:</b> " +
@@ -1099,9 +1365,16 @@ public class AdminFrame extends JFrame {
                                          "</div></html>");
             // 按钮行
             JPanel bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            JComboBox<String> cbQuick = new JComboBox<>(new String[]{
+                "抱歉给您带来不便，已为您原路退款，预计3-5个工作日到账。",
+                "很抱歉未达预期，本次申请无法通过，原因：不符合退货政策。",
+                "我们已收到反馈，会尽快优化改进服务。"
+            });
+            cbQuick.setPrototypeDisplayValue("很抱歉未达预期，本次申请无法通过，原因：不符合退货政策。");
             JButton btnRefund = new JButton("退款");
             JButton btnReject = new JButton("驳回");
             JButton btnClose = new JButton("关闭");
+            bottom.add(new JLabel("快速回复:")); bottom.add(cbQuick);
             bottom.add(btnReject); bottom.add(btnRefund); bottom.add(btnClose);
             south.add(reasonLbl, BorderLayout.CENTER);
             south.add(bottom, BorderLayout.SOUTH);
@@ -1133,22 +1406,42 @@ public class AdminFrame extends JFrame {
                     int confirm = JOptionPane.showConfirmDialog(dlg, "确定要退款并回滚库存/销量吗？", "确认退款", JOptionPane.YES_NO_OPTION);
                     if (confirm != JOptionPane.YES_OPTION) return;
 
-                    // 回滚库存与销量
+                    // 回滚库存与销量（按尺码回滚到 ProductSizeInventory）
                     java.util.List<OrderItem> its = orderItemRepo.findByOrder(header);
                     for (OrderItem it : its) {
                         if (it.getProduct() == null) continue;
                         Long pid = it.getProduct().getProductId();
                         var prodOpt = productRepository.findById(pid);
-                        if (prodOpt.isPresent()) {
-                            Product p = prodOpt.get();
+                        if (prodOpt.isEmpty()) continue;
+                        Product p = prodOpt.get();
+                        int qty = it.getQuantity() == null ? 0 : it.getQuantity();
+                        Integer sz = it.getSize();
+                        // 回滚到具体尺码
+                        if (sz != null) {
+                            var psiOpt = psiRepo.findByProductAndSize(p, sz);
+                            if (psiOpt.isPresent()) {
+                                var psi = psiOpt.get();
+                                int cur = psi.getStock()==null?0:psi.getStock();
+                                psi.setStock(cur + qty);
+                                psiRepo.save(psi);
+                            } else {
+                                var psi = new com.shopping.server.model.ProductSizeInventory();
+                                psi.setProduct(p); psi.setSize(sz); psi.setStock(qty);
+                                psiRepo.save(psi);
+                            }
+                            // 重算总库存
+                            int total = psiRepo.findByProduct(p).stream().mapToInt(x -> x.getStock()==null?0:x.getStock()).sum();
+                            p.setStock(total);
+                        } else {
+                            // 无尺码记录则退回到总库存兜底
                             int stock = p.getStock() == null ? 0 : p.getStock();
-                            int sales = p.getSales() == null ? 0 : p.getSales();
-                            int qty = it.getQuantity() == null ? 0 : it.getQuantity();
                             p.setStock(stock + qty);
-                            int newSales = sales - qty; if (newSales < 0) newSales = 0;
-                            p.setSales(newSales);
-                            productRepository.save(p);
                         }
+                        // 回滚销量
+                        int sales = p.getSales() == null ? 0 : p.getSales();
+                        int newSales = sales - qty; if (newSales < 0) newSales = 0;
+                        p.setSales(newSales);
+                        productRepository.save(p);
                     }
 
                     // 更新订单状态
@@ -1156,7 +1449,8 @@ public class AdminFrame extends JFrame {
                     orderHeaderRepo.save(header);
 
                     // 通知用户
-                    notifyUser.accept("[售后结果] 订单#" + orderId + " 已退款，感谢理解。");
+                    String reply = String.valueOf(cbQuick.getSelectedItem());
+                    notifyUser.accept("[售后结果] 订单#" + orderId + " 已退款。" + (reply==null||reply.isBlank()?"":" " + reply));
 
                     JOptionPane.showMessageDialog(dlg, "已退款并回滚库存/销量");
                     dlg.dispose();
@@ -1172,7 +1466,8 @@ public class AdminFrame extends JFrame {
                     int confirm = JOptionPane.showConfirmDialog(dlg, "确定要驳回该售后申请吗？", "确认驳回", JOptionPane.YES_NO_OPTION);
                     if (confirm != JOptionPane.YES_OPTION) return;
                     // 驳回不修改订单，仅通知
-                    notifyUser.accept("[售后结果] 订单#" + orderId + " 的退款申请已被驳回。");
+                    String reply = String.valueOf(cbQuick.getSelectedItem());
+                    notifyUser.accept("[售后结果] 订单#" + orderId + " 的退款申请已被驳回。" + (reply==null||reply.isBlank()?"":" 原因：" + reply));
                     JOptionPane.showMessageDialog(dlg, "已驳回");
                     dlg.dispose();
                     if (reloadHistory != null) reloadHistory.run();
@@ -1221,5 +1516,28 @@ public class AdminFrame extends JFrame {
         r = r.replace("\"", "&quot;");
         r = r.replace("'", "&#39;");
         return r;
+    }
+
+    // ===== 聊天页签未读红点 =====
+    private void setChatTabUnread() {
+        if (tabs == null || chatTabIndex < 0) return;
+        try {
+            String title = tabs.getTitleAt(chatTabIndex);
+            if (title == null) title = CHAT_TAB_TITLE;
+            if (!title.contains("●")) {
+                tabs.setTitleAt(chatTabIndex, "● " + CHAT_TAB_TITLE);
+            }
+        } catch (Exception ignore) {}
+    }
+
+    private void clearChatTabUnread() {
+        if (tabs == null || chatTabIndex < 0) return;
+        try {
+            String title = tabs.getTitleAt(chatTabIndex);
+            if (title == null) title = CHAT_TAB_TITLE;
+            if (!CHAT_TAB_TITLE.equals(title)) {
+                tabs.setTitleAt(chatTabIndex, CHAT_TAB_TITLE);
+            }
+        } catch (Exception ignore) {}
     }
 }

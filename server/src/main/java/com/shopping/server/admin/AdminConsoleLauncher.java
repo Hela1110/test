@@ -5,6 +5,7 @@ import com.shopping.server.repository.ChatMessageRepository;
 import com.shopping.server.repository.OrderHeaderRepository;
 import com.shopping.server.repository.OrderItemRepository;
 import com.shopping.server.repository.ProductTypeRepository;
+import com.shopping.server.repository.ProductSizeInventoryRepository;
 import com.shopping.server.repository.ClientRepository;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -23,19 +24,22 @@ public class AdminConsoleLauncher {
     private final OrderItemRepository orderItemRepository;
     private final ProductTypeRepository productTypeRepository;
     private final ClientRepository clientRepository;
+    private final ProductSizeInventoryRepository psiRepository;
 
     public AdminConsoleLauncher(ProductRepository productRepository,
                                ChatMessageRepository chatMessageRepository,
                                OrderHeaderRepository orderHeaderRepository,
                                OrderItemRepository orderItemRepository,
                                ClientRepository clientRepository,
-                               ProductTypeRepository productTypeRepository) {
+                               ProductTypeRepository productTypeRepository,
+                               ProductSizeInventoryRepository psiRepository) {
         this.productRepository = productRepository;
         this.chatMessageRepository = chatMessageRepository;
         this.orderHeaderRepository = orderHeaderRepository;
         this.orderItemRepository = orderItemRepository;
         this.clientRepository = clientRepository;
         this.productTypeRepository = productTypeRepository;
+        this.psiRepository = psiRepository;
     }
 
     @EventListener(ApplicationReadyEvent.class)
@@ -44,7 +48,7 @@ public class AdminConsoleLauncher {
             try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             } catch (Exception ignore) {}
-            AdminFrame frame = new AdminFrame(productRepository, chatMessageRepository, orderHeaderRepository, orderItemRepository, clientRepository, productTypeRepository);
+            AdminFrame frame = new AdminFrame(productRepository, chatMessageRepository, orderHeaderRepository, orderItemRepository, clientRepository, productTypeRepository, psiRepository);
             frame.setVisible(true);
         });
     }

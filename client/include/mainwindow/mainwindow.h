@@ -80,7 +80,7 @@ private:
     QLayout* ensureVBoxLayout(QWidget *area);
     void renderSearchResults(const QJsonArray &results);
     void showProductDetail(const QJsonObject &product);
-    void addToCart(int productId, int stock = -1);
+    void addToCart(int productId, int stock = -1, int size = -1);
     void requestProductsPage(int page);
     // 自适应列数与重排
     int computeColumns(int availableWidth) const;

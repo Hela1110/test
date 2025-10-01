@@ -449,10 +449,25 @@ void ChatWindow::handleMessageUi(const QJsonObject &msg) {
         qint64 orderId = -1;
         for (const auto &r : list) { if (r.label == chosen) { orderId = r.id; break; } }
         if (orderId <= 0) return;
-        // 可选：填写原因（单行简易版）
-        QString reason = QInputDialog::getText(this, tr("申请原因(可空)"), tr("请填写退款原因(可留空)"), QLineEdit::Normal, QString());
+    // 可选：填写原因（带预设下拉，可编辑）
+    QStringList presets;
+    presets << tr("尺码不合适")
+        << tr("质量/瑕疵问题")
+        << tr("发错货/漏发")
+        << tr("七天无理由退货")
+        << tr("拍错/不想要了")
+        << tr("其他");
+    bool okReason = false;
+    QString reason = QInputDialog::getItem(this,
+                           tr("申请原因(可选)"),
+                           tr("请选择或填写退款原因"),
+                           presets,
+                           0, /* current */
+                           true, /* editable */
+                           &okReason);
+    if (!okReason) reason.clear();
         // 组装 JSON 内容并发送给 admin
-        QJsonObject content; content["type"] = "refund_request"; content["orderId"] = static_cast<double>(orderId); if (!reason.trimmed().isEmpty()) content["reason"] = reason.trimmed();
+    QJsonObject content; content["type"] = "refund_request"; content["orderId"] = static_cast<double>(orderId); if (!reason.trimmed().isEmpty()) content["reason"] = reason.trimmed();
         QJsonDocument contentDoc(content);
         if (socket) {
             // 切换到与 admin 的会话，便于查看消息

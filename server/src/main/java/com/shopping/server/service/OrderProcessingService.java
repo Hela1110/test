@@ -17,9 +17,9 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class OrderProcessingService {
     private final OrderHeaderRepository orderHeaderRepository;
-    private final OrderItemRepository orderItemRepository;
     private final ProductRepository productRepository;
     private final ClientRepository clientRepository;
+    private final com.shopping.server.repository.ProductSizeInventoryRepository psiRepository;
 
     /**
      * 将商品加入购物车（OrderHeader.status = CART）。
@@ -46,9 +46,9 @@ public class OrderProcessingService {
                 });
 
         // 尝试合并已有行（同一个 product）
-        Optional<OrderItem> existing = cartHeader.getItems().stream()
-                .filter(i -> i.getProduct().getProductId().equals(productId))
-                .findFirst();
+    Optional<OrderItem> existing = cartHeader.getItems().stream()
+        .filter(i -> i.getProduct().getProductId().equals(productId))
+        .findFirst();
         if (existing.isPresent()) {
             existing.get().setQuantity(existing.get().getQuantity() + quantity);
         } else {
@@ -72,6 +72,52 @@ public class OrderProcessingService {
     }
 
     /**
+     * 新增重载：支持按尺码加入购物车。
+     */
+    @Transactional
+    public OrderHeader addToCart(Long clientId, Long productId, Integer size, int quantity) {
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new IllegalArgumentException("Client not found: " + clientId));
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found: " + productId));
+
+        if (quantity <= 0) throw new IllegalArgumentException("Quantity must be > 0");
+
+        OrderHeader cartHeader = orderHeaderRepository
+                .findFirstByClientAndStatus(client, OrderStatus.CART)
+                .orElseGet(() -> {
+                    OrderHeader h = new OrderHeader();
+                    h.setClient(client);
+                    h.setCreatedAt(java.time.LocalDateTime.now());
+                    h.setStatus(OrderStatus.CART);
+                    h.setTotalPrice(BigDecimal.ZERO);
+                    return h;
+                });
+
+        // 同商品+同尺码行合并
+        Optional<OrderItem> existing = cartHeader.getItems().stream()
+                .filter(i -> i.getProduct().getProductId().equals(productId)
+                        && java.util.Objects.equals(i.getSize(), size))
+                .findFirst();
+        if (existing.isPresent()) {
+            existing.get().setQuantity(existing.get().getQuantity() + quantity);
+        } else {
+            OrderItem item = new OrderItem();
+            item.setProduct(product);
+            item.setSize(size);
+            item.setQuantity(quantity);
+            java.math.BigDecimal sellPrice = product.getPrice();
+            if (Boolean.TRUE.equals(product.getOnSale()) && product.getDiscountPrice() != null) {
+                try { if (product.getDiscountPrice().compareTo(product.getPrice()) < 0) sellPrice = product.getDiscountPrice(); } catch (Exception ignore) {}
+            }
+            item.setPrice(sellPrice);
+            cartHeader.addItem(item);
+        }
+        cartHeader.setTotalPrice(cartHeader.calcTotal());
+        return orderHeaderRepository.save(cartHeader);
+    }
+
+    /**
      * 结算购物车：改变状态为 PAID，扣减库存。
      */
     @Transactional
@@ -84,17 +130,22 @@ public class OrderProcessingService {
         // 库存校验 + 扣减
         header.getItems().forEach(item -> {
             Product p = item.getProduct();
-            if (p.getStock() != null) {
-                int remain = p.getStock() - item.getQuantity();
-                if (remain < 0) {
-                    throw new IllegalStateException("Stock not enough for product " + p.getProductId());
-                }
-                p.setStock(remain);
-                // 累计销量
-                Integer s = p.getSales();
-                if (s == null) s = 0;
-                p.setSales(s + item.getQuantity());
+            Integer sz = item.getSize();
+            boolean deducted = false;
+            if (sz != null) {
+                psiRepository.findByProductAndSize(p, sz).ifPresent(psi -> {
+                    int remain = psi.getStock() - item.getQuantity();
+                    if (remain < 0) throw new IllegalStateException("Stock not enough for product " + p.getProductId() + " size " + sz);
+                    psi.setStock(remain);
+                });
+                deducted = psiRepository.findByProductAndSize(p, sz).isPresent();
             }
+            if (!deducted && p.getStock() != null) {
+                int remain = p.getStock() - item.getQuantity();
+                if (remain < 0) throw new IllegalStateException("Stock not enough for product " + p.getProductId());
+                p.setStock(remain);
+            }
+            Integer s = p.getSales(); if (s == null) s = 0; p.setSales(s + item.getQuantity());
         });
         header.setStatus(OrderStatus.PAID);
         header.setTotalPrice(header.calcTotal());
@@ -123,17 +174,20 @@ public class OrderProcessingService {
                 .findFirstByClientAndStatus(client, OrderStatus.CART)
                 .orElseThrow(() -> new IllegalStateException("Cart is empty"));
 
-        // 构建选择表：productId -> quantity（客户端已是合并后的数量，这里再次合并一遍以防重复）
-        Map<Long, Integer> chosen = new HashMap<>();
+        // 构建选择表： (productId#size) -> quantity
+        Map<String, Integer> chosen = new HashMap<>();
         for (Map<String, Object> it : items) {
             Object pidObj = it.get("productId");
             if (pidObj == null) pidObj = it.get("product_id");
             Object qObj = it.getOrDefault("quantity", 1);
+            Object sizeObj = it.get("size");
             if (pidObj == null) continue;
             long pid = (pidObj instanceof Number) ? ((Number) pidObj).longValue() : Long.parseLong(String.valueOf(pidObj));
             int qty = (qObj instanceof Number) ? ((Number) qObj).intValue() : Integer.parseInt(String.valueOf(qObj));
             if (qty <= 0) continue;
-            chosen.merge(pid, qty, Integer::sum);
+            Integer sz = null; if (sizeObj != null) sz = (sizeObj instanceof Number) ? ((Number) sizeObj).intValue() : Integer.parseInt(String.valueOf(sizeObj));
+            String key = pid + "#" + (sz==null?"":String.valueOf(sz));
+            chosen.merge(key, qty, Integer::sum);
         }
         if (chosen.isEmpty()) {
             throw new IllegalArgumentException("No valid items");
@@ -150,28 +204,37 @@ public class OrderProcessingService {
         List<OrderItem> remaining = new java.util.ArrayList<>();
         for (OrderItem ci : cart.getItems()) {
             Long pid = ci.getProduct().getProductId();
-            Integer pickQty = chosen.get(pid);
+            Integer sz = ci.getSize();
+            String key = pid + "#" + (sz==null?"":String.valueOf(sz));
+            Integer pickQty = chosen.get(key);
             if (pickQty == null) {
                 remaining.add(ci); // 未选择，保留在购物车
                 continue;
             }
             int useQty = Math.min(ci.getQuantity(), Math.max(1, pickQty));
             Product p = ci.getProduct();
-            if (p.getStock() != null) {
-                int remain = p.getStock() - useQty;
-                if (remain < 0) {
-                    throw new IllegalStateException("Stock not enough for product " + p.getProductId());
+            boolean deducted = false;
+            if (sz != null) {
+                var psiOpt = psiRepository.findByProductAndSize(p, sz);
+                if (psiOpt.isPresent()) {
+                    var psi = psiOpt.get();
+                    int remain = psi.getStock() - useQty;
+                    if (remain < 0) throw new IllegalStateException("Stock not enough for product " + p.getProductId() + " size " + sz);
+                    psi.setStock(remain);
+                    deducted = true;
                 }
-                p.setStock(remain);
-                // 累计销量
-                Integer s = p.getSales();
-                if (s == null) s = 0;
-                p.setSales(s + useQty);
             }
+            if (!deducted && p.getStock() != null) {
+                int remain = p.getStock() - useQty;
+                if (remain < 0) throw new IllegalStateException("Stock not enough for product " + p.getProductId());
+                p.setStock(remain);
+            }
+            Integer s = p.getSales(); if (s == null) s = 0; p.setSales(s + useQty);
             // 放入新订单
             OrderItem oi = new OrderItem();
             oi.setProduct(p);
             oi.setQuantity(useQty);
+            oi.setSize(sz);
             oi.setPrice(ci.getPrice());
             order.addItem(oi);
 

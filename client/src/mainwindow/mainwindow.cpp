@@ -865,7 +865,10 @@ void MainWindow::onReadyRead()
                 double sumEffective = 0.0;
                 for (const QVariant &iv : items) {
                     const QVariantMap it = iv.toMap();
-                    const QString name = it.value("name").toString();
+                    QString name = it.value("name").toString();
+                    if (it.contains("size") && it.value("size").toInt()>0) {
+                        name += QString("  (尺码:%1)").arg(it.value("size").toInt());
+                    }
                     const int qty = it.value("quantity").toInt();
             const double price = it.value("price").toDouble();
             const double listPrice = it.contains("listPrice") ? it.value("listPrice").toDouble() : price;
@@ -1288,7 +1291,7 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
         detailBtn->setMinimumSize(64,28); addBtn->setMinimumSize(86,28); if (stock==0) addBtn->setEnabled(false);
         btnRow->addWidget(detailBtn); btnRow->addWidget(addBtn); btnRow->addStretch(1); vbox->addLayout(btnRow);
         connect(detailBtn, &QPushButton::clicked, this, [this, pid]{ onProductClicked(pid); });
-        connect(addBtn, &QPushButton::clicked, this, [this, pid, stock]{ addToCart(pid, stock); });
+    connect(addBtn, &QPushButton::clicked, this, [this, pid, stock]{ addToCart(pid, stock, -1); });
         // 放入 2 列网格
         grid->addWidget(card, i/2, i%2);
     }
@@ -1498,7 +1501,7 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
         ++idx;
 
         connect(detailBtn, &QPushButton::clicked, this, [this, pid]{ onProductClicked(pid); });
-        connect(addBtn, &QPushButton::clicked, this, [this, pid, stock]{ addToCart(pid, stock); });
+    connect(addBtn, &QPushButton::clicked, this, [this, pid, stock]{ addToCart(pid, stock, -1); });
     }
     auto *gridHost2 = new QWidget(container);
     gridHost2->setLayout(grid);
@@ -1615,11 +1618,38 @@ void MainWindow::showProductDetail(const QJsonObject &product)
     box.addButton(tr("关闭"), QMessageBox::RejectRole);
     box.exec();
     if (!soldOut && box.clickedButton() == add) {
-        addToCart(pid, stock);
+        // 优先使用后端返回的每尺码库存（sizes: [{size,stock}, ...]）；否则回退到 37-45 全量
+        QList<QPair<int,int>> sizeStock; // {size, stock}
+        if (product.contains("sizes") && product.value("sizes").isArray()) {
+            for (const auto &v : product.value("sizes").toArray()) {
+                const auto o = v.toObject();
+                sizeStock.append({ o.value("size").toInt(), o.value("stock").toInt() });
+            }
+        }
+        if (sizeStock.isEmpty()) {
+            for (int s=37; s<=45; ++s) sizeStock.append({s, -1}); // -1 表示未知或无限
+        }
+        QStringList options; options.reserve(sizeStock.size());
+        QList<int> enableMask; enableMask.reserve(sizeStock.size());
+        for (const auto &ss : sizeStock) {
+            const int s = ss.first; const int st = ss.second;
+            const bool ok = (st != 0); // 0 无货；-1 或 >0 视为可选
+            options << QString::number(s) + (st>=0? QString("  (库存:%1)").arg(st) : QString());
+            enableMask << (ok?1:0);
+        }
+        // 使用自定义对话框/临时 QInputDialog：禁用项通过提示拦截
+        bool okSize = false; int defIndex = qBound(0, 42-37, options.size()-1);
+        QString chosen = QInputDialog::getItem(this, tr("选择尺码"), tr("尺码"), options, defIndex, false, &okSize);
+        if (!okSize) return;
+        int idx = options.indexOf(chosen);
+        if (idx < 0) return;
+        if (enableMask.value(idx,1)==0) { QMessageBox::information(this, tr("提示"), tr("该尺码暂无库存，请选择其他尺码")); return; }
+        int size = sizeStock.value(idx).first;
+        addToCart(pid, stock, size);
     }
 }
 
-void MainWindow::addToCart(int productId, int stock)
+void MainWindow::addToCart(int productId, int stock, int size)
 {
     // 200ms 防抖，避免按钮连点导致多次请求
     if (monotonic.elapsed() - lastAddMs < 200) return;
@@ -1632,12 +1662,22 @@ void MainWindow::addToCart(int productId, int stock)
         statusBar()->showMessage(tr("该商品暂无库存，无法加入购物车"), 3000);
         return;
     }
+    // 若未指定有效尺码，则先让用户选择（37-45，默认 42）
+    if (size <= 0) {
+        // 若没传入尺码，尝试从最近一次商品详情缓存或默认 37-45；这里无法知晓具体商品的每尺码库存，退回简单列表
+        QStringList sizes; for (int s=37; s<=45; ++s) sizes << QString::number(s);
+        bool okSize = false;
+        QString chosen = QInputDialog::getItem(this, tr("选择尺码"), tr("尺码"), sizes, /*current*/ 42-37, false, &okSize);
+        if (!okSize) return;
+        bool okConv = false; int sz = chosen.toInt(&okConv); size = okConv ? sz : 42;
+    }
     int quantity = QInputDialog::getInt(this, tr("加入购物车"), tr("数量"), 1, 1, maxQty, 1, &ok);
     if (!ok) return;
     QJsonObject req;
     req["type"] = "add_to_cart";
     req["product_id"] = productId;
     req["quantity"] = quantity;
+    if (size > 0) req["size"] = size;
     if (!currentUsername.isEmpty()) req["username"] = currentUsername;
     QJsonDocument doc(req);
     QByteArray payload = doc.toJson(QJsonDocument::Compact);

@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build client (Release)",
+			"type": "shell",
+			"command": "cmake",
+			"args": [
+				"--build",
+				"build-qt1310",
+				"--target",
+				"shopping_client",
+				"--config",
+				"Release",
+				"-j"
+			],
+			"isBackground": false,
+			"group": "build"
+		}
+	]
+}
