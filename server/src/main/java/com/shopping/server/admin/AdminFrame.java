@@ -457,27 +457,8 @@ public class AdminFrame extends JFrame {
         JPanel bottom = new JPanel(new BorderLayout(4, 4));
         bottom.add(new JScrollPane(input), BorderLayout.CENTER);
         JPanel ctrl = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-    // 预设原因下拉 + 插入
-    JComboBox<String> cbPreset = new JComboBox<>(new String[]{
-        "尺码不合适", "质量/瑕疵问题", "发错货/漏发", "七天无理由退货", "拍错/不想要了", "其他"
-    });
-    JButton btnInsertPreset = new JButton("插入");
-    btnInsertPreset.setToolTipText("将所选原因插入到输入框");
-    btnInsertPreset.addActionListener(e -> {
-        String txt = String.valueOf(cbPreset.getSelectedItem());
-        if (txt != null && !txt.isBlank()) {
-            String cur = input.getText();
-            if (cur == null) cur = "";
-            if (!cur.isEmpty() && !cur.endsWith("\n")) cur += "\n";
-            input.setText(cur + txt);
-            input.requestFocus();
-            input.setCaretPosition(input.getText().length());
-        }
-    });
-    ctrl.add(new JLabel("预设:"));
-    ctrl.add(cbPreset);
-    ctrl.add(btnInsertPreset);
-    ctrl.add(Box.createHorizontalStrut(12));
+        // 保留基础控制区，仅移除“预设/插入”相关控件
+        ctrl.add(Box.createHorizontalStrut(12));
     ctrl.add(new JLabel("选择用户:"));
     ctrl.add(onlineCombo);
     ctrl.add(online);

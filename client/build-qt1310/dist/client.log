@@ -259,3 +259,7 @@
 [2025-09-29 18:31:37] [INFO] Connecting to 127.0.0.1:8080
 [2025-09-29 18:31:37] [INFO] LoginWindow created and shown
 [2025-09-29 18:31:42] [ERROR] Socket error: "Connection refused"
+[2025-10-01 15:04:59] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-01 15:04:59] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-01 15:04:59] [INFO] LoginWindow created and shown
+[2025-10-01 15:05:03] [ERROR] Socket error: "Connection refused"

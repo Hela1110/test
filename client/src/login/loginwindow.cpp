@@ -243,7 +243,10 @@ void LoginWindow::onReadyRead()
                 // 使用 hide 而不是 close；且暂不 deleteLater，避免任何意外导致应用退出
                 this->hide();
             } else {
-                QMessageBox::warning(this, "登录失败", response.value("message").toString());
+                // 统一提示文案：用户不存在或密码错误（不暴露更具体信息给终端用户）
+                const QString serverMsg = response.value("message").toString();
+                qWarning() << "Login failed:" << serverMsg;
+                QMessageBox::warning(this, QString::fromUtf8("登录失败"), QString::fromUtf8("用户不存在或密码错误"));
             }
         } else if (type == "register_response") {
             bool ok = response.value("success").toBool();
