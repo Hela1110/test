@@ -20,6 +20,7 @@ public class OrderProcessingService {
     private final ProductRepository productRepository;
     private final ClientRepository clientRepository;
     private final com.shopping.server.repository.ProductSizeInventoryRepository psiRepository;
+    private final InventoryService inventoryService;
 
     /**
      * 将商品加入购物车（OrderHeader.status = CART）。
@@ -213,21 +214,12 @@ public class OrderProcessingService {
             }
             int useQty = Math.min(ci.getQuantity(), Math.max(1, pickQty));
             Product p = ci.getProduct();
-            boolean deducted = false;
-            if (sz != null) {
-                var psiOpt = psiRepository.findByProductAndSize(p, sz);
-                if (psiOpt.isPresent()) {
-                    var psi = psiOpt.get();
-                    int remain = psi.getStock() - useQty;
-                    if (remain < 0) throw new IllegalStateException("Stock not enough for product " + p.getProductId() + " size " + sz);
-                    psi.setStock(remain);
-                    deducted = true;
-                }
-            }
-            if (!deducted && p.getStock() != null) {
-                int remain = p.getStock() - useQty;
-                if (remain < 0) throw new IllegalStateException("Stock not enough for product " + p.getProductId());
-                p.setStock(remain);
+            // 使用新的库存服务进行扣减（带乐观锁与流水）
+            if (sz == null) {
+                // 若历史条目无尺码，退化为对总库存的扣减：用虚拟 size 0 记录
+                inventoryService.deduct(p, 0, useQty, null, client.getUsername());
+            } else {
+                inventoryService.deduct(p, sz, useQty, null, client.getUsername());
             }
             Integer s = p.getSales(); if (s == null) s = 0; p.setSales(s + useQty);
             // 放入新订单

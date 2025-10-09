@@ -24,4 +24,9 @@ public class ProductSizeInventory {
     // 该尺码库存
     @Column(name = "stock", nullable = false)
     private Integer stock = 0;
+
+    // 乐观锁版本号，防止并发超卖
+    @Version
+    @Column(name = "version", nullable = false)
+    private Long version;
 }

@@ -39,6 +39,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     private final OrderItemRepository orderItemRepository;
     private final TransactionTemplate transactionTemplate;
     private final com.shopping.server.repository.ProductSizeInventoryRepository psiRepository;
+    private final com.shopping.server.repository.StockMovementRepository stockMovementRepository;
 
     @Autowired
     public SocketMessageHandler(ClientRepository clientRepository,
@@ -48,7 +49,8 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                                 ChatMessageRepository chatMessageRepository,
                                 OrderItemRepository orderItemRepository,
                                 TransactionTemplate transactionTemplate,
-                                com.shopping.server.repository.ProductSizeInventoryRepository psiRepository) {
+                                com.shopping.server.repository.ProductSizeInventoryRepository psiRepository,
+                                com.shopping.server.repository.StockMovementRepository stockMovementRepository) {
         this.clientRepository = clientRepository;
         this.productRepository = productRepository;
         this.orderHeaderRepository = orderHeaderRepository;
@@ -57,6 +59,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         this.orderItemRepository = orderItemRepository;
         this.transactionTemplate = transactionTemplate;
         this.psiRepository = psiRepository;
+        this.stockMovementRepository = stockMovementRepository;
     }
     private static final Map<String, ChannelHandlerContext> clientChannels = new ConcurrentHashMap<>();
     // 临时内存用户存储（演示用）：用户名 -> 明文密码
@@ -97,6 +100,59 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         BigDecimal d = computeDiscount(subtotal);
         BigDecimal pay = (subtotal == null ? BigDecimal.ZERO : subtotal).subtract(d);
         return pay.compareTo(BigDecimal.ZERO) < 0 ? BigDecimal.ZERO : pay;
+    }
+
+    /**
+     * 库存流水查询：list_stock_movements
+     * 请求参数：page,size, product_id, size_filter, action, from, to
+     * 返回：records 列表及 total
+     */
+    private void handleListStockMovements(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
+        int page = ((Number)request.getOrDefault("page",1)).intValue(); if (page<1) page=1;
+        int size = ((Number)request.getOrDefault("size",20)).intValue(); if (size<1) size=20; if (size>200) size=200;
+    Long productIdTmp = null; if (request.get("product_id") instanceof Number) productIdTmp = ((Number)request.get("product_id")).longValue(); final Long productId = productIdTmp;
+    Integer sizeFilterTmp = null; if (request.get("size_filter") instanceof Number) sizeFilterTmp = ((Number)request.get("size_filter")).intValue(); final Integer sizeFilter = sizeFilterTmp;
+    final String action = (String) request.getOrDefault("action", null);
+    final String fromStr = (String) request.getOrDefault("from", null);
+    final String toStr = (String) request.getOrDefault("to", null);
+    java.time.LocalDateTime fromTmp = null, toTmp = null;
+    try { if (fromStr!=null && !fromStr.isBlank()) fromTmp = java.time.LocalDateTime.parse(fromStr); } catch (Exception ignore) {}
+    try { if (toStr!=null && !toStr.isBlank()) toTmp = java.time.LocalDateTime.parse(toStr); } catch (Exception ignore) {}
+    final java.time.LocalDateTime from = fromTmp; final java.time.LocalDateTime to = toTmp;
+
+        var pageable = org.springframework.data.domain.PageRequest.of(page-1, size, org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "createdAt"));
+
+        org.springframework.data.jpa.domain.Specification<com.shopping.server.model.StockMovement> spec = (root, q, cb) -> {
+            java.util.List<javax.persistence.criteria.Predicate> ps = new java.util.ArrayList<>();
+            if (productId != null) ps.add(cb.equal(root.get("product").get("productId"), productId));
+            if (sizeFilter != null) ps.add(cb.equal(root.get("size"), sizeFilter));
+            if (action != null && !action.isBlank()) ps.add(cb.equal(root.get("action"), action));
+            if (from != null) ps.add(cb.greaterThanOrEqualTo(root.get("createdAt"), from));
+            if (to != null) ps.add(cb.lessThanOrEqualTo(root.get("createdAt"), to));
+            return ps.isEmpty()? null : cb.and(ps.toArray(new javax.persistence.criteria.Predicate[0]));
+        };
+
+        var pageData = stockMovementRepository.findAll(spec, pageable);
+        java.util.List<java.util.Map<String,Object>> records = new java.util.ArrayList<>();
+        for (var m : pageData.getContent()) {
+            java.util.Map<String,Object> row = new java.util.HashMap<>();
+            row.put("id", m.getId());
+            try { if (m.getProduct()!=null) { row.put("product_id", m.getProduct().getProductId()); row.put("product_name", m.getProduct().getName()); } } catch (Exception ignore) {}
+            row.put("size", m.getSize());
+            row.put("delta", m.getDelta());
+            row.put("action", m.getAction());
+            row.put("order_id", m.getOrderId());
+            row.put("operator", m.getOperator());
+            row.put("created_at", m.getCreatedAt()==null? null: m.getCreatedAt().toString());
+            records.add(row);
+        }
+        java.util.Map<String,Object> resp = new java.util.HashMap<>();
+        resp.put("type","stock_movements_response");
+        resp.put("page", page);
+        resp.put("size", size);
+        resp.put("total", pageData.getTotalElements());
+        resp.put("records", records);
+        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
     }
 
     // 简易重复请求抑制：每个连接，若在窗口期内收到完全相同的 raw 字符串，则忽略
@@ -286,6 +342,9 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             case "update_account_info":
                 handleUpdateAccountInfo(ctx, request);
                 break;
+            case "list_stock_movements":
+                handleListStockMovements(ctx, request);
+                break;
             // 添加更多消息处理类型
             default:
                 System.out.println("Unknown message type: " + type);
@@ -345,20 +404,8 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             if (maxPid != null) it.put("isNew", java.util.Objects.equals(maxPid, p.getProductId()));
                 it.put("onSale", p.getOnSale());
                 it.put("discountPrice", p.getDiscountPrice());
-            // 附带尺码库存（若存在）
-            try {
-                var listPsi = psiRepository.findByProduct(p);
-                if (listPsi != null && !listPsi.isEmpty()) {
-                    List<Map<String,Object>> sizes = new java.util.ArrayList<>();
-                    for (var psi : listPsi) {
-                        Map<String,Object> si = new java.util.HashMap<>();
-                        si.put("size", psi.getSize());
-                        si.put("stock", psi.getStock());
-                        sizes.add(si);
-                    }
-                    it.put("sizes", sizes);
-                }
-            } catch (Exception ignore) {}
+            // 始终附带 37-45 尺码库存；若不存在记录则 stock=0，避免客户端显示“?”
+            try { it.put("sizes", buildSizesPayload(p)); } catch (Exception ignore) {}
             products.add(it);
         });
         Map<String,Object> resp = new HashMap<>();
@@ -395,19 +442,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             if (maxPid != null) it.put("isNew", java.util.Objects.equals(maxPid, p.getProductId()));
                 it.put("onSale", p.getOnSale());
                 it.put("discountPrice", p.getDiscountPrice());
-            try {
-                var listPsi = psiRepository.findByProduct(p);
-                if (listPsi != null && !listPsi.isEmpty()) {
-                    List<Map<String,Object>> sizes = new java.util.ArrayList<>();
-                    for (var psi : listPsi) {
-                        Map<String,Object> si = new java.util.HashMap<>();
-                        si.put("size", psi.getSize());
-                        si.put("stock", psi.getStock());
-                        sizes.add(si);
-                    }
-                    it.put("sizes", sizes);
-                }
-            } catch (Exception ignore) {}
+            try { it.put("sizes", buildSizesPayload(p)); } catch (Exception ignore) {}
             products.add(it);
         });
         Map<String,Object> resp = new HashMap<>();
@@ -866,19 +901,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             "discountPrice", p.getDiscountPrice(),
             "isNew", (maxPid != null && java.util.Objects.equals(maxPid, p.getProductId()))
             );
-            try {
-                var listPsi = psiRepository.findByProduct(p);
-                if (listPsi != null && !listPsi.isEmpty()) {
-                    List<Map<String,Object>> sizes = new java.util.ArrayList<>();
-                    for (var psi : listPsi) {
-                        Map<String,Object> si = new java.util.HashMap<>();
-                        si.put("size", psi.getSize());
-                        si.put("stock", psi.getStock());
-                        sizes.add(si);
-                    }
-                    it.put("sizes", sizes);
-                }
-            } catch (Exception ignore) {}
+            try { it.put("sizes", buildSizesPayload(p)); } catch (Exception ignore) {}
             results.add(it);
         }
         Map<String, Object> resp = new HashMap<>();
@@ -912,23 +935,34 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             "isNew", (maxPid != null && java.util.Objects.equals(maxPid, p.getProductId()))
                 );
                 // 附带每个尺码库存（若有），结构：sizes: [{size:37, stock:10}, ...]
-                try {
-                    var list = psiRepository.findByProduct(p);
-                    if (list != null && !list.isEmpty()) {
-                        List<Map<String,Object>> sizes = new java.util.ArrayList<>();
-                        for (var psi : list) {
-                            Map<String,Object> it = new java.util.HashMap<>();
-                            it.put("size", psi.getSize());
-                            it.put("stock", psi.getStock());
-                            sizes.add(it);
-                        }
-                        productMap.put("sizes", sizes);
-                    }
-                } catch (Exception ignore) {}
+                try { productMap.put("sizes", buildSizesPayload(p)); } catch (Exception ignore) {}
             }
         }
         resp.put("product", productMap);
         ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    }
+
+    // 构造统一尺码返回：37-45，每个对象 {size, stock}
+    private List<Map<String,Object>> buildSizesPayload(com.shopping.server.model.Product p) {
+        var listPsi = psiRepository.findByProduct(p);
+        java.util.Map<Integer,Integer> map = new java.util.HashMap<>();
+        if (listPsi != null) {
+            for (var psi : listPsi) {
+                map.put(psi.getSize(), psi.getStock()==null?0:psi.getStock());
+            }
+        }
+        java.util.List<Map<String,Object>> sizes = new java.util.ArrayList<>();
+        for (int s=37; s<=45; s++) {
+            Map<String,Object> it = new java.util.HashMap<>();
+            it.put("size", s);
+            it.put("stock", map.getOrDefault(s, 0));
+            sizes.add(it);
+        }
+        // 调试日志
+        try {
+            System.out.println("[DEBUG-SIZES] product=" + p.getProductId() + " " + sizes);
+        } catch (Exception ignore) {}
+        return sizes;
     }
 
     private void handleAddToCart(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
@@ -1410,8 +1444,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             ctx.writeAndFlush(objectMapper.writeValueAsString(empty) + "\n");
             return;
         }
-    var client = clientOpt.get();
-    var headerOpt = orderHeaderRepository.fetchCartWithItems(client, OrderStatus.CART);
+    var headerOpt = orderHeaderRepository.fetchCartWithItems(clientOpt.get(), OrderStatus.CART);
         if (headerOpt.isEmpty()) {
             Map<String,Object> empty = new HashMap<>();
             empty.put("type", "cart_response");
