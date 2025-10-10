@@ -6,6 +6,7 @@
 #include <QList>
 #include <QAbstractSocket>
 #include <QShowEvent>
+#include <QTimer>
 
 namespace Ui {
 class LoginWindow;
@@ -25,6 +26,7 @@ private slots:
     void onDisconnected();
     void onReadyRead();
     void onSocketError(QAbstractSocket::SocketError socketError);
+    void sendHeartbeat();
 
 protected:
     void showEvent(QShowEvent *event) override;
@@ -33,10 +35,14 @@ private:
     Ui::LoginWindow *ui;
     QTcpSocket *socket;
     QList<QByteArray> m_pendingWrites;
+    QTimer m_reconnectTimer;
+    QTimer m_heartbeatTimer;
+    int m_reconnectAttempts = 0;
     void setupUi();
     void connectToServer();
     void initializeSocket();
     void sendJson(const QJsonObject& obj);
+    void scheduleReconnect();
 };
 
 #endif // LOGINWINDOW_H

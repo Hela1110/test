@@ -455,6 +455,9 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
  C:\Users\Edward\Desktop\test\build-qt1310\shopping_client_autogen\IFHPYZAWOD/moc_mainwindow.cpp \
  C:/Users/Edward/Desktop/test/client/include/mainwindow/mainwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QString \

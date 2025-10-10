@@ -608,4 +608,6 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QPointer \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qpointer.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qpointer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSettings \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qsettings.h

@@ -396,3 +396,598 @@
 [2025-10-10 09:23:06] [WARN] QWaitCondition: Destroyed while threads are still waiting
 [2025-10-10 09:23:06] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
 [2025-10-10 09:23:06] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-10 10:34:52] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 10:34:52] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 10:34:52] [INFO] LoginWindow created and shown
+[2025-10-10 10:34:56] [ERROR] Socket error: "Connection refused"
+[2025-10-10 12:51:44] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 12:51:44] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 12:51:44] [INFO] LoginWindow created and shown
+[2025-10-10 12:51:48] [ERROR] Socket error: "Connection refused"
+[2025-10-10 15:11:25] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 15:11:25] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 15:11:25] [INFO] LoginWindow created and shown
+[2025-10-10 15:11:29] [ERROR] Socket error: "Connection refused"
+[2025-10-10 15:18:37] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 15:18:37] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 15:18:37] [INFO] LoginWindow created and shown
+[2025-10-10 15:18:41] [ERROR] Socket error: "Connection refused"
+[2025-10-10 17:55:41] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 17:55:41] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 17:55:41] [INFO] LoginWindow created and shown
+[2025-10-10 17:55:41] [DEBUG] Connected to server
+[2025-10-10 17:55:52] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 17:55:52] [INFO] onReadyRead bytes= 66
+[2025-10-10 17:55:52] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-10 17:55:52] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-10 17:55:52] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-10 17:55:52] [INFO] MainWindow constructed
+[2025-10-10 17:55:52] [INFO] setupConnections: searchButton= 0x1bebf036b50 cartButton= 0x1bebf0360a0 chatButton= 0x1bebf036040
+[2025-10-10 17:55:52] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-10 17:55:52] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-10 17:55:52] [INFO] HTTP base resolved to "http://localhost:8081"
+[2025-10-10 17:55:52] [INFO] recv carousel_data images= 3
+[2025-10-10 17:55:52] [INFO] recv recommendations products= 4
+[2025-10-10 17:55:56] [INFO] recv products_response total= 22  page= 1
+[2025-10-10 17:56:01] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-10 17:56:01] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-10 17:56:01] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-10 17:56:01] [INFO] [cart_load] empty cart
+[2025-10-10 17:56:01] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-10-10 17:56:04] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-10-10 18:00:28] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 18:00:28] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:00:28] [INFO] LoginWindow created and shown
+[2025-10-10 18:00:28] [DEBUG] Connected to server
+[2025-10-10 18:00:39] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 18:00:39] [INFO] onReadyRead bytes= 66
+[2025-10-10 18:00:39] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-10 18:00:40] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-10 18:00:40] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-10 18:00:40] [INFO] MainWindow constructed
+[2025-10-10 18:00:40] [INFO] setupConnections: searchButton= 0x157b3a5f190 cartButton= 0x157b3a5f640 chatButton= 0x157b3a5fc10
+[2025-10-10 18:00:40] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-10 18:00:40] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-10 18:00:40] [INFO] HTTP base resolved to "http://localhost:8081"
+[2025-10-10 18:00:40] [INFO] recv carousel_data images= 3
+[2025-10-10 18:00:40] [INFO] recv recommendations products= 4
+[2025-10-10 18:00:43] [INFO] recv products_response total= 22  page= 1
+[2025-10-10 18:00:43] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-10 18:00:43] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-10 18:00:43] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-10 18:00:43] [INFO] [cart_load] empty cart
+[2025-10-10 18:00:43] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-10-10 18:00:45] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-10-10 18:00:45] [INFO] chat scheduleInitChat: throttled, next in ms= 4551
+[2025-10-10 18:28:02] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 18:28:02] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:28:02] [INFO] LoginWindow created and shown
+[2025-10-10 18:28:07] [ERROR] Socket error: "Connection refused"
+[2025-10-10 18:29:20] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 18:29:20] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:29:20] [INFO] LoginWindow created and shown
+[2025-10-10 18:31:38] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 18:31:38] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:31:38] [INFO] LoginWindow created and shown
+[2025-10-10 18:32:36] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 18:32:36] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:32:36] [INFO] LoginWindow created and shown
+[2025-10-10 18:33:25] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 18:33:25] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:33:25] [INFO] LoginWindow created and shown
+[2025-10-10 18:39:09] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 18:39:10] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:39:10] [INFO] LoginWindow created and shown
+[2025-10-10 18:39:57] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 18:39:57] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:39:57] [INFO] LoginWindow created and shown
+[2025-10-10 18:41:14] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 18:41:14] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:41:14] [INFO] LoginWindow created and shown
+[2025-10-10 18:50:19] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 18:50:19] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:50:19] [INFO] LoginWindow created and shown
+[2025-10-10 18:50:19] [DEBUG] Connected to server
+[2025-10-10 18:50:19] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 18:50:19] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:50:19] [INFO] LoginWindow created and shown
+[2025-10-10 18:50:19] [DEBUG] Connected to server
+[2025-10-10 18:50:29] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 18:50:29] [INFO] onReadyRead bytes= 590
+[2025-10-10 18:50:29] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 18:50:29] [DEBUG] Disconnected from server
+[2025-10-10 18:50:30] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 18:50:30] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:50:30] [DEBUG] Connected to server
+[2025-10-10 18:50:30] [INFO] onReadyRead bytes= 590
+[2025-10-10 18:50:30] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 18:50:30] [DEBUG] Disconnected from server
+[2025-10-10 18:50:30] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 18:50:30] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:50:30] [DEBUG] Connected to server
+[2025-10-10 18:50:30] [INFO] onReadyRead bytes= 590
+[2025-10-10 18:50:30] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 18:50:30] [DEBUG] Disconnected from server
+[2025-10-10 18:50:53] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 18:50:53] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:50:53] [INFO] LoginWindow created and shown
+[2025-10-10 18:50:53] [DEBUG] Connected to server
+[2025-10-10 18:52:09] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 18:52:09] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:52:09] [INFO] LoginWindow created and shown
+[2025-10-10 18:52:09] [DEBUG] Connected to server
+[2025-10-10 18:56:49] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 18:56:49] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 18:56:49] [INFO] LoginWindow created and shown
+[2025-10-10 18:56:49] [DEBUG] Connected to server
+[2025-10-10 19:03:02] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 19:03:02] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 19:03:02] [INFO] LoginWindow created and shown
+[2025-10-10 19:03:02] [DEBUG] Connected to server
+[2025-10-10 19:03:08] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 19:03:08] [INFO] onReadyRead bytes= 590
+[2025-10-10 19:03:08] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 19:03:08] [DEBUG] Disconnected from server
+[2025-10-10 19:03:09] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 19:03:09] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 19:03:09] [DEBUG] Connected to server
+[2025-10-10 19:03:09] [INFO] onReadyRead bytes= 590
+[2025-10-10 19:03:09] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 19:03:09] [DEBUG] Disconnected from server
+[2025-10-10 19:03:10] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 19:03:10] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 19:03:10] [DEBUG] Connected to server
+[2025-10-10 19:03:10] [INFO] onReadyRead bytes= 590
+[2025-10-10 19:03:10] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 19:03:10] [DEBUG] Disconnected from server
+[2025-10-10 19:03:13] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 19:03:13] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 19:03:13] [DEBUG] Connected to server
+[2025-10-10 19:03:13] [INFO] onReadyRead bytes= 590
+[2025-10-10 19:03:13] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 19:03:13] [DEBUG] Disconnected from server
+[2025-10-10 19:03:13] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 19:03:13] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 19:03:13] [DEBUG] Connected to server
+[2025-10-10 19:03:13] [INFO] onReadyRead bytes= 590
+[2025-10-10 19:03:13] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 19:03:13] [DEBUG] Disconnected from server
+[2025-10-10 19:03:13] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 19:03:13] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 19:03:14] [DEBUG] Connected to server
+[2025-10-10 19:03:14] [INFO] onReadyRead bytes= 590
+[2025-10-10 19:03:14] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 19:03:14] [DEBUG] Disconnected from server
+[2025-10-10 19:03:14] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 19:03:14] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 19:03:14] [DEBUG] Connected to server
+[2025-10-10 19:03:14] [INFO] onReadyRead bytes= 590
+[2025-10-10 19:03:14] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 19:03:14] [DEBUG] Disconnected from server
+[2025-10-10 19:03:15] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 19:03:15] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 19:03:15] [DEBUG] Connected to server
+[2025-10-10 19:03:15] [INFO] onReadyRead bytes= 590
+[2025-10-10 19:03:15] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 19:03:15] [DEBUG] Disconnected from server
+[2025-10-10 19:03:15] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 19:03:15] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 19:03:15] [DEBUG] Connected to server
+[2025-10-10 19:03:15] [INFO] onReadyRead bytes= 590
+[2025-10-10 19:03:15] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 19:03:15] [DEBUG] Disconnected from server
+[2025-10-10 19:03:15] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 19:03:15] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 19:03:15] [DEBUG] Connected to server
+[2025-10-10 19:03:15] [INFO] onReadyRead bytes= 590
+[2025-10-10 19:03:15] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 19:03:15] [DEBUG] Disconnected from server
+[2025-10-10 19:03:51] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 19:03:51] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 19:03:51] [INFO] LoginWindow created and shown
+[2025-10-10 19:03:51] [DEBUG] Connected to server
+[2025-10-10 19:03:59] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 19:03:59] [INFO] onReadyRead bytes= 590
+[2025-10-10 19:03:59] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 19:03:59] [DEBUG] Disconnected from server
+[2025-10-10 19:03:59] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 19:03:59] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 19:03:59] [DEBUG] Connected to server
+[2025-10-10 19:03:59] [INFO] onReadyRead bytes= 590
+[2025-10-10 19:03:59] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 19:03:59] [DEBUG] Disconnected from server
+[2025-10-10 19:04:00] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 19:04:00] [INFO] Connecting to 127.0.0.1:8080
+[2025-10-10 19:04:00] [DEBUG] Connected to server
+[2025-10-10 19:04:00] [INFO] onReadyRead bytes= 590
+[2025-10-10 19:04:00] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 19:04:00] [DEBUG] Disconnected from server
+[2025-10-10 19:04:03] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-10 19:04:03] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-10 20:26:33] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 20:26:33] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:26:33] [INFO] LoginWindow created and shown
+[2025-10-10 20:26:33] [DEBUG] Connected to server
+[2025-10-10 20:26:39] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:26:39] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:26:39] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:26:39] [DEBUG] Disconnected from server
+[2025-10-10 20:26:39] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:26:40] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:26:40] [DEBUG] Connected to server
+[2025-10-10 20:26:40] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:26:40] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:26:40] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:26:40] [DEBUG] Disconnected from server
+[2025-10-10 20:26:40] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:26:40] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:26:40] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:26:40] [DEBUG] Connected to server
+[2025-10-10 20:26:40] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:26:40] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:26:40] [DEBUG] Disconnected from server
+[2025-10-10 20:26:40] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:26:40] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:26:41] [DEBUG] Connected to server
+[2025-10-10 20:26:41] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:26:41] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:26:41] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:26:41] [DEBUG] Disconnected from server
+[2025-10-10 20:26:41] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:26:42] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:26:42] [DEBUG] Connected to server
+[2025-10-10 20:26:43] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:26:43] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:26:43] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:26:43] [DEBUG] Disconnected from server
+[2025-10-10 20:26:43] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:26:43] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:26:43] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:26:43] [DEBUG] Connected to server
+[2025-10-10 20:26:43] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:26:43] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:26:43] [DEBUG] Disconnected from server
+[2025-10-10 20:26:43] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:26:43] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:26:43] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:26:43] [DEBUG] Connected to server
+[2025-10-10 20:26:43] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:26:43] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:26:43] [DEBUG] Disconnected from server
+[2025-10-10 20:26:43] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:26:43] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:26:43] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:26:43] [DEBUG] Connected to server
+[2025-10-10 20:26:43] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:26:43] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:26:43] [DEBUG] Disconnected from server
+[2025-10-10 20:26:43] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:26:43] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:26:43] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:26:43] [DEBUG] Connected to server
+[2025-10-10 20:26:43] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:26:43] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:26:43] [DEBUG] Disconnected from server
+[2025-10-10 20:26:43] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:26:43] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:26:43] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:26:43] [DEBUG] Connected to server
+[2025-10-10 20:26:43] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:26:43] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:26:43] [DEBUG] Disconnected from server
+[2025-10-10 20:26:43] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:26:44] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:26:44] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:26:44] [DEBUG] Connected to server
+[2025-10-10 20:26:44] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:26:44] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:26:44] [DEBUG] Disconnected from server
+[2025-10-10 20:26:44] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:26:44] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:26:44] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:26:44] [DEBUG] Connected to server
+[2025-10-10 20:26:44] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:26:44] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:26:44] [DEBUG] Disconnected from server
+[2025-10-10 20:26:44] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:26:44] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:26:44] [DEBUG] Connected to server
+[2025-10-10 20:30:01] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 20:30:01] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:30:01] [INFO] LoginWindow created and shown
+[2025-10-10 20:30:01] [DEBUG] Connected to server
+[2025-10-10 20:30:29] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:30:29] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:30:29] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:30:29] [DEBUG] Disconnected from server
+[2025-10-10 20:30:29] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:30:29] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:30:29] [DEBUG] Connected to server
+[2025-10-10 20:30:31] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:30:31] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:30:31] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:30:31] [DEBUG] Disconnected from server
+[2025-10-10 20:30:31] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:30:31] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:30:31] [DEBUG] Connected to server
+[2025-10-10 20:30:34] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:30:34] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:30:34] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:30:34] [DEBUG] Disconnected from server
+[2025-10-10 20:30:34] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:30:34] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:30:34] [DEBUG] Connected to server
+[2025-10-10 20:30:35] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:30:35] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:30:35] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:30:35] [DEBUG] Disconnected from server
+[2025-10-10 20:30:35] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:30:35] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:30:35] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:30:35] [DEBUG] Connected to server
+[2025-10-10 20:30:35] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:30:35] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:30:35] [DEBUG] Disconnected from server
+[2025-10-10 20:30:35] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:30:36] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:30:36] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:30:36] [DEBUG] Connected to server
+[2025-10-10 20:30:36] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:30:36] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:30:36] [DEBUG] Disconnected from server
+[2025-10-10 20:30:36] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:30:36] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:30:36] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:30:36] [DEBUG] Connected to server
+[2025-10-10 20:30:36] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:30:36] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:30:36] [DEBUG] Disconnected from server
+[2025-10-10 20:30:36] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:30:36] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:30:36] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:30:36] [DEBUG] Connected to server
+[2025-10-10 20:30:36] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:30:36] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:30:36] [DEBUG] Disconnected from server
+[2025-10-10 20:30:36] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:30:36] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:30:36] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:30:36] [DEBUG] Connected to server
+[2025-10-10 20:30:36] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:30:36] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:30:36] [DEBUG] Disconnected from server
+[2025-10-10 20:30:36] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:30:36] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:30:36] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:30:36] [DEBUG] Connected to server
+[2025-10-10 20:30:36] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:30:36] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:30:36] [DEBUG] Disconnected from server
+[2025-10-10 20:30:36] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:30:36] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:30:36] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:30:36] [DEBUG] Connected to server
+[2025-10-10 20:30:36] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:30:36] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:30:36] [DEBUG] Disconnected from server
+[2025-10-10 20:30:36] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:30:36] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:30:36] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:30:36] [DEBUG] Connected to server
+[2025-10-10 20:30:36] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:30:36] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:30:36] [DEBUG] Disconnected from server
+[2025-10-10 20:30:36] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:30:37] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:30:37] [DEBUG] Connected to server
+[2025-10-10 20:33:27] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 20:33:27] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:27] [INFO] LoginWindow created and shown
+[2025-10-10 20:33:27] [DEBUG] Connected to server
+[2025-10-10 20:33:34] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:34] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:34] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:34] [DEBUG] Disconnected from server
+[2025-10-10 20:33:34] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:35] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:35] [DEBUG] Connected to server
+[2025-10-10 20:33:35] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:35] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:35] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:35] [DEBUG] Disconnected from server
+[2025-10-10 20:33:35] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:36] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:36] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:36] [DEBUG] Connected to server
+[2025-10-10 20:33:36] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:36] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:36] [DEBUG] Disconnected from server
+[2025-10-10 20:33:36] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:36] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:36] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:36] [DEBUG] Connected to server
+[2025-10-10 20:33:36] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:36] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:36] [DEBUG] Disconnected from server
+[2025-10-10 20:33:36] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:36] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:36] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:36] [DEBUG] Connected to server
+[2025-10-10 20:33:36] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:36] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:36] [DEBUG] Disconnected from server
+[2025-10-10 20:33:36] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:36] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:36] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:36] [DEBUG] Connected to server
+[2025-10-10 20:33:36] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:36] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:36] [DEBUG] Disconnected from server
+[2025-10-10 20:33:36] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:36] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:36] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:36] [DEBUG] Connected to server
+[2025-10-10 20:33:36] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:36] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:36] [DEBUG] Disconnected from server
+[2025-10-10 20:33:36] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:37] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:37] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:37] [DEBUG] Connected to server
+[2025-10-10 20:33:37] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:37] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:37] [DEBUG] Disconnected from server
+[2025-10-10 20:33:37] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:37] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:37] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:37] [DEBUG] Connected to server
+[2025-10-10 20:33:37] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:37] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:37] [DEBUG] Disconnected from server
+[2025-10-10 20:33:37] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:37] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:37] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:37] [DEBUG] Connected to server
+[2025-10-10 20:33:37] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:37] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:37] [DEBUG] Disconnected from server
+[2025-10-10 20:33:37] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:37] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:37] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:37] [DEBUG] Connected to server
+[2025-10-10 20:33:37] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:37] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:37] [DEBUG] Disconnected from server
+[2025-10-10 20:33:37] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:37] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:37] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:37] [DEBUG] Connected to server
+[2025-10-10 20:33:37] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:37] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:37] [DEBUG] Disconnected from server
+[2025-10-10 20:33:37] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:37] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:37] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:37] [DEBUG] Connected to server
+[2025-10-10 20:33:37] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:37] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:37] [DEBUG] Disconnected from server
+[2025-10-10 20:33:37] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:38] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:38] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:38] [DEBUG] Connected to server
+[2025-10-10 20:33:38] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:38] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:38] [DEBUG] Disconnected from server
+[2025-10-10 20:33:38] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:38] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:38] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:38] [DEBUG] Connected to server
+[2025-10-10 20:33:38] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:38] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:38] [DEBUG] Disconnected from server
+[2025-10-10 20:33:38] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:38] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:38] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:38] [DEBUG] Connected to server
+[2025-10-10 20:33:38] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:38] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:38] [DEBUG] Disconnected from server
+[2025-10-10 20:33:38] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:38] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:38] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:38] [DEBUG] Connected to server
+[2025-10-10 20:33:38] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:38] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:38] [DEBUG] Disconnected from server
+[2025-10-10 20:33:38] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:38] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:38] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:38] [DEBUG] Connected to server
+[2025-10-10 20:33:38] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:38] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:38] [DEBUG] Disconnected from server
+[2025-10-10 20:33:38] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:38] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:38] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:38] [DEBUG] Connected to server
+[2025-10-10 20:33:38] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:38] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:38] [DEBUG] Disconnected from server
+[2025-10-10 20:33:38] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:39] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:39] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:39] [DEBUG] Connected to server
+[2025-10-10 20:33:39] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:39] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:39] [DEBUG] Disconnected from server
+[2025-10-10 20:33:39] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:39] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:39] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:39] [DEBUG] Connected to server
+[2025-10-10 20:33:39] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:39] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:39] [DEBUG] Disconnected from server
+[2025-10-10 20:33:39] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:39] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:39] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:39] [DEBUG] Connected to server
+[2025-10-10 20:33:39] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:39] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:39] [DEBUG] Disconnected from server
+[2025-10-10 20:33:39] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:39] [INFO] sendJson "{\"password\":\"1\",\"type\":\"login\",\"username\":\"1\"}\n"
+[2025-10-10 20:33:39] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:39] [DEBUG] Connected to server
+[2025-10-10 20:33:39] [INFO] onReadyRead bytes= 590
+[2025-10-10 20:33:39] [ERROR] Socket error: "The remote host closed the connection"
+[2025-10-10 20:33:39] [DEBUG] Disconnected from server
+[2025-10-10 20:33:39] [INFO] Schedule reconnect attempt 1 after 500 ms
+[2025-10-10 20:33:40] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:33:40] [DEBUG] Connected to server
+[2025-10-10 20:33:40] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-10 20:33:40] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-10 20:38:05] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 20:38:05] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:38:05] [INFO] LoginWindow created and shown
+[2025-10-10 20:38:06] [DEBUG] Connected to server
+[2025-10-10 20:38:15] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:38:15] [INFO] onReadyRead bytes= 66
+[2025-10-10 20:38:15] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-10 20:38:15] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-10 20:38:15] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-10 20:38:15] [INFO] MainWindow constructed
+[2025-10-10 20:38:15] [INFO] setupConnections: searchButton= 0x20f7c44d5c0 cartButton= 0x20f7c45da00 chatButton= 0x20f7c45d100
+[2025-10-10 20:38:15] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-10 20:38:15] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-10 20:38:15] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-10 20:38:15] [INFO] recv carousel_data images= 3
+[2025-10-10 20:38:15] [INFO] recv recommendations products= 4
+[2025-10-10 20:38:18] [INFO] recv products_response total= 22  page= 1
+[2025-10-10 20:38:20] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-10 20:38:20] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-10 20:38:20] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-10 20:38:20] [INFO] [cart_load] empty cart
+[2025-10-10 20:38:20] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-10-10 20:38:23] [INFO] recv carousel_data images= 3
+[2025-10-10 20:38:23] [INFO] recv recommendations products= 4
+[2025-10-10 20:38:26] [WARN] QWaitCondition: Destroyed while threads are still waiting
+[2025-10-10 20:38:26] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-10 20:38:26] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-10 20:39:06] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/client/build-qt1310/dist/client.log"
+[2025-10-10 20:39:06] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-10 20:39:06] [INFO] LoginWindow created and shown
+[2025-10-10 20:39:06] [DEBUG] Connected to server
+[2025-10-10 20:39:13] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-10 20:39:13] [INFO] onReadyRead bytes= 66
+[2025-10-10 20:39:13] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-10 20:39:13] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-10 20:39:13] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-10 20:39:13] [INFO] MainWindow constructed
+[2025-10-10 20:39:13] [INFO] setupConnections: searchButton= 0x21b1b1f0960 cartButton= 0x21b1b2206a0 chatButton= 0x21b1b220460
+[2025-10-10 20:39:13] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-10 20:39:13] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-10 20:39:13] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-10 20:39:13] [INFO] recv carousel_data images= 3
+[2025-10-10 20:39:13] [INFO] recv recommendations products= 4
+[2025-10-10 20:39:18] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()

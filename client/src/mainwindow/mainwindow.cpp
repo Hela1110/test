@@ -37,6 +37,7 @@
 #include <QTimer>
 #include <QPointer>
 #include <QHash>
+#include <QSettings>
 
 // 商品数据缓存：用于直接点击“加入购物车”时获取最新的尺码库存
 QHash<int,QJsonObject> *productCachePtr = nullptr;  // 推荐/首页区域
@@ -58,6 +59,16 @@ MainWindow::MainWindow(QWidget *parent)
     monotonic.start();
     setupUi();
     setupConnections();
+    // 轻量重连定时器
+    reconnectTimer = new QTimer(this);
+    reconnectTimer->setSingleShot(true);
+    connect(reconnectTimer, &QTimer::timeout, this, [this]{
+        if (!socket) return;
+        if (socket->state() == QAbstractSocket::ConnectedState) return;
+        qInfo() << "reconnect attempt" << reconnectAttempts << "to" << socketHost << socketPort;
+        socket->abort();
+        socket->connectToHost(socketHost, socketPort);
+    });
 }
 
 MainWindow::~MainWindow()
@@ -114,6 +125,19 @@ void MainWindow::setupUi()
         hl->addSpacing(8);
         hl->addWidget(promo, 0, Qt::AlignLeft);
         hl->addStretch(1);
+    // 右上角主题切换
+    auto *themeLabel = new QLabel(tr("主题"), row);
+    themeLabel->setStyleSheet("color:#666; margin-right:4px;");
+    auto *themeBox = new QComboBox(row);
+        themeBox->setObjectName("themeModeBox");
+    themeBox->addItem(tr("白天"), static_cast<int>(MainWindow::ThemeMode::Light));
+    themeBox->addItem(tr("夜间"), static_cast<int>(MainWindow::ThemeMode::Dark));
+        themeBox->setToolTip(tr("切换浅色/深色主题"));
+    auto *themeWrap = new QWidget(row);
+    auto *wrapLay = new QHBoxLayout(themeWrap); wrapLay->setContentsMargins(0,0,0,0); wrapLay->setSpacing(4);
+    wrapLay->addWidget(themeLabel);
+    wrapLay->addWidget(themeBox);
+    hl->addWidget(themeWrap, 0, Qt::AlignRight);
         // 将新行插入原位置（若未知则放顶部）
         if (greetIndex >= 0) root->insertWidget(greetIndex, row);
         else root->insertWidget(0, row);
@@ -139,6 +163,25 @@ void MainWindow::setupUi()
             if (!promoMessages.isEmpty()) label->setText(promoMessages.first());
         }
         promoTimer->start();
+
+        // 主题初始化：捕获默认调色板并从设置恢复
+        if (!paletteCaptured) {
+            defaultAppPalette = qApp->palette();
+            defaultAppStyleSheet = qApp->styleSheet();
+            paletteCaptured = true;
+        }
+        const QString themeStr = loadThemeFromSettings();
+    if (themeStr == QLatin1String("dark")) currentThemeMode = MainWindow::ThemeMode::Dark; else currentThemeMode = MainWindow::ThemeMode::Light;
+        {
+            QSignalBlocker blocker(themeBox);
+            themeBox->setCurrentIndex(currentThemeMode == MainWindow::ThemeMode::Dark ? 1 : 0);
+        }
+        applyTheme(currentThemeMode);
+        connect(themeBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this, themeBox](int idx){
+            MainWindow::ThemeMode mode = static_cast<MainWindow::ThemeMode>(themeBox->itemData(idx).toInt());
+            applyTheme(mode);
+            saveThemeToSettings(mode == MainWindow::ThemeMode::Dark ? QStringLiteral("dark") : QStringLiteral("light"));
+        });
     }
 }
 
@@ -147,27 +190,57 @@ void MainWindow::setSocket(QTcpSocket *s)
     socket = s;
     qInfo() << "MainWindow setSocket, state=" << socket->state();
     connect(socket, &QTcpSocket::readyRead, this, &MainWindow::onReadyRead);
+    // 记录当前连接参数用于重连（优先环境变量）
+    QString envHost = qEnvironmentVariable("APP_HOST").trimmed();
+    if (!envHost.isEmpty()) socketHost = envHost; else socketHost = QStringLiteral("127.0.0.1");
+    bool ok=false; int envSockPort = qEnvironmentVariableIntValue("APP_SOCKET_PORT", &ok);
+    socketPort = static_cast<quint16>((ok && envSockPort>0)? envSockPort : 8080);
     connect(socket, &QTcpSocket::disconnected, this, [this]{
-        qWarning() << "Socket disconnected";
-        statusBar()->showMessage(tr("网络连接已断开"), 4000);
+        qWarning() << "Socket disconnected. activeTab=" << activeTabKey;
+        statusBar()->showMessage(tr("网络连接已断开，正在尝试重连…"), 3000);
+        scheduleReconnect();
     });
     // 通过 TCP 连接对端推断静态资源 HTTP 基址（同一台服务器通常同时提供 9090 套接字与 8081 HTTP）
     // 若对端是 127.0.0.1 或 ::1，则使用 localhost
     if (socket) {
+        // 首选环境变量（由 StartAll 传递），否则根据对端地址推断
+        QString envHost = qEnvironmentVariable("APP_HOST");
+        if (envHost.trimmed().isEmpty()) envHost = QString();
+        bool ok = false; int envHttpPort = qEnvironmentVariableIntValue("APP_HTTP_PORT", &ok);
         const QHostAddress addr = socket->peerAddress();
         QString host;
-        if (addr.isNull()) {
+        if (!envHost.isEmpty()) {
+            host = envHost;
+        } else if (addr.isNull()) {
             host = QStringLiteral("localhost");
         } else if (addr == QHostAddress::LocalHost || addr == QHostAddress::LocalHostIPv6) {
             host = QStringLiteral("localhost");
         } else {
             host = addr.toString();
         }
-        httpBase = QStringLiteral("http://%1:8081").arg(host);
+        int httpPort = (ok && envHttpPort > 0) ? envHttpPort : 8081;
+        httpBase = QStringLiteral("http://%1:%2").arg(host).arg(httpPort);
         qInfo() << "HTTP base resolved to" << httpBase;
     }
     // 刚设置好 socket 时，主动进入首页并加载内容
     showHomeView();
+}
+
+void MainWindow::scheduleReconnect()
+{
+    if (!socket) return;
+    if (socket->state() == QAbstractSocket::ConnectedState) return;
+    // 最多尝试 3 次，间隔 0.5s, 1s, 2s
+    if (reconnectAttempts >= 3) {
+        qWarning() << "reconnect attempts exceeded";
+        statusBar()->showMessage(tr("重连失败，请检查服务器状态"), 4000);
+        reconnectAttempts = 0;
+        return;
+    }
+    int delays[] = {500, 1000, 2000};
+    int ms = delays[qBound(0, reconnectAttempts, 2)];
+    ++reconnectAttempts;
+    reconnectTimer->start(ms);
 }
 
 // 创建并插入左侧垂直 TabBar；如已存在则复用
@@ -208,6 +281,7 @@ QTabBar* MainWindow::ensureSideTabBar()
     connect(tab, &QTabBar::currentChanged, this, [this, tab](int idx){
         if (tabSwitching || idx < 0) return;
         const QString key = tab->tabData(idx).toString();
+        activeTabKey = key;
         tabSwitching = true;
         if (key == QLatin1String("home")) showHomeView();
         else if (key == QLatin1String("mall")) showMallView();
@@ -218,6 +292,7 @@ QTabBar* MainWindow::ensureSideTabBar()
         tabSwitching = false;
     });
     tab->setCurrentIndex(0);
+    activeTabKey = QStringLiteral("home");
     return tab;
 }
 
@@ -231,6 +306,7 @@ void MainWindow::setTabActive(const QString &key)
         if (tab->tabData(i).toString() == key) {
             QSignalBlocker blocker(tab);
             tab->setCurrentIndex(i);
+            activeTabKey = key;
             break;
         }
     }
@@ -315,6 +391,64 @@ void MainWindow::setupConnections()
     if (socket) {
         QJsonObject req; req["type"] = "get_orders"; QJsonDocument doc(req); QByteArray payload = doc.toJson(QJsonDocument::Compact); payload.append('\n'); socket->write(payload);
     }
+}
+
+// 主题应用
+void MainWindow::applyTheme(MainWindow::ThemeMode mode)
+{
+    if (!paletteCaptured) {
+        defaultAppPalette = qApp->palette();
+        defaultAppStyleSheet = qApp->styleSheet();
+        paletteCaptured = true;
+    }
+    currentThemeMode = mode;
+    if (mode == MainWindow::ThemeMode::Light) {
+        qApp->setPalette(defaultAppPalette);
+        qApp->setStyleSheet(defaultAppStyleSheet);
+        this->setStyleSheet("");
+        return;
+    }
+    // Dark
+    QPalette pal = defaultAppPalette;
+    pal.setColor(QPalette::Window, QColor(30,30,30));
+    pal.setColor(QPalette::WindowText, QColor(220,220,220));
+    pal.setColor(QPalette::Base, QColor(24,24,24));
+    pal.setColor(QPalette::AlternateBase, QColor(36,36,36));
+    pal.setColor(QPalette::ToolTipBase, QColor(36,36,36));
+    pal.setColor(QPalette::ToolTipText, QColor(220,220,220));
+    pal.setColor(QPalette::Text, QColor(220,220,220));
+    pal.setColor(QPalette::Button, QColor(45,45,45));
+    pal.setColor(QPalette::ButtonText, QColor(220,220,220));
+    pal.setColor(QPalette::BrightText, QColor(255,0,0));
+    pal.setColor(QPalette::Highlight, QColor(56,117,215));
+    pal.setColor(QPalette::HighlightedText, QColor(255,255,255));
+    qApp->setPalette(pal);
+    QString darkCss = R"(
+        QWidget { background-color: #1e1e1e; color: #dedede; }
+        QLineEdit, QTextEdit, QPlainTextEdit, QSpinBox, QComboBox, QListWidget, QTableWidget, QTreeWidget {
+            background-color: #181818; color: #dedede; border:1px solid #444; }
+        QPushButton { background-color:#2c2c2c; color:#e0e0e0; border:1px solid #555; padding:4px 10px; }
+        QPushButton:hover { background-color:#303030; }
+        QPushButton:pressed { background-color:#363636; }
+        QTabBar::tab { background:#2a2a2a; color:#e0e0e0; border:1px solid #444; border-left-width:3px; border-radius:6px; padding:8px 10px; margin:4px 6px; }
+        QTabBar::tab:selected { background:#333333; border-left-color:#1677ff; color:#8ab4ff; font-weight:600; }
+        QHeaderView::section { background:#2b2b2b; color:#d0d0d0; border:1px solid #444; }
+        QScrollBar:vertical { background:#222; width:10px; }
+        QScrollBar::handle:vertical { background:#444; min-height:20px; border-radius:4px; }
+    )";
+    qApp->setStyleSheet(darkCss);
+}
+
+void MainWindow::saveThemeToSettings(const QString &modeStr)
+{
+    QSettings st("ShoppingApp", "Client");
+    st.setValue("ui/theme", modeStr);
+}
+
+QString MainWindow::loadThemeFromSettings() const
+{
+    QSettings st("ShoppingApp", "Client");
+    return st.value("ui/theme", "light").toString();
 }
 
 void MainWindow::loadCarousel()
@@ -496,6 +630,11 @@ void MainWindow::onReadyRead()
     // top pager buttons removed; only bottom pager is active
     }
     else if (type == "account_info") {
+        // 仅在当前仍停留在“个人中心”页时处理，避免离开后回调构建/访问已删除的控件
+        if (activeTabKey != QLatin1String("account")) {
+            qInfo() << "skip account_info due to inactive tab" << activeTabKey;
+            return;
+        }
         // 在 accountPage 中展示并可直接编辑保存
         QWidget *page = findChild<QWidget*>("accountPage");
         if (!page) {
@@ -534,7 +673,10 @@ void MainWindow::onReadyRead()
             user->setEnabled(false); phone->setEnabled(false); email->setEnabled(false); pwd->setEnabled(false);
             if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) root->addWidget(page);
             // 行为
-            connect(back, &QPushButton::clicked, this, [this, page]{ page->hide(); page->deleteLater(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
+            connect(back, &QPushButton::clicked, this, [this, p=QPointer<QWidget>(page)]{
+                if (p) { p->hide(); }
+                if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView();
+            });
             auto sendSave = [this, user, phone, email, pwd]{
                 QJsonObject r; r["type"] = "update_account_info";
                 const QString newName = user->text().trimmed();
@@ -630,6 +772,10 @@ void MainWindow::onReadyRead()
         clearToFullPage(page);
     }
     else if (type == "update_account_response") {
+        if (activeTabKey != QLatin1String("account")) {
+            qInfo() << "skip update_account_response due to inactive tab" << activeTabKey;
+            return;
+        }
         bool ok = response.value("success").toBool(); QString msg = response.value("message").toString();
         statusBar()->showMessage(ok ? (msg.isEmpty()? tr("保存成功"): msg) : (msg.isEmpty()? tr("保存失败"): msg), 3000);
         if (ok) {
@@ -661,6 +807,11 @@ void MainWindow::onReadyRead()
                 if (chat->isWaitingOrderDetail()) shouldRouteToChat = true;
             }
             if (shouldRouteToChat) { chat->handleMessage(response); return; }
+        }
+        // 非聊天路由，仅当“历史订单”页处于激活时才构建页面，避免切换时闪退
+        if (activeTabKey != QLatin1String("orders")) {
+            qInfo() << "skip orders_response due to inactive tab" << activeTabKey;
+            return;
         }
         // 构建或复用内嵌订单页面（统一顶部返回栏 + 筛选 + 分页，样式统一）
     QWidget *container = findChild<QWidget*>("ordersPage");
@@ -941,9 +1092,12 @@ void MainWindow::onReadyRead()
             connect(static_cast<QTableView*>(tbl), &QTableView::doubleClicked, this, [showOrderDetail](const QModelIndex &idx){ showOrderDetail(idx.isValid() ? idx.row() : -1); });
         }
 
-        // 返回
-    QObject::disconnect(back, nullptr, nullptr, nullptr);
-    connect(back, &QPushButton::clicked, this, [this, container]{ container->hide(); container->deleteLater(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
+        // 返回：只隐藏容器，避免异步回调期间删除导致崩溃
+        QObject::disconnect(back, nullptr, nullptr, nullptr);
+        connect(back, &QPushButton::clicked, this, [this, container]{
+            container->hide();
+            if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView();
+        });
 
         // 首次渲染
         refresh();
@@ -1803,12 +1957,12 @@ void MainWindow::showHomeView()
     currentView = ViewMode::Home;
     lastNonCartView = ViewMode::Home;
     setTabActive("home");
+    activeTabKey = QStringLiteral("home");
     setSearchBarVisible(true);
-    // 切回首页时，确保全屏页（个人中心/订单/聊天）被销毁，避免叠加和回调访问已失效对象
-    if (auto p = findChild<QWidget*>("accountPage")) { p->hide(); p->deleteLater(); }
-    if (auto p = findChild<QWidget*>("ordersPage")) { p->hide(); p->deleteLater(); }
-    if (auto p = findChild<QWidget*>("chatPage")) { p->hide(); p->deleteLater(); }
-    if (chat) { chat->deleteLater(); chat = nullptr; }
+    // 切回首页时，仅隐藏全屏页（个人中心/订单/聊天），避免频繁销毁引发异步回调悬空
+    if (auto p = findChild<QWidget*>("accountPage")) { p->hide(); }
+    if (auto p = findChild<QWidget*>("ordersPage")) { p->hide(); }
+    if (auto p = findChild<QWidget*>("chatPage")) { p->hide(); }
     // 回到首页前确保轮播计时器处于可控状态（若已存在，稍后 renderCarousel 会重建连接并启动）
     if (carouselTimer) { carouselTimer->stop(); }
     if (auto row = findChild<QWidget*>("greetingRow")) row->setVisible(true);
@@ -1854,12 +2008,12 @@ void MainWindow::showMallView()
     currentView = ViewMode::Mall;
     lastNonCartView = ViewMode::Mall;
     setTabActive("mall");
+    activeTabKey = QStringLiteral("mall");
     setSearchBarVisible(true);
-    // 进入商城页时也直接销毁全屏页，避免叠加
-    if (auto p = findChild<QWidget*>("accountPage")) { p->hide(); p->deleteLater(); }
-    if (auto p = findChild<QWidget*>("ordersPage")) { p->hide(); p->deleteLater(); }
-    if (auto p = findChild<QWidget*>("chatPage")) { p->hide(); p->deleteLater(); }
-    if (chat) { chat->deleteLater(); chat = nullptr; }
+    // 进入商城页，仅隐藏全屏页
+    if (auto p = findChild<QWidget*>("accountPage")) { p->hide(); }
+    if (auto p = findChild<QWidget*>("ordersPage")) { p->hide(); }
+    if (auto p = findChild<QWidget*>("chatPage")) { p->hide(); }
     // 离开首页，停止轮播
     if (carouselTimer) { carouselTimer->stop(); }
     if (auto row = findChild<QWidget*>("greetingRow")) row->setVisible(false);
@@ -1885,6 +2039,7 @@ void MainWindow::showMallView()
 
 void MainWindow::showCartView()
 {
+    activeTabKey = QStringLiteral("cart");
     setTabActive("cart");
     setSearchBarVisible(false);
     if (auto row = findChild<QWidget*>("greetingRow")) row->setVisible(false);
@@ -1892,11 +2047,10 @@ void MainWindow::showCartView()
     if (auto pf = findChild<QLabel*>("promoFloatingLabel")) pf->setVisible(false);
     if (promoTimer) promoTimer->stop();
     if (homeHeaderImage) homeHeaderImage->setVisible(false);
-    // 进入购物车时同样直接销毁全屏页
-    if (auto p = findChild<QWidget*>("accountPage")) { p->hide(); p->deleteLater(); }
-    if (auto p = findChild<QWidget*>("ordersPage")) { p->hide(); p->deleteLater(); }
-    if (auto p = findChild<QWidget*>("chatPage")) { p->hide(); p->deleteLater(); }
-    if (chat) { chat->deleteLater(); chat = nullptr; }
+    // 进入购物车时，仅隐藏全屏页
+    if (auto p = findChild<QWidget*>("accountPage")) { p->hide(); }
+    if (auto p = findChild<QWidget*>("ordersPage")) { p->hide(); }
+    if (auto p = findChild<QWidget*>("chatPage")) { p->hide(); }
     // 离开首页，停止轮播
     if (carouselTimer) { carouselTimer->stop(); }
     // 创建或重用购物车，并嵌入主布局区域
@@ -1966,9 +2120,9 @@ void MainWindow::clearToFullPage(QWidget *page)
     // 显示全屏页时停止轮播
     if (carouselTimer) { carouselTimer->stop(); }
     // 直接销毁其他全屏页，防止遗留信号/回调导致闪退
-    if (auto oldOrders = findChild<QWidget*>("ordersPage")) { if (oldOrders != page) { oldOrders->hide(); oldOrders->deleteLater(); } }
-    if (auto oldAccount = findChild<QWidget*>("accountPage")) { if (oldAccount != page) { oldAccount->hide(); oldAccount->deleteLater(); } }
-    if (auto oldChat = findChild<QWidget*>("chatPage")) { if (oldChat != page) { oldChat->hide(); oldChat->deleteLater(); } }
+    if (auto oldOrders = findChild<QWidget*>("ordersPage")) { if (oldOrders != page) { oldOrders->hide(); } }
+    if (auto oldAccount = findChild<QWidget*>("accountPage")) { if (oldAccount != page) { oldAccount->hide(); } }
+    if (auto oldChat = findChild<QWidget*>("chatPage")) { if (oldChat != page) { oldChat->hide(); } }
     // 注意：聊天被内嵌在 chatPage 内部，这里不要额外隐藏 chat，否则会出现“只有页面没有内容”
     // 添加并显示当前页
     if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) {
@@ -1994,6 +2148,7 @@ void MainWindow::updateGreeting()
 
 void MainWindow::showAccountView()
 {
+    activeTabKey = QStringLiteral("account");
     setTabActive("account");
     setSearchBarVisible(false);
     // 若不存在，先创建一个占位的 accountPage，并使用 clearToFullPage 显示
@@ -2012,7 +2167,10 @@ void MainWindow::showAccountView()
         info->setObjectName("acc_loading");
         v->addWidget(info);
         if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) root->addWidget(page);
-            connect(back, &QPushButton::clicked, this, [this, page]{ page->hide(); page->deleteLater(); if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView(); });
+            connect(back, &QPushButton::clicked, this, [this, p=QPointer<QWidget>(page)]{
+                if (p) { p->hide(); }
+                if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView();
+            });
     }
     // 已有页面：若已存在表单，隐藏占位；否则确保占位显示
     if (page->findChild<QLineEdit*>("acc_user")) {
@@ -2031,6 +2189,7 @@ void MainWindow::showAccountView()
 
 void MainWindow::showOrdersView()
 {
+    activeTabKey = QStringLiteral("orders");
     setTabActive("orders");
     setSearchBarVisible(false);
     if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
@@ -2042,8 +2201,8 @@ void MainWindow::showOrdersView()
     if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(false);
     if (auto prevBtn = findChild<QWidget*>("prevPage")) prevBtn->setVisible(false);
     if (auto nextBtn = findChild<QWidget*>("nextPage")) nextBtn->setVisible(false);
-    // 为避免遗留的旧 ordersPage 上的信号/控件导致再次进入时闪退，进入前先彻底销毁旧页面
-    if (auto old = findChild<QWidget*>("ordersPage")) { old->hide(); old->deleteLater(); }
+    // 若已有 ordersPage，仅复用并刷新内容；不再销毁旧页面以避免异步回调访问已释放对象
+    if (auto old = findChild<QWidget*>("ordersPage")) { old->hide(); }
     // 发送请求；在 orders_response 分支中构建/展示内嵌页面
     if (!socket) return;
     QJsonObject req; req["type"] = "get_orders"; QJsonDocument d(req); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
@@ -2052,6 +2211,7 @@ void MainWindow::showOrdersView()
 
 void MainWindow::showChatView()
 {
+    activeTabKey = QStringLiteral("chat");
     setTabActive("chat");
     setSearchBarVisible(false);
     if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
@@ -2082,11 +2242,9 @@ void MainWindow::showChatView()
     chat->setWindowFlags(Qt::Widget);
     chat->setMinimumSize(0,300);
     v->addWidget(chat);
-    connect(back, &QPushButton::clicked, this, [this, page]{
-        // 隐藏并释放聊天页；ChatWindow 脱离父子关系以保持存活
-        page->hide();
-        if (chat) { chat->deleteLater(); chat = nullptr; }
-        page->deleteLater();
+    connect(back, &QPushButton::clicked, this, [this, p=QPointer<QWidget>(page)]{
+        if (p) p->hide();
+        // 保留 ChatWindow 以便下次快速进入
         if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView();
     });
     clearToFullPage(page);

@@ -29,8 +29,8 @@ if errorlevel 1 (
 )
 
 set "PS_PATH=%~dp0run.ps1"
-echo Running: powershell -NoProfile -ExecutionPolicy Bypass -File "%PS_PATH%" -HttpPort %SERVER_PORT% -SocketPort %SOCKET_PORT% %PS_SKIP_FLAG%
-powershell -NoProfile -ExecutionPolicy Bypass -File "%PS_PATH%" -HttpPort %SERVER_PORT% -SocketPort %SOCKET_PORT% %PS_SKIP_FLAG%
+echo Running: powershell -NoProfile -ExecutionPolicy Bypass -File "%PS_PATH%" -HttpPort %SERVER_PORT% -SocketPort %SOCKET_PORT% -EnsureChat %PS_SKIP_FLAG%
+powershell -NoProfile -ExecutionPolicy Bypass -File "%PS_PATH%" -HttpPort %SERVER_PORT% -SocketPort %SOCKET_PORT% -EnsureChat %PS_SKIP_FLAG%
 set "EXIT_CODE=%ERRORLEVEL%"
 
 :end

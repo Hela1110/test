@@ -4,6 +4,7 @@ com\shopping\server\socket\SocketMessageHandler$5.class
 com\shopping\server\repository\ProductRepository.class
 com\shopping\server\admin\AdminFrame$4.class
 com\shopping\server\repository\CartItemRepository.class
+com\shopping\server\admin\AdminFrame$16.class
 com\shopping\server\repository\OrderItemRepository.class
 com\shopping\server\socket\SocketMessageHandler.class
 com\shopping\server\model\Client.class
@@ -14,11 +15,13 @@ com\shopping\server\socket\SocketMessageHandler$1.class
 com\shopping\server\admin\AdminFrame$8.class
 com\shopping\server\service\OrderService.class
 com\shopping\server\repository\StockMovementRepository.class
+com\shopping\server\web\UploadController.class
 com\shopping\server\admin\AdminFrame$13.class
 com\shopping\server\service\InventoryService.class
 com\shopping\server\admin\AdminFrame$10.class
 com\shopping\server\service\OrderProcessingService.class
 com\shopping\server\admin\AdminFrame$5.class
+com\shopping\server\boot\ImageFormatMigrator.class
 com\shopping\server\model\Order.class
 com\shopping\server\model\ProductSizeInventory.class
 com\shopping\server\repository\OrderHeaderRepository.class
@@ -28,6 +31,7 @@ com\shopping\server\service\ProductService.class
 com\shopping\server\socket\SocketMessageHandler$2.class
 com\shopping\server\repository\ClientRepository.class
 com\shopping\server\socket\SocketServer$1.class
+com\shopping\server\admin\AdminFrame$14.class
 com\shopping\server\admin\AdminFrame$6.class
 com\shopping\server\admin\AdminFrame$9.class
 com\shopping\server\model\StockMovement.class
@@ -48,7 +52,9 @@ com\shopping\server\admin\AdminConsoleLauncher.class
 com\shopping\server\infra\StartupDatabaseProbe.class
 com\shopping\server\model\OrderItem.class
 com\shopping\server\socket\SocketMessageHandler$4.class
+com\shopping\server\admin\AdminFrame$15.class
 com\shopping\server\admin\AdminFrame$12.class
 com\shopping\server\repository\ProductTypeRepository.class
+com\shopping\server\bootstrap\StockMovementBackfill.class
 com\shopping\server\admin\AdminFrame$7.class
 com\shopping\server\model\CartItem.class

@@ -83,6 +83,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/timestamp
  D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF
  D:/Qt/6.8.3/mingw_64/include/QtCore/QString
  D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVector
  D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h
@@ -100,6 +101,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/timestamp
  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h
@@ -208,6 +210,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/timestamp
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h
@@ -751,6 +754,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF
  D:/Qt/6.8.3/mingw_64/include/QtCore/QString
  D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVector
  D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h
@@ -768,6 +772,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h
@@ -876,6 +881,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtmochelpers.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h
@@ -2026,6 +2032,7 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpacerItem
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget
@@ -2053,6 +2060,7 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstatusbar.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyleoption.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabbar.h
@@ -2295,6 +2303,7 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF
  D:/Qt/6.8.3/mingw_64/include/QtCore/QStandardPaths
  D:/Qt/6.8.3/mingw_64/include/QtCore/QTextStream
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer
  D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/q20memory.h
@@ -2310,6 +2319,7 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h
@@ -2417,6 +2427,7 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h
@@ -2763,6 +2774,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/QObject
  D:/Qt/6.8.3/mingw_64/include/QtCore/QPointer
  D:/Qt/6.8.3/mingw_64/include/QtCore/QPropertyAnimation
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSettings
  D:/Qt/6.8.3/mingw_64/include/QtCore/QSharedDataPointer
  D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker
  D:/Qt/6.8.3/mingw_64/include/QtCore/QString
@@ -2879,6 +2891,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/qscopedpointer.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qscopeguard.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qset.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qsettings.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata_impl.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qsharedpointer.h

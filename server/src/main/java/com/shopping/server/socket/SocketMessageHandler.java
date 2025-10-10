@@ -264,6 +264,12 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         String type = (String) request.get("type");
 
         switch (type) {
+            case "ping": {
+                Map<String,Object> resp = new HashMap<>();
+                resp.put("type", "pong");
+                ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+                break;
+            }
             case "login":
                 handleLogin(ctx, request);
                 break;
@@ -468,20 +474,28 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             boolean ok = (saved != null && saved.equals(password));
             // 若内存中未找到，则回退到数据库查询
             if (!ok) {
-                var dbOpt = clientRepository.findByUsername(username);
-                if (dbOpt.isPresent()) {
-                    if (Boolean.FALSE.equals(dbOpt.get().getEnabled())) {
-                        response.put("success", false);
-                        response.put("message", "该账号已被禁用，请联系管理员");
-                        ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
-                        return;
+                try {
+                    var dbOpt = clientRepository.findByUsername(username);
+                    if (dbOpt.isPresent()) {
+                        if (Boolean.FALSE.equals(dbOpt.get().getEnabled())) {
+                            response.put("success", false);
+                            response.put("message", "该账号已被禁用，请联系管理员");
+                            ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+                            return;
+                        }
+                        // 注意：当前为明文密码对比，生产应使用哈希（如 BCrypt）
+                        ok = password.equals(dbOpt.get().getPassword());
+                        if (ok && saved == null) {
+                            // 为了兼容现有内存登录流程，将成功的 DB 账号写回内存
+                            userStore.put(username, password);
+                        }
                     }
-                    // 注意：当前为明文密码对比，生产应使用哈希（如 BCrypt）
-                    ok = password.equals(dbOpt.get().getPassword());
-                    if (ok && saved == null) {
-                        // 为了兼容现有内存登录流程，将成功的 DB 账号写回内存
-                        userStore.put(username, password);
-                    }
+                } catch (Exception dbEx) {
+                    // 数据库不可用等异常，返回友好错误而不是抛出到 pipeline
+                    response.put("success", false);
+                    response.put("message", "服务暂时不可用，请稍后再试");
+                    ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+                    return;
                 }
             }
             if (ok) {

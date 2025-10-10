@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QStatusBar>
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,6 +16,14 @@ LoginWindow::LoginWindow(QWidget *parent) :
     ui->setupUi(this);
     setupUi();
     initializeSocket();
+    // 自动重连（指数退避，持续重连）
+    m_reconnectTimer.setSingleShot(true);
+    connect(&m_reconnectTimer, &QTimer::timeout, this, [this]{ connectToServer(); });
+
+    // 心跳：每 20s 发送一次 ping，防止空闲断开
+    m_heartbeatTimer.setSingleShot(false);
+    m_heartbeatTimer.setInterval(20000);
+    connect(&m_heartbeatTimer, &QTimer::timeout, this, &LoginWindow::sendHeartbeat);
     connectToServer();
 }
 
@@ -150,13 +159,25 @@ void LoginWindow::initializeSocket()
     connect(socket, &QTcpSocket::disconnected, this, &LoginWindow::onDisconnected);
     connect(socket, &QTcpSocket::readyRead, this, &LoginWindow::onReadyRead);
     connect(socket, qOverload<QAbstractSocket::SocketError>(&QTcpSocket::errorOccurred), this, &LoginWindow::onSocketError);
+
+    // 尝试开启 TCP keep-alive（跨平台尽力而为，部分平台可能无效）
+#ifdef Q_OS_WIN
+    socket->setSocketOption(QAbstractSocket::KeepAliveOption, 1);
+#else
+    socket->setSocketOption(QAbstractSocket::KeepAliveOption, 1);
+#endif
 }
 
 void LoginWindow::connectToServer()
 {
-    // 使用 127.0.0.1 避免 hosts 解析异常；必要时可改为服务端实际 IP
-    qInfo() << "Connecting to 127.0.0.1:8080";
-    socket->connectToHost("127.0.0.1", 8080);
+    // 支持通过环境变量指定主机与端口，便于 StartAll 传参
+    QString host = qEnvironmentVariable("APP_HOST");
+    if (host.trimmed().isEmpty()) host = QStringLiteral("127.0.0.1");
+    bool ok = false; int port = qEnvironmentVariableIntValue("APP_SOCKET_PORT", &ok);
+    if (!ok || port <= 0) port = 8080;
+    qInfo() << "Connecting to" << host << ":" << port;
+    statusBar()->showMessage(QString::fromUtf8("正在连接 %1:%2 ...").arg(host).arg(port));
+    socket->connectToHost(host, static_cast<quint16>(port));
 }
 
 void LoginWindow::on_loginButton_clicked()
@@ -197,6 +218,10 @@ void LoginWindow::on_registerButton_clicked()
 void LoginWindow::onConnected()
 {
     qDebug() << "Connected to server";
+    m_reconnectAttempts = 0;
+    statusBar()->showMessage(QString::fromUtf8("已连接服务器"), 1500);
+    // 启动心跳
+    if (!m_heartbeatTimer.isActive()) m_heartbeatTimer.start();
     // 连接成功后，发送队列中积压的消息
     if (!m_pendingWrites.isEmpty()) {
         for (const auto &payload : std::as_const(m_pendingWrites)) {
@@ -209,6 +234,10 @@ void LoginWindow::onConnected()
 void LoginWindow::onDisconnected()
 {
     qDebug() << "Disconnected from server";
+    statusBar()->showMessage(QString::fromUtf8("与服务器断开，准备重连..."), 2000);
+    // 停止心跳
+    if (m_heartbeatTimer.isActive()) m_heartbeatTimer.stop();
+    scheduleReconnect();
 }
 
 void LoginWindow::onReadyRead()
@@ -223,6 +252,10 @@ void LoginWindow::onReadyRead()
         if (err.error != QJsonParseError::NoError) continue;
         QJsonObject response = doc.object();
         const QString type = response.value("type").toString();
+        if (type == "pong") {
+            // 心跳响应
+            continue;
+        }
         if (type == "login_response") {
             if (response.value("success").toBool()) {
                 qInfo() << "Login success, creating MainWindow and handing off socket";
@@ -288,6 +321,8 @@ void LoginWindow::onSocketError(QAbstractSocket::SocketError socketError)
 {
     Q_UNUSED(socketError);
     qCritical() << "Socket error:" << socket->errorString();
+    statusBar()->showMessage(QString::fromUtf8("连接出错：%1").arg(socket->errorString()), 3000);
+    scheduleReconnect();
 }
 
 void LoginWindow::showEvent(QShowEvent *event)
@@ -306,4 +341,24 @@ void LoginWindow::showEvent(QShowEvent *event)
             }
         }
     }
+}
+
+void LoginWindow::scheduleReconnect()
+{
+    if (!socket) return;
+    if (socket->state() == QAbstractSocket::ConnectedState) return;
+    // 持续重连（指数退避，最大 30s）
+    int base = 500; // 起始 500ms
+    int d = qMin(base << qMin(m_reconnectAttempts, 6), 30000); // 0.5s,1s,2s,4s,8s,16s,32s->封顶30s
+    m_reconnectAttempts = qMin(m_reconnectAttempts + 1, 30);
+    qInfo() << "Schedule reconnect attempt" << m_reconnectAttempts << "after" << d << "ms";
+    m_reconnectTimer.start(d);
+}
+
+void LoginWindow::sendHeartbeat()
+{
+    if (!socket || socket->state() != QAbstractSocket::ConnectedState) return;
+    QJsonObject ping;
+    ping["type"] = QStringLiteral("ping");
+    sendJson(ping);
 }

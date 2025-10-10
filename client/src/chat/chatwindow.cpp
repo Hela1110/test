@@ -199,19 +199,23 @@ QString ChatWindow::toAbsoluteUrl(const QString &u) const {
 void ChatWindow::appendImageBubble(const QString &from, const QString &to, const QString &url, const QString &ts, bool isSelf) {
     QString who = isSelf ? tr("我") : from;
     QString toText = to.isEmpty()? tr("(群)") : to;
-    QString bubbleColor = isSelf ? "#C8F7C5" : "#F0F0F0";
+    // 根据全局样式推断是否为暗色主题
+    const bool dark = qApp->palette().color(QPalette::Window).value() < 80 || qApp->styleSheet().contains("#1e1e1e");
+    QString bubbleColor = isSelf ? (dark ? "#335d2f" : "#C8F7C5") : (dark ? "#2b2b2b" : "#F0F0F0");
 
     // 外层容器（文本头 + 缩略图 + 链接）
     auto *item = new QListWidgetItem();
     auto *container = new QWidget();
     auto *v = new QVBoxLayout(container); v->setContentsMargins(0,0,0,0); v->setSpacing(0);
-    auto *headLbl = new QLabel(QString("<div style='color:#666;font-size:12px;margin:4px 0;'>%1 → %2 · %3</div>").arg(who, toText, ts));
+    auto *headLbl = new QLabel(QString("<div style='color:%1;font-size:12px;margin:4px 0;'>%2 → %3 · %4</div>")
+                               .arg(dark? QStringLiteral("#aaaaaa"):QStringLiteral("#666"), who, toText, ts));
     headLbl->setTextFormat(Qt::RichText); v->addWidget(headLbl);
     auto *imgLbl = new QLabel(); imgLbl->setAlignment(Qt::AlignLeft|Qt::AlignTop); imgLbl->setMinimumSize(120,120); imgLbl->setMaximumSize(120,120); imgLbl->setScaledContents(true);
     auto *linkLbl = new QLabel(QString("<a href=\"%1\">%2</a>").arg(toAbsoluteUrl(url).toHtmlEscaped(), tr("打开原图")));
     linkLbl->setTextFormat(Qt::RichText); linkLbl->setTextInteractionFlags(Qt::TextBrowserInteraction); linkLbl->setOpenExternalLinks(true);
     auto *bubbleHost = new QWidget(); auto *bubbleLay = new QVBoxLayout(bubbleHost); bubbleLay->setContentsMargins(8,8,8,8); bubbleLay->setSpacing(4);
-    bubbleHost->setStyleSheet(QString("background:%1; border-radius:8px;").arg(bubbleColor));
+    bubbleHost->setStyleSheet(QString("background:%1; border-radius:8px; color:%2;")
+                              .arg(bubbleColor, dark? QStringLiteral("#e8e8e8"):QStringLiteral("#000")));
     bubbleLay->addWidget(imgLbl); bubbleLay->addWidget(linkLbl);
     auto *alignHost = new QWidget(); auto *alignLay = new QHBoxLayout(alignHost); alignLay->setContentsMargins(8,6,8,6); alignLay->setSpacing(0);
     if (isSelf) { alignLay->addStretch(); alignLay->addWidget(bubbleHost,0,Qt::AlignRight|Qt::AlignTop);} else { alignLay->addWidget(bubbleHost,0,Qt::AlignLeft|Qt::AlignTop); alignLay->addStretch(); }
@@ -543,13 +547,15 @@ void ChatWindow::appendBubble(const QString &from, const QString &to, const QStr
 
     QString who = isSelf ? tr("我") : from;
     QString toText = to.isEmpty()? tr("(群)") : to;
-    QString bubbleColor = isSelf ? "#C8F7C5" : "#F0F0F0";
+    const bool dark = qApp->palette().color(QPalette::Window).value() < 80 || qApp->styleSheet().contains("#1e1e1e");
+    QString bubbleColor = isSelf ? (dark ? "#335d2f" : "#C8F7C5") : (dark ? "#2b2b2b" : "#F0F0F0");
 
     // 构建气泡容器
     auto *item = new QListWidgetItem();
     auto *container = new QWidget();
     auto *v = new QVBoxLayout(container); v->setContentsMargins(0,0,0,0); v->setSpacing(0);
-    auto *headLbl = new QLabel(QString("<div style='color:#666;font-size:12px;margin:4px 0;'>%1 → %2 · %3</div>").arg(who, toText, ts));
+    auto *headLbl = new QLabel(QString("<div style='color:%1;font-size:12px;margin:4px 0;'>%2 → %3 · %4</div>")
+                               .arg(dark? QStringLiteral("#aaaaaa"):QStringLiteral("#666"), who, toText, ts));
     headLbl->setTextFormat(Qt::RichText); v->addWidget(headLbl);
 
     auto *textLbl = new QLabel();
@@ -561,10 +567,12 @@ void ChatWindow::appendBubble(const QString &from, const QString &to, const QStr
     QString safe = c.toHtmlEscaped(); safe.replace("\n", "<br/>");
     QString wrapped = QString("<div style='white-space:pre-wrap; word-break:break-all;'>%1</div>").arg(safe);
     textLbl->setText(wrapped);
+    if (dark) textLbl->setStyleSheet("color:#e8e8e8;");
 
     auto *bubbleHost = new QWidget();
     auto *bubbleLay = new QVBoxLayout(bubbleHost); bubbleLay->setContentsMargins(8,8,8,8); bubbleLay->setSpacing(4);
-    bubbleHost->setStyleSheet(QString("background:%1; border-radius:8px;").arg(bubbleColor));
+    bubbleHost->setStyleSheet(QString("background:%1; border-radius:8px; color:%2;")
+                              .arg(bubbleColor, dark? QStringLiteral("#e8e8e8"):QStringLiteral("#000")));
     bubbleLay->addWidget(textLbl);
 
     auto *alignHost = new QWidget();
@@ -989,17 +997,23 @@ void ChatWindow::appendOrderBubble(const QString &from, const QString &to, const
     const QString note = orderObj.value("note").toString();
     QString who = isSelf ? tr("我") : from;
     QString toText = to.isEmpty()? tr("(群)") : to;
-    QString bubbleColor = isSelf ? "#E3F2FD" : "#FFFBE6"; // 自己发的偏蓝，别人发的偏黄
+    // 暗色主题适配
+    const bool dark = qApp->palette().color(QPalette::Window).value() < 80 || qApp->styleSheet().contains("#1e1e1e");
+    QString bubbleColor = isSelf
+            ? (dark ? QStringLiteral("#244a75") : QStringLiteral("#E3F2FD"))
+            : (dark ? QStringLiteral("#2b2b2b") : QStringLiteral("#FFFBE6")); // 自己发的偏蓝，别人发的偏黄（暗色下统一偏深色）
 
     auto *item = new QListWidgetItem();
     auto *container = new QWidget();
     auto *v = new QVBoxLayout(container); v->setContentsMargins(0,0,0,0); v->setSpacing(0);
-    auto *headLbl = new QLabel(QString("<div style='color:#666;font-size:12px;margin:4px 0;'>%1 → %2 · %3</div>").arg(who, toText, ts));
+    auto *headLbl = new QLabel(QString("<div style='color:%1;font-size:12px;margin:4px 0;'>%2 → %3 · %4</div>")
+                               .arg(dark? QStringLiteral("#aaaaaa"):QStringLiteral("#666"), who, toText, ts));
     headLbl->setTextFormat(Qt::RichText); v->addWidget(headLbl);
 
     // 卡片体
     auto *card = new QWidget();
-    card->setStyleSheet(QString("background:%1;border:1px solid #e5e5e5;border-radius:10px;").arg(bubbleColor));
+    card->setStyleSheet(QString("background:%1;border:1px solid %2;border-radius:10px;")
+                        .arg(bubbleColor, dark? QStringLiteral("#444"):QStringLiteral("#e5e5e5")));
     auto *h = new QHBoxLayout(card); h->setContentsMargins(12,10,12,10); h->setSpacing(12);
     // 左侧 ICON（票据/订单）
     auto *icon = new QLabel(card);
@@ -1010,10 +1024,16 @@ void ChatWindow::appendOrderBubble(const QString &from, const QString &to, const
     // 文本
     auto *textBox = new QWidget(card);
     auto *tv = new QVBoxLayout(textBox); tv->setContentsMargins(0,0,0,0); tv->setSpacing(4);
-    auto *title = new QLabel(QString("订单 #%1").arg(orderId), card); title->setStyleSheet("font-weight:600;");
-    auto *summaryLbl = new QLabel(summary.isEmpty()? tr("订单摘要") : summary, card); summaryLbl->setWordWrap(true);
+    auto *title = new QLabel(QString("订单 #%1").arg(orderId), card);
+    title->setStyleSheet(QString("font-weight:600;%1").arg(dark? QStringLiteral("color:#e8e8e8;"):QString()));
+    auto *summaryLbl = new QLabel(summary.isEmpty()? tr("订单摘要") : summary, card);
+    summaryLbl->setWordWrap(true);
+    if (dark) summaryLbl->setStyleSheet("color:#e8e8e8;");
     if (!note.isEmpty()) {
-        auto *noteLbl = new QLabel(note, card); noteLbl->setStyleSheet("color:#d48806;"); noteLbl->setWordWrap(true); tv->addWidget(noteLbl);
+        auto *noteLbl = new QLabel(note, card);
+        noteLbl->setStyleSheet(dark? "color:#e0b76a;" : "color:#d48806;");
+        noteLbl->setWordWrap(true);
+        tv->addWidget(noteLbl);
     }
     tv->addWidget(title);
     tv->addWidget(summaryLbl);
@@ -1045,22 +1065,31 @@ void ChatWindow::appendRefundBubble(const QString &from, const QString &to, cons
     const QString reason = refundObj.value("reason").toString();
     QString who = isSelf ? tr("我") : from;
     QString toText = to.isEmpty()? tr("(群)") : to;
-    QString bubbleColor = isSelf ? "#FFF1F0" : "#FFFBE6"; // 自己偏红，对方偏黄
+    // 暗色主题适配
+    const bool dark = qApp->palette().color(QPalette::Window).value() < 80 || qApp->styleSheet().contains("#1e1e1e");
+    QString bubbleColor = isSelf
+            ? (dark ? QStringLiteral("#2b2b2b") : QStringLiteral("#FFF1F0"))
+            : (dark ? QStringLiteral("#2b2b2b") : QStringLiteral("#FFFBE6")); // 暗色下统一偏深色
 
     auto *item = new QListWidgetItem();
     auto *container = new QWidget();
     auto *v = new QVBoxLayout(container); v->setContentsMargins(0,0,0,0); v->setSpacing(0);
-    auto *headLbl = new QLabel(QString("<div style='color:#666;font-size:12px;margin:4px 0;'>%1 → %2 · %3</div>").arg(who, toText, ts));
+    auto *headLbl = new QLabel(QString("<div style='color:%1;font-size:12px;margin:4px 0;'>%2 → %3 · %4</div>")
+                               .arg(dark? QStringLiteral("#aaaaaa"):QStringLiteral("#666"), who, toText, ts));
     headLbl->setTextFormat(Qt::RichText); v->addWidget(headLbl);
 
     auto *card = new QWidget();
-    card->setStyleSheet(QString("background:%1;border:1px dashed #f5a9a9;border-radius:10px;").arg(bubbleColor));
+    card->setStyleSheet(QString("background:%1;border:1px dashed %2;border-radius:10px;")
+                        .arg(bubbleColor, dark? QStringLiteral("#444"):QStringLiteral("#f5a9a9")));
     auto *h = new QHBoxLayout(card); h->setContentsMargins(12,10,12,10); h->setSpacing(12);
     auto *icon = new QLabel(card); icon->setFixedSize(36,36); icon->setAlignment(Qt::AlignCenter);
     icon->setText("💬"); icon->setStyleSheet("background:#ff7875;color:#fff;border-radius:6px;font-weight:700;");
     auto *textBox = new QWidget(card); auto *tv = new QVBoxLayout(textBox); tv->setContentsMargins(0,0,0,0); tv->setSpacing(4);
-    auto *title = new QLabel(tr("售后申请 · 订单 #%1").arg(orderId), card); title->setStyleSheet("font-weight:600;");
-    auto *summaryLbl = new QLabel(reason.isEmpty()? tr("用户提交了售后申请") : tr("原因：%1").arg(reason), card); summaryLbl->setWordWrap(true);
+    auto *title = new QLabel(tr("售后申请 · 订单 #%1").arg(orderId), card);
+    title->setStyleSheet(QString("font-weight:600;%1").arg(dark? QStringLiteral("color:#e8e8e8;"):QString()));
+    auto *summaryLbl = new QLabel(reason.isEmpty()? tr("用户提交了售后申请") : tr("原因：%1").arg(reason), card);
+    summaryLbl->setWordWrap(true);
+    if (dark) summaryLbl->setStyleSheet("color:#e8e8e8;");
     tv->addWidget(title); tv->addWidget(summaryLbl);
     h->addWidget(icon); h->addWidget(textBox, 1);
 

@@ -82,6 +82,7 @@ shopping_client_autogen/timestamp: CMakeFiles/4.1.1/CMakeCCompiler.cmake \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
@@ -99,6 +100,7 @@ shopping_client_autogen/timestamp: CMakeFiles/4.1.1/CMakeCCompiler.cmake \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
@@ -207,6 +209,7 @@ shopping_client_autogen/timestamp: CMakeFiles/4.1.1/CMakeCCompiler.cmake \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
@@ -864,9 +867,9 @@ D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/corecrt_startup.h:
 
 D:/CMake/share/cmake-4.1/Modules/Internal/CheckCompilerFlag.cmake:
 
-C:/Users/Edward/Desktop/test/client/ui/loginwindow.ui:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateConfigVersion.cmake:
+
+C:/Users/Edward/Desktop/test/client/ui/loginwindow.ui:
 
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_iterator_base_types.h:
 
@@ -960,8 +963,6 @@ D:/CMake/share/cmake-4.1/Modules/Platform/Linker/Windows-C.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6CoreTools/Qt6CoreToolsAdditionalTargetInfo.cmake:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateAdditionalTargetInfo.cmake:
-
 D:/CMake/share/cmake-4.1/Modules/Internal/CMakeCXXLinkerInformation.cmake:
 
 D:/CMake/share/cmake-4.1/Modules/Internal/CMakeCommonLinkerInformation.cmake:
@@ -1040,9 +1041,9 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QSvgPluginTargets.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QSize:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateConfig.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QString:
 
@@ -1051,6 +1052,16 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginConfig.cmake:
 D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h:
+
+D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/stdlib.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginAdditionalTargetInfo.cmake:
+
+D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ext/type_traits.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/Qt6Config.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QVector:
 
@@ -1101,6 +1112,8 @@ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h:
 D:/Qt/6.8.3/mingw_64/include/QtCore/qassert.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h:
 
@@ -1414,6 +1427,10 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h:
 
+D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/hashtable_policy.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h:
+
 D:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include/pthread_signal.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h:
@@ -1668,14 +1685,6 @@ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/FindWrapVulkanHeaders.cmake:
 
-D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/stdlib.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginAdditionalTargetInfo.cmake:
-
-D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ext/type_traits.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/Qt6Config.cmake:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlDependencies.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/Qt6ConfigExtras.cmake:
@@ -1926,6 +1935,8 @@ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/exce
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsVersionlessTargets.cmake:
 
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateAdditionalTargetInfo.cmake:
+
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateConfigVersionImpl.cmake:
 
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/align.h:
@@ -1961,8 +1972,6 @@ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/eras
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/hash_bytes.h:
 
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/hashtable.h:
-
-D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/hashtable_policy.h:
 
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/stdexcept:
 

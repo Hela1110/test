@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef MAINWINDOW_MAINWINDOW_H
+#define MAINWINDOW_MAINWINDOW_H
 
 #include <QMainWindow>
 #include <QString>
@@ -31,6 +31,8 @@ public:
     void setSocket(QTcpSocket *socket);
     // 设置当前登录用户名，供购物车与请求携带
     void setCurrentUsername(const QString &username) { currentUsername = username; updateGreeting(); }
+    // 主题模式
+    enum class ThemeMode { Light, Dark };
 
 private slots:
     void on_searchButton_clicked();
@@ -48,6 +50,11 @@ private:
     ShoppingCart *cart;
     ChatWindow *chat;
     QString currentUsername; // 当前登录用户名，可为空表示匿名
+    // 主题状态
+    ThemeMode currentThemeMode = ThemeMode::Light;
+    QPalette defaultAppPalette; // 捕获应用初始调色板
+    QString defaultAppStyleSheet; // 捕获应用初始样式表
+    bool paletteCaptured = false;
     // simple debounce
     qint64 lastSearchMs = 0;
     qint64 lastAddMs = 0;
@@ -68,6 +75,10 @@ private:
     void loadRecommendations();
     void loadPromotions();
     void setupConnections();
+    // 主题切换实现
+    void applyTheme(ThemeMode mode);
+    void saveThemeToSettings(const QString &modeStr);
+    QString loadThemeFromSettings() const;
 
     // Placeholder and render helpers
     void renderCarouselPlaceholder();
@@ -104,9 +115,18 @@ private:
     // Tabs helpers（左侧垂直 TabBar 作为主导航）
     QTabBar* ensureSideTabBar();
     void setTabActive(const QString &key);
+    // 当前激活的 Tab 标识（home/mall/cart/orders/chat/account），用于在异步回调中避免构建已离开的页面
+    QString activeTabKey;
 
     // 防止 Tab 切换递归触发
     bool tabSwitching = false;
+
+    // 连接参数与重连机制（尽量避免切页时断线体验差）
+    QString socketHost = QStringLiteral("127.0.0.1");
+    quint16 socketPort = 8080;
+    QTimer *reconnectTimer = nullptr;
+    int reconnectAttempts = 0;
+    void scheduleReconnect();
 
     // 网络图片加载与缓存
     QNetworkAccessManager *http = nullptr;
@@ -148,4 +168,4 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 };
 
-#endif // MAINWINDOW_H
+#endif // MAINWINDOW_MAINWINDOW_H

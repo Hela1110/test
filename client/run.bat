@@ -32,6 +32,7 @@ if not defined EXE_PATH (
     echo   %C6%
     echo Please build the client first (see build_client_qt1310.bat).
     goto :end
+)
 
 
 echo Using executable: %EXE_PATH%
@@ -42,4 +43,3 @@ start "shopping-client" "%EXE_PATH%"
 popd >nul 2>&1
 pause
 exit /b 0
-    set "EXE_PATH=build\dist\shopping_client.exe"

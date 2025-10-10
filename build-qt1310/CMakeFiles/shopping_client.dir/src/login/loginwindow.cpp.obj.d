@@ -416,6 +416,9 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qlocale.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
  C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/include/ui_loginwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
@@ -505,8 +508,7 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: \
  C:/Users/Edward/Desktop/test/client/include/register/registerdialog.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstatusbar.h
