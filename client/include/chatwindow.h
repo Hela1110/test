@@ -16,6 +16,8 @@ class QComboBox;
 class QPushButton;
 class QTimer;
 class QJsonObject;
+class QNetworkAccessManager;
+class QNetworkReply;
 
 namespace Ui {
 class ChatWindow;
@@ -32,6 +34,8 @@ public:
     void initChat();
     void handleMessage(const QJsonObject &msg);
     void handleMessageUi(const QJsonObject &msg);
+    // 是否正在等待订单详情（用于 MainWindow 将 orders_response 兜底路由回聊天窗口）
+    bool isWaitingOrderDetail() const;
 
 private slots:
     void on_sendButton_clicked();
@@ -50,11 +54,33 @@ private:
     QPushButton *undoDeleteBtn = nullptr; // 撤销删除按钮（短暂显示）
     QTimer *deleteTimer = nullptr;       // 延时删除定时器
     QString pendingDeletePeer;           // 待删除的对话对象
+    // 用于图片下载的共享网络管理器
+    QNetworkAccessManager *http = nullptr;
     void sendMessage();
+    // 如果 message 文本是本地图片路径，则先上传后再发送URL，返回是否已处理
+    bool trySendLocalImagePath(const QString &message);
     void sendDelete();
     void appendLine(const QString &text);
     void appendBubble(const QString &from, const QString &to, const QString &content, const QString &ts, bool isSelf);
     void appendSystem(const QString &text);
+    // 上传并发送图片（通过 HTTP 上传获取 URL，再经 chat_send 发送）
+    void sendImage();
+    // 直接从剪贴板读取图片并发送（Ctrl+V 粘贴）
+    bool pasteImageFromClipboard();
+    // 辅助：将 /images/... 或相对路径转为可访问的绝对 URL（默认 8081）
+    QString toAbsoluteUrl(const QString &u) const;
+    // 专门的图片气泡渲染（下载 → 缩略 → 嵌入到列表项）
+    void appendImageBubble(const QString &from, const QString &to, const QString &url, const QString &ts, bool isSelf);
+    // 订单卡片：以卡片样式展示，并支持双击查看详情
+    void appendOrderBubble(const QString &from, const QString &to, const QJsonObject &orderObj, const QString &ts, bool isSelf);
+    QString buildOrderDetailHtml(const QJsonObject &orderObj) const;
+    void showOrderDetailFromJson(const QString &json);
+    // 售后申请卡片 & 详情按订单号拉取
+    void appendRefundBubble(const QString &from, const QString &to, const QJsonObject &refundObj, const QString &ts, bool isSelf);
+    void showOrderDetailById(qlonglong orderId);
+
+    // 等待详情查询时的订单号
+    qlonglong pendingDetailOrderId = -1;
 };
 
 #endif // CHATWINDOW_H

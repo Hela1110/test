@@ -66,36 +66,36 @@ if exist "build_client_qt1310.bat" (
     echo build_client_qt1310.bat not found, skipping client build.
 )
 
-REM 5) Start client in a new window (prefer freshly built non-dist first)
+REM 5) Start client in a new window (prefer packaged dist in client folder first)
 echo [5/5] Starting client window...
 set "CLIENT_EXE=shopping_client.exe"
 set "CLIENT_DIR="
 
-REM Highest priority: user-specified dist location
+REM Highest priority: packaged dist in repo root (matches build_client_qt1310.bat)
 if exist "build-qt1310\dist\shopping_client.exe" (
     set "CLIENT_DIR=build-qt1310\dist"
     goto :launch_client
 )
 
-REM Prefer freshly built exe in build directories (non-dist) first
+REM Next: packaged dist inside client folder (VS Code task output)
+if exist "client\build-qt1310\dist\shopping_client.exe" (
+    set "CLIENT_DIR=client\build-qt1310\dist"
+    goto :launch_client
+)
+
+REM Then: non-dist in repo root
 if exist "build-qt1310\shopping_client.exe" (
     set "CLIENT_DIR=build-qt1310"
     goto :launch_client
 )
+
+REM Finally: freshly built exe in client folder (non-dist)
 if exist "client\build-qt1310\shopping_client.exe" (
     set "CLIENT_DIR=client\build-qt1310"
     goto :launch_client
 )
 
-REM Fallback to packaged dist locations
-if exist "build-qt1310\dist\shopping_client.exe" (
-    set "CLIENT_DIR=build-qt1310\dist"
-    goto :launch_client
-)
-if exist "client\build-qt1310\dist\shopping_client.exe" (
-    set "CLIENT_DIR=client\build-qt1310\dist"
-    goto :launch_client
-)
+REM Other fallbacks
 if exist "build\dist\shopping_client.exe" (
     set "CLIENT_DIR=build\dist"
     goto :launch_client
@@ -150,13 +150,14 @@ if "%__NEED_DEPLOY%"=="1" (
 
     if not exist "%CLIENT_DIR%\Qt6Core.dll" (
         echo Deploy failed or incomplete. Falling back to packaged dist client if available...
-        REM Try known dist locations as fallback
-        if exist "build-qt1310\dist\shopping_client.exe" (
-            set "CLIENT_DIR=build-qt1310\dist"
-            goto :launch_client
-        )
+        REM Prefer client dist first
         if exist "client\build-qt1310\dist\shopping_client.exe" (
             set "CLIENT_DIR=client\build-qt1310\dist"
+            goto :launch_client
+        )
+        REM Then root dist
+        if exist "build-qt1310\dist\shopping_client.exe" (
+            set "CLIENT_DIR=build-qt1310\dist"
             goto :launch_client
         )
         if exist "build\dist\shopping_client.exe" (

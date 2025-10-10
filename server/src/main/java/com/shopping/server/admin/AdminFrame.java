@@ -158,6 +158,11 @@ public class AdminFrame extends JFrame {
                 java.time.LocalDateTime fromDt=null,toDt=null; try{ if(from!=null) fromDt=java.time.LocalDateTime.parse(from);}catch(Exception ignore){} try{ if(to!=null) toDt=java.time.LocalDateTime.parse(to);}catch(Exception ignore){}
                 final java.time.LocalDateTime fFrom=fromDt, fTo=toDt;
                 var spec = (org.springframework.data.jpa.domain.Specification<com.shopping.server.model.StockMovement>)(root1,q,cb)->{
+                    // 为避免 LazyInitializationException，结果查询时 fetch product
+                    if (com.shopping.server.model.StockMovement.class.equals(q.getResultType())) {
+                        try { root1.fetch("product", javax.persistence.criteria.JoinType.LEFT); } catch (Exception ignore) {}
+                        q.distinct(true); // 防止重复行
+                    }
                     java.util.List<javax.persistence.criteria.Predicate> ps=new java.util.ArrayList<>();
                     if (fPid!=null) ps.add(cb.equal(root1.get("product").get("productId"), fPid));
                     if (fSize!=null) ps.add(cb.equal(root1.get("size"), fSize));
@@ -178,7 +183,8 @@ public class AdminFrame extends JFrame {
                 } else {
                     for (var m : pageData.getContent()) {
                         String created = m.getCreatedAt()==null? "" : m.getCreatedAt().toString();
-                        Long pidVal = null; String pname=""; try { if (m.getProduct()!=null){ pidVal=m.getProduct().getProductId(); pname=m.getProduct().getName(); } } catch (Exception ignore) {}
+                        Long pidVal = (m.getProduct()==null? null : m.getProduct().getProductId());
+                        String pname = (m.getProduct()==null? "" : String.valueOf(m.getProduct().getName()));
                         model.addRow(new Object[]{created, pidVal, pname, m.getSize(), m.getDelta(), m.getAction(), m.getOrderId(), m.getOperator()});
                     }
                     long pages = (totalHolder[0]+pageSize-1)/pageSize;
@@ -455,10 +461,10 @@ public class AdminFrame extends JFrame {
     private JPanel buildChatPanel() {
         JPanel root = new JPanel(new BorderLayout(8, 8));
         root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-        DefaultListModel<String> historyModel = new DefaultListModel<>();
-        // 额外保存一份实体列表，和显示行一一对应，便于后续解析出订单ID与原始消息
-        java.util.List<ChatMessage> historyEntities = new java.util.ArrayList<>();
-        JList<String> history = new JList<>(historyModel);
+    DefaultListModel<String> historyModel = new DefaultListModel<>();
+    // 额外保存一份实体列表，和显示行一一对应，便于后续解析出订单ID与原始消息/图片URL
+    java.util.List<ChatMessage> historyEntities = new java.util.ArrayList<>();
+    JList<String> history = new JList<>(historyModel);
         JTextArea input = new JTextArea(4, 40);
         input.setLineWrap(true);
         JTextField tfFrom = new JTextField("admin", 12);
@@ -498,7 +504,9 @@ public class AdminFrame extends JFrame {
         top.add(btnReload); top.add(btnDelete);
         root.add(top, BorderLayout.NORTH);
 
-        root.add(new JScrollPane(history), BorderLayout.CENTER);
+    // 中部历史列表（直接内联显示图片，无需额外预览框）
+    root.add(new JScrollPane(history), BorderLayout.CENTER);
+    history.setFixedCellHeight(-1); // 允许可变高度以容纳图片
         JPanel bottom = new JPanel(new BorderLayout(4, 4));
         bottom.add(new JScrollPane(input), BorderLayout.CENTER);
         JPanel ctrl = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -510,6 +518,29 @@ public class AdminFrame extends JFrame {
     ctrl.add(btnSend);
         bottom.add(ctrl, BorderLayout.SOUTH);
         root.add(bottom, BorderLayout.SOUTH);
+
+        // 小工具：判断图片URL/转绝对URL
+        java.util.function.Predicate<String> isImageUrl = (u) -> {
+            if (u == null) return false;
+            String s = u.trim();
+            if (s.isEmpty()) return false;
+            String lower = s.toLowerCase();
+            boolean looks = lower.startsWith("http://") || lower.startsWith("https://") || lower.startsWith("/images/") || lower.startsWith("images/");
+            if (!looks) return false;
+            return lower.endsWith(".jpg") || lower.endsWith(".jpeg") || lower.endsWith(".png") || lower.endsWith(".gif") || lower.endsWith(".webp");
+        };
+        java.util.function.Function<String, String> toAbsoluteUrl = (u) -> {
+            if (u == null) return null;
+            String s = u.trim();
+            if (s.isEmpty()) return null;
+            if (s.toLowerCase().startsWith("http://") || s.toLowerCase().startsWith("https://")) return s;
+            String port = System.getProperty("server.port");
+            if (port == null || port.isBlank()) port = "8081"; // 兜底：StartAll 默认 8081
+            String rel = s;
+            if (rel.startsWith("/")) rel = rel.substring(1);
+            if (!rel.toLowerCase().startsWith("images/")) rel = "images/" + rel;
+            return "http://localhost:" + port + "/" + rel;
+        };
 
         Runnable reload = () -> {
             historyModel.clear();
@@ -527,7 +558,11 @@ public class AdminFrame extends JFrame {
             long maxId = lastSeenChatId;
             for (ChatMessage m : msgs) {
                 String ts = m.getCreatedAt() == null ? "" : m.getCreatedAt().format(fmt);
-                historyModel.addElement("[" + ts + "] " + m.getFromUser() + (m.getToUser()==null?" -> 全体":" -> "+m.getToUser()) + ": " + m.getContent());
+                String content = m.getContent();
+                String display = "[" + ts + "] " + m.getFromUser() + (m.getToUser()==null?" -> 全体":" -> "+m.getToUser()) + ": " + content;
+                // 对图片消息在列表中做可见标识
+                if (isImageUrl.test(content)) display += "  [图片]";
+                historyModel.addElement(display);
                 historyEntities.add(m);
                 try { if (m.getId() != null) maxId = Math.max(maxId, m.getId()); } catch (Exception ignore) {}
             }
@@ -571,6 +606,93 @@ public class AdminFrame extends JFrame {
             reload.run();
         });
         btnReload.addActionListener(e -> reload.run());
+
+        // 图像缓存与加载缩放工具（将图片等比缩放至 120x120 以内）
+        final java.util.Map<String, ImageIcon> imageCache = new java.util.HashMap<>();
+        final int THUMB_MAX = 120;
+        java.util.function.Function<String, ImageIcon> loadScaledIcon = (absUrl) -> {
+            if (absUrl == null || absUrl.isBlank()) return null;
+            ImageIcon cached = imageCache.get(absUrl);
+            if (cached != null) return cached;
+            try {
+                java.awt.image.BufferedImage img = javax.imageio.ImageIO.read(new URL(absUrl));
+                if (img == null) throw new RuntimeException("read image failed");
+                int w = img.getWidth();
+                int h = img.getHeight();
+                if (w <= 0 || h <= 0) throw new RuntimeException("invalid image size");
+                double scale = Math.min((double)THUMB_MAX / w, (double)THUMB_MAX / h);
+                if (scale >= 1.0) {
+                    ImageIcon raw = new ImageIcon(img);
+                    imageCache.put(absUrl, raw);
+                    return raw;
+                }
+                int nw = Math.max(1, (int)Math.round(w * scale));
+                int nh = Math.max(1, (int)Math.round(h * scale));
+                Image scaled = img.getScaledInstance(nw, nh, Image.SCALE_SMOOTH);
+                ImageIcon icon = new ImageIcon(scaled);
+                imageCache.put(absUrl, icon);
+                return icon;
+            } catch (Exception primaryEx) {
+                // 一次兜底：若原始 URL 以 .png 结尾，尝试同名 .jpg（服务器端 PNG 已转为 JPG 的情况）
+                try {
+                    String lower = absUrl.toLowerCase();
+                    if (lower.endsWith(".png")) {
+                        String alt = absUrl.substring(0, absUrl.length()-4) + ".jpg";
+                        java.awt.image.BufferedImage img2 = javax.imageio.ImageIO.read(new URL(alt));
+                        if (img2 == null) return null;
+                        int w2 = img2.getWidth(), h2 = img2.getHeight();
+                        if (w2 <= 0 || h2 <= 0) return null;
+                        double scale2 = Math.min((double)THUMB_MAX / w2, (double)THUMB_MAX / h2);
+                        if (scale2 >= 1.0) {
+                            ImageIcon raw2 = new ImageIcon(img2);
+                            imageCache.put(alt, raw2);
+                            return raw2;
+                        }
+                        int nw2 = Math.max(1, (int)Math.round(w2 * scale2));
+                        int nh2 = Math.max(1, (int)Math.round(h2 * scale2));
+                        Image scaled2 = img2.getScaledInstance(nw2, nh2, Image.SCALE_SMOOTH);
+                        ImageIcon icon2 = new ImageIcon(scaled2);
+                        imageCache.put(alt, icon2);
+                        return icon2;
+                    }
+                } catch (Exception ignore) { }
+                return null;
+            }
+        };
+
+        // 自定义渲染器：文本 + 可选缩略图（避免使用 HTML <img> 造成过宽/过高）
+        history.setCellRenderer(new javax.swing.DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                JLabel lbl = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                lbl.setVerticalAlignment(SwingConstants.TOP);
+                lbl.setIcon(null);
+                lbl.setIconTextGap(6);
+                // 让图片显示在冒号后的文本右侧（图标在右，文字在左）
+                lbl.setHorizontalTextPosition(SwingConstants.LEFT);
+                lbl.setHorizontalAlignment(SwingConstants.LEFT);
+                lbl.setVerticalTextPosition(SwingConstants.TOP);
+
+                if (index >= 0 && index < historyEntities.size()) {
+                    ChatMessage m = historyEntities.get(index);
+                    String ts = m.getCreatedAt()==null? "" : m.getCreatedAt().toString().replace('T',' ');
+                    String head = "["+ts+"] "+m.getFromUser()+ (m.getToUser()==null?" -> 全体":" -> "+m.getToUser()) + ": ";
+                    String c = m.getContent()==null?"":m.getContent();
+                    if (isImageUrl.test(c)) {
+                        String abs = toAbsoluteUrl.apply(c);
+                        ImageIcon icon = loadScaledIcon.apply(abs);
+                        // 显示“时间/谁->谁: ”在左侧，图片缩略图在右侧
+                        lbl.setText(head + (icon==null? c : ""));
+                        if (icon != null) lbl.setIcon(icon);
+                    } else {
+                        lbl.setText(head + c);
+                    }
+                } else {
+                    lbl.setText(String.valueOf(value));
+                }
+                return lbl;
+            }
+        });
 
         btnSend.addActionListener(e -> {
             try {
@@ -665,6 +787,12 @@ public class AdminFrame extends JFrame {
                 int idx = history.locationToIndex(e.getPoint());
                 if (idx < 0 || idx >= historyEntities.size()) return;
                 ChatMessage sel = historyEntities.get(idx);
+                // 如果是图片消息，双击直接打开原图
+                if (isImageUrl.test(sel.getContent())) {
+                    String abs = toAbsoluteUrl.apply(sel.getContent());
+                    try { java.awt.Desktop.getDesktop().browse(new java.net.URI(abs)); } catch (Exception ex) { JOptionPane.showMessageDialog(AdminFrame.this, "打开失败: "+ex.getMessage()); }
+                    return;
+                }
                 Long orderId = parseOrderId.apply(sel.getContent());
                 if (orderId == null) return;
                 // 展示订单卡片，并传递申请原因（可能为空）

@@ -651,11 +651,16 @@ void MainWindow::onReadyRead()
         }
     }
     else if (type == "orders_response") {
-        // 如果这次是从聊天窗口发起（origin=chat），则交由 ChatWindow 自行处理，不构建订单页
+        // 若来源于聊天（origin=chat/detail），或聊天窗口正在等待订单详情（比如从卡片双击发起），则交由 ChatWindow 处理
         const QString origin = response.value("origin").toString();
-        if (origin == QLatin1String("chat")) {
-            if (chat) chat->handleMessage(response);
-            return;
+        if (chat) {
+            bool shouldRouteToChat = (origin == QLatin1String("chat") || origin == QLatin1String("detail"));
+            // 服务器可能不回传 origin，这里做兜底：如果聊天窗口正在等待详情，也转发给它
+            if (!shouldRouteToChat) {
+                // ChatWindow 暴露的查询方法
+                if (chat->isWaitingOrderDetail()) shouldRouteToChat = true;
+            }
+            if (shouldRouteToChat) { chat->handleMessage(response); return; }
         }
         // 构建或复用内嵌订单页面（统一顶部返回栏 + 筛选 + 分页，样式统一）
     QWidget *container = findChild<QWidget*>("ordersPage");
