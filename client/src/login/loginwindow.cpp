@@ -7,6 +7,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QStatusBar>
+#include <QByteArray>
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -242,13 +243,16 @@ void LoginWindow::onDisconnected()
 
 void LoginWindow::onReadyRead()
 {
-    QByteArray data = socket->readAll();
-    qInfo() << "onReadyRead bytes=" << data.size();
-    const QList<QByteArray> lines = data.split('\n');
-    for (const QByteArray &line : lines) {
-        if (line.trimmed().isEmpty()) continue;
+    static QByteArray recvBuf; // 仅登录窗口阶段使用的局部静态缓冲
+    recvBuf += socket->readAll();
+    int idx;
+    while ((idx = recvBuf.indexOf('\n')) != -1) {
+        QByteArray one = recvBuf.left(idx);
+        recvBuf.remove(0, idx + 1);
+        const QByteArray trimmed = one.trimmed();
+        if (trimmed.isEmpty()) continue;
         QJsonParseError err{};
-        QJsonDocument doc = QJsonDocument::fromJson(line, &err);
+        QJsonDocument doc = QJsonDocument::fromJson(trimmed, &err);
         if (err.error != QJsonParseError::NoError) continue;
         QJsonObject response = doc.object();
         const QString type = response.value("type").toString();

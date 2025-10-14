@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QString>
 #include <QTcpSocket>
+#include <QScrollArea>
 #include "shopping/shoppingcart.h"
 #include "chat/chatwindow.h"
 #include <QElapsedTimer>
@@ -12,11 +13,13 @@
 #include <QPixmap>
 #include <QStringList>
 #include <QVector>
+#include <QByteArray>
 
 class QTabBar;
 class QNetworkAccessManager;
 class QLabel;
 class QTimer;
+class QScrollArea;
 
 namespace Ui {
 class MainWindow;
@@ -55,14 +58,30 @@ private:
     QPalette defaultAppPalette; // 捕获应用初始调色板
     QString defaultAppStyleSheet; // 捕获应用初始样式表
     bool paletteCaptured = false;
+    // 搜索状态：当处于搜索结果展示时，禁止自动请求分页列表
+    bool searchActive = false;
+    QString currentSearchKeyword;
     // simple debounce
     qint64 lastSearchMs = 0;
     qint64 lastAddMs = 0;
     QElapsedTimer monotonic;
+    // 套接字接收缓冲区：按行分帧（以'\n'结尾），避免半包导致 JSON 解析失败
+    QByteArray recvBuf;
+
+    // 发送侧微批处理：合并短时间内多条帧，降低突发写入
+    QVector<QByteArray> pendingFrames;
+    QTimer *sendFlushTimer = nullptr;
+    void enqueueFrame(const QByteArray &frame);
     // 分页状态
     int currentPage = 1;
     int pageSize = 6;
     int totalProducts = 0;
+    // 商城滚动加载状态
+    bool mallScrollInit = false;            // 是否已创建滚动容器
+    QScrollArea *mallScrollArea = nullptr;  // 包裹商品区域的滚动容器
+    QWidget *mallScrollViewport = nullptr;  // 滚动区域内的实际容器（复用 recommendationsArea 的布局）
+    bool mallLoading = false;               // 是否正在加载下一页
+    bool mallHasMore = true;                // 是否还有更多数据
     // 自适应网格重排支持
     QJsonArray lastRecommendations;
     QJsonArray lastResults;
@@ -92,7 +111,14 @@ private:
     void renderSearchResults(const QJsonArray &results);
     void showProductDetail(const QJsonObject &product);
     void addToCart(int productId, int stock = -1, int size = -1);
+    void handleProductDetailForSizeSelect(const QJsonObject &product);
     void requestProductsPage(int page);
+    // Mall 滚动加载辅助
+    void ensureMallScrollArea();
+    void tryLoadNextProductsOnScroll();
+    void updateMallFooter();
+    void attachRecommendationsToScroll();
+    void attachRecommendationsToRoot();
     // 自适应列数与重排
     int computeColumns(int availableWidth) const;
     void reflowGrids();
@@ -115,11 +141,19 @@ private:
     // Tabs helpers（左侧垂直 TabBar 作为主导航）
     QTabBar* ensureSideTabBar();
     void setTabActive(const QString &key);
+    void switchToTabKey(const QString &key);
     // 当前激活的 Tab 标识（home/mall/cart/orders/chat/account），用于在异步回调中避免构建已离开的页面
     QString activeTabKey;
 
     // 防止 Tab 切换递归触发
     bool tabSwitching = false;
+    // 防抖与排队切换，避免同步重入造成崩溃
+    QTimer *tabSwitchTimer = nullptr;
+    QString pendingTabKey;
+    qint64 lastTabSwitchMs = 0;
+
+    // 首次 socket 建立后，首页数据是否已拉取
+    bool homeDataRequested = false;
 
     // 连接参数与重连机制（尽量避免切页时断线体验差）
     QString socketHost = QStringLiteral("127.0.0.1");
@@ -138,6 +172,9 @@ private:
     // HTTP 服务器基址（用于将相对路径如 /images/1.jpg 自动补齐为完整 URL）
     QString httpBase;
     QString resolveHttpUrl(const QString &url) const;
+
+    // 为“加入购物车但缺少尺码信息”的异步流程保存待处理商品ID
+    int waitingSizeSelectProductId = -1;
 
     // 首页问候语下方的头图支持
     QLabel *homeHeaderImage = nullptr;         // 首页头图标签（仅首页显示）

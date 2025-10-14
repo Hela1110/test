@@ -26,6 +26,8 @@ import java.util.List;
 import java.nio.file.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.*;
+import java.util.ArrayDeque;
 
 @Component
 @ChannelHandler.Sharable
@@ -62,6 +64,19 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         this.stockMovementRepository = stockMovementRepository;
     }
     private static final Map<String, ChannelHandlerContext> clientChannels = new ConcurrentHashMap<>();
+    // 调试跟踪：每连接最近一条消息和序号（仅日志用途，不影响行为）
+    private static final Map<ChannelHandlerContext, String> lastRawByCtx = new ConcurrentHashMap<>();
+    private static final Map<ChannelHandlerContext, Long> seqByCtx = new ConcurrentHashMap<>();
+    // chat_init 时间戳：用于对同连接在极短时间内到来的 get_orders 做轻微延迟写出
+    private static final Map<ChannelHandlerContext, Long> lastChatInitTs = new ConcurrentHashMap<>();
+    // get_orders 节流：同一连接 800ms 内最多响应一次
+    private static final Map<ChannelHandlerContext, Long> lastOrdersReqTs = new ConcurrentHashMap<>();
+    // 每连接出站队列与节流（统一节拍写出，避免瞬时多写）
+    private static final Map<ChannelHandlerContext, ArrayDeque<String>> outQueueByCtx = new ConcurrentHashMap<>();
+    private static final Map<ChannelHandlerContext, Long> lastWriteTsByCtx = new ConcurrentHashMap<>();
+    private static final Map<ChannelHandlerContext, ScheduledFuture<?>> flushTaskByCtx = new ConcurrentHashMap<>();
+    private static final long OUT_MIN_INTERVAL_MS = 90L;          // 两次写的最小间隔
+    private static final long OUT_RETRY_NOT_WRITABLE_MS = 60L;    // 不可写时的重试间隔
     // 临时内存用户存储（演示用）：用户名 -> 明文密码
     // TODO: 替换为数据库存储，并对密码进行哈希（如 BCrypt）
     private static final Map<String, String> userStore = new ConcurrentHashMap<>();
@@ -152,7 +167,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         resp.put("size", size);
         resp.put("total", pageData.getTotalElements());
         resp.put("records", records);
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
 
     // 简易重复请求抑制：每个连接，若在窗口期内收到完全相同的 raw 字符串，则忽略
@@ -199,6 +214,82 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         }
     }
 
+    // ========== 统一出站写出工具 ==========
+    private static void enqueueOut(ChannelHandlerContext ctx, String json) {
+        enqueueOut(ctx, json, 0L);
+    }
+    private static void enqueueOut(ChannelHandlerContext ctx, String json, long initialDelayMs) {
+        if (ctx == null || json == null) return;
+        ArrayDeque<String> q = outQueueByCtx.computeIfAbsent(ctx, k -> new ArrayDeque<>());
+        synchronized (q) { q.addLast(json); }
+        scheduleFlushIfNeeded(ctx, initialDelayMs);
+    }
+    private static void scheduleFlushIfNeeded(ChannelHandlerContext ctx, long initialDelayMs) {
+        if (ctx == null) return;
+        flushTaskByCtx.compute(ctx, (k, existing) -> {
+            if (existing != null && !existing.isDone()) return existing;
+            long delay = Math.max(0L, initialDelayMs);
+            ScheduledFuture<?> f = ctx.executor().schedule(() -> flushOnce(ctx), delay, TimeUnit.MILLISECONDS);
+            return f;
+        });
+    }
+    private static void flushOnce(ChannelHandlerContext ctx) {
+        try {
+            io.netty.channel.Channel ch = (ctx == null ? null : ctx.channel());
+            if (ctx == null || ch == null || !ch.isOpen() || !ch.isActive()) {
+                cancelFlush(ctx);
+                clearOutQueue(ctx);
+                return;
+            }
+            ArrayDeque<String> q = outQueueByCtx.get(ctx);
+            if (q == null) { cancelFlush(ctx); return; }
+            long now = System.currentTimeMillis();
+            Long last = lastWriteTsByCtx.get(ctx);
+            if (last != null) {
+                long gap = now - last;
+                if (gap < OUT_MIN_INTERVAL_MS) {
+                    reschedule(ctx, OUT_MIN_INTERVAL_MS - gap);
+                    return;
+                }
+            }
+            String next;
+            synchronized (q) { next = q.pollFirst(); }
+            if (next == null) { cancelFlush(ctx); return; }
+            if (!ch.isWritable()) {
+                synchronized (q) { q.addFirst(next); }
+                reschedule(ctx, OUT_RETRY_NOT_WRITABLE_MS);
+                return;
+            }
+            ch.writeAndFlush(next);
+            lastWriteTsByCtx.put(ctx, now);
+            synchronized (q) {
+                if (q.isEmpty()) {
+                    cancelFlush(ctx);
+                } else {
+                    reschedule(ctx, OUT_MIN_INTERVAL_MS);
+                }
+            }
+        } catch (Exception ignore) {
+            cancelFlush(ctx);
+        }
+    }
+    private static void reschedule(ChannelHandlerContext ctx, long delayMs) {
+        if (ctx == null) return;
+        flushTaskByCtx.compute(ctx, (k, existing) -> {
+            if (existing != null && !existing.isDone()) existing.cancel(false);
+            return ctx.executor().schedule(() -> flushOnce(ctx), Math.max(1L, delayMs), TimeUnit.MILLISECONDS);
+        });
+    }
+    private static void cancelFlush(ChannelHandlerContext ctx) {
+        ScheduledFuture<?> f = flushTaskByCtx.remove(ctx);
+        if (f != null) try { f.cancel(false); } catch (Exception ignore) {}
+    }
+    private static void clearOutQueue(ChannelHandlerContext ctx) {
+        ArrayDeque<String> q = outQueueByCtx.remove(ctx);
+        if (q != null) synchronized (q) { q.clear(); }
+        lastWriteTsByCtx.remove(ctx);
+    }
+
     /**
      * 提供当前在线用户名列表（基于活跃的 Netty 连接）。
      */
@@ -222,12 +313,12 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             push.put("createdAt", m.getCreatedAt() == null ? null : m.getCreatedAt().format(CHAT_TS_FMT));
             String json = mapper.writeValueAsString(push) + "\n";
             if (m.getToUser() == null) {
-                clientChannels.values().forEach(ch -> ch.writeAndFlush(json));
+                clientChannels.values().forEach(ch -> enqueueOut(ch, json));
             } else {
                 ChannelHandlerContext toCtx = clientChannels.get(m.getToUser());
-                if (toCtx != null) toCtx.writeAndFlush(json);
+                if (toCtx != null) enqueueOut(toCtx, json);
                 ChannelHandlerContext fromCtx = clientChannels.get(m.getFromUser());
-                if (fromCtx != null) fromCtx.writeAndFlush(json);
+                if (fromCtx != null) enqueueOut(fromCtx, json);
             }
         } catch (Exception ignore) {}
     }
@@ -247,7 +338,10 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             return;
         }
         recent.put(raw, now);
-        System.out.println("Received: " + raw);
+    // 记录序号与最近原文（用于异常时定位）
+    long n = seqByCtx.merge(ctx, 1L, Long::sum);
+    lastRawByCtx.put(ctx, raw);
+    System.out.println("Received[#" + n + "]: " + raw);
 
         Map<String, Object> request;
         try {
@@ -257,7 +351,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             Map<String, Object> resp = new HashMap<>();
             resp.put("type", "error");
             resp.put("message", "Invalid JSON");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return; // 不关闭连接，允许客户端继续发送
         }
 
@@ -267,7 +361,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             case "ping": {
                 Map<String,Object> resp = new HashMap<>();
                 resp.put("type", "pong");
-                ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+                enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
                 break;
             }
             case "login":
@@ -358,7 +452,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 resp.put("type", "error");
                 resp.put("code", 1002);
                 resp.put("message", "Unknown message type: " + type);
-                ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+                enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
         }
     }
 
@@ -418,7 +512,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         resp.put("type", "products_response");
         resp.put("total", total);
         resp.put("products", products);
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
 
     private void handleSearchProducts(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
@@ -455,7 +549,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         resp.put("type", "products_response");
         resp.put("total", products.size());
         resp.put("products", products);
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
     
     private void handleLogin(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
@@ -480,7 +574,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                         if (Boolean.FALSE.equals(dbOpt.get().getEnabled())) {
                             response.put("success", false);
                             response.put("message", "该账号已被禁用，请联系管理员");
-                            ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+                            enqueueOut(ctx, objectMapper.writeValueAsString(response) + "\n");
                             return;
                         }
                         // 注意：当前为明文密码对比，生产应使用哈希（如 BCrypt）
@@ -494,7 +588,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                     // 数据库不可用等异常，返回友好错误而不是抛出到 pipeline
                     response.put("success", false);
                     response.put("message", "服务暂时不可用，请稍后再试");
-                    ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+                    enqueueOut(ctx, objectMapper.writeValueAsString(response) + "\n");
                     return;
                 }
             }
@@ -510,7 +604,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                     presence.put("username", username);
                     String json = objectMapper.writeValueAsString(presence) + "\n";
                     clientChannels.values().forEach(ch -> {
-                        if (ch != ctx) ch.writeAndFlush(json);
+                        if (ch != ctx) enqueueOut(ch, json);
                     });
                 } catch (Exception ignore) {}
             } else {
@@ -519,7 +613,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             }
         }
 
-    ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(response) + "\n");
     }
 
     private void handleGetCarousel(ChannelHandlerContext ctx) throws Exception {
@@ -530,7 +624,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         images.add(mapOf("title", "大促海报2", "url", "https://example.com/banner2.jpg"));
         images.add(mapOf("title", "新品上市", "url", "https://example.com/banner3.jpg"));
         resp.put("images", images);
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
 
     private void handleGetRecommendations(ChannelHandlerContext ctx) throws Exception {
@@ -630,7 +724,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         }
         List<Map<String,Object>> out = list.size() > 4 ? new java.util.ArrayList<>(list.subList(0, 4)) : list;
         resp.put("products", out);
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
 
     private void handleGetPromotions(ChannelHandlerContext ctx) throws Exception {
@@ -640,7 +734,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         promos.add(mapOf("title", "开学季", "desc", "全场满 1000 减 100"));
         promos.add(mapOf("title", "会员日", "desc", "PLUS 额外 95 折"));
         resp.put("promotions", promos);
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
 
     // ========== 聊天：初始化、发送、删除 ==========
@@ -678,7 +772,9 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         resp.put("messages", messages);
         // 在线用户列表（用于 presence）
         resp.put("onlineUsers", getOnlineUsernames());
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
+        // 记录 chat_init 的时间戳，用于对紧邻的 get_orders 轻缓冲
+        lastChatInitTs.put(ctx, System.currentTimeMillis());
     }
 
     private void handleChatSend(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
@@ -690,7 +786,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (username == null || content.isEmpty()) {
             resp.put("success", false);
             resp.put("message", "未登录或内容为空");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
         com.shopping.server.model.ChatMessage m = new com.shopping.server.model.ChatMessage();
@@ -701,7 +797,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         m = chatMessageRepository.save(m);
         resp.put("success", true);
         resp.put("messageId", m.getId());
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
         // 推送给接收方或群（在线）
         Map<String,Object> push = new HashMap<>();
         push.put("type", "chat_message");
@@ -713,12 +809,12 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         String json = objectMapper.writeValueAsString(push) + "\n";
         if (m.getToUser() == null) {
             // 群发给所有在线用户（含自己）
-            clientChannels.values().forEach(ch -> ch.writeAndFlush(json));
+                    clientChannels.values().forEach(ch -> enqueueOut(ch, json));
         } else {
             ChannelHandlerContext toCtx = clientChannels.get(m.getToUser());
-            if (toCtx != null) toCtx.writeAndFlush(json);
+            if (toCtx != null) enqueueOut(toCtx, json);
             // 回显给发送者
-            ctx.writeAndFlush(json);
+            enqueueOut(ctx, json);
         }
     }
 
@@ -730,7 +826,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (username == null) {
             resp.put("success", false);
             resp.put("message", "未登录");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
         final String peerStr = peer == null ? "" : peer.trim();
@@ -740,7 +836,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             if (!"admin".equals(username)) {
                 resp.put("success", false);
                 resp.put("message", "仅管理员可删除群聊历史");
-                ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+                enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
                 return;
             }
             // 在事务中执行删除以确保提交
@@ -759,7 +855,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         }
         resp.put("success", true);
         resp.put("deleted", deleted);
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
 
     // ========== 促销/折扣管理 ==========
@@ -768,7 +864,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (pidObj == null) pidObj = request.get("productId");
         Map<String,Object> resp = new HashMap<>();
         resp.put("type", "set_discount_response");
-        if (pidObj == null) { resp.put("success", false); resp.put("message", "缺少 productId"); ctx.writeAndFlush(objectMapper.writeValueAsString(resp)+"\n"); return; }
+    if (pidObj == null) { resp.put("success", false); resp.put("message", "缺少 productId"); enqueueOut(ctx, objectMapper.writeValueAsString(resp)+"\n"); return; }
         long pid = ((Number)pidObj).longValue();
         java.math.BigDecimal discountPrice = null;
         if (request.get("discountPrice") != null) {
@@ -777,10 +873,10 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             else discountPrice = new java.math.BigDecimal(String.valueOf(dp));
         }
         var opt = productRepository.findById(pid);
-        if (opt.isEmpty()) { resp.put("success", false); resp.put("message", "商品不存在"); ctx.writeAndFlush(objectMapper.writeValueAsString(resp)+"\n"); return; }
+    if (opt.isEmpty()) { resp.put("success", false); resp.put("message", "商品不存在"); enqueueOut(ctx, objectMapper.writeValueAsString(resp)+"\n"); return; }
         var p = opt.get();
         if (discountPrice == null || discountPrice.compareTo(java.math.BigDecimal.ZERO) <= 0 || discountPrice.compareTo(p.getPrice()) >= 0) {
-            resp.put("success", false); resp.put("message", "折扣价必须大于 0 且小于原价"); ctx.writeAndFlush(objectMapper.writeValueAsString(resp)+"\n"); return;
+            resp.put("success", false); resp.put("message", "折扣价必须大于 0 且小于原价"); enqueueOut(ctx, objectMapper.writeValueAsString(resp)+"\n"); return;
         }
         p.setOnSale(true);
         p.setDiscountPrice(discountPrice);
@@ -789,23 +885,23 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         resp.put("productId", p.getProductId());
         resp.put("onSale", p.getOnSale());
         resp.put("discountPrice", p.getDiscountPrice());
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
 
     private void handleRemoveDiscount(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
         Object pidObj = request.get("product_id"); if (pidObj == null) pidObj = request.get("productId");
         Map<String,Object> resp = new HashMap<>(); resp.put("type", "remove_discount_response");
-        if (pidObj == null) { resp.put("success", false); resp.put("message", "缺少 productId"); ctx.writeAndFlush(objectMapper.writeValueAsString(resp)+"\n"); return; }
+    if (pidObj == null) { resp.put("success", false); resp.put("message", "缺少 productId"); enqueueOut(ctx, objectMapper.writeValueAsString(resp)+"\n"); return; }
         long pid = ((Number)pidObj).longValue();
         var opt = productRepository.findById(pid);
-        if (opt.isEmpty()) { resp.put("success", false); resp.put("message", "商品不存在"); ctx.writeAndFlush(objectMapper.writeValueAsString(resp)+"\n"); return; }
+    if (opt.isEmpty()) { resp.put("success", false); resp.put("message", "商品不存在"); enqueueOut(ctx, objectMapper.writeValueAsString(resp)+"\n"); return; }
         var p = opt.get();
         p.setOnSale(false);
         p.setDiscountPrice(null);
         productRepository.save(p);
         resp.put("success", true);
         resp.put("productId", p.getProductId());
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
 
     private void handleListDiscounts(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
@@ -822,7 +918,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         Map<String,Object> resp = new HashMap<>();
         resp.put("type", "discounts_response");
         resp.put("items", list);
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
 
     // ========== 数据统计 ==========
@@ -890,7 +986,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 resp.put("userMonthly", userMonthly);
             }
         }
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
 
     private void handleSearch(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
@@ -921,7 +1017,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         Map<String, Object> resp = new HashMap<>();
         resp.put("type", "search_results");
         resp.put("results", results);
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
 
     private void handleGetProductDetail(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
@@ -953,7 +1049,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             }
         }
         resp.put("product", productMap);
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
 
     // 构造统一尺码返回：37-45，每个对象 {size, stock}
@@ -993,7 +1089,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (pidObj == null) {
             resp.put("success", false);
             resp.put("message", "缺少 productId");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
         Long productId;
@@ -1004,7 +1100,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             resp.put("success", false);
             resp.put("message", "非法的 productId");
             resp.put("code", 2001);
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
         int quantity;
@@ -1020,14 +1116,14 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (username == null) {
             resp.put("success", false);
             resp.put("message", "未登录");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
         var clientOpt = clientRepository.findByUsername(username);
         if (clientOpt.isEmpty()) {
             resp.put("success", false);
             resp.put("message", "用户不存在");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
         try {
@@ -1037,7 +1133,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             resp.put("success", true);
             resp.put("headerId", saved.getId());
             resp.put("message", "加入购物车成功");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
 
             // 关键：用 fetch-join 重载购物车，避免 LazyInitializationException
             var headerOpt = orderHeaderRepository.fetchCartWithItems(clientOpt.get(), OrderStatus.CART);
@@ -1053,14 +1149,14 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 empty.put("type", "cart_response");
                 empty.put("items", java.util.List.of());
                 empty.put("headerId", null);
-                ctx.writeAndFlush(objectMapper.writeValueAsString(empty) + "\n");
+                enqueueOut(ctx, objectMapper.writeValueAsString(empty) + "\n");
             }
         } catch (Exception ex) {
             // 捕获所有异常，避免异常冒泡触发 Netty 关闭连接
             resp.put("success", false);
             resp.put("message", ex.getMessage() != null ? ex.getMessage() : "加入购物车失败");
             resp.put("code", 2002);
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
         }
     }
 
@@ -1085,7 +1181,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             response.put("success", false);
             response.put("message", "用户名和密码不能为空");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(response) + "\n");
             return;
         }
 
@@ -1093,13 +1189,13 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (username.length() < 3 || username.length() > 32) {
             response.put("success", false);
             response.put("message", "用户名长度需在 3-32 之间");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(response) + "\n");
             return;
         }
         if (password.length() < 6 || password.length() > 64) {
             response.put("success", false);
             response.put("message", "密码长度需在 6-64 之间");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(response) + "\n");
             return;
         }
 
@@ -1107,14 +1203,14 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (userStore.containsKey(username)) {
             response.put("success", false);
             response.put("message", "用户名已存在");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(response) + "\n");
             return;
         }
         // 检查重复（数据库）
         if (clientRepository.existsByUsername(username)) {
             response.put("success", false);
             response.put("message", "用户名已存在");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(response) + "\n");
             return;
         }
 
@@ -1123,7 +1219,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             if (clientRepository.existsByPhone(phone)) {
                 response.put("success", false);
                 response.put("message", "手机号已存在");
-                ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+                enqueueOut(ctx, objectMapper.writeValueAsString(response) + "\n");
                 return;
             }
         }
@@ -1132,7 +1228,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             if (clientRepository.existsByEmail(email)) {
                 response.put("success", false);
                 response.put("message", "邮箱已存在");
-                ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+                enqueueOut(ctx, objectMapper.writeValueAsString(response) + "\n");
                 return;
             }
         }
@@ -1158,13 +1254,13 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             // 数据库写入失败时，返回提示（内存仍然保留，登录不受影响）
             response.put("success", false);
             response.put("message", "注册失败：数据库写入异常" + (dbEx.getMessage() != null ? (" - " + dbEx.getMessage()) : ""));
-            ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(response) + "\n");
             return;
         }
 
         response.put("success", true);
         response.put("message", "注册成功");
-    ctx.writeAndFlush(objectMapper.writeValueAsString(response) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(response) + "\n");
     }
 
     private void handleClearCart(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
@@ -1174,14 +1270,14 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (username == null) {
             resp.put("success", false);
             resp.put("message", "未登录");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
         var clientOpt = clientRepository.findByUsername(username);
         if (clientOpt.isEmpty()) {
             resp.put("success", false);
             resp.put("message", "用户不存在");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
     var headerOpt = orderHeaderRepository.fetchCartWithItems(clientOpt.get(), OrderStatus.CART);
@@ -1191,12 +1287,12 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             header.setTotalPrice(header.calcTotal());
             orderHeaderRepository.save(header);
             resp.put("success", true);
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             sendCartDualResponses(ctx, header);
         } else {
             resp.put("success", true);
             resp.put("message", "购物车为空");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             handleGetCart(ctx, request);
         }
     }
@@ -1210,13 +1306,13 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (origin != null) resp.put("origin", origin);
         if (username == null) {
             resp.put("orders", List.of());
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
         var clientOpt = clientRepository.findByUsername(username);
         if (clientOpt.isEmpty()) {
             resp.put("orders", List.of());
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
     List<Map<String,Object>> myOrders = new CopyOnWriteArrayList<>();
@@ -1251,7 +1347,23 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             myOrders.add(om);
         }
         resp.put("orders", myOrders);
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    String json = objectMapper.writeValueAsString(resp) + "\n";
+        long nowTs = System.currentTimeMillis();
+        // 基础延迟 120ms
+        long delay = 120L;
+        // 若刚在 chat_init 后 500ms 内，则升级到 220ms
+        Long ts = lastChatInitTs.get(ctx);
+        if (ts != null && (nowTs - ts) < 500) delay = Math.max(delay, 220L);
+        // 节流：保证两次 orders 响应间隔 >= 800ms，如不足则追加等待时间
+        Long lastOrd = lastOrdersReqTs.get(ctx);
+        if (lastOrd != null) {
+            long gap = nowTs - lastOrd;
+            long need = 800L - gap;
+            if (need > 0) delay = Math.max(delay, need);
+        }
+        // 记录本次（以计划发送时刻作为下次节流参考），并通过出站队列以初始延迟写出
+        lastOrdersReqTs.put(ctx, nowTs + delay);
+        enqueueOut(ctx, json, delay);
     }
 
     private void handleGetAccountInfo(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
@@ -1280,7 +1392,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         } else {
             resp.put("message", "未登录");
         }
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+        enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
 
     private void handleUpdateAccountInfo(ChannelHandlerContext ctx, Map<String,Object> request) throws Exception {
@@ -1290,7 +1402,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (username == null) {
             resp.put("success", false);
             resp.put("message", "未登录");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
         String newPhone = (String) request.get("phone");
@@ -1313,13 +1425,13 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             if (clientRepository.existsByUsername(newUsername)) {
                 resp.put("success", false);
                 resp.put("message", "新用户名已存在");
-                ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+                enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
                 return;
             }
             if (userStore.containsKey(newUsername)) {
                 resp.put("success", false);
                 resp.put("message", "新用户名已存在");
-                ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+                enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
                 return;
             }
             // 迁移用户存储
@@ -1357,7 +1469,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             if (conflict) {
                 resp.put("success", false);
                 resp.put("message", "手机号已存在");
-                ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+                enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
                 return;
             }
         }
@@ -1379,7 +1491,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             if (conflictEmail) {
                 resp.put("success", false);
                 resp.put("message", "邮箱已存在");
-                ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+                enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
                 return;
             }
         }
@@ -1434,7 +1546,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             String memPhone = String.valueOf(userProfiles.getOrDefault(username, new HashMap<>()).getOrDefault("phone", ""));
             resp.put("phone", memPhone);
         }
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+        enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
     
     private void handleGetCart(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
@@ -1445,7 +1557,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             empty.put("type", "cart_response");
             empty.put("items", List.of());
             empty.put("headerId", null);
-            ctx.writeAndFlush(objectMapper.writeValueAsString(empty) + "\n");
+                enqueueOut(ctx, objectMapper.writeValueAsString(empty) + "\n");
             return;
         }
         // 查 Client
@@ -1455,7 +1567,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             empty.put("type", "cart_response");
             empty.put("items", List.of());
             empty.put("headerId", null);
-            ctx.writeAndFlush(objectMapper.writeValueAsString(empty) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(empty) + "\n");
             return;
         }
     var headerOpt = orderHeaderRepository.fetchCartWithItems(clientOpt.get(), OrderStatus.CART);
@@ -1464,7 +1576,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             empty.put("type", "cart_response");
             empty.put("items", List.of());
             empty.put("headerId", null);
-            ctx.writeAndFlush(objectMapper.writeValueAsString(empty) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(empty) + "\n");
             return;
         }
     OrderHeader header = headerOpt.get();
@@ -1492,7 +1604,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         }
         itemsMsg.put("items", itemList);
         itemsMsg.put("headerId", header.getId());
-        ctx.writeAndFlush(objectMapper.writeValueAsString(itemsMsg) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(itemsMsg) + "\n");
 
         // 第二条：cart_response（文档字段风格）
         Map<String,Object> resp2 = new HashMap<>();
@@ -1514,7 +1626,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         }
         resp2.put("items", items2);
         resp2.put("headerId", header.getId());
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp2) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp2) + "\n");
     }
 
     private void handleRemoveFromCart(ChannelHandlerContext ctx, Map<String, Object> request) throws Exception {
@@ -1605,14 +1717,14 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
         if (username == null) {
             resp.put("success", false);
             resp.put("message", "未登录");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
         var clientOpt = clientRepository.findByUsername(username);
         if (clientOpt.isEmpty()) {
             resp.put("success", false);
             resp.put("message", "用户不存在");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
     var headerOpt = orderHeaderRepository.fetchCartWithItems(clientOpt.get(), OrderStatus.CART);
@@ -1620,14 +1732,14 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             resp.put("success", false);
             resp.put("code", 3001);
             resp.put("message", "购物车为空");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             // 同时发送 order_response 兼容
             Map<String,Object> resp2 = new HashMap<>();
             resp2.put("type", "order_response");
             resp2.put("success", false);
             resp2.put("code", 3001);
             resp2.put("message", "购物车为空");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp2) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp2) + "\n");
             return;
         }
         OrderHeader header = headerOpt.get();
@@ -1642,7 +1754,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             resp.put("subtotal", _subtotal);
             resp.put("discount", _discount);
             resp.put("payable", _payable);
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             Map<String,Object> resp2 = new HashMap<>();
             resp2.put("type", "order_response");
             resp2.put("success", true);
@@ -1651,7 +1763,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             resp2.put("discount", _discount);
             resp2.put("payable", _payable);
             resp2.put("message", "订单创建成功");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp2) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp2) + "\n");
             // 同步推送一条系统消息到客服群：包含 ORDER_ID 与应付金额（满减后）
             try {
                 com.shopping.server.model.ChatMessage m = new com.shopping.server.model.ChatMessage();
@@ -1669,13 +1781,13 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             resp.put("success", false);
             resp.put("code", 2002);
             resp.put("message", ex.getMessage());
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             Map<String,Object> resp2 = new HashMap<>();
             resp2.put("type", "order_response");
             resp2.put("success", false);
             resp2.put("code", 2002);
             resp2.put("message", ex.getMessage());
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp2) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp2) + "\n");
         }
     }
 
@@ -1687,7 +1799,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             resp.put("success", false);
             resp.put("code", 3002);
             resp.put("message", "未登录");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
         var clientOpt = clientRepository.findByUsername(username);
@@ -1695,7 +1807,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             resp.put("success", false);
             resp.put("code", 3002);
             resp.put("message", "用户不存在");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
         Object rawItems = request.get("items");
@@ -1713,7 +1825,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             resp.put("success", false);
             resp.put("code", 3002);
             resp.put("message", "订单创建失败");
-            ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+            enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
             return;
         }
 
@@ -1746,7 +1858,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             resp.put("code", 2002);
             resp.put("message", ex.getMessage() != null ? ex.getMessage() : "订单创建失败");
         }
-        ctx.writeAndFlush(objectMapper.writeValueAsString(resp) + "\n");
+    enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
     }
 
     private String findUsernameByCtx(ChannelHandlerContext ctx) {
@@ -1763,12 +1875,32 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
-        System.out.println("Client disconnected: " + ctx.channel().remoteAddress());
+        String last = lastRawByCtx.get(ctx);
+        Long n = seqByCtx.get(ctx);
+        System.out.println("Client disconnected: " + ctx.channel().remoteAddress() + (n!=null? (" lastSeq="+n):"") + (last!=null? (" lastMsg="+last):""));
         // 提前找出用户名用于广播
         String username = findUsernameByCtx(ctx);
         // 清理连接对应的用户映射
         clientChannels.entrySet().removeIf(e -> e.getValue() == ctx);
         recentByCtx.remove(ctx);
+        lastRawByCtx.remove(ctx);
+        seqByCtx.remove(ctx);
+        lastChatInitTs.remove(ctx);
+        lastOrdersReqTs.remove(ctx);
+    // 清理出站队列/定时任务
+    try { ArrayDeque<String> q = outQueueByCtx.remove(ctx); if (q != null) synchronized (q) { q.clear(); } } catch (Exception ignore) {}
+    try { java.util.concurrent.ScheduledFuture<?> f = flushTaskByCtx.remove(ctx); if (f != null) f.cancel(false); } catch (Exception ignore) {}
+    lastWriteTsByCtx.remove(ctx);
+        // 清理出站队列与调度
+        try {
+            java.util.ArrayDeque<String> q = outQueueByCtx.remove(ctx);
+            if (q != null) synchronized (q) { q.clear(); }
+        } catch (Exception ignore) {}
+        try {
+            java.util.concurrent.ScheduledFuture<?> f = flushTaskByCtx.remove(ctx);
+            if (f != null) f.cancel(false);
+        } catch (Exception ignore) {}
+        lastWriteTsByCtx.remove(ctx);
         if (username != null) {
             try {
                 Map<String,Object> presence = new HashMap<>();
@@ -1776,14 +1908,23 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 presence.put("event", "offline");
                 presence.put("username", username);
                 String json = objectMapper.writeValueAsString(presence) + "\n";
-                clientChannels.values().forEach(ch -> ch.writeAndFlush(json));
+                clientChannels.values().forEach(ch -> enqueueOut(ch, json));
             } catch (Exception ignore) {}
         }
     }
     
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        cause.printStackTrace();
+        // 降噪 + 定位：客户端 RST 时附带最后一条消息与序号
+        if (cause instanceof java.net.SocketException && String.valueOf(cause.getMessage()).contains("Connection reset")) {
+            String last = lastRawByCtx.get(ctx);
+            Long n = seqByCtx.get(ctx);
+            System.out.println("[INFO] Connection reset from " + ctx.channel().remoteAddress()
+                    + (n!=null? (" lastSeq="+n):"")
+                    + (last!=null? (" lastMsg="+last):""));
+        } else {
+            cause.printStackTrace();
+        }
         ctx.close();
     }
 }

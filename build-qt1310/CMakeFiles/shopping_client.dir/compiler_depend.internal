@@ -72,6 +72,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/timestamp
  D:/CMake/share/cmake-4.1/Modules/Platform/Windows-windres.cmake
  D:/CMake/share/cmake-4.1/Modules/Platform/Windows.cmake
  D:/CMake/share/cmake-4.1/Modules/Platform/WindowsPaths.cmake
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray
  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer
  D:/Qt/6.8.3/mingw_64/include/QtCore/QHash
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray
@@ -289,6 +290,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/timestamp
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget
@@ -311,6 +313,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/timestamp
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h
@@ -743,6 +746,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj
  C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/IFHPYZAWOD/moc_mainwindow.cpp
  C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/LQ5S74IWJL/moc_registerdialog.cpp
  C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/XLQVKIHBGC/moc_loginwindow.cpp
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray
  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer
  D:/Qt/6.8.3/mingw_64/include/QtCore/QHash
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray
@@ -961,6 +965,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget
@@ -983,6 +988,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h
@@ -1223,6 +1229,7 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/QCoreApplication
  D:/Qt/6.8.3/mingw_64/include/QtCore/QDateTime
  D:/Qt/6.8.3/mingw_64/include/QtCore/QDir
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer
  D:/Qt/6.8.3/mingw_64/include/QtCore/QFileInfo
  D:/Qt/6.8.3/mingw_64/include/QtCore/QFlags
  D:/Qt/6.8.3/mingw_64/include/QtCore/QIODevice
@@ -1244,6 +1251,7 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer
  D:/Qt/6.8.3/mingw_64/include/QtCore/QUrl
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QVector
  D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/q20memory.h
@@ -1399,6 +1407,7 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/quuid.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qvector.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h
@@ -1806,6 +1815,7 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj
  C:/Users/Edward/Desktop/test/client/include/mainwindow/mainwindow.h
  C:/Users/Edward/Desktop/test/client/include/register/registerdialog.h
  C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray
  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer
  D:/Qt/6.8.3/mingw_64/include/QtCore/QHash
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray
@@ -2031,6 +2041,7 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpacerItem
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit
@@ -2058,6 +2069,7 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstatusbar.h
@@ -2446,6 +2458,7 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QIcon
  D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent
  D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform
  D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h
@@ -2759,6 +2772,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj
  C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h
  C:/Users/Edward/Desktop/test/client/include/ui_mainwindow.h
  D:/Qt/6.8.3/mingw_64/include/QtCore/QBuffer
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray
  D:/Qt/6.8.3/mingw_64/include/QtCore/QDebug
  D:/Qt/6.8.3/mingw_64/include/QtCore/QDir
  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer
@@ -3021,7 +3035,10 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMenuBar
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QProgressBar
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollBar
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSizePolicy
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpinBox
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar
@@ -3057,8 +3074,11 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmenu.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmenubar.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qprogressbar.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollbar.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qspinbox.h

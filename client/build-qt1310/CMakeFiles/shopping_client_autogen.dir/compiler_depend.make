@@ -71,6 +71,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/CMake/share/cmake-4.1/Modules/Platform/Windows-windres.cmake \
   D:/CMake/share/cmake-4.1/Modules/Platform/Windows.cmake \
   D:/CMake/share/cmake-4.1/Modules/Platform/WindowsPaths.cmake \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
@@ -288,6 +289,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
@@ -310,6 +312,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h \
@@ -778,6 +781,8 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginTargets.cmake:
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/cpu_defines.h:
 
 CMakeFiles/4.1.1/CMakeSystem.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray:
 
 D:/CMake/share/cmake-4.1/Modules/Internal/CheckSourceCompiles.cmake:
 
@@ -1595,6 +1600,10 @@ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginConfig.cmake:
+
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointPrivateConfig.cmake:
@@ -1609,15 +1618,15 @@ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QSvgPluginConfig.cmake:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets-relwithdebinfo.cmake:
-
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QGifPluginConfig.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginConfig.cmake:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets-relwithdebinfo.cmake:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QSvgPluginConfig.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QICOPluginTargets.cmake:
 
@@ -1658,6 +1667,10 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreTargets.cmake:
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlVersionlessAliasTargets.cmake:
 
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_iterator_base_funcs.h:
 
@@ -1887,8 +1900,6 @@ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ext/atomi
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginAdditionalTargetInfo.cmake:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginConfig.cmake:
-
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/cxxabi_init_exception.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginTargets.cmake:
@@ -1918,8 +1929,6 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfigVersionImpl.cmake:
 D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/limits.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlPlugins.cmake:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlVersionlessAliasTargets.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsTargets-relwithdebinfo.cmake:
 

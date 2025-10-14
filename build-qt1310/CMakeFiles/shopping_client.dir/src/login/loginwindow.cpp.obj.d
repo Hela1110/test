@@ -455,6 +455,9 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: \
  C:/Users/Edward/Desktop/test/client/include/mainwindow/mainwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qstring.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
  C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
@@ -482,7 +485,6 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistwidget.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistview.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemview.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractitemmodel.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
@@ -499,6 +501,8 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \

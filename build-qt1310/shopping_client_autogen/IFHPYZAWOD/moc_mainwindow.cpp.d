@@ -3,6 +3,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/IFHPYZAWOD/moc
   C:/Users/Edward/Desktop/test/client/include/chat/chatwindow.h \
   C:/Users/Edward/Desktop/test/client/include/chatwindow.h \
   C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
@@ -191,6 +192,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/IFHPYZAWOD/moc
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
@@ -213,6 +215,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/IFHPYZAWOD/moc
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h \

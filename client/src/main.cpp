@@ -5,6 +5,7 @@
 #include <QDateTime>
 #include <QDir>
 #include <QStandardPaths>
+#include <QIcon>
 #include "login/loginwindow.h"
 
 // Simple global log file and message handler
@@ -52,6 +53,8 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    // HiDPI 图标/像素优化
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication app(argc, argv);
     writeStartupTrace("stage-1: QApplication constructed");
     // 避免窗口切换（登录 -> 主窗）瞬间无可见窗口而退出应用
@@ -72,6 +75,10 @@ int main(int argc, char *argv[]) {
         qInfo() << "Application starting. Log:" << logPath;
     }
     writeStartupTrace("stage-4: logger initialized (or attempted)");
+
+    // 设置全局窗口图标
+    QIcon appIcon(":/icons/mall.svg");
+    app.setWindowIcon(appIcon);
 
     // 加载样式表
     QFile styleFile(":/styles/style.qss");

@@ -383,6 +383,10 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
  C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
@@ -413,8 +417,6 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistwidget.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistview.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemview.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractitemmodel.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
@@ -443,6 +445,8 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
@@ -610,4 +614,8 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QPointer \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qpointer.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QSettings \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qsettings.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qsettings.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollBar \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollbar.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QProgressBar \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qprogressbar.h

@@ -84,8 +84,8 @@ clean: CMakeFiles/shopping_client_autogen.dir/clean
 # Target rules for target CMakeFiles/shopping_client.dir
 
 # All Build rule for target.
-CMakeFiles/shopping_client.dir/all: CMakeFiles/shopping_client_autogen_timestamp_deps.dir/all
 CMakeFiles/shopping_client.dir/all: CMakeFiles/shopping_client_autogen.dir/all
+CMakeFiles/shopping_client.dir/all: CMakeFiles/shopping_client_autogen_timestamp_deps.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\Edward\Desktop\test\client\build-qt1310\CMakeFiles --progress-num=2,3,4,5,6,7,8,9,10,11,12 "Built target shopping_client"
@@ -103,8 +103,8 @@ shopping_client: CMakeFiles/shopping_client.dir/rule
 .PHONY : shopping_client
 
 # codegen rule for target.
-CMakeFiles/shopping_client.dir/codegen: CMakeFiles/shopping_client_autogen_timestamp_deps.dir/all
 CMakeFiles/shopping_client.dir/codegen: CMakeFiles/shopping_client_autogen.dir/all
+CMakeFiles/shopping_client.dir/codegen: CMakeFiles/shopping_client_autogen_timestamp_deps.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\shopping_client.dir\build.make CMakeFiles/shopping_client.dir/codegen
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\Users\Edward\Desktop\test\client\build-qt1310\CMakeFiles --progress-num=2,3,4,5,6,7,8,9,10,11,12 "Finished codegen for target shopping_client"
 .PHONY : CMakeFiles/shopping_client.dir/codegen

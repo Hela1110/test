@@ -78,6 +78,13 @@ shopping_client_autogen/timestamp: CMakeFiles/shopping_client.dir/compiler_depen
 shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/resources.qrc
 shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: CMakeFiles/shopping_client_autogen.dir/AutoRcc_resources_3YJK5W5UP7_Info.json
 shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/styles/style.qss
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/icons/orders.svg
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/icons/chat.svg
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/icons/cart.svg
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/icons/trash.svg
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/icons/mall.svg
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/icons/home.svg
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/icons/account.svg
 shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: D:/Qt/6.8.3/mingw_64/bin/rcc.exe
 shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: D:/Qt/6.8.3/mingw_64/bin/rcc.exe
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=C:\Users\Edward\Desktop\test\client\build-qt1310\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Automatic RCC for resources/resources.qrc"

@@ -69,17 +69,18 @@ if exist "build_client_qt1310.bat" (
     echo build_client_qt1310.bat not found, skipping client build.
 )
 
-REM 5) Start client in a new window (prefer packaged dist in client folder first)
+REM 5) Start client in a new window (prefer top-level freshly packaged dist first)
 echo [5/5] Starting client window...
 set "CLIENT_EXE=shopping_client.exe"
 set "CLIENT_DIR="
 
-if exist "client\build-qt1310\dist\shopping_client.exe" (
-    set "CLIENT_DIR=client\build-qt1310\dist"
-    goto :launch_client
-)
+REM Prefer top-level dist (built by build_client_qt1310.bat) first
 if exist "build-qt1310\dist\shopping_client.exe" (
     set "CLIENT_DIR=build-qt1310\dist"
+    goto :launch_client
+)
+if exist "client\build-qt1310\dist\shopping_client.exe" (
+    set "CLIENT_DIR=client\build-qt1310\dist"
     goto :launch_client
 )
 if exist "build-qt1310\shopping_client.exe" (

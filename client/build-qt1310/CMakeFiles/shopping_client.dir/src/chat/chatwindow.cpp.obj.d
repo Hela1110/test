@@ -411,6 +411,12 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qvector.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
  C:/Users/Edward/Desktop/test/client/build-qt1310/shopping_client_autogen/include/ui_chatwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
@@ -594,7 +600,6 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QHttpMultiPart \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhttpmultipart.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QUrl \
  D:/Qt/6.8.3/mingw_64/include/QtGui/QDesktopServices \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qdesktopservices.h \

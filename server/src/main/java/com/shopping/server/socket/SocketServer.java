@@ -8,7 +8,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.json.JsonObjectDecoder;
+import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import java.nio.charset.StandardCharsets;
@@ -44,8 +44,9 @@ public class SocketServer {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) {
+                        // 按行分帧（客户端以'\n'作为消息分隔），最大单帧 1MB，避免 JSON 粘包/半包带来的解码干扰
                         ch.pipeline().addLast(
-                            new JsonObjectDecoder(),
+                            new LineBasedFrameDecoder(1024 * 1024),
                             new StringDecoder(StandardCharsets.UTF_8),
                             new StringEncoder(StandardCharsets.UTF_8),
                             socketMessageHandler

@@ -421,6 +421,8 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QStandardPaths \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qstandardpaths.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QIcon \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
  C:/Users/Edward/Desktop/test/client/include/login/loginwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \

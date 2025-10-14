@@ -7,7 +7,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none   # 已经手工建表，保持 none
-    show-sql: true
+    show-sql: false   # 关闭控制台 SQL 打印，避免频繁日志刷屏
     properties:
       hibernate.format_sql: true
       hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
@@ -18,9 +18,11 @@ spring:
 logging:
   level:
     root: info
-    org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
-    com.shopping.server: debug
+    # 降低 Hibernate SQL 日志级别，避免每次查询都输出
+    org.hibernate.SQL: warn
+    org.hibernate.type.descriptor.sql.BasicBinder: warn
+    # 业务日志用 info 即可
+    com.shopping.server: info
 server:
   port: 8080
 socket:

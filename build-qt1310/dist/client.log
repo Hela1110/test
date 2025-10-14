@@ -2412,3 +2412,2229 @@
 [2025-10-10 20:32:57] [INFO] Connecting to "127.0.0.1" : 8080
 [2025-10-10 20:32:57] [INFO] LoginWindow created and shown
 [2025-10-10 20:32:57] [DEBUG] Connected to server
+[2025-10-13 22:04:07] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-13 22:04:07] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-13 22:04:07] [INFO] LoginWindow created and shown
+[2025-10-13 22:04:08] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:08] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:08] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:08] [DEBUG] Connected to server
+[2025-10-13 22:04:11] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-13 22:04:15] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-13 22:04:15] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-13 22:04:15] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-13 22:04:15] [INFO] MainWindow constructed
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [INFO] setupConnections: searchButton= 0x19c4ae97c10 cartButton= 0x19c4aef4c00 chatButton= 0x19c4aef48a0
+[2025-10-13 22:04:15] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-13 22:04:15] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:15] [INFO] recv carousel_data images= 3
+[2025-10-13 22:04:15] [INFO] recv recommendations products= 4
+[2025-10-13 22:04:17] [INFO] recv products_response total= 22  page= 1
+[2025-10-13 22:04:17] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:24] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:25] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:25] [INFO] recv products_response total= 22  page= 1
+[2025-10-13 22:04:25] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:31] [INFO] recv carousel_data images= 3
+[2025-10-13 22:04:31] [INFO] recv recommendations products= 4
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:32] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:33] [INFO] recv products_response total= 22  page= 1
+[2025-10-13 22:04:33] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:34] [INFO] recv carousel_data images= 3
+[2025-10-13 22:04:35] [INFO] recv recommendations products= 4
+[2025-10-13 22:04:35] [INFO] recv products_response total= 22  page= 2
+[2025-10-13 22:04:35] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:36] [INFO] recv products_response total= 22  page= 5
+[2025-10-13 22:04:36] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:36] [INFO] recv products_response total= 22  page= 5
+[2025-10-13 22:04:36] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:36] [INFO] recv products_response total= 22  page= 5
+[2025-10-13 22:04:36] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:44] [ERROR] Socket error in MainWindow: "The remote host closed the connection"  state= QAbstractSocket::ConnectedState
+[2025-10-13 22:04:44] [INFO] Socket stateChanged: QAbstractSocket::ClosingState
+[2025-10-13 22:04:44] [INFO] Socket stateChanged: QAbstractSocket::UnconnectedState
+[2025-10-13 22:04:44] [WARN] Socket disconnected. activeTab= "home"
+[2025-10-13 22:04:44] [WARN] Unknown property box-shadow
+[2025-10-13 22:04:44] [WARN] QWaitCondition: Destroyed while threads are still waiting
+[2025-10-13 22:04:44] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-13 22:04:44] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-13 22:13:53] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-13 22:13:53] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-13 22:13:53] [INFO] LoginWindow created and shown
+[2025-10-13 22:13:53] [WARN] Unknown property box-shadow
+[2025-10-13 22:13:53] [WARN] Unknown property box-shadow
+[2025-10-13 22:13:53] [WARN] Unknown property box-shadow
+[2025-10-13 22:13:53] [DEBUG] Connected to server
+[2025-10-13 22:14:13] [INFO] sendJson "{\"type\":\"ping\"}\n"
+[2025-10-13 22:14:33] [INFO] sendJson "{\"type\":\"ping\"}\n"
+[2025-10-13 22:14:53] [INFO] sendJson "{\"type\":\"ping\"}\n"
+[2025-10-13 22:15:13] [INFO] sendJson "{\"type\":\"ping\"}\n"
+[2025-10-13 22:15:25] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-13 22:15:27] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-13 22:15:27] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-13 22:15:27] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-13 22:15:27] [INFO] MainWindow constructed
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [INFO] setupConnections: searchButton= 0x2922467d190 cartButton= 0x2922467d2e0 chatButton= 0x2922467d460
+[2025-10-13 22:15:27] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-13 22:15:27] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:27] [INFO] recv carousel_data images= 3
+[2025-10-13 22:15:27] [INFO] recv recommendations products= 4
+[2025-10-13 22:15:30] [INFO] recv products_response total= 22  page= 1
+[2025-10-13 22:15:30] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:33] [INFO] recv carousel_data images= 3
+[2025-10-13 22:15:33] [INFO] recv recommendations products= 4
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:34] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:35] [INFO] recv products_response total= 22  page= 1
+[2025-10-13 22:15:35] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:41] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-13 22:15:41] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-13 22:15:41] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-13 22:15:41] [INFO] [cart_load] empty cart
+[2025-10-13 22:15:42] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-10-13 22:15:44] [INFO] recv products_response total= 22  page= 1
+[2025-10-13 22:15:44] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:47] [INFO] send get_orders (orders tab)
+[2025-10-13 22:15:47] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:47] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:47] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:47] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:53] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-10-13 22:15:53] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:53] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:53] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:53] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:53] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:54] [INFO] chat_init_response received, resume queued requests
+[2025-10-13 22:15:56] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:56] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:56] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:56] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:56] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:56] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:56] [WARN] Unknown property box-shadow
+[2025-10-13 22:15:58] [INFO] chat_init_response received, resume queued requests
+[2025-10-13 22:16:00] [INFO] recv products_response total= 22  page= 1
+[2025-10-13 22:16:00] [WARN] Unknown property box-shadow
+[2025-10-13 22:16:01] [INFO] send get_orders (orders tab)
+[2025-10-13 22:16:05] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-13 22:16:05] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-13 22:22:51] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-13 22:22:51] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-13 22:22:51] [INFO] LoginWindow created and shown
+[2025-10-13 22:22:51] [WARN] Unknown property box-shadow
+[2025-10-13 22:22:51] [WARN] Unknown property box-shadow
+[2025-10-13 22:22:51] [WARN] Unknown property box-shadow
+[2025-10-13 22:22:51] [DEBUG] Connected to server
+[2025-10-13 22:23:04] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-13 22:23:06] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-13 22:23:06] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-13 22:23:06] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-13 22:23:06] [INFO] MainWindow constructed
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [INFO] setupConnections: searchButton= 0x22b363b9c80 cartButton= 0x22b363ba490 chatButton= 0x22b363b9bc0
+[2025-10-13 22:23:06] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-13 22:23:06] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:06] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:07] [INFO] recv carousel_data images= 3
+[2025-10-13 22:23:07] [INFO] recv recommendations products= 4
+[2025-10-13 22:23:08] [INFO] recv products_response total= 22  page= 1
+[2025-10-13 22:23:08] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:10] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-13 22:23:10] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-13 22:23:10] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-13 22:23:10] [INFO] [cart_load] empty cart
+[2025-10-13 22:23:10] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-10-13 22:23:12] [INFO] recv products_response total= 22  page= 1
+[2025-10-13 22:23:12] [WARN] Unknown property box-shadow
+[2025-10-13 22:23:17] [ERROR] Socket error in MainWindow: "The remote host closed the connection"  state= QAbstractSocket::ConnectedState
+[2025-10-13 22:23:17] [INFO] Socket stateChanged: QAbstractSocket::ClosingState
+[2025-10-13 22:23:17] [INFO] Socket stateChanged: QAbstractSocket::UnconnectedState
+[2025-10-13 22:23:17] [WARN] Socket disconnected. activeTab= "mall"
+[2025-10-13 22:23:17] [WARN] QWaitCondition: Destroyed while threads are still waiting
+[2025-10-13 22:23:17] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-13 22:23:17] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-13 22:38:30] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-13 22:38:30] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-13 22:38:30] [INFO] LoginWindow created and shown
+[2025-10-13 22:38:30] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:30] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:30] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:30] [DEBUG] Connected to server
+[2025-10-13 22:38:40] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-13 22:38:43] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-13 22:38:43] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-13 22:38:43] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-13 22:38:43] [INFO] MainWindow constructed
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [INFO] setupConnections: searchButton= 0x20cade46250 cartButton= 0x20cade46af0 chatButton= 0x20cade46760
+[2025-10-13 22:38:43] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-13 22:38:43] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:43] [INFO] recv carousel_data images= 3
+[2025-10-13 22:38:43] [INFO] recv recommendations products= 4
+[2025-10-13 22:38:44] [INFO] recv products_response total= 22  page= 1
+[2025-10-13 22:38:44] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:45] [INFO] recv products_response total= 22  page= 2
+[2025-10-13 22:38:45] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:45] [INFO] recv products_response total= 22  page= 3
+[2025-10-13 22:38:45] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:45] [INFO] recv products_response total= 22  page= 4
+[2025-10-13 22:38:45] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:48] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-13 22:38:48] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-13 22:38:48] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-13 22:38:48] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:48] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:48] [INFO] [cart_load] empty cart
+[2025-10-13 22:38:49] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-10-13 22:38:49] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:49] [INFO] recv products_response total= 22  page= 1
+[2025-10-13 22:38:49] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:49] [INFO] recv products_response total= 22  page= 2
+[2025-10-13 22:38:49] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:49] [INFO] recv products_response total= 22  page= 3
+[2025-10-13 22:38:49] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:50] [INFO] recv products_response total= 22  page= 4
+[2025-10-13 22:38:50] [WARN] Unknown property box-shadow
+[2025-10-13 22:38:57] [ERROR] Socket error in MainWindow: "The remote host closed the connection"  state= QAbstractSocket::ConnectedState
+[2025-10-13 22:38:57] [INFO] Socket stateChanged: QAbstractSocket::ClosingState
+[2025-10-13 22:38:57] [INFO] Socket stateChanged: QAbstractSocket::UnconnectedState
+[2025-10-13 22:38:57] [WARN] Socket disconnected. activeTab= "mall"
+[2025-10-13 22:38:57] [WARN] QWaitCondition: Destroyed while threads are still waiting
+[2025-10-13 22:38:57] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-13 22:38:57] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-13 23:29:41] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-13 23:29:41] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-13 23:29:41] [INFO] LoginWindow created and shown
+[2025-10-13 23:29:42] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:42] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:42] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:42] [DEBUG] Connected to server
+[2025-10-13 23:29:48] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:50] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-13 23:29:51] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-13 23:29:51] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-13 23:29:51] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-13 23:29:51] [INFO] MainWindow constructed
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [INFO] setupConnections: searchButton= 0x1d6e3b261b0 cartButton= 0x1d6e3b25fd0 chatButton= 0x1d6e3b26000
+[2025-10-13 23:29:51] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-13 23:29:51] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:51] [INFO] recv carousel_data images= 3
+[2025-10-13 23:29:51] [INFO] recv recommendations products= 4
+[2025-10-13 23:29:52] [INFO] recv products_response total= 22  page= 1
+[2025-10-13 23:29:52] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-13 23:29:52] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:52] [INFO] recv products_response total= 22  page= 2
+[2025-10-13 23:29:52] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-13 23:29:52] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:52] [INFO] recv products_response total= 22  page= 3
+[2025-10-13 23:29:52] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-13 23:29:52] [WARN] Unknown property box-shadow
+[2025-10-13 23:29:52] [INFO] recv products_response total= 22  page= 4
+[2025-10-13 23:29:53] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-13 23:29:53] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:01] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-13 23:30:01] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-13 23:30:01] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-13 23:30:01] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:01] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:01] [INFO] [cart_load] empty cart
+[2025-10-13 23:30:01] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-10-13 23:30:01] [INFO] send get_orders (orders tab)
+[2025-10-13 23:30:02] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:02] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:02] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:02] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:02] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-10-13 23:30:02] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:02] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:02] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:02] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:02] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:02] [INFO] chat_init_response received, resume queued requests
+[2025-10-13 23:30:03] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:03] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:03] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:03] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:03] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:03] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:03] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:04] [INFO] chat_init_response received, resume queued requests
+[2025-10-13 23:30:04] [INFO] send get_orders (orders tab)
+[2025-10-13 23:30:04] [INFO] skip orders_response due to inactive tab "cart"
+[2025-10-13 23:30:05] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:05] [INFO] recv products_response total= 22  page= 1
+[2025-10-13 23:30:05] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-13 23:30:05] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:05] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:05] [WARN] Unknown property box-shadow
+[2025-10-13 23:30:05] [INFO] send get_orders (orders tab)
+[2025-10-13 23:30:09] [WARN] QWaitCondition: Destroyed while threads are still waiting
+[2025-10-13 23:30:09] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-13 23:30:09] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-14 12:28:48] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 12:28:48] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 12:28:48] [INFO] LoginWindow created and shown
+[2025-10-14 12:28:48] [WARN] Unknown property box-shadow
+[2025-10-14 12:28:48] [WARN] Unknown property box-shadow
+[2025-10-14 12:28:48] [WARN] Unknown property box-shadow
+[2025-10-14 12:28:48] [DEBUG] Connected to server
+[2025-10-14 12:29:06] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [INFO] sendJson "{\"type\":\"ping\"}\n"
+[2025-10-14 12:29:08] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 12:29:08] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 12:29:08] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 12:29:08] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 12:29:08] [INFO] MainWindow constructed
+[2025-10-14 12:29:08] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [INFO] setupConnections: searchButton= 0x23b862cc450 cartButton= 0x23b862cc2d0 chatButton= 0x23b862cc090
+[2025-10-14 12:29:08] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 12:29:08] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:08] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 12:29:08] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 12:29:09] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:09] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:09] [INFO] recv carousel_data images= 3
+[2025-10-14 12:29:09] [INFO] recv recommendations products= 4
+[2025-10-14 12:29:11] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 12:29:11] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 12:29:11] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:11] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 12:29:11] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 12:29:11] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:11] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 12:29:11] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 12:29:11] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:13] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 12:29:14] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 12:29:14] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:20] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:21] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:21] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 12:29:21] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 12:29:21] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:21] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 12:29:21] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 12:29:21] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:21] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 12:29:21] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 12:29:21] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:23] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 12:29:23] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 12:29:23] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:26] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:27] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:27] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 12:29:27] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 12:29:27] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:27] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 12:29:27] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 12:29:27] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:27] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 12:29:27] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 12:29:27] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:28] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 12:29:28] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 12:29:28] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:36] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 12:29:36] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 12:29:36] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-14 12:29:36] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:36] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:36] [INFO] [cart_load] empty cart
+[2025-10-14 12:29:36] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-10-14 12:29:42] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:42] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 12:29:42] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 12:29:42] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:42] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 12:29:42] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 12:29:42] [WARN] Unknown property box-shadow
+[2025-10-14 12:29:42] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 12:29:42] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 12:29:42] [WARN] Unknown property box-shadow
+[2025-10-14 12:30:03] [ERROR] Socket error in MainWindow: "The remote host closed the connection"  state= QAbstractSocket::ConnectedState
+[2025-10-14 12:30:03] [INFO] Socket stateChanged: QAbstractSocket::ClosingState
+[2025-10-14 12:30:03] [INFO] Socket stateChanged: QAbstractSocket::UnconnectedState
+[2025-10-14 12:30:03] [WARN] Socket disconnected. activeTab= "mall"
+[2025-10-14 12:30:03] [INFO] reconnect attempt 1 to "127.0.0.1" 8080
+[2025-10-14 12:30:03] [INFO] Socket stateChanged: QAbstractSocket::HostLookupState
+[2025-10-14 12:30:03] [INFO] Socket stateChanged: QAbstractSocket::ConnectingState
+[2025-10-14 12:30:04] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-14 12:30:04] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-14 13:06:29] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 13:06:29] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 13:06:29] [INFO] LoginWindow created and shown
+[2025-10-14 13:06:29] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:29] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:29] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:29] [DEBUG] Connected to server
+[2025-10-14 13:06:49] [INFO] sendJson "{\"type\":\"ping\"}\n"
+[2025-10-14 13:06:55] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 13:06:58] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 13:06:58] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 13:06:58] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 13:06:58] [INFO] MainWindow constructed
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [INFO] setupConnections: searchButton= 0x2ae41aca300 cartButton= 0x2ae41ac9d30 chatButton= 0x2ae41ac9dc0
+[2025-10-14 13:06:58] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 13:06:58] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [WARN] Unknown property box-shadow
+[2025-10-14 13:06:58] [INFO] recv carousel_data images= 3
+[2025-10-14 13:06:58] [INFO] recv recommendations products= 4
+[2025-10-14 13:07:00] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 13:07:00] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 13:07:00] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:00] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 13:07:00] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 13:07:00] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:00] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 13:07:00] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 13:07:00] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:02] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 13:07:02] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 13:07:02] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:34] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:34] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:40] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 13:07:40] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 13:07:40] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-14 13:07:40] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:40] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:40] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:40] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-10-14 13:07:40] [INFO] [cart_load] skip duplicate build sig= "1|8:1"
+[2025-10-14 13:07:41] [INFO] send get_orders (orders tab)
+[2025-10-14 13:07:41] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:41] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:41] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:41] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:42] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-10-14 13:07:42] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:42] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:42] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:42] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:42] [WARN] Unknown property box-shadow
+[2025-10-14 13:07:42] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 13:07:58] [ERROR] Socket error in MainWindow: "The remote host closed the connection"  state= QAbstractSocket::ConnectedState
+[2025-10-14 13:07:58] [INFO] Socket stateChanged: QAbstractSocket::ClosingState
+[2025-10-14 13:07:58] [INFO] Socket stateChanged: QAbstractSocket::UnconnectedState
+[2025-10-14 13:07:58] [WARN] Socket disconnected. activeTab= "chat"
+[2025-10-14 13:07:59] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-14 13:07:59] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-14 13:16:56] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 13:16:56] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 13:16:56] [INFO] LoginWindow created and shown
+[2025-10-14 13:16:56] [WARN] Unknown property box-shadow
+[2025-10-14 13:16:56] [WARN] Unknown property box-shadow
+[2025-10-14 13:16:56] [WARN] Unknown property box-shadow
+[2025-10-14 13:16:56] [DEBUG] Connected to server
+[2025-10-14 13:17:00] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:05] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 13:17:06] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 13:17:06] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 13:17:06] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 13:17:06] [INFO] MainWindow constructed
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [INFO] setupConnections: searchButton= 0x1ccbb9f77f0 cartButton= 0x1ccbba55ef0 chatButton= 0x1ccbba55c20
+[2025-10-14 13:17:06] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 13:17:06] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:06] [INFO] recv carousel_data images= 3
+[2025-10-14 13:17:06] [INFO] recv recommendations products= 4
+[2025-10-14 13:17:07] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 13:17:07] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 13:17:07] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:07] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 13:17:07] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 13:17:07] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:08] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 13:17:08] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 13:17:08] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:09] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 13:17:09] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 13:17:09] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:44] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 13:17:44] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 13:17:44] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-14 13:17:44] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:44] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:44] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:44] [INFO] [cart_load] populated rows= 1 all selected initially
+[2025-10-14 13:17:44] [INFO] [cart_load] skip duplicate build sig= "1|8:1"
+[2025-10-14 13:17:45] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:45] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 13:17:45] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 13:17:45] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:45] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 13:17:45] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 13:17:45] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:45] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 13:17:45] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 13:17:45] [WARN] Unknown property box-shadow
+[2025-10-14 13:17:56] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-14 13:17:56] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-14 14:32:10] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 14:32:10] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 14:32:10] [INFO] LoginWindow created and shown
+[2025-10-14 14:32:10] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:10] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:11] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:11] [DEBUG] Connected to server
+[2025-10-14 14:32:14] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 14:32:17] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 14:32:17] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 14:32:17] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 14:32:17] [INFO] MainWindow constructed
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [INFO] setupConnections: searchButton= 0x1a8b0235700 cartButton= 0x1a8b02352b0 chatButton= 0x1a8b02354c0
+[2025-10-14 14:32:17] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 14:32:17] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:17] [INFO] recv carousel_data images= 3
+[2025-10-14 14:32:17] [INFO] recv recommendations products= 4
+[2025-10-14 14:32:31] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 14:32:31] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:32:31] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:31] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 14:32:31] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:32:31] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:31] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 14:32:31] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:32:31] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:33] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 14:32:33] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 14:32:33] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:38] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:40] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:44] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 14:32:44] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 14:32:44] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-14 14:32:44] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:45] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-10-14 14:32:45] [INFO] [cart_load] skip duplicate build sig= "2|16:1,8:1"
+[2025-10-14 14:32:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:46] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 14:32:46] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:32:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:52] [WARN] Unknown property box-shadow
+[2025-10-14 14:32:59] [WARN] Unknown property box-shadow
+[2025-10-14 14:33:02] [WARN] Unknown property box-shadow
+[2025-10-14 14:33:06] [WARN] Unknown property box-shadow
+[2025-10-14 14:33:06] [WARN] Unknown property box-shadow
+[2025-10-14 14:33:06] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-10-14 14:33:06] [INFO] [cart_load] skip duplicate build sig= "2|16:6,8:1"
+[2025-10-14 14:33:06] [INFO] [cart_load] skip duplicate build sig= "2|16:6,8:1"
+[2025-10-14 14:33:06] [INFO] [cart_load] skip duplicate build sig= "2|16:6,8:1"
+[2025-10-14 14:33:06] [WARN] Unknown property box-shadow
+[2025-10-14 14:33:06] [WARN] Unknown property box-shadow
+[2025-10-14 14:33:13] [WARN] Unknown property box-shadow
+[2025-10-14 14:33:13] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 14:33:13] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:33:13] [WARN] Unknown property box-shadow
+[2025-10-14 14:33:13] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 14:33:13] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:33:13] [WARN] Unknown property box-shadow
+[2025-10-14 14:33:13] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 14:33:13] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:33:13] [WARN] Unknown property box-shadow
+[2025-10-14 14:33:14] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 14:33:14] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 14:33:14] [WARN] Unknown property box-shadow
+[2025-10-14 14:33:21] [WARN] Unknown property box-shadow
+[2025-10-14 14:33:31] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-14 14:33:31] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-14 14:44:20] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 14:44:20] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 14:44:20] [INFO] LoginWindow created and shown
+[2025-10-14 14:44:21] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:21] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:21] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:21] [DEBUG] Connected to server
+[2025-10-14 14:44:25] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 14:44:28] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 14:44:28] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 14:44:28] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 14:44:28] [INFO] MainWindow constructed
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [INFO] setupConnections: searchButton= 0x1538a24acb0 cartButton= 0x1538a24aaa0 chatButton= 0x1538a24ad70
+[2025-10-14 14:44:28] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 14:44:28] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:28] [INFO] recv carousel_data images= 3
+[2025-10-14 14:44:28] [INFO] recv recommendations products= 4
+[2025-10-14 14:44:30] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 14:44:30] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:44:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:30] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 14:44:30] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:44:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:30] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 14:44:30] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:44:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:30] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 14:44:30] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 14:44:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:36] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:43] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:48] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:53] [WARN] Unknown property box-shadow
+[2025-10-14 14:44:55] [WARN] Unknown property box-shadow
+[2025-10-14 14:45:08] [ERROR] Socket error in MainWindow: "The remote host closed the connection"  state= QAbstractSocket::ConnectedState
+[2025-10-14 14:45:08] [INFO] Socket stateChanged: QAbstractSocket::ClosingState
+[2025-10-14 14:45:08] [INFO] Socket stateChanged: QAbstractSocket::UnconnectedState
+[2025-10-14 14:45:08] [WARN] Socket disconnected. activeTab= "mall"
+[2025-10-14 14:45:08] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-14 14:45:08] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-14 14:48:13] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 14:48:13] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 14:48:13] [INFO] LoginWindow created and shown
+[2025-10-14 14:48:14] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:14] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:14] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:14] [DEBUG] Connected to server
+[2025-10-14 14:48:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 14:48:23] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 14:48:23] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 14:48:23] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 14:48:23] [INFO] MainWindow constructed
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [INFO] setupConnections: searchButton= 0x1ba41ee8960 cartButton= 0x1ba41ee8ba0 chatButton= 0x1ba41ee8ea0
+[2025-10-14 14:48:23] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 14:48:23] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:23] [INFO] recv carousel_data images= 3
+[2025-10-14 14:48:24] [INFO] recv recommendations products= 4
+[2025-10-14 14:48:26] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:29] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 14:48:29] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:48:29] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:29] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 14:48:29] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:48:29] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:29] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 14:48:29] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:48:29] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:30] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 14:48:30] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 14:48:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:33] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:35] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:38] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:40] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:43] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 14:48:43] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 14:48:43] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-14 14:48:43] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:43] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:43] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:43] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:43] [WARN] Unknown property box-shadow
+[2025-10-14 14:48:43] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-10-14 14:48:43] [INFO] [cart_load] skip duplicate build sig= "3|16:6,8:1,8:1"
+[2025-10-14 14:49:02] [INFO] checkoutButton clicked, itemsEmpty= false inFlight= false
+[2025-10-14 14:49:02] [INFO] showOnce show tag= "order_ok" title= "下单成功" text= "订单已创建：#20\n小计：￥1599.00\n满减：-￥140.00\n应付：￥1459.00"
+[2025-10-14 14:49:03] [WARN] Unknown property box-shadow
+[2025-10-14 14:49:03] [WARN] Unknown property box-shadow
+[2025-10-14 14:49:03] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-10-14 14:49:03] [INFO] [cart_load] skip duplicate build sig= "2|16:6,8:1"
+[2025-10-14 14:49:04] [INFO] [cart_load] skip duplicate build sig= "2|16:6,8:1"
+[2025-10-14 14:49:04] [INFO] [cart_load] skip duplicate build sig= "2|16:6,8:1"
+[2025-10-14 14:49:05] [WARN] Unknown property box-shadow
+[2025-10-14 14:49:05] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 14:49:05] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:49:05] [WARN] Unknown property box-shadow
+[2025-10-14 14:49:05] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 14:49:05] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:49:05] [WARN] Unknown property box-shadow
+[2025-10-14 14:49:05] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 14:49:05] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:49:05] [WARN] Unknown property box-shadow
+[2025-10-14 14:49:07] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 14:49:07] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 14:49:07] [WARN] Unknown property box-shadow
+[2025-10-14 14:49:09] [WARN] Unknown property box-shadow
+[2025-10-14 14:49:17] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:02] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:02] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:07] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:07] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 14:50:07] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:50:07] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:07] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 14:50:07] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:50:07] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:07] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 14:50:07] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:50:07] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:08] [INFO] send get_orders (orders tab)
+[2025-10-14 14:50:08] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:08] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:08] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:08] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:08] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:08] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:21] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-10-14 14:50:21] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:21] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:21] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:21] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:21] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:22] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 14:50:24] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:24] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:24] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:24] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:24] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:24] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:24] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:26] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:32] [WARN] Unknown property box-shadow
+[2025-10-14 14:50:44] [WARN] Unknown property box-shadow
+[2025-10-14 14:51:23] [ERROR] Socket error in MainWindow: "The remote host closed the connection"  state= QAbstractSocket::ConnectedState
+[2025-10-14 14:51:23] [INFO] Socket stateChanged: QAbstractSocket::ClosingState
+[2025-10-14 14:51:23] [INFO] Socket stateChanged: QAbstractSocket::UnconnectedState
+[2025-10-14 14:51:23] [WARN] Socket disconnected. activeTab= "account"
+[2025-10-14 14:51:24] [INFO] reconnect attempt 1 to "127.0.0.1" 8080
+[2025-10-14 14:51:24] [INFO] Socket stateChanged: QAbstractSocket::HostLookupState
+[2025-10-14 14:51:24] [INFO] Socket stateChanged: QAbstractSocket::ConnectingState
+[2025-10-14 14:51:24] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-14 14:51:24] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-14 14:57:29] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 14:57:29] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 14:57:30] [INFO] LoginWindow created and shown
+[2025-10-14 14:57:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:30] [DEBUG] Connected to server
+[2025-10-14 14:57:34] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 14:57:37] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 14:57:37] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 14:57:37] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 14:57:37] [INFO] MainWindow constructed
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [INFO] setupConnections: searchButton= 0x21ae0e861e0 cartButton= 0x21adb7bd1a0 chatButton= 0x21adb7a2880
+[2025-10-14 14:57:37] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 14:57:37] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:37] [INFO] recv carousel_data images= 3
+[2025-10-14 14:57:37] [INFO] recv recommendations products= 4
+[2025-10-14 14:57:40] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:45] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:46] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:47] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:49] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:50] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:50] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 14:57:50] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:57:50] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:50] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 14:57:50] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:57:50] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:51] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 14:57:51] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 14:57:51] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:53] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 14:57:53] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 14:57:53] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:56] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:58] [WARN] Unknown property box-shadow
+[2025-10-14 14:57:58] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:05] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 14:58:05] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 14:58:05] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-14 14:58:05] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:05] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:05] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:05] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:05] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-10-14 14:58:05] [INFO] [cart_load] skip duplicate build sig= "2|16:6,8:1"
+[2025-10-14 14:58:07] [INFO] send get_orders (orders tab)
+[2025-10-14 14:58:07] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:07] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:07] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:07] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:16] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:21] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-10-14 14:58:21] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:21] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:21] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:21] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:21] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:21] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 14:58:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:30] [WARN] Unknown property box-shadow
+[2025-10-14 14:58:31] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 14:58:44] [ERROR] Socket error in MainWindow: "The remote host closed the connection"  state= QAbstractSocket::ConnectedState
+[2025-10-14 14:58:44] [INFO] Socket stateChanged: QAbstractSocket::ClosingState
+[2025-10-14 14:58:44] [INFO] Socket stateChanged: QAbstractSocket::UnconnectedState
+[2025-10-14 14:58:44] [WARN] Socket disconnected. activeTab= "chat"
+[2025-10-14 14:58:44] [INFO] reconnect attempt 1 to "127.0.0.1" 8080
+[2025-10-14 14:58:44] [INFO] Socket stateChanged: QAbstractSocket::HostLookupState
+[2025-10-14 14:58:44] [INFO] Socket stateChanged: QAbstractSocket::ConnectingState
+[2025-10-14 14:58:45] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-14 14:58:45] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-14 15:17:27] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 15:17:27] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 15:17:27] [INFO] LoginWindow created and shown
+[2025-10-14 15:17:27] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:27] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:27] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:27] [DEBUG] Connected to server
+[2025-10-14 15:17:47] [INFO] sendJson "{\"type\":\"ping\"}\n"
+[2025-10-14 15:17:53] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 15:17:56] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 15:17:56] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 15:17:56] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 15:17:56] [INFO] MainWindow constructed
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [INFO] setupConnections: searchButton= 0x1f8ce8be190 cartButton= 0x1f8ce8bdb90 chatButton= 0x1f8c94c8ab0
+[2025-10-14 15:17:56] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 15:17:56] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [WARN] Unknown property box-shadow
+[2025-10-14 15:17:56] [INFO] recv carousel_data images= 3
+[2025-10-14 15:17:56] [INFO] recv recommendations products= 4
+[2025-10-14 15:17:58] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:00] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:03] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:04] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:04] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 15:18:04] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 15:18:04] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:04] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 15:18:04] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 15:18:04] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:04] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 15:18:04] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 15:18:04] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:08] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 15:18:08] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 15:18:08] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:09] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:09] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:09] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:09] [INFO] recv carousel_data images= 3
+[2025-10-14 15:18:10] [INFO] recv recommendations products= 4
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:11] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:12] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:12] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 15:18:12] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 15:18:12] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:12] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 15:18:12] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 15:18:12] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:12] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 15:18:12] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 15:18:12] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:12] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 15:18:12] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 15:18:12] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:15] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:15] [INFO] send get_orders (orders tab)
+[2025-10-14 15:18:16] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:16] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:16] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:16] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:18] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 15:18:18] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 15:18:18] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-14 15:18:18] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:18] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:18] [INFO] [cart_load] populated rows= 2 all selected initially
+[2025-10-14 15:18:18] [INFO] [cart_load] skip duplicate build sig= "2|16:6,8:1"
+[2025-10-14 15:18:20] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:21] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 15:18:21] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 15:18:21] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:21] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 15:18:21] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 15:18:21] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:21] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 15:18:21] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 15:18:21] [WARN] Unknown property box-shadow
+[2025-10-14 15:18:22] [INFO] send get_orders (orders tab)
+[2025-10-14 19:53:26] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 19:53:26] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 19:53:26] [INFO] LoginWindow created and shown
+[2025-10-14 19:53:26] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:26] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:26] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:26] [DEBUG] Connected to server
+[2025-10-14 19:53:46] [INFO] sendJson "{\"type\":\"ping\"}\n"
+[2025-10-14 19:53:52] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 19:53:54] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 19:53:54] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 19:53:54] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 19:53:54] [INFO] MainWindow constructed
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [INFO] setupConnections: searchButton= 0x25c27138bb0 cartButton= 0x25c27138640 chatButton= 0x25c27138610
+[2025-10-14 19:53:54] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 19:53:54] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [WARN] Unknown property box-shadow
+[2025-10-14 19:53:54] [INFO] recv carousel_data images= 3
+[2025-10-14 19:53:54] [INFO] recv recommendations products= 4
+[2025-10-14 19:54:08] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 19:54:08] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 19:54:08] [WARN] Unknown property box-shadow
+[2025-10-14 19:54:23] [WARN] Unknown property box-shadow
+[2025-10-14 19:54:23] [WARN] Unknown property box-shadow
+[2025-10-14 19:54:23] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 19:54:23] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 19:54:23] [WARN] Unknown property box-shadow
+[2025-10-14 19:54:24] [WARN] Unknown property box-shadow
+[2025-10-14 19:54:24] [WARN] Unknown property box-shadow
+[2025-10-14 19:54:24] [INFO] recv carousel_data images= 3
+[2025-10-14 19:54:24] [INFO] recv recommendations products= 4
+[2025-10-14 19:54:26] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 19:54:26] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 19:54:26] [WARN] Unknown property box-shadow
+[2025-10-14 19:54:26] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 19:54:26] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 19:54:26] [WARN] Unknown property box-shadow
+[2025-10-14 19:54:27] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 19:54:27] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 19:54:27] [WARN] Unknown property box-shadow
+[2025-10-14 19:54:28] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 19:54:28] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 19:54:28] [WARN] Unknown property box-shadow
+[2025-10-14 19:54:36] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-14 19:54:36] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-14 19:54:56] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 19:54:56] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 19:54:56] [INFO] LoginWindow created and shown
+[2025-10-14 19:54:56] [WARN] Unknown property box-shadow
+[2025-10-14 19:54:56] [WARN] Unknown property box-shadow
+[2025-10-14 19:54:56] [WARN] Unknown property box-shadow
+[2025-10-14 19:54:56] [DEBUG] Connected to server
+[2025-10-14 19:55:01] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 19:55:04] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 19:55:04] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 19:55:04] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 19:55:04] [INFO] MainWindow constructed
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [INFO] setupConnections: searchButton= 0x21f39774c40 cartButton= 0x21f39774730 chatButton= 0x21f39773f20
+[2025-10-14 19:55:04] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 19:55:04] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:04] [INFO] recv carousel_data images= 3
+[2025-10-14 19:55:04] [INFO] recv recommendations products= 4
+[2025-10-14 19:55:07] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 19:55:07] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 19:55:07] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:07] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 19:55:07] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 19:55:07] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:07] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 19:55:07] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 19:55:07] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:09] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 19:55:09] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 19:55:09] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:17] [INFO] recv products_response total= 0  page= 4
+[2025-10-14 19:55:17] [INFO] products_response pages calc: pageResp= 4 totalProducts= 0 pageSize= 6 hasMore= false
+[2025-10-14 19:55:17] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:18] [INFO] recv products_response total= 0  page= 4
+[2025-10-14 19:55:18] [INFO] products_response pages calc: pageResp= 4 totalProducts= 0 pageSize= 6 hasMore= false
+[2025-10-14 19:55:18] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:19] [INFO] recv products_response total= 0  page= 4
+[2025-10-14 19:55:19] [INFO] products_response pages calc: pageResp= 4 totalProducts= 0 pageSize= 6 hasMore= false
+[2025-10-14 19:55:19] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:20] [INFO] recv products_response total= 0  page= 4
+[2025-10-14 19:55:20] [INFO] products_response pages calc: pageResp= 4 totalProducts= 0 pageSize= 6 hasMore= false
+[2025-10-14 19:55:20] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:29] [INFO] recv products_response total= 9  page= 4
+[2025-10-14 19:55:29] [INFO] products_response pages calc: pageResp= 4 totalProducts= 9 pageSize= 6 hasMore= false
+[2025-10-14 19:55:29] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:30] [INFO] recv products_response total= 9  page= 4
+[2025-10-14 19:55:30] [INFO] products_response pages calc: pageResp= 4 totalProducts= 9 pageSize= 6 hasMore= false
+[2025-10-14 19:55:30] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:33] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:33] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:33] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:33] [INFO] recv carousel_data images= 3
+[2025-10-14 19:55:33] [INFO] recv recommendations products= 4
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:34] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:35] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:35] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 19:55:35] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 19:55:35] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:35] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 19:55:35] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 19:55:35] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:36] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 19:55:36] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 19:55:36] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:36] [INFO] recv products_response total= 9  page= 3
+[2025-10-14 19:55:36] [INFO] products_response pages calc: pageResp= 3 totalProducts= 9 pageSize= 6 hasMore= false
+[2025-10-14 19:55:36] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:41] [INFO] recv products_response total= 9  page= 3
+[2025-10-14 19:55:41] [INFO] products_response pages calc: pageResp= 3 totalProducts= 9 pageSize= 6 hasMore= false
+[2025-10-14 19:55:41] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:42] [INFO] recv products_response total= 9  page= 3
+[2025-10-14 19:55:42] [INFO] products_response pages calc: pageResp= 3 totalProducts= 9 pageSize= 6 hasMore= false
+[2025-10-14 19:55:42] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:42] [INFO] recv products_response total= 9  page= 3
+[2025-10-14 19:55:42] [INFO] products_response pages calc: pageResp= 3 totalProducts= 9 pageSize= 6 hasMore= false
+[2025-10-14 19:55:42] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:43] [INFO] recv products_response total= 9  page= 3
+[2025-10-14 19:55:43] [INFO] products_response pages calc: pageResp= 3 totalProducts= 9 pageSize= 6 hasMore= false
+[2025-10-14 19:55:43] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:43] [INFO] recv products_response total= 9  page= 3
+[2025-10-14 19:55:43] [INFO] products_response pages calc: pageResp= 3 totalProducts= 9 pageSize= 6 hasMore= false
+[2025-10-14 19:55:43] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:44] [INFO] recv products_response total= 9  page= 3
+[2025-10-14 19:55:44] [INFO] products_response pages calc: pageResp= 3 totalProducts= 9 pageSize= 6 hasMore= false
+[2025-10-14 19:55:44] [WARN] Unknown property box-shadow
+[2025-10-14 19:55:45] [ERROR] Socket error in MainWindow: "The remote host closed the connection"  state= QAbstractSocket::ConnectedState
+[2025-10-14 19:55:45] [INFO] Socket stateChanged: QAbstractSocket::ClosingState
+[2025-10-14 19:55:45] [INFO] Socket stateChanged: QAbstractSocket::UnconnectedState
+[2025-10-14 19:55:45] [WARN] Socket disconnected. activeTab= "mall"
+[2025-10-14 19:55:45] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-14 19:55:45] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-14 20:03:16] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 20:03:16] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 20:03:16] [INFO] LoginWindow created and shown
+[2025-10-14 20:03:16] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:16] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:16] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:16] [DEBUG] Connected to server
+[2025-10-14 20:03:20] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 20:03:23] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 20:03:23] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 20:03:23] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 20:03:23] [INFO] MainWindow constructed
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [INFO] setupConnections: searchButton= 0x2b8a4845bb0 cartButton= 0x2b8a4845850 chatButton= 0x2b8a48455b0
+[2025-10-14 20:03:23] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 20:03:23] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:23] [INFO] recv carousel_data images= 3
+[2025-10-14 20:03:23] [INFO] recv recommendations products= 4
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:25] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:26] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:26] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 20:03:26] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 20:03:26] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:26] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 20:03:26] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 20:03:26] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:26] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 20:03:26] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 20:03:26] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:30] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 20:03:30] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 20:03:30] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:37] [INFO] recv products_response total= 9  page= 3
+[2025-10-14 20:03:37] [INFO] products_response pages calc: pageResp= 3 totalProducts= 9 pageSize= 6 hasMore= false
+[2025-10-14 20:03:37] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:42] [INFO] recv products_response total= 9  page= 3
+[2025-10-14 20:03:42] [INFO] products_response pages calc: pageResp= 3 totalProducts= 9 pageSize= 6 hasMore= false
+[2025-10-14 20:03:42] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:47] [INFO] recv products_response total= 9  page= 3
+[2025-10-14 20:03:47] [INFO] products_response pages calc: pageResp= 3 totalProducts= 9 pageSize= 6 hasMore= false
+[2025-10-14 20:03:47] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:50] [INFO] recv products_response total= 9  page= 3
+[2025-10-14 20:03:50] [INFO] products_response pages calc: pageResp= 3 totalProducts= 9 pageSize= 6 hasMore= false
+[2025-10-14 20:03:50] [WARN] Unknown property box-shadow
+[2025-10-14 20:03:52] [INFO] recv products_response total= 9  page= 3
+[2025-10-14 20:03:52] [INFO] products_response pages calc: pageResp= 3 totalProducts= 9 pageSize= 6 hasMore= false
+[2025-10-14 20:03:52] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:29] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 21:32:29] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 21:32:29] [INFO] LoginWindow created and shown
+[2025-10-14 21:32:30] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:30] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:30] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:30] [DEBUG] Connected to server
+[2025-10-14 21:32:35] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 21:32:37] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 21:32:37] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 21:32:37] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 21:32:37] [INFO] MainWindow constructed
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [INFO] setupConnections: searchButton= 0x2dc16996140 cartButton= 0x2dc169963b0 chatButton= 0x2dc169966e0
+[2025-10-14 21:32:37] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 21:32:37] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:37] [INFO] recv carousel_data images= 3
+[2025-10-14 21:32:37] [INFO] recv recommendations products= 4
+[2025-10-14 21:32:40] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:43] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:46] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:49] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 21:32:49] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 21:32:49] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:49] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 21:32:49] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 21:32:49] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:49] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 21:32:49] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 21:32:49] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:51] [WARN] Unknown property box-shadow
+[2025-10-14 21:32:52] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:04] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:05] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:24] [INFO] recv products_response total= 9  page= 1
+[2025-10-14 21:33:24] [INFO] products_response pages calc: pageResp= 1 totalProducts= 9 pageSize= 6 hasMore= true
+[2025-10-14 21:33:24] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:25] [INFO] recv products_response total= 9  page= 1
+[2025-10-14 21:33:25] [INFO] products_response pages calc: pageResp= 1 totalProducts= 9 pageSize= 6 hasMore= true
+[2025-10-14 21:33:25] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:32] [INFO] recv products_response total= 1  page= 1
+[2025-10-14 21:33:32] [INFO] products_response pages calc: pageResp= 1 totalProducts= 1 pageSize= 6 hasMore= false
+[2025-10-14 21:33:32] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:36] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:36] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:36] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:36] [INFO] recv carousel_data images= 3
+[2025-10-14 21:33:36] [INFO] recv recommendations products= 4
+[2025-10-14 21:33:43] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:44] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:49] [WARN] Unknown property box-shadow
+[2025-10-14 21:33:52] [ERROR] Socket error in MainWindow: "The remote host closed the connection"  state= QAbstractSocket::ConnectedState
+[2025-10-14 21:33:52] [INFO] Socket stateChanged: QAbstractSocket::ClosingState
+[2025-10-14 21:33:52] [INFO] Socket stateChanged: QAbstractSocket::UnconnectedState
+[2025-10-14 21:33:52] [WARN] Socket disconnected. activeTab= "home"
+[2025-10-14 21:33:52] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-14 21:33:52] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-14 21:43:56] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 21:43:56] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 21:43:56] [INFO] LoginWindow created and shown
+[2025-10-14 21:43:56] [WARN] Unknown property box-shadow
+[2025-10-14 21:43:56] [WARN] Unknown property box-shadow
+[2025-10-14 21:43:57] [WARN] Unknown property box-shadow
+[2025-10-14 21:43:57] [DEBUG] Connected to server
+[2025-10-14 21:44:00] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 21:44:03] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 21:44:03] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 21:44:03] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 21:44:03] [INFO] MainWindow constructed
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [INFO] setupConnections: searchButton= 0x22ebe9e5410 cartButton= 0x22ebe9e5290 chatButton= 0x22ebe9e5050
+[2025-10-14 21:44:03] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 21:44:03] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:03] [INFO] recv carousel_data images= 3
+[2025-10-14 21:44:03] [INFO] recv recommendations products= 4
+[2025-10-14 21:44:07] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 21:44:07] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 21:44:07] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:07] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 21:44:07] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 21:44:07] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:07] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 21:44:07] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 21:44:07] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:09] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 21:44:09] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 21:44:09] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:12] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:17] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:19] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:19] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:21] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:21] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 21:44:21] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 21:44:21] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-14 21:44:21] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:21] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:21] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:21] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-10-14 21:44:22] [INFO] [cart_load] skip duplicate build sig= "3|16:6,2:2,8:1"
+[2025-10-14 21:44:28] [INFO] send get_orders (orders tab)
+[2025-10-14 21:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:28] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:30] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:30] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 21:44:30] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 21:44:30] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:31] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-10-14 21:44:31] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:31] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:31] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:31] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:31] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:31] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 21:44:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:48] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:50] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:50] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 21:44:50] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 21:44:50] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:50] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 21:44:50] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 21:44:50] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:50] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 21:44:50] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 21:44:50] [WARN] Unknown property box-shadow
+[2025-10-14 21:44:57] [INFO] send get_orders (orders tab)
+[2025-10-14 22:04:53] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 22:04:53] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 22:04:53] [INFO] LoginWindow created and shown
+[2025-10-14 22:04:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:04:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:04:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:04:54] [DEBUG] Connected to server
+[2025-10-14 22:05:01] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 22:05:04] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 22:05:04] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 22:05:04] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 22:05:04] [INFO] MainWindow constructed
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [INFO] setupConnections: searchButton= 0x22cc8aa4390 cartButton= 0x22cc8aa4a20 chatButton= 0x22cc8aa3820
+[2025-10-14 22:05:04] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 22:05:04] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:04] [INFO] recv carousel_data images= 3
+[2025-10-14 22:05:04] [INFO] recv recommendations products= 4
+[2025-10-14 22:05:12] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:12] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 22:05:12] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:05:12] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:12] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 22:05:12] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:05:12] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:12] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 22:05:12] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:05:12] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:13] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 22:05:13] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 22:05:13] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-14 22:05:13] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:13] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:13] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:13] [INFO] [cart_load] populated rows= 3 all selected initially
+[2025-10-14 22:05:13] [INFO] [cart_load] skip duplicate build sig= "3|16:6,2:2,8:1"
+[2025-10-14 22:05:13] [INFO] send get_orders (orders tab)
+[2025-10-14 22:05:13] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:13] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:13] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:13] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:14] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-10-14 22:05:14] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:14] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:14] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:14] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 22:05:15] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:15] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:15] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:15] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:15] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:18] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:18] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 22:05:18] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:05:18] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:20] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:25] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:25] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:25] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:25] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:25] [INFO] [cart_load] populated rows= 4 all selected initially
+[2025-10-14 22:05:25] [INFO] [cart_load] skip duplicate build sig= "4|16:6,2:1,2:2,8:1"
+[2025-10-14 22:05:25] [INFO] [cart_load] skip duplicate build sig= "4|16:6,2:1,2:2,8:1"
+[2025-10-14 22:05:25] [INFO] [cart_load] skip duplicate build sig= "4|16:6,2:1,2:2,8:1"
+[2025-10-14 22:05:41] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:41] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:41] [WARN] Unknown property box-shadow
+[2025-10-14 22:05:41] [INFO] recv carousel_data images= 3
+[2025-10-14 22:05:41] [INFO] recv recommendations products= 4
+[2025-10-14 22:06:05] [WARN] Unknown property box-shadow
+[2025-10-14 22:06:10] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 22:06:10] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:06:10] [WARN] Unknown property box-shadow
+[2025-10-14 22:06:10] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 22:06:10] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:06:10] [WARN] Unknown property box-shadow
+[2025-10-14 22:06:10] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 22:06:10] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:06:10] [WARN] Unknown property box-shadow
+[2025-10-14 22:06:10] [INFO] recv products_response total= 22  page= 4
+[2025-10-14 22:06:10] [INFO] products_response pages calc: pageResp= 4 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 22:06:10] [WARN] Unknown property box-shadow
+[2025-10-14 22:06:15] [INFO] send get_orders (orders tab)
+[2025-10-14 22:08:47] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 22:08:47] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 22:08:47] [INFO] LoginWindow created and shown
+[2025-10-14 22:08:48] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:48] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:48] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:48] [DEBUG] Connected to server
+[2025-10-14 22:08:51] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 22:08:53] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 22:08:53] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 22:08:53] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 22:08:53] [INFO] MainWindow constructed
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [INFO] setupConnections: searchButton= 0x150c65fdc60 cartButton= 0x150c65fd6f0 chatButton= 0x150c65fdf90
+[2025-10-14 22:08:53] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 22:08:53] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:53] [INFO] recv carousel_data images= 3
+[2025-10-14 22:08:53] [INFO] recv recommendations products= 4
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:56] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:56] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:56] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 22:08:56] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:08:56] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:56] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 22:08:56] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:08:56] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:56] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 22:08:56] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 22:08:56] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-14 22:08:56] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:56] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:56] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:56] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:56] [INFO] [cart_load] populated rows= 4 all selected initially
+[2025-10-14 22:08:56] [INFO] [cart_load] skip duplicate build sig= "4|16:6,2:1,2:2,8:1"
+[2025-10-14 22:08:56] [INFO] send get_orders (orders tab)
+[2025-10-14 22:08:57] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 22:08:57] [INFO] skip products_response due to inactive view 2
+[2025-10-14 22:08:57] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:57] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:57] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:57] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:57] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:57] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:57] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:57] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 22:08:57] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:08:57] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:58] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-10-14 22:08:58] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:58] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:58] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:58] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:58] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:58] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:58] [WARN] Unknown property box-shadow
+[2025-10-14 22:08:58] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 22:08:58] [INFO] send get_orders (orders tab)
+[2025-10-14 22:09:27] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 22:09:27] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 22:09:27] [INFO] LoginWindow created and shown
+[2025-10-14 22:09:28] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:28] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:28] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:28] [DEBUG] Connected to server
+[2025-10-14 22:09:43] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 22:09:45] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 22:09:45] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 22:09:45] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 22:09:45] [INFO] MainWindow constructed
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [INFO] setupConnections: searchButton= 0x1af32305a90 cartButton= 0x1af32305850 chatButton= 0x1af323058e0
+[2025-10-14 22:09:45] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 22:09:45] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:45] [INFO] recv carousel_data images= 3
+[2025-10-14 22:09:45] [INFO] recv recommendations products= 4
+[2025-10-14 22:09:46] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:46] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 22:09:46] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:09:46] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 22:09:46] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 22:09:46] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-14 22:09:46] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:46] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:46] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:46] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:46] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:46] [INFO] [cart_load] populated rows= 4 all selected initially
+[2025-10-14 22:09:46] [INFO] [cart_load] skip duplicate build sig= "4|16:6,2:1,2:2,8:1"
+[2025-10-14 22:09:47] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:47] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:47] [INFO] recv carousel_data images= 3
+[2025-10-14 22:09:47] [INFO] recv recommendations products= 4
+[2025-10-14 22:09:54] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 22:09:54] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 22:09:54] [INFO] skip products_response due to inactive view 2
+[2025-10-14 22:09:54] [INFO] send get_orders (orders tab)
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:54] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 22:09:54] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:09:54] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:55] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 22:09:55] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:09:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:55] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 22:09:55] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:09:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:55] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 22:09:55] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= false
+[2025-10-14 22:09:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:55] [INFO] recv carousel_data images= 3
+[2025-10-14 22:09:55] [INFO] send get_orders (orders tab)
+[2025-10-14 22:09:55] [INFO] recv recommendations products= 4
+[2025-10-14 22:09:55] [INFO] skip orders_response due to inactive tab "home"
+[2025-10-14 22:09:55] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-10-14 22:09:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:55] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:56] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 22:09:56] [INFO] recv carousel_data images= 3
+[2025-10-14 22:09:56] [INFO] send get_orders (orders tab)
+[2025-10-14 22:09:56] [INFO] recv recommendations products= 4
+[2025-10-14 22:09:56] [INFO] skip orders_response due to inactive tab "account"
+[2025-10-14 22:09:57] [INFO] recv carousel_data images= 3
+[2025-10-14 22:09:57] [INFO] recv recommendations products= 4
+[2025-10-14 22:09:58] [INFO] delay get_orders due to awaitingChatInit
+[2025-10-14 22:09:58] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 22:09:59] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 22:09:59] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:09:59] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:59] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 22:09:59] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:09:59] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:59] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 22:09:59] [INFO] skip products_response due to inactive view 2
+[2025-10-14 22:09:59] [INFO] send get_orders (orders tab)
+[2025-10-14 22:09:59] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:59] [WARN] Unknown property box-shadow
+[2025-10-14 22:09:59] [INFO] skip orders_response due to inactive tab "chat"
+[2025-10-14 22:09:59] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 22:09:59] [INFO] send get_orders (orders tab)
+[2025-10-14 22:10:00] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:00] [INFO] skip orders_response due to inactive tab "mall"
+[2025-10-14 22:10:00] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 22:10:00] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:10:00] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:00] [INFO] send get_orders (orders tab)
+[2025-10-14 22:10:01] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:01] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:01] [INFO] skip orders_response due to inactive tab "chat"
+[2025-10-14 22:10:01] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 22:10:01] [INFO] send get_orders (orders tab)
+[2025-10-14 22:10:27] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 22:10:27] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 22:10:27] [INFO] LoginWindow created and shown
+[2025-10-14 22:10:28] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:28] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:28] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:28] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-14 22:10:28] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+[2025-10-14 22:10:42] [INFO] Application starting. Log: "C:/Users/Edward/Desktop/test/build-qt1310/dist/client.log"
+[2025-10-14 22:10:42] [INFO] Connecting to "127.0.0.1" : 8080
+[2025-10-14 22:10:42] [INFO] LoginWindow created and shown
+[2025-10-14 22:10:42] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:42] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:42] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:42] [DEBUG] Connected to server
+[2025-10-14 22:10:48] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [INFO] sendJson "{\"password\":\"123456\",\"type\":\"login\",\"username\":\"cyz\"}\n"
+[2025-10-14 22:10:50] [INFO] Login success, creating MainWindow and handing off socket
+[2025-10-14 22:10:50] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 22:10:50] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 22:10:50] [INFO] MainWindow constructed
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [INFO] setupConnections: searchButton= 0x1c116583e30 cartButton= 0x1c116582c30 chatButton= 0x1c116582960
+[2025-10-14 22:10:50] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 22:10:50] [INFO] HTTP base resolved to "http://127.0.0.1:8081"
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [WARN] Unknown property box-shadow
+[2025-10-14 22:10:50] [INFO] recv carousel_data images= 3
+[2025-10-14 22:10:50] [INFO] recv recommendations products= 4
+[2025-10-14 22:12:39] [WARN] Unknown property box-shadow
+[2025-10-14 22:12:39] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-10-14 22:12:39] [WARN] Unknown property box-shadow
+[2025-10-14 22:12:39] [WARN] Unknown property box-shadow
+[2025-10-14 22:12:39] [WARN] Unknown property box-shadow
+[2025-10-14 22:12:39] [WARN] Unknown property box-shadow
+[2025-10-14 22:12:39] [WARN] Unknown property box-shadow
+[2025-10-14 22:12:39] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 22:12:41] [INFO] send get_orders (chat origin)
+[2025-10-14 22:12:41] [WARN] Unknown property box-shadow
+[2025-10-14 22:12:41] [WARN] Unknown property box-shadow
+[2025-10-14 22:12:44] [WARN] Unknown property box-shadow
+[2025-10-14 22:12:44] [WARN] Unknown property box-shadow
+[2025-10-14 22:12:57] [WARN] Unknown property box-shadow
+[2025-10-14 22:12:58] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 22:14:35] [WARN] Unknown property box-shadow
+[2025-10-14 22:14:35] [WARN] Unknown property box-shadow
+[2025-10-14 22:14:37] [WARN] Unknown property box-shadow
+[2025-10-14 22:14:37] [WARN] Unknown property box-shadow
+[2025-10-14 22:14:41] [INFO] send get_orders (detail origin)
+[2025-10-14 22:14:41] [WARN] Unknown property box-shadow
+[2025-10-14 22:14:41] [WARN] Unknown property box-shadow
+[2025-10-14 22:14:43] [WARN] Unknown property box-shadow
+[2025-10-14 22:14:43] [WARN] Unknown property box-shadow
+[2025-10-14 22:15:02] [WARN] QObject::killTimer: Timers cannot be stopped from another thread
+[2025-10-14 22:15:02] [WARN] QObject::~QObject: Timers cannot be stopped from another thread
+14 22:11:05] [INFO] setupConnections: searchButton= 0x164f923c100 cartButton= 0x164f923bbc0 chatButton= 0x164f923ba10
+[2025-10-14 22:11:05] [INFO] setupConnections: findChild(cartButton) matches ui->cartButton
+[2025-10-14 22:11:05] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:05] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:05] [INFO] MainWindow setSocket, state= QAbstractSocket::ConnectedState
+[2025-10-14 22:11:05] [INFO] HTTP base resolved to "http://localhost:8081"
+[2025-10-14 22:11:05] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:05] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:05] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:05] [INFO] recv carousel_data images= 3
+[2025-10-14 22:11:05] [INFO] recv recommendations products= 4
+[2025-10-14 22:11:16] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:16] [INFO] recv products_response total= 22  page= 1
+[2025-10-14 22:11:16] [INFO] products_response pages calc: pageResp= 1 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:11:16] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:16] [INFO] recv products_response total= 22  page= 2
+[2025-10-14 22:11:16] [INFO] products_response pages calc: pageResp= 2 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:11:16] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:16] [INFO] recv products_response total= 22  page= 3
+[2025-10-14 22:11:16] [INFO] products_response pages calc: pageResp= 3 totalProducts= 22 pageSize= 6 hasMore= true
+[2025-10-14 22:11:16] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:16] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_prevPage_clicked()
+[2025-10-14 22:11:16] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_nextPage_clicked()
+[2025-10-14 22:11:16] [INFO] ShoppingCart ctor: checkoutButton? true deleteButton? false totalLabel? false cartTable? true
+[2025-10-14 22:11:16] [INFO] [cart_load] empty cart
+[2025-10-14 22:11:16] [INFO] [cart_load] skip duplicate build sig= "0|"
+[2025-10-14 22:11:17] [INFO] send get_orders (orders tab)
+[2025-10-14 22:11:17] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:17] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:17] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:17] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:17] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:17] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:18] [WARN] QMetaObject::connectSlotsByName: No matching signal for on_messageInput_returnPressed()
+[2025-10-14 22:11:18] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:18] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:18] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:18] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:18] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:18] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 22:11:18] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:18] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:19] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:19] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:19] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:19] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:19] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:21] [INFO] chat_init_response received, resume queued requests
+[2025-10-14 22:11:22] [WARN] Unknown property box-shadow
+[2025-10-14 22:11:35] [INFO] send get_orders (chat origin)
+[2025-10-14 22:11:59] [INFO] recv carousel_data images= 3
+[2025-10-14 22:11:59] [INFO] recv recommendations products= 4
+[2025-10-14 22:12:00] [INFO] send get_orders (orders tab)
+[2025-10-14 22:12:00] [WARN] Unknown property box-shadow

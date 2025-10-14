@@ -64,10 +64,24 @@ static QString normalizeTs(const QString &raw) {
 ChatWindow::ChatWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::ChatWindow) {
     ui->setupUi(this);
+    // 聊天列表：使用自适应尺寸与合适的行间距，避免排版拥挤/截断
+    if (ui->chatList) {
+        ui->chatList->setUniformItemSizes(false);
+        ui->chatList->setResizeMode(QListView::Adjust);
+        ui->chatList->setSpacing(6);
+    }
+    // 让聊天列表占据中间可用空间，头部/底部输入栏不拉伸
+    if (ui->verticalLayout && ui->chatList) {
+        int idx = ui->verticalLayout->indexOf(ui->chatList);
+        if (idx >= 0) ui->verticalLayout->setStretch(idx, 1);
+    }
+    // 启动单调时钟用于轻量节流
+    monotonic.start();
     // 共享网络管理器用于图片下载
     http = new QNetworkAccessManager(this);
     // 追加在线用户标签与对等方输入框、清空按钮
     onlineLabel = new QLabel(tr("在线用户: (未知)"), this);
+    onlineLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     onlineCombo = new QComboBox(this);
     onlineCombo->setEditable(false);
     onlineCombo->setSizeAdjustPolicy(QComboBox::AdjustToContents);
@@ -78,6 +92,27 @@ ChatWindow::ChatWindow(QWidget *parent)
     // 顶部条：在线下拉 + 标签（初始化仅包含“全体”，真实在线列表在 chat_init_response 收到后重建）
     onlineCombo->clear();
     onlineCombo->addItem(QStringLiteral("全体"));
+    // 置顶操作按钮：刷新 + 删除历史（右侧）
+    auto *delPeerBtn = new QPushButton(tr("删除历史"), this);
+    delPeerBtn->setIcon(QIcon(QLatin1String(":/icons/trash.svg")));
+    delPeerBtn->setIconSize(QSize(16,16));
+    // 根据当前选择的会话对象动态更新 Tooltip
+    auto updateDelTooltip = [this, delPeerBtn]() {
+        const QString peer = peerEdit ? peerEdit->text().trimmed() : QString();
+        QString tip;
+        if (peer.isEmpty()) {
+            if (username == QLatin1String("admin"))
+                tip = tr("清空公共聊天历史（全体）——仅管理员");
+            else
+                tip = tr("删除与对方的历史：请选择具体用户（群聊仅管理员可清空）");
+        } else {
+            tip = tr("删除与 %1 的历史").arg(peer);
+        }
+        delPeerBtn->setToolTip(tip);
+    };
+    updateDelTooltip();
+    delPeerBtn->setFlat(true);
+    delPeerBtn->setMinimumWidth(84);
     auto *bar = new QHBoxLayout();
     bar->setContentsMargins(0, 0, 0, 0);
     bar->setSpacing(8);
@@ -85,22 +120,30 @@ ChatWindow::ChatWindow(QWidget *parent)
     bar->addWidget(onlineCombo);
     bar->addSpacing(6);
     bar->addWidget(onlineLabel);
+    // 右侧放置“刷新”按钮，避免覆盖文字
+    auto *refreshBtn = new QPushButton(tr("刷新"), this);
+    refreshBtn->setFlat(true);
+    bar->addStretch(1);
+    bar->addWidget(refreshBtn);
+    bar->addWidget(delPeerBtn);
     auto *host = new QWidget(this);
     host->setLayout(bar);
     ui->verticalLayout->insertWidget(0, host);
+    // 自适应：窗口变窄时仅显示图标
+    connect(this, &ChatWindow::resizeEventOccurred, this, [delPeerBtn](const QSize &sz){
+        if (sz.width() < 520) delPeerBtn->setText(QString()); else delPeerBtn->setText(QObject::tr("删除历史"));
+    });
     // 切换下拉项 -> 切换会话对象（全体 = 群聊）并刷新
-    connect(onlineCombo, &QComboBox::currentTextChanged, this, [this](const QString &t){
+    connect(onlineCombo, &QComboBox::currentTextChanged, this, [this, updateDelTooltip](const QString &t){
         if (peerEdit) {
             const QString val = t.trimmed();
             if (val == QStringLiteral("全体")) peerEdit->setText(QString());
             else peerEdit->setText(val);
         }
+        updateDelTooltip();
         initChat();
     });
-    // 移除“清空会话”按钮，统一使用“删除与对方的历史”（带撤销）
-    // 新增：删除与对方的历史（仅私聊有效）
-    auto *delPeerBtn = new QPushButton(tr("删除与对方的历史"), this);
-    auto *refreshBtn = new QPushButton(tr("刷新"), this);
+    // 删除与对方的历史（仅私聊有效）——按钮已放到顶部条右侧
     auto *sendOrderBtn = new QPushButton(tr("发送订单"), this);
     auto *sendImageBtn = new QPushButton(tr("发送图片"), this);
     // 将“发送图片/发送订单”按钮放到底部输入框右侧（紧挨“发送”按钮之前）
@@ -122,8 +165,15 @@ ChatWindow::ChatWindow(QWidget *parent)
         connect(sendImageBtn, &QPushButton::clicked, this, &ChatWindow::sendImage);
         connect(sendOrderBtn, &QPushButton::clicked, this, [this]() {
             if (!socket) { appendSystem(tr("[系统] 未连接服务器，无法获取订单")); return; }
-            QJsonObject r; r["type"] = "get_orders"; r["origin"] = "chat";
-            QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+            if (socket->state() == QAbstractSocket::ConnectedState) {
+                QJsonObject r; r["type"] = "get_orders"; r["origin"] = "chat";
+                QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n');
+                qInfo() << "send get_orders (chat origin)";
+                enqueueFrame(p);
+            } else {
+                appendSystem(tr("[系统] 网络未就绪，稍后自动重试…"));
+                QTimer::singleShot(300, this, [this]{ if (socket && socket->state()==QTcpSocket::ConnectedState) { QJsonObject r; r["type"] = "get_orders"; r["origin"] = "chat"; QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); enqueueFrame(p); } });
+            }
             appendSystem(tr("[系统] 正在获取可申请售后的订单…"));
         });
     }
@@ -156,7 +206,7 @@ ChatWindow::ChatWindow(QWidget *parent)
                 if (!socket) return;
                 if (pendingDeletePeer.isEmpty()) return; // 已撤销
                 QJsonObject r; r["type"] = "chat_delete"; if (!username.isEmpty()) r["username"] = username; r["peer"] = pendingDeletePeer;
-                QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+                QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); enqueueFrame(p);
                 if (pendingDeletePeer == QLatin1String("__GLOBAL__")) appendSystem(tr("[系统] 正在清空公共聊天历史..."));
                 else appendSystem(tr("[系统] 正在删除与 %1 的历史...").arg(pendingDeletePeer));
                 pendingDeletePeer.clear();
@@ -209,7 +259,15 @@ void ChatWindow::appendImageBubble(const QString &from, const QString &to, const
     auto *v = new QVBoxLayout(container); v->setContentsMargins(0,0,0,0); v->setSpacing(0);
     auto *headLbl = new QLabel(QString("<div style='color:%1;font-size:12px;margin:4px 0;'>%2 → %3 · %4</div>")
                                .arg(dark? QStringLiteral("#aaaaaa"):QStringLiteral("#666"), who, toText, ts));
-    headLbl->setTextFormat(Qt::RichText); v->addWidget(headLbl);
+    headLbl->setTextFormat(Qt::RichText);
+    // 头部对齐到气泡方向
+    {
+        auto *headHost = new QWidget();
+        auto *headLay = new QHBoxLayout(headHost); headLay->setContentsMargins(8,2,8,2); headLay->setSpacing(0);
+        if (isSelf) { headLay->addStretch(); headLay->addWidget(headLbl, 0, Qt::AlignRight); }
+        else { headLay->addWidget(headLbl, 0, Qt::AlignLeft); headLay->addStretch(); }
+        v->addWidget(headHost);
+    }
     auto *imgLbl = new QLabel(); imgLbl->setAlignment(Qt::AlignLeft|Qt::AlignTop); imgLbl->setMinimumSize(120,120); imgLbl->setMaximumSize(120,120); imgLbl->setScaledContents(true);
     auto *linkLbl = new QLabel(QString("<a href=\"%1\">%2</a>").arg(toAbsoluteUrl(url).toHtmlEscaped(), tr("打开原图")));
     linkLbl->setTextFormat(Qt::RichText); linkLbl->setTextInteractionFlags(Qt::TextBrowserInteraction); linkLbl->setOpenExternalLinks(true);
@@ -221,7 +279,9 @@ void ChatWindow::appendImageBubble(const QString &from, const QString &to, const
     if (isSelf) { alignLay->addStretch(); alignLay->addWidget(bubbleHost,0,Qt::AlignRight|Qt::AlignTop);} else { alignLay->addWidget(bubbleHost,0,Qt::AlignLeft|Qt::AlignTop); alignLay->addStretch(); }
     v->addWidget(alignHost);
     int vpw = ui->chatList->viewport()->width(); int maxWidth = qMax(200, vpw - 24);
-    container->setMaximumWidth(maxWidth); container->setMinimumWidth(qMin(maxWidth, 420)); item->setSizeHint(QSize(maxWidth, 120 + 36));
+    container->setMaximumWidth(maxWidth); container->setMinimumWidth(qMin(maxWidth, 420));
+    container->adjustSize();
+    item->setSizeHint(container->sizeHint());
     ui->chatList->addItem(item); ui->chatList->setItemWidget(item, container); ui->chatList->scrollToBottom();
 
     // 工具：按最长边 120 缩放
@@ -254,22 +314,32 @@ void ChatWindow::appendImageBubble(const QString &from, const QString &to, const
             QNetworkReply *r = http->post(QNetworkRequest{QUrl(base + "/api/upload/image")}, m); m->setParent(r);
             connect(r, &QNetworkReply::finished, this, [r, onReady](){ onReady(r); });
         };
-        auto onOk = [this, setThumb, linkLbl, isSelf](const QString &finalUrl){ QUrl ru(finalUrl); QNetworkReply *r2 = http->get(QNetworkRequest{ru}); connect(r2, &QNetworkReply::finished, this, [this, setThumb, linkLbl, r2, ru, isSelf](){ r2->deleteLater(); if (r2->error()!=QNetworkReply::NoError) { linkLbl->setText(QString("<span style='color:#c00'>%1</span>").arg(r2->errorString().toHtmlEscaped())); return; } QByteArray d=r2->readAll(); QPixmap px; px.loadFromData(d); if (px.isNull()) { linkLbl->setText(tr("[图片无效]")); return; } setThumb(px); linkLbl->setText(QString("<a href=\"%1\">%2</a>").arg(ru.toString(QUrl::FullyEncoded).toHtmlEscaped(), tr("打开原图"))); if (isSelf && socket) { QJsonObject r; r["type"]= "chat_send"; if (!username.isEmpty()) r["username"]=username; r["content"]=ru.toString(QUrl::FullyEncoded); const QString toPeer = peerEdit? peerEdit->text().trimmed():QString(); if (!toPeer.isEmpty()) r["to"]=toPeer; QJsonDocument d2(r); QByteArray p=d2.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p); appendSystem(tr("[系统] 已补发图片URL，确保对端可见")); } }); };
+    auto onOk = [this, setThumb, linkLbl, isSelf](const QString &finalUrl){ QUrl ru(finalUrl); QNetworkReply *r2 = http->get(QNetworkRequest{ru}); connect(r2, &QNetworkReply::finished, this, [this, setThumb, linkLbl, r2, ru, isSelf](){ r2->deleteLater(); if (r2->error()!=QNetworkReply::NoError) { linkLbl->setText(QString("<span style='color:#c00'>%1</span>").arg(r2->errorString().toHtmlEscaped())); return; } QByteArray d=r2->readAll(); QPixmap px; px.loadFromData(d); if (px.isNull()) { linkLbl->setText(tr("[图片无效]")); return; } setThumb(px); linkLbl->setText(QString("<a href=\"%1\">%2</a>").arg(ru.toString(QUrl::FullyEncoded).toHtmlEscaped(), tr("打开原图"))); if (isSelf && socket) { QJsonObject r; r["type"]= "chat_send"; if (!username.isEmpty()) r["username"]=username; r["content"]=ru.toString(QUrl::FullyEncoded); const QString toPeer = peerEdit? peerEdit->text().trimmed():QString(); if (!toPeer.isEmpty()) r["to"]=toPeer; QJsonDocument d2(r); QByteArray p=d2.toJson(QJsonDocument::Compact); p.append('\n'); enqueueFrame(p); appendSystem(tr("[系统] 已补发图片URL，确保对端可见")); } }); };
         doPost(QStringLiteral("http://localhost:8081"), fpath, fi, [this, doPost, onOk, fpath, fi](QNetworkReply *r1){ if (r1->error()!=QNetworkReply::NoError) { r1->deleteLater(); doPost(QStringLiteral("http://localhost:8080"), fpath, fi, [this, onOk](QNetworkReply *r2){ if (r2->error()!=QNetworkReply::NoError) { QVariant sc=r2->attribute(QNetworkRequest::HttpStatusCodeAttribute); appendSystem(tr("[系统] 上传失败（端口回退后仍失败）：%1 (%2)").arg(r2->errorString(), sc.toString())); r2->deleteLater(); return; } QJsonParseError perr{}; QJsonDocument jd=QJsonDocument::fromJson(r2->readAll(), &perr); r2->deleteLater(); if (perr.error!=QJsonParseError::NoError || !jd.isObject()) { appendSystem(tr("[系统] 上传返回解析失败")); return; } QJsonObject o=jd.object(); if (!o.value("success").toBool()) { appendSystem(tr("[系统] 上传失败：") + o.value("message").toString()); return; } QString full=o.value("fullUrl").toString(); QString rel=o.value("url").toString(); QString finalUrl=!full.isEmpty()? full : toAbsoluteUrl(rel); if (finalUrl.isEmpty()) { appendSystem(tr("[系统] 上传成功但未返回URL")); return; } onOk(finalUrl); }); return; } QJsonParseError perr{}; QJsonDocument jd=QJsonDocument::fromJson(r1->readAll(), &perr); r1->deleteLater(); if (perr.error!=QJsonParseError::NoError || !jd.isObject()) { appendSystem(tr("[系统] 上传返回解析失败")); return; } QJsonObject o=jd.object(); if (!o.value("success").toBool()) { appendSystem(tr("[系统] 上传失败：") + o.value("message").toString()); return; } QString full=o.value("fullUrl").toString(); QString rel=o.value("url").toString(); QString finalUrl=!full.isEmpty()? full : toAbsoluteUrl(rel); if (finalUrl.isEmpty()) { appendSystem(tr("[系统] 上传成功但未返回URL")); return; } onOk(finalUrl); });
         return;
     }
 
     // 2) 远程 URL：下载显示，PNG 失败则尝试同名 .jpg
-    auto tryDownload = [this, setThumb](const QUrl &u, bool isFallback){ QNetworkReply *reply = http->get(QNetworkRequest{u}); connect(reply, &QNetworkReply::finished, this, [this, setThumb, reply, u, isFallback](){ reply->deleteLater(); if (reply->error()!=QNetworkReply::NoError) { if (!isFallback) { const QString p=u.path(); if (p.endsWith(".png", Qt::CaseInsensitive)) { QUrl alt=u; QString np=p; np.chop(4); np += ".jpg"; alt.setPath(np); QMetaObject::invokeMethod(this, [this, setThumb, alt](){ QNetworkReply *r2=http->get(QNetworkRequest{alt}); connect(r2, &QNetworkReply::finished, this, [this, setThumb, r2](){ r2->deleteLater(); if (r2->error()!=QNetworkReply::NoError) return; QByteArray d=r2->readAll(); QPixmap px; px.loadFromData(d); if (px.isNull()) return; setThumb(px); }); }, Qt::QueuedConnection); return; } } return; } QByteArray data=reply->readAll(); QPixmap px; px.loadFromData(data); if (px.isNull()) { if (!isFallback) { const QString p=u.path(); if (p.endsWith(".png", Qt::CaseInsensitive)) { QUrl alt=u; QString np=p; np.chop(4); np += ".jpg"; alt.setPath(np); QMetaObject::invokeMethod(this, [this, setThumb, alt](){ QNetworkReply *r2=http->get(QNetworkRequest{alt}); connect(r2, &QNetworkReply::finished, this, [this, setThumb, r2](){ r2->deleteLater(); if (r2->error()!=QNetworkReply::NoError) return; QByteArray d=r2->readAll(); QPixmap px; px.loadFromData(d); if (px.isNull()) return; setThumb(px); }); }, Qt::QueuedConnection); return; } } return; } setThumb(px); }); };
+    auto tryDownload = [this, setThumb](const QUrl &u, bool isFallback){ QNetworkReply *reply = http->get(QNetworkRequest{u}); connect(reply, &QNetworkReply::finished, this, [this, setThumb, reply, u, isFallback](){ reply->deleteLater(); if (reply->error()!=QNetworkReply::NoError) { if (!isFallback) { const QString p=u.path(); if (p.endsWith(".png", Qt::CaseInsensitive)) { QUrl alt=u; QString np=p; np.chop(4); np += ".jpg"; alt.setPath(np); QMetaObject::invokeMethod(this, [this, setThumb, alt](){ QNetworkReply *r2=http->get(QNetworkRequest{alt}); connect(r2, &QNetworkReply::finished, this, [this, setThumb, r2](){ r2->deleteLater(); if (r2->error()!=QNetworkReply::NoError) return; QByteArray d=r2->readAll(); QPixmap px; px.loadFromData(d); if (px.isNull()) return; setThumb(px); appendSystem(tr("[系统] 图片已加载")); }); }, Qt::QueuedConnection); return; } } return; } QByteArray data=reply->readAll(); QPixmap px; px.loadFromData(data); if (px.isNull()) { if (!isFallback) { const QString p=u.path(); if (p.endsWith(".png", Qt::CaseInsensitive)) { QUrl alt=u; QString np=p; np.chop(4); np += ".jpg"; alt.setPath(np); QMetaObject::invokeMethod(this, [this, setThumb, alt](){ QNetworkReply *r2=http->get(QNetworkRequest{alt}); connect(r2, &QNetworkReply::finished, this, [this, setThumb, r2](){ r2->deleteLater(); if (r2->error()!=QNetworkReply::NoError) return; QByteArray d=r2->readAll(); QPixmap px; px.loadFromData(d); if (px.isNull()) return; setThumb(px); appendSystem(tr("[系统] 图片已加载")); }); }, Qt::QueuedConnection); return; } } return; } setThumb(px); appendSystem(tr("[系统] 图片已加载")); }); };
     tryDownload(QUrl(toAbsoluteUrl(url)), false);
 }
 
 void ChatWindow::initChat() {
     if (!ui) return;
-    ui->chatList->clear();
     if (!socket) return;
+    const qint64 now = monotonic.elapsed();
+    const bool firstTime = (lastInitChatMs == 0);
+    if (!firstTime && (now - lastInitChatMs) <= 400) return;
+    lastInitChatMs = now;
+    if (socket->state() != QAbstractSocket::ConnectedState) {
+        appendSystem(tr("[系统] 网络未就绪，稍后自动刷新聊天…"));
+        QTimer::singleShot(300, this, [this]{ initChat(); });
+        return;
+    }
+    ui->chatList->clear();
     QJsonObject r; r["type"] = "chat_init"; if (!username.isEmpty()) r["username"] = username; const QString to = peerEdit? peerEdit->text().trimmed():QString(); if (!to.isEmpty()) r["peer"] = to; r["limit"] = 50;
-    QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+    QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n');
+    emit chatInitRequested(p);
 }
 
 void ChatWindow::handleMessage(const QJsonObject &msg) {
@@ -470,7 +540,7 @@ void ChatWindow::handleMessageUi(const QJsonObject &msg) {
             QString dst = peerEdit? peerEdit->text().trimmed() : QString();
             if (dst.isEmpty()) dst = QStringLiteral("admin");
             QJsonObject r; r["type"] = "chat_send"; if (!username.isEmpty()) r["username"] = username; r["to"] = dst; r["content"] = QString::fromUtf8(cardDoc.toJson(QJsonDocument::Compact));
-            QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+            QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); enqueueFrame(p);
             appendSystem(tr("[系统] 已发送订单卡片到 %1：#%2").arg(dst).arg(orderId));
         }
     }
@@ -556,7 +626,14 @@ void ChatWindow::appendBubble(const QString &from, const QString &to, const QStr
     auto *v = new QVBoxLayout(container); v->setContentsMargins(0,0,0,0); v->setSpacing(0);
     auto *headLbl = new QLabel(QString("<div style='color:%1;font-size:12px;margin:4px 0;'>%2 → %3 · %4</div>")
                                .arg(dark? QStringLiteral("#aaaaaa"):QStringLiteral("#666"), who, toText, ts));
-    headLbl->setTextFormat(Qt::RichText); v->addWidget(headLbl);
+    headLbl->setTextFormat(Qt::RichText);
+    {
+        auto *headHost = new QWidget();
+        auto *headLay = new QHBoxLayout(headHost); headLay->setContentsMargins(8,2,8,2); headLay->setSpacing(0);
+        if (isSelf) { headLay->addStretch(); headLay->addWidget(headLbl, 0, Qt::AlignRight); }
+        else { headLay->addWidget(headLbl, 0, Qt::AlignLeft); headLay->addStretch(); }
+        v->addWidget(headHost);
+    }
 
     auto *textLbl = new QLabel();
     textLbl->setTextFormat(Qt::RichText);
@@ -598,14 +675,17 @@ void ChatWindow::appendBubble(const QString &from, const QString &to, const QStr
 void ChatWindow::sendMessage() {
     if (!ui) return;
     const QString raw = ui->messageInput->toPlainText().trimmed();
-    if (raw.isEmpty()) return;
+    if (raw.isEmpty()) {
+        QMessageBox::warning(this, tr("无法发送"), tr("消息内容不能为空"));
+        return;
+    }
     // 若是本地图片路径则先上传
     if (trySendLocalImagePath(raw)) { ui->messageInput->clear(); return; }
     if (socket) {
         QJsonObject r; r["type"] = "chat_send"; if (!username.isEmpty()) r["username"] = username; r["content"] = raw;
         const QString to = peerEdit? peerEdit->text().trimmed() : QString();
         if (!to.isEmpty() && to != QStringLiteral("全体")) r["to"] = to;
-        QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+        QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); enqueueFrame(p);
     }
     ui->messageInput->clear();
 }
@@ -661,7 +741,7 @@ void ChatWindow::sendImage() {
         if (socket) {
             QJsonObject r; r["type"] = "chat_send"; if (!username.isEmpty()) r["username"] = username; r["content"] = finalUrl;
             const QString to = peerEdit? peerEdit->text().trimmed() : QString(); if (!to.isEmpty()) r["to"] = to;
-            QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+            QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); enqueueFrame(p);
         }
         appendSystem(tr("[系统] 图片已发送"));
     };
@@ -745,7 +825,7 @@ bool ChatWindow::pasteImageFromClipboard() {
         if (socket) {
             QJsonObject r; r["type"] = "chat_send"; if (!username.isEmpty()) r["username"] = username; r["content"] = finalUrl;
             const QString to = peerEdit? peerEdit->text().trimmed() : QString(); if (!to.isEmpty()) r["to"] = to;
-            QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+            QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); enqueueFrame(p);
         }
         appendSystem(tr("[系统] 图片已发送"));
     };
@@ -867,7 +947,7 @@ bool ChatWindow::trySendLocalImagePath(const QString &message) {
             if (socket) {
                 QJsonObject r; r["type"] = "chat_send"; if (!username.isEmpty()) r["username"] = username; r["content"] = finalUrl;
                 const QString to = peerEdit? peerEdit->text().trimmed() : QString(); if (!to.isEmpty()) r["to"] = to;
-                QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+                QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); enqueueFrame(p);
             }
             appendSystem(tr("[系统] 图片已发送"));
         };
@@ -921,7 +1001,7 @@ bool ChatWindow::trySendLocalImagePath(const QString &message) {
                 if (socket) {
                     QJsonObject r; r["type"] = "chat_send"; if (!username.isEmpty()) r["username"] = username; r["content"] = finalUrl;
                     const QString to = peerEdit? peerEdit->text().trimmed() : QString(); if (!to.isEmpty()) r["to"] = to;
-                    QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+                    QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); enqueueFrame(p);
                 }
                 appendSystem(tr("[系统] 图片已发送"));
             });
@@ -1114,11 +1194,48 @@ void ChatWindow::appendRefundBubble(const QString &from, const QString &to, cons
 void ChatWindow::showOrderDetailById(qlonglong orderId) {
     if (!socket || orderId <= 0) return;
     pendingDetailOrderId = orderId;
-    QJsonObject req; req["type"] = "get_orders"; req["origin"] = "detail";
-    QJsonDocument d(req); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+    if (socket->state() == QAbstractSocket::ConnectedState) {
+        QJsonObject req; req["type"] = "get_orders"; req["origin"] = "detail";
+        QJsonDocument d(req); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n');
+        qInfo() << "send get_orders (detail origin)";
+        enqueueFrame(p);
+    } else {
+        appendSystem(tr("[系统] 网络未就绪，稍后自动重试…"));
+        QTimer::singleShot(300, this, [this]{ if (socket && socket->state()==QTcpSocket::ConnectedState) { QJsonObject req; req["type"]="get_orders"; req["origin"]="detail"; QJsonDocument d(req); QByteArray p=d.toJson(QJsonDocument::Compact); p.append('\n'); enqueueFrame(p);} });
+    }
     appendSystem(tr("[系统] 正在获取订单 #%1 的详情…").arg(orderId));
 }
 
 bool ChatWindow::isWaitingOrderDetail() const {
     return pendingDetailOrderId > 0;
+}
+
+// 发送侧微批处理：把短时间内的多条帧合并为一次 write，缓解突发写入
+void ChatWindow::enqueueFrame(const QByteArray &frame) {
+    // 若提供了外部发送队列（例如 MainWindow::enqueueFrame），优先转发，避免双队列同时写 socket
+    if (sendFn) { sendFn(frame); return; }
+    pendingFrames.push_back(frame);
+    if (!sendFlushTimer) {
+        sendFlushTimer = new QTimer(this);
+        sendFlushTimer->setSingleShot(true);
+        connect(sendFlushTimer, &QTimer::timeout, this, [this]() {
+            if (pendingFrames.isEmpty()) return;
+            if (!socket || socket->state() != QAbstractSocket::ConnectedState) {
+                // 网络未就绪，稍后重试（保留队列）
+                sendFlushTimer->start(200);
+                return;
+            }
+            QByteArray batch;
+            batch.reserve(pendingFrames.size() * 64);
+            for (const auto &f : pendingFrames) batch.append(f);
+            pendingFrames.clear();
+            socket->write(batch);
+        });
+    }
+    if (!sendFlushTimer->isActive()) sendFlushTimer->start(60);
+}
+
+void ChatWindow::resizeEvent(QResizeEvent *event) {
+    QMainWindow::resizeEvent(event);
+    emit resizeEventOccurred(event->size());
 }

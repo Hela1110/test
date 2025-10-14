@@ -7,6 +7,10 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QElapsedTimer>
+#include <QVector>
+#include <QByteArray>
+#include <functional>
 
 // 前置声明，避免在头文件中包含大量 Qt 头
 class QTcpSocket;
@@ -31,11 +35,19 @@ public:
     ~ChatWindow();
     void setSocket(QTcpSocket *s) { socket = s; }
     void setUsername(const QString &u) { username = u; }
+    // 将发送入口统一到外部（例如 MainWindow）的批处理队列
+    void setSendFunc(std::function<void(const QByteArray&)> fn) { sendFn = std::move(fn); }
     void initChat();
     void handleMessage(const QJsonObject &msg);
     void handleMessageUi(const QJsonObject &msg);
     // 是否正在等待订单详情（用于 MainWindow 将 orders_response 兜底路由回聊天窗口）
     bool isWaitingOrderDetail() const;
+
+signals:
+    // 用于将 chat_init 的初始化请求交给外部统一串行化发送
+    void chatInitRequested(const QByteArray &payload);
+    // 窗口大小变化事件（用于自适应控制图标/文本）
+    void resizeEventOccurred(const QSize &size);
 
 private slots:
     void on_sendButton_clicked();
@@ -43,6 +55,7 @@ private slots:
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     Ui::ChatWindow *ui;
@@ -81,6 +94,16 @@ private:
 
     // 等待详情查询时的订单号
     qlonglong pendingDetailOrderId = -1;
+
+    // 轻量节流用单调时钟
+    QElapsedTimer monotonic;
+    qint64 lastInitChatMs = 0;
+
+    // 发送侧微批处理（聊天窗口内部的发送合并）
+    QVector<QByteArray> pendingFrames;
+    QTimer *sendFlushTimer = nullptr;
+    void enqueueFrame(const QByteArray &frame);
+    std::function<void(const QByteArray&)> sendFn;
 };
 
 #endif // CHATWINDOW_H

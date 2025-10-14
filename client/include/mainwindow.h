@@ -36,6 +36,9 @@ private:
     ShoppingCart *cart;
     ChatWindow *chat;
     QString currentUsername; // 当前登录用户名，可为空表示匿名
+    // 搜索状态：当处于搜索结果展示时，禁止自动请求分页列表
+    bool searchActive = false;
+    QString currentSearchKeyword;
     // 主题相关
     ThemeMode currentThemeMode = ThemeMode::Light;
     QPalette defaultAppPalette; // 用于恢复浅色模式

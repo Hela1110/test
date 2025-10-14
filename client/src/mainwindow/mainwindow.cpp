@@ -38,6 +38,32 @@
 #include <QPointer>
 #include <QHash>
 #include <QSettings>
+#include <QScrollArea>
+#include <QScrollBar>
+#include <QProgressBar>
+// 将一帧加入微批处理队列，并在短时间窗口内批量写出
+void MainWindow::enqueueFrame(const QByteArray &frame) {
+    // 允许在未连接时也暂存，等待 timer 重试写出
+    pendingFrames.push_back(frame);
+    if (!sendFlushTimer) {
+        sendFlushTimer = new QTimer(this);
+        sendFlushTimer->setSingleShot(true);
+        connect(sendFlushTimer, &QTimer::timeout, this, [this]() {
+            if (pendingFrames.isEmpty()) return;
+            if (!socket || socket->state() != QAbstractSocket::ConnectedState) {
+                // 网络未就绪，稍后重试（保留队列）
+                sendFlushTimer->start(200);
+                return;
+            }
+            QByteArray batch;
+            batch.reserve(pendingFrames.size() * 64);
+            for (const auto &f : pendingFrames) batch.append(f);
+            pendingFrames.clear();
+            socket->write(batch);
+        });
+    }
+    if (!sendFlushTimer->isActive()) sendFlushTimer->start(60);
+}
 
 // 商品数据缓存：用于直接点击“加入购物车”时获取最新的尺码库存
 QHash<int,QJsonObject> *productCachePtr = nullptr;  // 推荐/首页区域
@@ -64,10 +90,26 @@ MainWindow::MainWindow(QWidget *parent)
     reconnectTimer->setSingleShot(true);
     connect(reconnectTimer, &QTimer::timeout, this, [this]{
         if (!socket) return;
-        if (socket->state() == QAbstractSocket::ConnectedState) return;
-        qInfo() << "reconnect attempt" << reconnectAttempts << "to" << socketHost << socketPort;
-        socket->abort();
-        socket->connectToHost(socketHost, socketPort);
+        auto st = socket->state();
+        if (st == QAbstractSocket::ConnectedState) return;
+        if (st == QAbstractSocket::UnconnectedState) {
+            qInfo() << "reconnect attempt" << reconnectAttempts << "to" << socketHost << socketPort;
+            socket->connectToHost(socketHost, socketPort);
+            return;
+        }
+        // 其它过渡态（HostLookup/Connecting/Closing），不再强行断开，延后重试避免产生 RST
+        qInfo() << "reconnect postponed, state=" << st;
+        reconnectTimer->start(200);
+    });
+
+    // Tab 切换防抖队列
+    tabSwitchTimer = new QTimer(this);
+    tabSwitchTimer->setSingleShot(true);
+    tabSwitchTimer->setInterval(50);
+    connect(tabSwitchTimer, &QTimer::timeout, this, [this]{
+        if (pendingTabKey.isEmpty()) return;
+        const QString key = pendingTabKey; pendingTabKey.clear();
+        switchToTabKey(key);
     });
 }
 
@@ -190,6 +232,9 @@ void MainWindow::setSocket(QTcpSocket *s)
     socket = s;
     qInfo() << "MainWindow setSocket, state=" << socket->state();
     connect(socket, &QTcpSocket::readyRead, this, &MainWindow::onReadyRead);
+    connect(socket, &QTcpSocket::stateChanged, this, [this](QAbstractSocket::SocketState st){
+        qInfo() << "Socket stateChanged:" << st;
+    });
     // 记录当前连接参数用于重连（优先环境变量）
     QString envHost = qEnvironmentVariable("APP_HOST").trimmed();
     if (!envHost.isEmpty()) socketHost = envHost; else socketHost = QStringLiteral("127.0.0.1");
@@ -199,6 +244,11 @@ void MainWindow::setSocket(QTcpSocket *s)
         qWarning() << "Socket disconnected. activeTab=" << activeTabKey;
         statusBar()->showMessage(tr("网络连接已断开，正在尝试重连…"), 3000);
         scheduleReconnect();
+    });
+    // 增加错误日志，定位潜在 RST 前的最后错误
+    connect(socket, qOverload<QAbstractSocket::SocketError>(&QTcpSocket::errorOccurred), this, [this](QAbstractSocket::SocketError e){
+        Q_UNUSED(e);
+        qCritical() << "Socket error in MainWindow:" << socket->errorString() << " state=" << socket->state();
     });
     // 通过 TCP 连接对端推断静态资源 HTTP 基址（同一台服务器通常同时提供 9090 套接字与 8081 HTTP）
     // 若对端是 127.0.0.1 或 ::1，则使用 localhost
@@ -222,8 +272,12 @@ void MainWindow::setSocket(QTcpSocket *s)
         httpBase = QStringLiteral("http://%1:%2").arg(host).arg(httpPort);
         qInfo() << "HTTP base resolved to" << httpBase;
     }
-    // 刚设置好 socket 时，主动进入首页并加载内容
-    showHomeView();
+    // 刚设置好 socket 时，后台拉一次首页数据（不切 UI，不重复）
+    if (!homeDataRequested) {
+        homeDataRequested = true;
+        loadCarousel();
+        loadRecommendations();
+    }
 }
 
 void MainWindow::scheduleReconnect()
@@ -261,39 +315,47 @@ QTabBar* MainWindow::ensureSideTabBar()
     }
 
     // 添加 Tabs（带 key）
-    struct TabDef { const char* key; const char* text; } defs[] = {
-        {"home", "首页"}, {"mall", "发现好物"}, {"cart", "购物车"}, {"orders", "历史订单"}, {"chat", "客服/聊天"}, {"account", "个人中心"}
+    struct TabDef { const char* key; const char* text; const char* icon; } defs[] = {
+        {"home",   "首页",       ":/icons/home.svg"},
+        {"mall",   "发现好物",   ":/icons/mall.svg"},
+        {"cart",   "购物车",     ":/icons/cart.svg"},
+        {"orders", "历史订单",   ":/icons/orders.svg"},
+        {"chat",   "客服/聊天", ":/icons/chat.svg"},
+        {"account","个人中心",   ":/icons/account.svg"}
     };
     for (auto &d : defs) {
-        int idx = tab->addTab(tr(d.text));
+        int idx = tab->addTab(QIcon(QString::fromLatin1(d.icon)), tr(d.text));
         tab->setTabData(idx, QString::fromLatin1(d.key));
     }
 
-    // 简单样式
-    tab->setStyleSheet(
-        "QTabBar { margin: 6px 0; }"
-        "QTabBar::tab { background:#f7f7f7; border:1px solid #ddd; border-left-width:3px; border-radius:6px;"
-        " padding:8px 10px; margin:4px 6px; color:#333; min-width:24px; min-height:80px; text-align:center; }"
-        "QTabBar::tab:selected { background:#ffffff; border-left-color:#1677ff; color:#1677ff; font-weight:600; }"
-        "QTabBar::tab:hover { background:#fafafa; }"
-    );
+    // 样式统一交由全局 QSS 管控（见 resources/styles/style.qss 与 applyTheme 的 darkCss）
 
     connect(tab, &QTabBar::currentChanged, this, [this, tab](int idx){
-        if (tabSwitching || idx < 0) return;
+        if (idx < 0) return;
         const QString key = tab->tabData(idx).toString();
-        activeTabKey = key;
-        tabSwitching = true;
-        if (key == QLatin1String("home")) showHomeView();
-        else if (key == QLatin1String("mall")) showMallView();
-        else if (key == QLatin1String("cart")) showCartView();
-        else if (key == QLatin1String("orders")) showOrdersView();
-        else if (key == QLatin1String("chat")) showChatView();
-        else if (key == QLatin1String("account")) showAccountView();
-        tabSwitching = false;
+    qint64 now = monotonic.elapsed();
+    if (tabSwitching || (now - lastTabSwitchMs) < 250) { pendingTabKey = key; tabSwitchTimer->start(50); return; }
+    pendingTabKey = key; tabSwitchTimer->start(50);
     });
     tab->setCurrentIndex(0);
     activeTabKey = QStringLiteral("home");
     return tab;
+}
+
+void MainWindow::switchToTabKey(const QString &key)
+{
+    if (key.isEmpty()) return;
+    if (tabSwitching) { pendingTabKey = key; tabSwitchTimer->start(0); return; }
+    tabSwitching = true;
+    lastTabSwitchMs = monotonic.elapsed();
+    activeTabKey = key;
+    if (key == QLatin1String("home")) showHomeView();
+    else if (key == QLatin1String("mall")) showMallView();
+    else if (key == QLatin1String("cart")) showCartView();
+    else if (key == QLatin1String("orders")) showOrdersView();
+    else if (key == QLatin1String("chat")) showChatView();
+    else if (key == QLatin1String("account")) showAccountView();
+    tabSwitching = false;
 }
 
 // 外部调用以同步 Tab 选中态，避免递归
@@ -316,7 +378,8 @@ void MainWindow::setupConnections()
 {
     // 连接搜索按钮信号
     connect(ui->searchButton, &QAbstractButton::clicked, this, &MainWindow::on_searchButton_clicked);
-    // 支持在输入框回车直接搜索
+    // 搜索框占位提示与回车触发
+    if (ui->searchInput) ui->searchInput->setPlaceholderText(tr("搜索商品名称…"));
     connect(ui->searchInput, &QLineEdit::returnPressed, this, &MainWindow::on_searchButton_clicked);
     
     qInfo() << "setupConnections: searchButton=" << static_cast<void*>(ui->searchButton)
@@ -387,10 +450,7 @@ void MainWindow::setupConnections()
     // 初次加载：作为首页，隐藏分页器（商城里再显示）并加载首页模块
     showHomeView();
     updateGreeting();
-    // 可选：预取历史订单，后续可在 UI 中展示
-    if (socket) {
-        QJsonObject req; req["type"] = "get_orders"; QJsonDocument doc(req); QByteArray payload = doc.toJson(QJsonDocument::Compact); payload.append('\n'); socket->write(payload);
-    }
+    // 不再在主界面初始化时预取历史订单，避免与其它初始化请求叠加
 }
 
 // 主题应用
@@ -408,33 +468,146 @@ void MainWindow::applyTheme(MainWindow::ThemeMode mode)
         this->setStyleSheet("");
         return;
     }
-    // Dark
+    // Dark — 高级深色主题（与浅色版风格一致、对比度与可读性优化）
     QPalette pal = defaultAppPalette;
-    pal.setColor(QPalette::Window, QColor(30,30,30));
-    pal.setColor(QPalette::WindowText, QColor(220,220,220));
-    pal.setColor(QPalette::Base, QColor(24,24,24));
-    pal.setColor(QPalette::AlternateBase, QColor(36,36,36));
-    pal.setColor(QPalette::ToolTipBase, QColor(36,36,36));
-    pal.setColor(QPalette::ToolTipText, QColor(220,220,220));
-    pal.setColor(QPalette::Text, QColor(220,220,220));
-    pal.setColor(QPalette::Button, QColor(45,45,45));
-    pal.setColor(QPalette::ButtonText, QColor(220,220,220));
-    pal.setColor(QPalette::BrightText, QColor(255,0,0));
-    pal.setColor(QPalette::Highlight, QColor(56,117,215));
+    pal.setColor(QPalette::Window, QColor(26,26,28));           // 背景
+    pal.setColor(QPalette::WindowText, QColor(224,224,226));
+    pal.setColor(QPalette::Base, QColor(22,22,24));             // 输入底
+    pal.setColor(QPalette::AlternateBase, QColor(34,34,38));
+    pal.setColor(QPalette::ToolTipBase, QColor(34,34,38));
+    pal.setColor(QPalette::ToolTipText, QColor(232,232,236));
+    pal.setColor(QPalette::Text, QColor(224,224,226));
+    pal.setColor(QPalette::Button, QColor(40,40,44));
+    pal.setColor(QPalette::ButtonText, QColor(232,232,236));
+    pal.setColor(QPalette::BrightText, QColor(255,68,68));
+    pal.setColor(QPalette::Highlight, QColor(22,119,255));
     pal.setColor(QPalette::HighlightedText, QColor(255,255,255));
     qApp->setPalette(pal);
+    // 与浅色 style.qss 对齐的部件级样式（仅更换色板与对比度）
     QString darkCss = R"(
-        QWidget { background-color: #1e1e1e; color: #dedede; }
-        QLineEdit, QTextEdit, QPlainTextEdit, QSpinBox, QComboBox, QListWidget, QTableWidget, QTreeWidget {
-            background-color: #181818; color: #dedede; border:1px solid #444; }
-        QPushButton { background-color:#2c2c2c; color:#e0e0e0; border:1px solid #555; padding:4px 10px; }
-        QPushButton:hover { background-color:#303030; }
-        QPushButton:pressed { background-color:#363636; }
-        QTabBar::tab { background:#2a2a2a; color:#e0e0e0; border:1px solid #444; border-left-width:3px; border-radius:6px; padding:8px 10px; margin:4px 6px; }
-        QTabBar::tab:selected { background:#333333; border-left-color:#1677ff; color:#8ab4ff; font-weight:600; }
-        QHeaderView::section { background:#2b2b2b; color:#d0d0d0; border:1px solid #444; }
-        QScrollBar:vertical { background:#222; width:10px; }
-        QScrollBar::handle:vertical { background:#444; min-height:20px; border-radius:4px; }
+        /* ========= 全局 ========= */
+        QWidget { font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", Arial, sans-serif; color:#e0e0e2; }
+        QMainWindow, QDialog, QMessageBox, QWidget#centralwidget { background: #1a1a1c; }
+
+        /* 标题/标签 */
+        QLabel { color: #e0e0e2; }
+        QLabel[objectName="promoFloatingLabel"] { color: #ff6b6b; font-weight: 700; }
+
+        /* 按钮（与浅色风格一致，仅替换色板） */
+        QPushButton { background: #1677ff; color: #fff; border: 1px solid #1677ff; padding: 7px 14px; border-radius: 8px; }
+        QPushButton:hover { background: #3c8cff; border-color: #3c8cff; }
+        QPushButton:pressed { background: #0e5ad1; border-color: #0e5ad1; }
+        QPushButton:disabled { background: #2f3b4d; border-color: #2f3b4d; color: #8b96a6; }
+        /* 次级按钮（扁平边框，一致的尺寸与圆角） */
+        QPushButton[flat="true"], QPushButton.secondary {
+            background: transparent; color: #8ab4ff; border: 1px solid #8ab4ff; padding: 7px 14px; border-radius: 6px;
+        }
+        QPushButton[flat="true"]:hover, QPushButton.secondary:hover { background: rgba(22,119,255,0.12); }
+        QPushButton[flat="true"]:pressed, QPushButton.secondary:pressed { background: rgba(22,119,255,0.18); }
+
+        /* 输入类 */
+        QLineEdit, QTextEdit, QPlainTextEdit, QComboBox, QSpinBox, QDoubleSpinBox, QDateEdit, QTimeEdit {
+            background: #161618; color:#e0e0e2; border:1px solid #3a3f46; border-radius:6px; padding:6px 8px;
+        }
+        QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus, QComboBox:focus, QSpinBox:focus, QDoubleSpinBox:focus, QDateEdit:focus, QTimeEdit:focus {
+            border-color: #1677ff; box-shadow: 0 0 0 3px rgba(22,119,255,0.22);
+        }
+        QComboBox::drop-down { width: 26px; border-left: 1px solid #3a3f46; border-top-right-radius: 6px; border-bottom-right-radius: 6px; }
+        QComboBox::down-arrow {
+            image: none; width: 0; height: 0; margin-right: 9px;
+            border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 7px solid #a6adbb;
+        }
+
+        /* SpinBox（与浅色版相同的三角箭头与尺寸） */
+        QSpinBox::up-button, QDoubleSpinBox::up-button {
+            width: 24px; border-left: 1px solid #3a3f46; border-top-right-radius: 6px; border-bottom-right-radius: 0;
+        }
+        QSpinBox::down-button, QDoubleSpinBox::down-button {
+            width: 24px; border-left: 1px solid #3a3f46; border-bottom-right-radius: 6px; border-top-right-radius: 0;
+        }
+        QSpinBox::up-button:hover, QDoubleSpinBox::up-button:hover,
+        QSpinBox::down-button:hover, QDoubleSpinBox::down-button:hover {
+            background: rgba(22,119,255,0.12);
+        }
+        QSpinBox::up-arrow, QDoubleSpinBox::up-arrow {
+            image: none; width: 0; height: 0;
+            border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 7px solid #a6adbb;
+        }
+        QSpinBox::down-arrow, QDoubleSpinBox::down-arrow {
+            image: none; width: 0; height: 0;
+            border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 7px solid #a6adbb;
+        }
+        QSpinBox::up-arrow:disabled, QDoubleSpinBox::up-arrow:disabled,
+        QSpinBox::down-arrow:disabled, QDoubleSpinBox::down-arrow:disabled {
+            border-color: #4a4f59;
+        }
+
+        /* 复选/单选 */
+        QCheckBox, QRadioButton { spacing: 6px; }
+        QCheckBox::indicator, QRadioButton::indicator { width: 16px; height: 16px; }
+        QCheckBox::indicator { border: 1px solid #3a3f46; border-radius: 3px; background: #161618; }
+        QCheckBox::indicator:checked { background: #1677ff; image: none; }
+        QRadioButton::indicator { border: 1px solid #3a3f46; border-radius: 8px; background: #161618; }
+        QRadioButton::indicator:checked { background: #1677ff; }
+
+        /* GroupBox */
+        QGroupBox { border: 1px solid #2a2e33; border-radius: 8px; margin-top: 12px; background: #1f2023; }
+        QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 6px; color: #a6adbb; }
+
+        /* 表格 / 列表 */
+        QTableView, QListView, QTreeView {
+            background: #1f2023; border: 1px solid #2a2e33; border-radius: 8px;
+            selection-background-color: #1c2b45; selection-color: #e0e0e2; gridline-color: #2a2e33;
+        }
+        QHeaderView::section { background: #23252a; color: #b8bfcc; padding: 8px 10px; border: 1px solid #2a2e33; }
+        QTableView::item { padding: 6px; }
+        QTableView::item:selected { background: #1c2b45; }
+
+        /* 状态栏 */
+        QStatusBar { background: #1f2023; border-top: 1px solid #2a2e33; }
+        QStatusBar QLabel { color: #a6adbb; }
+
+        /* Tab */
+        QTabWidget::pane { border: 1px solid #2a2e33; border-radius: 8px; top: -1px; }
+        QTabBar { font-weight: 500; }
+        QTabBar::tab {
+            background: #212226; color: #d8dbe2; border: 1px solid #2a2e33; border-left-width: 3px; border-radius: 12px;
+            padding: 10px 12px; margin: 6px 8px; min-height: 34px; min-width: 96px; qproperty-iconSize: 18px 18px;
+        }
+        QTabBar::tab:selected { background: #24262b; border-left-color: #1677ff; color: #8ab4ff; }
+        QTabBar::tab:hover { background: #262a30; }
+
+        /* 左侧竖向 TabBar（对象名 leftTabBar）在暗色下更明显的选中条 */
+        QTabBar#leftTabBar { margin: 6px 0; }
+        QTabBar#leftTabBar::tab { min-height: 84px; min-width: 24px; text-align: center; }
+        QTabBar#leftTabBar::tab:selected { box-shadow: inset 3px 0 0 #1677ff; }
+
+        /* 滚动条 */
+        QScrollBar:vertical { background: transparent; width: 10px; margin: 4px 0; }
+        QScrollBar::handle:vertical { background: #3a4150; border-radius: 6px; min-height: 30px; }
+        QScrollBar::handle:vertical:hover { background: #4a5263; }
+        QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0; }
+        QScrollBar:horizontal { background: transparent; height: 10px; margin: 0 4px; }
+        QScrollBar::handle:horizontal { background: #3a4150; border-radius: 6px; min-width: 30px; }
+        QScrollBar::handle:horizontal:hover { background: #4a5263; }
+        QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal { width: 0; }
+
+        /* 工具提示 */
+        QToolTip { background: #0f172a; color: #fff; border: 1px solid #0f172a; border-radius: 6px; padding: 6px 8px; }
+
+        /* 卡片容器（暗色白卡等价） */
+        QWidget.card, QWidget#ordersPage, QWidget#accountPage, QWidget#chatPage {
+            background: #1f2023; border: 1px solid #2a2e33; border-radius: 12px; padding: 12px;
+        }
+
+        /* 商城页页尾提示（暗色） */
+        QWidget#mallFooter QLabel#mallFooterLabel { color: #a6adbb; }
+        QWidget#mallFooter QFrame#mallFooterDivider { background: #2a2e33; height: 1px; }
+
+    /* 商城商品卡片（暗色卡片） */
+    QFrame#mallCard { border: 1px solid #2a2e33; border-radius: 10px; background: #1f2023; }
+    QFrame#mallCard QLabel { color: #e0e0e2; font-size: 13px; }
+    QLabel#mallImageHolder { background: #24262b; border: 1px solid #2a2e33; border-radius: 8px; }
     )";
     qApp->setStyleSheet(darkCss);
 }
@@ -461,7 +634,7 @@ void MainWindow::loadCarousel()
     QJsonDocument doc(request);
     QByteArray payload = doc.toJson(QJsonDocument::Compact);
     payload.append('\n');
-    socket->write(payload);
+    enqueueFrame(payload);
     }
 }
 
@@ -475,7 +648,7 @@ void MainWindow::loadRecommendations()
     QJsonDocument doc(request);
     QByteArray payload = doc.toJson(QJsonDocument::Compact);
     payload.append('\n');
-    socket->write(payload);
+    enqueueFrame(payload);
     }
 }
 
@@ -489,7 +662,7 @@ void MainWindow::loadPromotions()
     QJsonDocument doc(request);
     QByteArray payload = doc.toJson(QJsonDocument::Compact);
     payload.append('\n');
-    socket->write(payload);
+    enqueueFrame(payload);
     }
 }
 
@@ -499,7 +672,27 @@ void MainWindow::on_searchButton_clicked()
     // 300ms 防抖，避免双击/回车重复
     if (monotonic.elapsed() - lastSearchMs < 300) return;
     lastSearchMs = monotonic.elapsed();
-    // 允许空关键词，表示列出全部；服务器会返回所有匹配项
+    // 空关键词表示退出搜索模式，恢复正常“发现好物”滚动列表
+    if (keyword.isEmpty()) {
+        searchActive = false;
+        currentSearchKeyword.clear();
+        lastResults = QJsonArray{};
+        if (currentView != ViewMode::Mall) showMallView();
+        else {
+            // 已在商城页则直接刷新到第 1 页
+            requestProductsPage(1);
+        }
+        statusBar()->showMessage(tr("显示全部商品"), 1200);
+        return;
+    }
+    // 进入商城页容器布局，但若是搜索，不触发默认的第一页拉取
+    searchActive = true;
+    currentSearchKeyword = keyword;
+    currentPage = 1;
+    if (currentView != ViewMode::Mall) showMallView();
+    // 立即清空“已加载列表”状态，准备渲染搜索结果
+    lastResults = QJsonArray{};
+    mallLoading = true; updateMallFooter();
     if (socket) {
         QJsonObject request;
         // 与文档对齐：使用 search_products；服务器仍兼容旧的 search
@@ -509,7 +702,7 @@ void MainWindow::on_searchButton_clicked()
     QJsonDocument doc(request);
     QByteArray payload = doc.toJson(QJsonDocument::Compact);
     payload.append('\n');
-    socket->write(payload);
+    enqueueFrame(payload);
         statusBar()->showMessage(keyword.isEmpty() ? tr("正在获取全部商品…") : tr("正在搜索：%1").arg(keyword), 2000);
     }
 }
@@ -540,21 +733,24 @@ void MainWindow::onProductClicked(int productId)
     QJsonDocument doc(request);
     QByteArray payload = doc.toJson(QJsonDocument::Compact);
     payload.append('\n');
-    socket->write(payload);
+    enqueueFrame(payload);
     }
 }
 
 void MainWindow::onReadyRead()
 {
     if (!socket) return;
-    
-    QByteArray data = socket->readAll();
-    const QList<QByteArray> lines = data.split('\n');
-    for (const QByteArray &line : lines) {
-    if (line.trimmed().isEmpty()) continue;
-    QJsonParseError err{};
-    QJsonDocument doc = QJsonDocument::fromJson(line, &err);
-    if (err.error != QJsonParseError::NoError) continue;
+    // 追加到缓冲区，并按行处理完整帧；保留最后一个未以'\n'结尾的半帧
+    recvBuf += socket->readAll();
+    int idx;
+    while ((idx = recvBuf.indexOf('\n')) != -1) {
+        QByteArray one = recvBuf.left(idx);
+        recvBuf.remove(0, idx + 1);
+        const QByteArray trimmed = one.trimmed();
+        if (trimmed.isEmpty()) continue;
+        QJsonParseError err{};
+        QJsonDocument doc = QJsonDocument::fromJson(trimmed, &err);
+        if (err.error != QJsonParseError::NoError) continue;
     QJsonObject response = doc.object();
     QString type = response["type"].toString();
     // 调试日志：记录首页相关的返回
@@ -581,14 +777,48 @@ void MainWindow::onReadyRead()
         renderPromotions(promotions);
     }
     else if (type == "search_results") {
+        // 兼容旧协议：服务端返回 search_results
+        if (currentView != ViewMode::Mall) showMallView();
+        searchActive = true;
+        mallLoading = false;
+        mallHasMore = false; // 搜索结果不再自动翻页
         QJsonArray results = response["results"].toArray();
         renderSearchResults(results);
+        updateMallFooter();
     }
     else if (type == "product_detail") {
         QJsonObject product = response["product"].toObject();
-        showProductDetail(product);
+        // 若处于“等待尺码弹窗”的流程，则优先走尺码选择
+        if (waitingSizeSelectProductId > 0 && product.value("product_id").toInt() == waitingSizeSelectProductId) {
+            handleProductDetailForSizeSelect(product);
+            waitingSizeSelectProductId = -1;
+        } else {
+            showProductDetail(product);
+        }
+    }
+    else if (type == "add_to_cart_response") {
+        const bool ok = response.value("success").toBool();
+        const QString msg = response.value("message").toString();
+        // 弹窗提示
+        QMessageBox box(this);
+        box.setWindowTitle(ok ? tr("已加入购物车") : tr("加入失败"));
+        box.setIcon(ok ? QMessageBox::Information : QMessageBox::Warning);
+        box.setText(ok ? (msg.isEmpty()? tr("加入购物车成功！"): msg)
+                       : (msg.isEmpty()? tr("加入购物车失败，请稍后重试"): msg));
+        box.setStandardButtons(QMessageBox::Ok);
+        auto f = box.font(); f.setPointSize(f.pointSize()+1); box.setFont(f);
+        box.exec();
+        // 成功时刷新购物车
+        if (ok && cart) {
+            cart->refreshCart();
+        }
     }
     else if (type == "products_response") {
+        // 仅在商城视图中处理商品列表，避免后台更新覆盖其他页面
+        if (currentView != ViewMode::Mall) {
+            qInfo() << "skip products_response due to inactive view" << static_cast<int>(currentView);
+            continue;
+        }
         // 将文档格式的 products 列表归一化为现有 renderSearchResults 接受的结构
         QJsonArray products = response.value("products").toArray();
         totalProducts = response.value("total").toInt();
@@ -599,41 +829,69 @@ void MainWindow::onReadyRead()
             item["product_id"] = o.value("id").toInt();
             item["name"] = o.value("name").toString();
             item["price"] = o.value("price").toDouble();
-            // 可选字段保留
             if (o.contains("description")) item["description"] = o.value("description");
             if (o.contains("imageUrl")) item["image_url"] = o.value("imageUrl");
             if (o.contains("stock")) item["stock"] = o.value("stock");
-            // 新增：销量字段（若后端提供）
             if (o.contains("sales")) item["sales"] = o.value("sales");
-                // 新增：传递促销字段到渲染层
-                if (o.contains("onSale")) item["onSale"] = o.value("onSale");
-                if (o.contains("discountPrice")) item["discountPrice"] = o.value("discountPrice");
-            // 新增：传递 isNew 字段以在商城卡片显示“新品”角标
+            if (o.contains("onSale")) item["onSale"] = o.value("onSale");
+            if (o.contains("discountPrice")) item["discountPrice"] = o.value("discountPrice");
             if (o.contains("isNew")) item["isNew"] = o.value("isNew");
             results.append(item);
         }
-        renderSearchResults(results);
-        // 在状态栏显示分页信息
-        int totalPages = (pageSize>0) ? ((totalProducts + pageSize - 1) / pageSize) : 1;
-        statusBar()->showMessage(tr("商品分页：第 %1/%2 页（共 %3 条）").arg(currentPage).arg(totalPages).arg(totalProducts), 3000);
-        // 更新底部分页条
-        if (auto lbl = findChild<QLabel*>("pageInfoLabel")) {
-            lbl->setText(tr("第 %1/%2 页").arg(currentPage).arg(totalPages));
+        // 首次或刷新：直接渲染；后续页：合并并渲染
+        if (currentPage <= 1 || lastResults.isEmpty()) {
+            renderSearchResults(results);
+        } else {
+            int before = lastResults.size();
+            // 简单去重合并：按 product_id 排重，避免重复导致“永远还有更多”
+            QSet<int> existing;
+            for (const auto &v : lastResults) existing.insert(v.toObject().value("product_id").toInt());
+            QJsonArray merged = lastResults;
+            int added = 0;
+            for (const auto &v : results) {
+                int pid = v.toObject().value("product_id").toInt();
+                if (!existing.contains(pid)) { merged.append(v); existing.insert(pid); ++added; }
+            }
+            renderSearchResults(merged);
+            if (added == 0) {
+                mallHasMore = false; // 这一页没有新增内容，视为已到末尾
+            }
         }
-        if (auto lbl2 = findChild<QLabel*>("totalInfoLabel")) {
-            lbl2->setText(tr("共 %1 条").arg(totalProducts));
+        // 更新滚动加载状态（多信号兜底计算）
+        mallLoading = false;
+    bool hasMore = false;
+        // 1) 服务器显式给出总页数或 hasMore
+        const int totalPagesHint = response.value("totalPages").toInt(-1);
+        const bool hasMoreHint = response.value("hasMore").toBool(false);
+        const int pageResp = response.value("page").toInt(currentPage);
+        if (totalPagesHint >= 0) {
+            hasMore = pageResp < totalPagesHint;
+        } else if (response.contains("hasMore")) {
+            hasMore = hasMoreHint;
+        } else if (totalProducts > 0 && pageSize > 0) {
+            int totalPages = (totalProducts + pageSize - 1) / pageSize;
+            hasMore = pageResp < totalPages;
+        } else {
+            // 4) 回退：当前页条目数达到 pageSize 视为可能还有下一页
+            hasMore = (products.size() >= pageSize);
         }
-        if (auto spin = findChild<QSpinBox*>("gotoPageSpin")) {
-            spin->setMaximum(totalPages > 0 ? totalPages : 1);
-            spin->setValue(currentPage);
-        }
-    // top pager buttons removed; only bottom pager is active
+    // 若当前页条目少于 pageSize，认为已到最后一页（兜底，优先生效）
+    if (products.size() < pageSize) hasMore = false;
+    // 收到空页也视为没有更多
+    if (products.isEmpty()) hasMore = false;
+    mallHasMore = hasMore;
+        qInfo() << "products_response pages calc:" << "pageResp=" << pageResp
+                << "totalProducts=" << totalProducts << "pageSize=" << pageSize
+                << "hasMore=" << mallHasMore;
+        updateMallFooter();
+        // 如果当前内容不足以出现滚动条，尝试预取下一页
+        QTimer::singleShot(0, this, [this]{ tryLoadNextProductsOnScroll(); });
     }
     else if (type == "account_info") {
         // 仅在当前仍停留在“个人中心”页时处理，避免离开后回调构建/访问已删除的控件
         if (activeTabKey != QLatin1String("account")) {
             qInfo() << "skip account_info due to inactive tab" << activeTabKey;
-            return;
+            continue;
         }
         // 在 accountPage 中展示并可直接编辑保存
         QWidget *page = findChild<QWidget*>("accountPage");
@@ -688,7 +946,7 @@ void MainWindow::onReadyRead()
                 if (!newEmail.isEmpty()) r["email"] = newEmail;
                 if (!newPwd.isEmpty()) r["password"] = newPwd;
                 if (!currentUsername.isEmpty()) r["username"] = currentUsername;
-                QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+                QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); enqueueFrame(p);
                 statusBar()->showMessage(tr("正在保存修改…"), 2000);
             };
             // 单按钮切换：修改 <-> 保存
@@ -741,7 +999,7 @@ void MainWindow::onReadyRead()
                             if (!newEmail.isEmpty()) r["email"] = newEmail;
                             if (!newPwd.isEmpty()) r["password"] = newPwd;
                             if (!currentUsername.isEmpty()) r["username"] = currentUsername;
-                            QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+                            QJsonDocument d(r); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); enqueueFrame(p);
                             statusBar()->showMessage(tr("正在保存修改…"), 2000);
                         };
                         if (saveToggle->text() == QObject::tr("修改")) {
@@ -792,7 +1050,7 @@ void MainWindow::onReadyRead()
             // 成功后刷新一次账号信息，确保 UI 与服务端一致
             if (socket) {
                 QJsonObject req; req["type"] = "get_account_info";
-                QJsonDocument doc(req); QByteArray payload = doc.toJson(QJsonDocument::Compact); payload.append('\n'); socket->write(payload);
+                QJsonDocument doc(req); QByteArray payload = doc.toJson(QJsonDocument::Compact); payload.append('\n'); enqueueFrame(payload);
             }
         }
     }
@@ -811,7 +1069,7 @@ void MainWindow::onReadyRead()
         // 非聊天路由，仅当“历史订单”页处于激活时才构建页面，避免切换时闪退
         if (activeTabKey != QLatin1String("orders")) {
             qInfo() << "skip orders_response due to inactive tab" << activeTabKey;
-            return;
+            continue;
         }
         // 构建或复用内嵌订单页面（统一顶部返回栏 + 筛选 + 分页，样式统一）
     QWidget *container = findChild<QWidget*>("ordersPage");
@@ -973,7 +1231,31 @@ void MainWindow::onReadyRead()
                 // 列表仅显示“实付金额”（黑色），满减拆解放在详情弹窗
                 table->setItem(r, 2, new QTableWidgetItem(QString::number(finalPay/100.0, 'f', 2)));
                 table->setItem(r, 3, new QTableWidgetItem(o.value("status").toString()));
-                table->setItem(r, 4, new QTableWidgetItem(o.value("order_time").toString()));
+                // 标准化时间显示：YYYY-MM-DD HH:mm:ss
+                auto fmtTime = [](const QVariant &v)->QString{
+                    // 支持字符串(ISO或常见格式)与毫秒时间戳
+                    if (v.typeId() == QMetaType::LongLong || v.typeId() == QMetaType::Int || v.typeId() == QMetaType::Double) {
+                        const qint64 ms = v.toLongLong();
+                        return QDateTime::fromMSecsSinceEpoch(ms).toString("yyyy-MM-dd HH:mm:ss");
+                    }
+                    const QString s = v.toString().trimmed();
+                    if (s.isEmpty()) return QString();
+                    QDateTime dt = QDateTime::fromString(s, Qt::ISODateWithMs);
+                    if (!dt.isValid()) dt = QDateTime::fromString(s, Qt::ISODate);
+                    if (!dt.isValid()) dt = QDateTime::fromString(s, "yyyy-MM-dd HH:mm:ss");
+                    if (!dt.isValid()) dt = QDateTime::fromString(s, "yyyy/MM/dd HH:mm:ss");
+                    if (!dt.isValid()) {
+                        // 尝试解析形如 2025-09-26T19:14:30.917175（微秒）
+                        QString t = s;
+                        t.replace('T', ' ');
+                        int dot = t.indexOf('.');
+                        if (dot>0) t = t.left(dot); // 去掉小数部分
+                        dt = QDateTime::fromString(t, "yyyy-MM-dd HH:mm:ss");
+                    }
+                    if (!dt.isValid()) return s; // 保底返回原文
+                    return dt.toString("yyyy-MM-dd HH:mm:ss");
+                };
+                table->setItem(r, 4, new QTableWidgetItem(fmtTime(o.value("order_time"))));
                 ++r;
             }
             pageInfo->setText(tr("第 %1 / %2 页 · 共 %3 条").arg(pageNo).arg(totalPages).arg(total));
@@ -983,7 +1265,14 @@ void MainWindow::onReadyRead()
 
         // 交互
         // 为避免重复连接导致的重复回调/野指针，先断开旧的（如果有），再建立一次新的连接
-        QObject::disconnect(filterBtn, nullptr, nullptr, nullptr);
+                    // 改为滚动加载，隐藏底部分页器
+                    if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
+                    if (auto totalInfo = findChild<QWidget*>("totalInfoLabel")) totalInfo->setVisible(false);
+                    if (auto gotoLbl = findChild<QWidget*>("gotoLabel")) gotoLbl->setVisible(false);
+                    if (auto gotoSpin = findChild<QWidget*>("gotoPageSpin")) gotoSpin->setVisible(false);
+                    if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(false);
+                    if (auto prevBtn = findChild<QWidget*>("prevPage")) prevBtn->setVisible(false);
+                    if (auto nextBtn = findChild<QWidget*>("nextPage")) nextBtn->setVisible(false);
         QObject::disconnect(kwEdit, nullptr, nullptr, nullptr);
         QObject::disconnect(statusCmb, nullptr, nullptr, nullptr);
         QObject::disconnect(prevBtn, nullptr, nullptr, nullptr);
@@ -1103,21 +1392,7 @@ void MainWindow::onReadyRead()
         refresh();
         clearToFullPage(container);
     }
-    else if (type == "add_to_cart_response") {
-        bool ok = response.value("success").toBool();
-        if (ok) {
-            statusBar()->showMessage(tr("已加入购物车"), 3000);
-        } else {
-            const int code = response.value("code").toInt();
-            const QString msg = response.value("message").toString();
-            QString friendly = tr("加入购物车失败");
-            if (code == 2002) friendly = tr("库存不足");
-            statusBar()->showMessage(friendly + (msg.isEmpty()? QString(): (" - " + msg)), 3000);
-        }
-        if (ok && cart) {
-            cart->refreshCart();
-        }
-    }
+    
     else if (type == "error") {
         const int code = response.value("code").toInt();
         const QString msg = response.value("message").toString();
@@ -1154,6 +1429,12 @@ void MainWindow::onReadyRead()
             || t == QLatin1String("presence")
             || t == QLatin1String("chat_delete_response")) {
             chat->handleMessage(response);
+            if (t == QLatin1String("chat_init_response")) {
+                if (this->property("awaitingChatInit").toBool()) {
+                    this->setProperty("awaitingChatInit", false);
+                    qInfo() << "chat_init_response received, resume queued requests";
+                }
+            }
         }
     }
     }
@@ -1416,9 +1697,10 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
     // 缓存商品（含 sizes 信息）以便直接“加入购物车”时可获取尺码库存（使用全局指针）
     if (!productCachePtr) productCachePtr = new QHash<int,QJsonObject>();
     (*productCachePtr)[pid] = o;
-        auto *card = new QFrame(container);
+    auto *card = new QFrame(container);
         card->setFrameShape(QFrame::StyledPanel);
-        card->setStyleSheet("QFrame{border:1px solid #ddd;border-radius:8px;background:#fff;} QLabel{color:#333;font-size:13px;}");
+    card->setObjectName(QLatin1String("mallCard"));
+    card->setStyleSheet("");
         auto *vbox = new QVBoxLayout(card); vbox->setContentsMargins(8,8,8,8); vbox->setSpacing(4);
         // 角标
         bool soldOut = (stock==0);
@@ -1432,7 +1714,8 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
         }
         // 图片
     auto *img = new QLabel(card); img->setAlignment(Qt::AlignCenter); img->setMinimumHeight(100);
-    img->setStyleSheet("QLabel{background:#fafafa;border:1px solid #eee;border-radius:6px;}"); vbox->addWidget(img);
+    img->setObjectName(QLatin1String("mallImageHolder"));
+    vbox->addWidget(img);
     // 兼容后端字段名 image_url / imageUrl
     QString imgUrl = o.value("image_url").toString();
     if (imgUrl.isEmpty()) imgUrl = o.value("imageUrl").toString();
@@ -1521,8 +1804,16 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
     title->setStyleSheet("font-weight:600;margin:6px 0;");
     layout->addWidget(title);
     if (results.isEmpty()) {
-        layout->addWidget(new QLabel(tr("未找到相关商品"), container));
+        // 不在内容区插入提示，统一在页脚展示“没有找到相关商品”
+        this->setProperty("mallNoResults", true);
+        this->setProperty("mallNoResultsText", tr("没有找到相关商品"));
+        mallLoading = false;
+        mallHasMore = false;
+        updateMallFooter();
         return;
+    } else {
+        this->setProperty("mallNoResults", false);
+        this->setProperty("mallNoResultsText", QString());
     }
     // 根据选择应用排序（本地排序，若后端已排序则保持一致；此处只对当前页数据排序）
     QString mode = this->property("mallSortMode").toString();
@@ -1579,9 +1870,10 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
         double price = o.value("price").toDouble();
         int stock = o.value("stock").toInt(-1);
 
-        auto *card = new QFrame(container);
-        card->setFrameShape(QFrame::StyledPanel);
-        card->setStyleSheet("QFrame{border:1px solid #ddd;border-radius:8px;background:#fff;} QLabel{color:#333;font-size:13px;}");
+    auto *card = new QFrame(container);
+    card->setFrameShape(QFrame::StyledPanel);
+    card->setObjectName("mallCard");
+    card->setStyleSheet("");
         card->setMinimumSize(190, 130);
             auto *vbox = new QVBoxLayout(card);
         vbox->setContentsMargins(8,8,8,8);
@@ -1602,10 +1894,10 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
         // 图片区域（固定高，等比缩放）
         {
             auto *img = new QLabel(card);
-            img->setObjectName("img");
+            img->setObjectName("mallImageHolder");
             img->setAlignment(Qt::AlignCenter);
             img->setMinimumHeight(100);
-            img->setStyleSheet("QLabel{background:#fafafa;border:1px solid #eee;border-radius:6px;}");
+            // style by QSS
             vbox->addWidget(img);
             // 若有 image_url 字段，发起加载
             const QString imgUrl = o.value("image_url").toString();
@@ -1628,11 +1920,13 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
     bool onSale2 = o.value("onSale").toBool();
     double discount2 = o.value("discountPrice").toDouble(0.0);
     bool hasDiscount2 = onSale2 && discount2 > 0.0 && discount2 < price;
-    if (hasDiscount2) {
+        if (hasDiscount2) {
         priceLbl2 = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
         priceLbl2->setStyleSheet("color:#999;text-decoration:line-through;");
         discountLbl2 = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(discount2, 'f', 2)), card);
-        discountLbl2->setStyleSheet("color:#E53935;font-weight:700;");
+            // 暗色主题采用更柔和的红色，提高可读性
+            const bool dark = (qApp->palette().color(QPalette::Window).value() < 80) || qApp->styleSheet().contains("#1a1a1c");
+            discountLbl2->setStyleSheet(dark ? "color:#ff6b6b;font-weight:700;" : "color:#E53935;font-weight:700;");
     } else {
         priceLbl2 = new QLabel(QStringLiteral("\x00A5 %1").arg(QString::number(price, 'f', 2)), card);
     }
@@ -1677,6 +1971,7 @@ void MainWindow::renderSearchResults(const QJsonArray &results)
     gridHost2->setLayout(grid);
     layout->addWidget(gridHost2);
     lastColumns = colCount;
+    updateMallFooter();
 }
 
 int MainWindow::computeColumns(int availableWidth) const
@@ -1758,9 +2053,12 @@ void MainWindow::showProductDetail(const QJsonObject &product)
     bool hasDiscountD = onSaleD && discountD > 0.0 && discountD < price;
     QString priceLine;
     if (hasDiscountD) {
-        priceLine = QString("<span style='color:#999;text-decoration:line-through;'>%1</span> <span style='color:#E53935;font-weight:700;'>%2</span>")
+        const bool dark = (qApp->palette().color(QPalette::Window).value() < 80) || qApp->styleSheet().contains("#1a1a1c");
+        const QString discColor = dark ? "#ff6b6b" : "#E53935";
+        priceLine = QString("<span style='color:#999;text-decoration:line-through;'>%1</span> <span style='color:%3;font-weight:700;'>%2</span>")
                     .arg(QStringLiteral("\x00A5%1").arg(QString::number(price, 'f', 2)))
-                    .arg(QStringLiteral("\x00A5%1").arg(QString::number(discountD, 'f', 2)));
+                    .arg(QStringLiteral("\x00A5%1").arg(QString::number(discountD, 'f', 2)))
+                    .arg(discColor);
     } else {
         priceLine = QStringLiteral("\x00A5%1").arg(QString::number(price, 'f', 2));
     }
@@ -1807,9 +2105,12 @@ void MainWindow::showProductDetail(const QJsonObject &product)
                     btn->setCheckable(true);
                     btn->setEnabled(enabled);
                     btn->setMinimumSize(66,52);
-                    btn->setStyleSheet("QPushButton{border:1px solid #d0d0d0;border-radius:6px;padding:4px;}"
-                                       "QPushButton:checked{background:#1677ff;color:white;border-color:#1677ff;}"
-                                       "QPushButton:disabled{background:#f2f2f2;color:#999;border-color:#e0e0e0;}");
+                    btn->setStyleSheet(
+                        "QPushButton{background-color:#ffffff;color:#333;border:1px solid #d0d0d0;border-radius:6px;padding:4px;}"
+                        "QPushButton:hover{background-color:#f5f7ff;border-color:#a3c5ff;}"
+                        "QPushButton:checked{background-color:#1677ff;color:#ffffff;border-color:#1677ff;}"
+                        "QPushButton:disabled{background-color:#f2f2f2;color:#999;border-color:#e0e0e0;}"
+                    );
                     int r = idx / colCount; int c = idx % colCount; idx++;
                     grid->addWidget(btn, r, c);
                     connect(btn, &QPushButton::clicked, this, [this, btn, s](){
@@ -1847,19 +2148,37 @@ void MainWindow::showProductDetail(const QJsonObject &product)
     }
 }
 
+// 根据缓存获取某个商品在特定尺码下的可用库存；若未知返回 -1
+static int getAvailableStockForSizeFromCaches(int productId, int size)
+{
+    extern QHash<int,QJsonObject> *productCachePtr;
+    extern QHash<int,QJsonObject> *productCachePtr2;
+    auto fetch = [&](QHash<int,QJsonObject>* cache)->int{
+        if (!cache) return -1;
+        if (!cache->contains(productId)) return -1;
+        const QJsonObject o = (*cache)[productId];
+        if (!o.contains("sizes")) return -1;
+        const auto arr = o.value("sizes").toArray();
+        for (const auto &v : arr) {
+            const auto it = v.toObject();
+            if (it.value("size").toInt() == size) return it.value("stock").toInt(-1);
+        }
+        return -1;
+    };
+    int s = fetch(productCachePtr);
+    if (s >= 0) return s;
+    s = fetch(productCachePtr2);
+    return s;
+}
+
 void MainWindow::addToCart(int productId, int stock, int size)
 {
     // 200ms 防抖，避免按钮连点导致多次请求
     if (monotonic.elapsed() - lastAddMs < 200) return;
     lastAddMs = monotonic.elapsed();
     if (!socket) return;
-    // 让用户选择数量（默认 1）
-    bool ok = false;
-    int maxQty = (stock >= 0 ? qMax(1, stock) : 999);
-    if (stock == 0) {
-        statusBar()->showMessage(tr("该商品暂无库存，无法加入购物车"), 3000);
-        return;
-    }
+    // 若整体库存为 0 则直接提示（但以尺码库存为准，若未知则继续）
+    if (stock == 0 && size <= 0) { statusBar()->showMessage(tr("该商品暂无库存，无法加入购物车"), 3000); return; }
     if (size <= 0) {
         // 统一使用与详情路径相同的对话框外观与逻辑（SizeSelectDialog），先保证拿到最新 sizes
         extern QHash<int,QJsonObject> *productCachePtr; 
@@ -1874,47 +2193,65 @@ void MainWindow::addToCart(int productId, int stock, int size)
         };
         QList<QPair<int,int>> sizeStock; fetchSizes(sizeStock);
         if (sizeStock.isEmpty() && socket) {
-            // 纯异步：请求 detail，等回调里再弹框
-            QJsonObject req; req["type"]="get_product_detail"; req["product_id"]=productId; QJsonDocument d(req); QByteArray pl=d.toJson(QJsonDocument::Compact); pl.append('\n'); socket->write(pl);
-            QPointer<MainWindow> that(this);
-            QMetaObject::Connection *conn = new QMetaObject::Connection; // 动态分配用于在回调内部断开并删除
-            *conn = connect(socket,&QTcpSocket::readyRead,this,[that,productId,conn]() {
-                if (!that) { disconnect(*conn); delete conn; return; }
-                extern QHash<int,QJsonObject> *productCachePtr; 
-                extern QHash<int,QJsonObject> *productCachePtr2;
-                QByteArray all = that->socket->readAll(); auto lines=all.split('\n'); QList<QPair<int,int>> sizeStock2;
-                for (auto &ln: lines) {
-                    auto t=ln.trimmed(); if (t.isEmpty()) continue; QJsonParseError pe; auto jd=QJsonDocument::fromJson(t,&pe); if (pe.error!=QJsonParseError::NoError||!jd.isObject()) continue; auto o=jd.object();
-                    if (o.value("type").toString()!="product_detail") continue; auto prod=o.value("product").toObject(); if (prod.value("product_id").toInt()!=productId) continue;
-                    if (prod.contains("sizes")) {
-                        if (productCachePtr2) (*productCachePtr2)[productId]=prod; else if (productCachePtr) (*productCachePtr)[productId]=prod;
-                        for (auto v: prod.value("sizes").toArray()) { auto so=v.toObject(); sizeStock2.append({so.value("size").toInt(), so.value("stock").toInt()}); }
-                    }
-                }
-                if (!sizeStock2.isEmpty()) {
-                    class SizeSelectDialog : public QDialog { public: int selectedSize=-1; SizeSelectDialog(QWidget* parent,const QList<QPair<int,int>>& ss):QDialog(parent){ setWindowTitle(QObject::tr("选择尺码")); setModal(true); QVBoxLayout *root=new QVBoxLayout(this); root->addWidget(new QLabel(QObject::tr("请选择一个可用尺码"),this)); QGridLayout *grid=new QGridLayout(); grid->setHorizontalSpacing(8); grid->setVerticalSpacing(8); int col=5; int idx=0; for (auto pair:ss){ int s=pair.first, st=pair.second; bool enabled=(st!=0); QPushButton *btn=new QPushButton(QString::number(s)+QString("\n库存:%1").arg(st),this); btn->setCheckable(true); btn->setEnabled(enabled); btn->setMinimumSize(66,52); btn->setStyleSheet("QPushButton{border:1px solid #d0d0d0;border-radius:6px;padding:4px;}QPushButton:checked{background:#1677ff;color:white;border-color:#1677ff;}QPushButton:disabled{background:#f2f2f2;color:#999;border-color:#e0e0e0;}"); int r=idx/col; int c=idx%col; idx++; grid->addWidget(btn,r,c); QObject::connect(btn,&QPushButton::clicked,this,[this,btn,s](){ for (auto b: findChildren<QPushButton*>()) if (b->isCheckable() && b!=btn) b->setChecked(false); btn->setChecked(true); selectedSize=s; }); } root->addLayout(grid); QHBoxLayout *acts=new QHBoxLayout(); acts->addStretch(); QPushButton *ok=new QPushButton(QObject::tr("确定"),this); QPushButton *cancel=new QPushButton(QObject::tr("取消"),this); acts->addWidget(ok); acts->addWidget(cancel); root->addLayout(acts); QObject::connect(ok,&QPushButton::clicked,this,[this](){ if (selectedSize>0) accept(); else QMessageBox::information(this,QObject::tr("提示"),QObject::tr("请先选择尺码")); }); QObject::connect(cancel,&QPushButton::clicked,this,&QDialog::reject); resize(420,260);} } dlg(that,sizeStock2);
-                    if (dlg.exec()==QDialog::Accepted && dlg.selectedSize>0) that->addToCart(productId, /*stock ignored here*/ 0, dlg.selectedSize);
-                }
-                disconnect(*conn); delete conn; // 清理连接
-            });
-            return; // 等待异步回调
+            // 纯异步：请求 detail，等待 onReadyRead -> handleProductDetailForSizeSelect
+            waitingSizeSelectProductId = productId;
+            QJsonObject req; req["type"]="get_product_detail"; req["product_id"]=productId; QJsonDocument d(req); QByteArray pl=d.toJson(QJsonDocument::Compact); pl.append('\n'); enqueueFrame(pl);
+            return; // 等待回调
         }
-        // 已有库存数据（缓存命中）直接弹框
-        class SizeSelectDialog : public QDialog { public: int selectedSize=-1; SizeSelectDialog(QWidget* parent,const QList<QPair<int,int>>& ss):QDialog(parent){ setWindowTitle(QObject::tr("选择尺码")); setModal(true); QVBoxLayout *root=new QVBoxLayout(this); root->addWidget(new QLabel(QObject::tr("请选择一个可用尺码"),this)); QGridLayout *grid=new QGridLayout(); grid->setHorizontalSpacing(8); grid->setVerticalSpacing(8); int col=5; int idx=0; for (auto pair:ss){ int s=pair.first, st=pair.second; bool enabled=(st!=0); QPushButton *btn=new QPushButton(QString::number(s)+QString("\n库存:%1").arg(st),this); btn->setCheckable(true); btn->setEnabled(enabled); btn->setMinimumSize(66,52); btn->setStyleSheet("QPushButton{border:1px solid #d0d0d0;border-radius:6px;padding:4px;}QPushButton:checked{background:#1677ff;color:white;border-color:#1677ff;}QPushButton:disabled{background:#f2f2f2;color:#999;border-color:#e0e0e0;}"); int r=idx/col; int c=idx%col; idx++; grid->addWidget(btn,r,c); QObject::connect(btn,&QPushButton::clicked,this,[this,btn,s](){ for (auto b: findChildren<QPushButton*>()) if (b->isCheckable() && b!=btn) b->setChecked(false); btn->setChecked(true); selectedSize=s; }); } root->addLayout(grid); QHBoxLayout *acts=new QHBoxLayout(); acts->addStretch(); QPushButton *ok=new QPushButton(QObject::tr("确定"),this); QPushButton *cancel=new QPushButton(QObject::tr("取消"),this); acts->addWidget(ok); acts->addWidget(cancel); root->addLayout(acts); QObject::connect(ok,&QPushButton::clicked,this,[this](){ if (selectedSize>0) accept(); else QMessageBox::information(this,QObject::tr("提示"),QObject::tr("请先选择尺码")); }); QObject::connect(cancel,&QPushButton::clicked,this,&QDialog::reject); resize(420,260);} } dlg(this,sizeStock);
-        if (dlg.exec()==QDialog::Accepted && dlg.selectedSize>0) size=dlg.selectedSize; else return;
+        // 已有库存数据（缓存命中）直接弹“尺码 + 数量”统一对话框
+    class AddToCartDialog : public QDialog { public: int selectedSize=-1; int selectedQty=1; AddToCartDialog(QWidget* parent,const QList<QPair<int,int>>& ss):QDialog(parent){ setWindowTitle(QObject::tr("加入购物车")); setModal(true); QVBoxLayout *root=new QVBoxLayout(this); auto *tip=new QLabel(QObject::tr("请选择尺码，并设置数量"), this); root->addWidget(tip); QGridLayout *grid=new QGridLayout(); grid->setHorizontalSpacing(8); grid->setVerticalSpacing(8); int col=5, idx=0; for (auto pair:ss){ int s=pair.first, st=pair.second; bool enabled=(st>0); auto *btn=new QPushButton(QString::number(s)+QString("\n库存:%1").arg(st), this); btn->setCheckable(true); btn->setEnabled(enabled); btn->setMinimumSize(66,52); btn->setStyleSheet("QPushButton{background:#ffffff;color:#333;border:1px solid #d0d0d0;border-radius:6px;padding:4px;}QPushButton:hover{background:#f5f7ff;border-color:#a3c5ff;}QPushButton:checked{background:#1677ff;color:#ffffff;border-color:#1677ff;}QPushButton:disabled{background:#f2f2f2;color:#999;border-color:#e0e0e0;}"); int r=idx/col, c=idx%col; ++idx; grid->addWidget(btn, r, c); } root->addLayout(grid); // 数量
+            auto *qtyRow = new QHBoxLayout(); qtyRow->addWidget(new QLabel(QObject::tr("数量"), this)); auto *spin = new QSpinBox(this); spin->setRange(1, 1); spin->setValue(1); spin->setEnabled(false); qtyRow->addWidget(spin); qtyRow->addStretch(1); root->addLayout(qtyRow);
+            // Actions
+            auto *acts=new QHBoxLayout(); acts->addStretch(); auto *ok=new QPushButton(QObject::tr("确定"),this); ok->setEnabled(false); ok->setStyleSheet("QPushButton{background:#f0f0f0;color:#999;border:1px solid #ddd;border-radius:6px;padding:4px 12px;}QPushButton:enabled{background:#1677ff;color:#fff;border-color:#1677ff;}"); auto *cancel=new QPushButton(QObject::tr("取消"),this); acts->addWidget(ok); acts->addWidget(cancel); root->addLayout(acts);
+            // 行为：选择尺码 -> 启用 OK 与数量，并将上限设为库存
+            for (auto btn: findChildren<QPushButton*>()) if (btn->isCheckable()) QObject::connect(btn,&QPushButton::clicked,this,[this,ok,btn,spin](){ for (auto b: findChildren<QPushButton*>()) if (b->isCheckable() && b!=btn) b->setChecked(false); btn->setChecked(true); selectedSize = btn->text().split('\n').first().toInt(); // 解析库存
+                    int st = 1; const QStringList lines = btn->text().split('\n'); if (lines.size()>=2) { QString t=lines.at(1); t.remove(0, t.indexOf(QLatin1Char(':'))+1); st = t.trimmed().toInt(); }
+                    spin->setEnabled(true); spin->setRange(1, qMax(1, st)); ok->setEnabled(true); });
+            QObject::connect(ok, &QPushButton::clicked, this, [this,spin](){ selectedQty = spin->value(); if (selectedSize>0) accept(); else QMessageBox::information(this, QObject::tr("提示"), QObject::tr("请先选择尺码")); });
+            QObject::connect(cancel, &QPushButton::clicked, this, &QDialog::reject); resize(460, 300);
+        }
+        };
+        AddToCartDialog dlg(this, sizeStock);
+        if (dlg.exec()==QDialog::Accepted && dlg.selectedSize>0) {
+            size = dlg.selectedSize;
+            const int quantity = qMax(1, dlg.selectedQty);
+            QJsonObject req; req["type"] = QStringLiteral("add_to_cart"); req["product_id"] = productId; req["quantity"] = quantity; req["size"] = size; if (!currentUsername.isEmpty()) req["username"] = currentUsername; QJsonDocument doc(req); QByteArray payload = doc.toJson(QJsonDocument::Compact); payload.append('\n'); enqueueFrame(payload);
+        }
+        return;
     }
+    // 已有尺码：弹出数量选择，数量上限尽量取该尺码实际库存
+    int perSizeStock = getAvailableStockForSizeFromCaches(productId, size);
+    int maxQty =  (perSizeStock >= 1) ? perSizeStock : (stock >= 1 ? stock : 999);
+    bool ok = false;
     int quantity = QInputDialog::getInt(this, tr("加入购物车"), tr("数量"), 1, 1, maxQty, 1, &ok);
     if (!ok) return;
-    QJsonObject req;
-    req["type"] = "add_to_cart";
-    req["product_id"] = productId;
-    req["quantity"] = quantity;
-    if (size > 0) req["size"] = size;
-    if (!currentUsername.isEmpty()) req["username"] = currentUsername;
-    QJsonDocument doc(req);
-    QByteArray payload = doc.toJson(QJsonDocument::Compact);
-    payload.append('\n');
-    socket->write(payload);
+    QJsonObject req; req["type"] = QStringLiteral("add_to_cart"); req["product_id"] = productId; req["quantity"] = quantity; req["size"] = size; if (!currentUsername.isEmpty()) req["username"] = currentUsername; QJsonDocument doc(req); QByteArray payload = doc.toJson(QJsonDocument::Compact); payload.append('\n'); enqueueFrame(payload);
+}
+
+void MainWindow::handleProductDetailForSizeSelect(const QJsonObject &product)
+{
+    // 将此商品写入缓存，以便数量上限判断
+    if (product.contains("product_id")) {
+        const int pid = product.value("product_id").toInt();
+        if (!productCachePtr2) productCachePtr2 = new QHash<int,QJsonObject>();
+        (*productCachePtr2)[pid] = product;
+    }
+    QList<QPair<int,int>> sizeStock;
+    if (product.contains("sizes") && product.value("sizes").isArray()) {
+        for (const auto &v : product.value("sizes").toArray()) {
+            const auto o = v.toObject();
+            sizeStock.append({ o.value("size").toInt(), o.value("stock").toInt() });
+        }
+    }
+    if (sizeStock.isEmpty()) { QMessageBox::information(this, tr("提示"), tr("该商品暂无可选尺码")); return; }
+    // 统一“尺码 + 数量”对话框
+    class AddToCartDialog2 : public QDialog { public: int selectedSize=-1; int selectedQty=1; AddToCartDialog2(QWidget* parent,const QList<QPair<int,int>>& ss):QDialog(parent){ setWindowTitle(QObject::tr("加入购物车")); setModal(true); QVBoxLayout *root=new QVBoxLayout(this); root->addWidget(new QLabel(QObject::tr("请选择尺码，并设置数量"), this)); QGridLayout *grid=new QGridLayout(); grid->setHorizontalSpacing(8); grid->setVerticalSpacing(8); int col=5, idx=0; for (auto pair:ss){ int s=pair.first, st=pair.second; bool enabled=(st>0); auto *btn=new QPushButton(QString::number(s)+QString("\n库存:%1").arg(st), this); btn->setCheckable(true); btn->setEnabled(enabled); btn->setMinimumSize(66,52); btn->setStyleSheet("QPushButton{background-color:#ffffff;color:#333;border:1px solid #d0d0d0;border-radius:6px;padding:4px;}QPushButton:hover{background-color:#f5f7ff;border-color:#a3c5ff;}QPushButton:checked{background-color:#1677ff;color:#ffffff;border-color:#1677ff;}QPushButton:disabled{background-color:#f2f2f2;color:#999;border-color:#e0e0e0;}"); int r=idx/col, c=idx%col; ++idx; grid->addWidget(btn, r, c); } root->addLayout(grid); auto *qtyRow = new QHBoxLayout(); qtyRow->addWidget(new QLabel(QObject::tr("数量"), this)); auto *spin = new QSpinBox(this); spin->setRange(1,1); spin->setEnabled(false); qtyRow->addWidget(spin); qtyRow->addStretch(1); root->addLayout(qtyRow); auto *acts=new QHBoxLayout(); acts->addStretch(); auto *ok=new QPushButton(QObject::tr("确定"),this); ok->setEnabled(false); ok->setStyleSheet("QPushButton{background:#f0f0f0;color:#999;border:1px solid #ddd;border-radius:6px;padding:4px 12px;}QPushButton:enabled{background:#1677ff;color:#fff;border-color:#1677ff;}"); auto *cancel=new QPushButton(QObject::tr("取消"),this); acts->addWidget(ok); acts->addWidget(cancel); root->addLayout(acts); for (auto btn: findChildren<QPushButton*>()) if (btn->isCheckable()) QObject::connect(btn,&QPushButton::clicked,this,[this,ok,btn,spin](){ for (auto b: findChildren<QPushButton*>()) if (b->isCheckable() && b!=btn) b->setChecked(false); btn->setChecked(true); selectedSize = btn->text().split('\n').first().toInt(); int st = 1; const QStringList lines = btn->text().split('\n'); if (lines.size()>=2) { QString t=lines.at(1); t.remove(0, t.indexOf(QLatin1Char(':'))+1); st = t.trimmed().toInt(); } spin->setEnabled(true); spin->setRange(1, qMax(1, st)); ok->setEnabled(true); }); QObject::connect(ok, &QPushButton::clicked, this, [this,spin](){ selectedQty = spin->value(); if (selectedSize>0) accept(); else QMessageBox::information(this, QObject::tr("提示"), QObject::tr("请先选择尺码")); }); QObject::connect(cancel, &QPushButton::clicked, this, &QDialog::reject); resize(460,300);} };
+    AddToCartDialog2 dlg(this, sizeStock);
+    if (dlg.exec()==QDialog::Accepted && dlg.selectedSize>0) {
+        int pid = product.value("product_id").toInt();
+        lastAddMs = 0; // 绕过防抖
+        QJsonObject req; req["type"] = QStringLiteral("add_to_cart"); req["product_id"] = pid; req["size"] = dlg.selectedSize; req["quantity"] = qMax(1, dlg.selectedQty); if (!currentUsername.isEmpty()) req["username"] = currentUsername; QJsonDocument doc(req); QByteArray payload = doc.toJson(QJsonDocument::Compact); payload.append('\n'); enqueueFrame(payload);
+    }
 }
 
 void MainWindow::requestProductsPage(int page)
@@ -1922,6 +2259,9 @@ void MainWindow::requestProductsPage(int page)
     if (!socket) return;
     if (page < 1) page = 1;
     currentPage = page;
+    // 进入加载中状态并更新页尾提示
+    mallLoading = true;
+    updateMallFooter();
     QJsonObject req;
     req["type"] = "get_products";
     req["page"] = currentPage;
@@ -1933,7 +2273,7 @@ void MainWindow::requestProductsPage(int page)
     QJsonDocument doc(req);
     QByteArray payload = doc.toJson(QJsonDocument::Compact);
     payload.append('\n');
-    socket->write(payload);
+    enqueueFrame(payload);
 }
 
 void MainWindow::on_prevPage_clicked()
@@ -1951,9 +2291,188 @@ void MainWindow::on_nextPage_clicked()
     }
 }
 
+void MainWindow::ensureMallScrollArea()
+{
+    if (mallScrollInit) return;
+    QWidget *container = ui->recommendationsArea;
+    if (!container) return;
+    // 若已经在 QScrollArea 中则跳过
+    if (qobject_cast<QScrollArea*>(container->parentWidget())) { mallScrollInit = true; mallScrollArea = qobject_cast<QScrollArea*>(container->parentWidget()); return; }
+    // 创建滚动容器，并将原区域移入
+    auto *scroll = new QScrollArea(this);
+    scroll->setObjectName("mallScrollArea");
+    scroll->setWidgetResizable(true);
+    // 使用一个新的容器作为 viewport 内容
+    auto *viewport = new QWidget(scroll);
+    auto *vlay = new QVBoxLayout(viewport); vlay->setContentsMargins(0,0,0,0); vlay->setSpacing(0);
+    scroll->setWidget(viewport);
+    // 将 scroll 放回原位置（底部分页器之上）
+    if (auto rootLayout = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) {
+        // 插入到底分页器之前（倒数第二个），若未知则追加
+        int insertIndex = rootLayout->count() > 0 ? rootLayout->count() - 1 : rootLayout->count();
+        rootLayout->insertWidget(insertIndex, scroll);
+    }
+    mallScrollArea = scroll;
+    mallScrollViewport = viewport;
+    mallScrollInit = true;
+    // 监听滚动，触底加载
+    connect(scroll->verticalScrollBar(), &QScrollBar::valueChanged, this, [this](int){ tryLoadNextProductsOnScroll(); });
+}
+
+// 将推荐/列表区域放入滚动区
+void MainWindow::attachRecommendationsToScroll()
+{
+    if (!mallScrollInit) ensureMallScrollArea();
+    if (!mallScrollViewport) return;
+    QWidget *container = ui->recommendationsArea;
+    if (!container) return;
+    if (container->parent() == mallScrollViewport) return; // 已在滚动区
+    // 从 rootLayout 移除并放入 viewport
+    if (auto rootLayout = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) {
+        rootLayout->removeWidget(container);
+    }
+    container->setParent(mallScrollViewport);
+    if (auto vlay = qobject_cast<QVBoxLayout*>(mallScrollViewport->layout())) {
+        // 避免重复添加：若已存在则不再添加
+        bool exists = false;
+        for (int i=0;i<vlay->count();++i) {
+            if (vlay->itemAt(i)->widget() == container) { exists = true; break; }
+        }
+        if (!exists) {
+            // 保持内容+stretch 形成可滚动空间
+            int insertIdx = qMax(0, vlay->count()-1);
+            vlay->insertWidget(insertIdx, container);
+            if (vlay->count()==0 || (vlay->itemAt(vlay->count()-1) && vlay->itemAt(vlay->count()-1)->spacerItem()==nullptr)) {
+                vlay->addStretch(1);
+            }
+        }
+    }
+}
+
+// 将推荐/列表区域还原到 rootLayout（退出商城或切换到非滚动页时）
+void MainWindow::attachRecommendationsToRoot()
+{
+    QWidget *container = ui->recommendationsArea;
+    if (!container) return;
+    if (container->parent() != mallScrollViewport) return; // 已经在 root
+    container->setParent(this);
+    if (auto rootLayout = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) {
+        // 放在底部分页器之上（保持原先位置习惯）
+        int insertIndex = rootLayout->count() > 0 ? rootLayout->count() - 1 : rootLayout->count();
+        rootLayout->insertWidget(insertIndex, container);
+    }
+}
+
+void MainWindow::tryLoadNextProductsOnScroll()
+{
+    // 仅在商城主列表视图生效
+    if (currentView != ViewMode::Mall) return;
+    // 搜索模式不触发通用列表的翻页预取
+    if (searchActive) return;
+    if (!mallScrollArea || !mallHasMore || mallLoading) return;
+    auto *sb = mallScrollArea->verticalScrollBar();
+    if (!sb) return;
+    int threshold = 120; // 距底 120px 预加载
+    // maximum==0 表示内容高度不超过 viewport；此时也尝试加载下一页
+    if ((sb->maximum() == 0) || (sb->maximum() - sb->value() <= threshold)) {
+        requestProductsPage(currentPage + 1);
+    }
+}
+
+// 创建或更新商城页的页尾提示（“加载中…” / “已到底啦”）
+void MainWindow::updateMallFooter()
+{
+    if (currentView != ViewMode::Mall) return;
+    QWidget *container = ui->recommendationsArea;
+    if (!container) return;
+    // 优先把页尾挂载到滚动 viewport，保证处于滚动内容的末尾
+    QWidget *parentForFooter = mallScrollViewport ? mallScrollViewport : container;
+    QVBoxLayout *layout = nullptr;
+    if (mallScrollViewport && mallScrollViewport->layout()) {
+        layout = qobject_cast<QVBoxLayout*>(mallScrollViewport->layout());
+    }
+    if (!layout) {
+        layout = qobject_cast<QVBoxLayout*>(ensureVBoxLayout(container));
+        parentForFooter = container;
+    }
+    // 查找或创建底部提示区
+    QWidget *footerHost = parentForFooter->findChild<QWidget*>("mallFooter");
+    QLabel *footerLabel = footerHost ? footerHost->findChild<QLabel*>("mallFooterLabel") : nullptr;
+    QProgressBar *spinner = footerHost ? footerHost->findChild<QProgressBar*>("mallFooterSpinner") : nullptr;
+    QFrame *divider = footerHost ? footerHost->findChild<QFrame*>("mallFooterDivider") : nullptr;
+    if (!footerHost) {
+        footerHost = new QWidget(parentForFooter);
+        footerHost->setObjectName("mallFooter");
+        auto *vb = new QVBoxLayout(footerHost);
+        vb->setContentsMargins(0,12,0,12);
+        // 顶部分割线（仅在“已到底啦”显示）
+        divider = new QFrame(footerHost);
+    divider->setObjectName("mallFooterDivider");
+    divider->setFrameShape(QFrame::HLine);
+    divider->setFrameShadow(QFrame::Sunken);
+        divider->setVisible(false);
+        vb->addWidget(divider);
+        // 中间一行：可选 spinner + 文案
+        auto *hb = new QHBoxLayout();
+        hb->setContentsMargins(0,0,0,0);
+        hb->addStretch(1);
+        spinner = new QProgressBar(footerHost);
+        spinner->setObjectName("mallFooterSpinner");
+        spinner->setFixedSize(80, 8);
+        spinner->setTextVisible(false);
+        spinner->setRange(0, 0); // busy
+        spinner->setVisible(false);
+        hb->addWidget(spinner);
+    footerLabel = new QLabel(footerHost);
+        footerLabel->setObjectName("mallFooterLabel");
+    footerLabel->setStyleSheet("font-size:12px;margin-left:8px;");
+        hb->addWidget(footerLabel);
+        hb->addStretch(1);
+        vb->addLayout(hb);
+        // 将页尾插入到可滚动布局末尾（若末尾已有 stretch，则插入到 stretch 之前）
+        int insertIndex = layout->count();
+        if (insertIndex > 0) {
+            auto *lastItem = layout->itemAt(insertIndex - 1);
+            if (lastItem && lastItem->spacerItem()) insertIndex -= 1;
+        }
+        layout->insertWidget(qMax(0, insertIndex), footerHost);
+    }
+    if (!footerLabel) return;
+    // 优先处理“无结果”提示
+    const bool noResults = this->property("mallNoResults").toBool();
+    const QString noResultsText = this->property("mallNoResultsText").toString();
+    if (noResults) {
+        if (spinner) spinner->setVisible(false);
+        if (divider) divider->setVisible(true);
+        footerLabel->setText(noResultsText.isEmpty() ? tr("没有找到相关商品") : noResultsText);
+        footerHost->setVisible(true);
+        return;
+    }
+    if (mallLoading) {
+        if (spinner) spinner->setVisible(true);
+        if (divider) divider->setVisible(false);
+        footerLabel->setText(tr("加载中…"));
+        footerHost->setVisible(true);
+    } else if (!mallHasMore) {
+        if (spinner) spinner->setVisible(false);
+        if (divider) divider->setVisible(true);
+        footerLabel->setText(tr("已到底啦"));
+        footerHost->setVisible(true);
+    } else {
+        // 还有更多但当前不在加载中，可保持提示隐藏或清空
+        if (spinner) spinner->setVisible(false);
+        if (divider) divider->setVisible(false);
+        footerLabel->clear();
+        footerHost->setVisible(false);
+    }
+}
+
 // ---- 视图模式切换 ----
 void MainWindow::showHomeView()
 {
+    // 离开商城页，退出搜索态
+    searchActive = false;
+    currentSearchKeyword.clear();
     currentView = ViewMode::Home;
     lastNonCartView = ViewMode::Home;
     setTabActive("home");
@@ -1974,6 +2493,9 @@ void MainWindow::showHomeView()
     if (ui->carouselArea) ui->carouselArea->setVisible(true);
     // 隐藏促销区（按用户要求去掉“开学季/会员日”两行）
     if (ui->promotionsArea) ui->promotionsArea->setVisible(false);
+    // 首页不使用商城滚动区，恢复到根布局
+    attachRecommendationsToRoot();
+    if (mallScrollArea) mallScrollArea->setVisible(false);
     if (ui->recommendationsArea) ui->recommendationsArea->setVisible(true);
     // 隐藏全局分页器（仅商城显示）
     if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
@@ -2023,22 +2545,36 @@ void MainWindow::showMallView()
     if (ui->carouselArea) ui->carouselArea->setVisible(false);
     if (ui->promotionsArea) ui->promotionsArea->setVisible(false);
     if (ui->recommendationsArea) ui->recommendationsArea->setVisible(true);
-    // 仅商城显示全局分页器
-    if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(true);
-    if (auto totalInfo = findChild<QWidget*>("totalInfoLabel")) totalInfo->setVisible(true);
-    if (auto gotoLbl = findChild<QWidget*>("gotoLabel")) gotoLbl->setVisible(true);
-    if (auto gotoSpin = findChild<QWidget*>("gotoPageSpin")) gotoSpin->setVisible(true);
-    if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(true);
-    if (auto prevBtn = findChild<QWidget*>("prevPage")) prevBtn->setVisible(true);
-    if (auto nextBtn = findChild<QWidget*>("nextPage")) nextBtn->setVisible(true);
+    // 启用“滚动加载”模式：隐藏底部分页器控件
+    if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
+    if (auto totalInfo = findChild<QWidget*>("totalInfoLabel")) totalInfo->setVisible(false);
+    if (auto gotoLbl = findChild<QWidget*>("gotoLabel")) gotoLbl->setVisible(false);
+    if (auto gotoSpin = findChild<QWidget*>("gotoPageSpin")) gotoSpin->setVisible(false);
+    if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(false);
+    if (auto prevBtn = findChild<QWidget*>("prevPage")) prevBtn->setVisible(false);
+    if (auto nextBtn = findChild<QWidget*>("nextPage")) nextBtn->setVisible(false);
+    // 确保“发现好物”区域被 QScrollArea 包裹，并监听滚动事件
+    ensureMallScrollArea();
+    attachRecommendationsToScroll();
+    if (mallScrollArea) mallScrollArea->setVisible(true);
+    // 重置滚动加载状态
+    mallLoading = false;
+    mallHasMore = true;
+    lastResults = QJsonArray{};
+    updateMallFooter();
     // 隐藏购物车页
     if (cart) cart->hide();
-    // 请求列表第一页
-    requestProductsPage(1);
+    // 非搜索场景才自动拉取第一页；搜索场景下等待 search_products 返回
+    if (!searchActive) {
+        requestProductsPage(1);
+    }
 }
 
 void MainWindow::showCartView()
 {
+    // 离开商城页，退出搜索态
+    searchActive = false;
+    currentSearchKeyword.clear();
     activeTabKey = QStringLiteral("cart");
     setTabActive("cart");
     setSearchBarVisible(false);
@@ -2071,7 +2607,7 @@ void MainWindow::showCartView()
     currentView = ViewMode::Cart;
     // 隐藏首页/商城区域和全局分页器
     if (ui->carouselArea) ui->carouselArea->setVisible(false);
-    if (ui->promotionsArea) ui->promotionsArea->setVisible(false);
+    if (mallScrollArea) mallScrollArea->setVisible(false);
     if (ui->recommendationsArea) ui->recommendationsArea->setVisible(false);
     if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
     if (auto totalInfo = findChild<QWidget*>("totalInfoLabel")) totalInfo->setVisible(false);
@@ -2089,11 +2625,7 @@ void MainWindow::exitCartView()
 {
     if (cart) cart->hide();
     // 返回之前的非购物车视图
-    if (lastNonCartView == ViewMode::Mall) {
-        showMallView();
-    } else {
-        showHomeView();
-    }
+    if (lastNonCartView == ViewMode::Mall) showMallView(); else showHomeView();
 }
 
 void MainWindow::clearToFullPage(QWidget *page)
@@ -2102,19 +2634,15 @@ void MainWindow::clearToFullPage(QWidget *page)
     // 隐藏首页/商城区域、全局分页器、问候标题与活动文案
     if (ui->carouselArea) ui->carouselArea->setVisible(false);
     if (ui->promotionsArea) ui->promotionsArea->setVisible(false);
+    attachRecommendationsToRoot();
+    if (mallScrollArea) mallScrollArea->setVisible(false);
     if (ui->recommendationsArea) ui->recommendationsArea->setVisible(false);
     if (auto row = findChild<QWidget*>("greetingRow")) row->setVisible(false);
-    if (auto pf = findChild<QLabel*>("promoFloatingLabel")) pf->setVisible(false);
-    if (promoTimer) promoTimer->stop();
-    // 非首页/发现好物页时，隐藏搜索栏
-    setSearchBarVisible(false);
-    if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
     if (auto totalInfo = findChild<QWidget*>("totalInfoLabel")) totalInfo->setVisible(false);
     if (auto gotoLbl = findChild<QWidget*>("gotoLabel")) gotoLbl->setVisible(false);
     if (auto gotoSpin = findChild<QWidget*>("gotoPageSpin")) gotoSpin->setVisible(false);
     if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(false);
     if (auto prevBtn = findChild<QWidget*>("prevPage")) prevBtn->setVisible(false);
-    if (auto nextBtn = findChild<QWidget*>("nextPage")) nextBtn->setVisible(false);
     if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
     if (cart) cart->hide();
     // 显示全屏页时停止轮播
@@ -2148,9 +2676,13 @@ void MainWindow::updateGreeting()
 
 void MainWindow::showAccountView()
 {
+    // 离开商城页，退出搜索态
+    searchActive = false;
+    currentSearchKeyword.clear();
     activeTabKey = QStringLiteral("account");
     setTabActive("account");
     setSearchBarVisible(false);
+    static qint64 lastAccountReqMs = 0;
     // 若不存在，先创建一个占位的 accountPage，并使用 clearToFullPage 显示
     QWidget *page = findChild<QWidget*>("accountPage");
     if (!page) {
@@ -2181,17 +2713,30 @@ void MainWindow::showAccountView()
     // 进入账号页时强制把顶部按钮文案设为“修改”
     if (auto saveToggle = page->findChild<QPushButton*>("saveTopButton")) saveToggle->setText(tr("修改"));
     clearToFullPage(page);
-    // 请求账号信息，填充内容（重用已有请求）
+    // 请求账号信息，填充内容（重用已有请求），500ms 节流
     if (socket) {
-        QJsonObject req; req["type"] = "get_account_info"; if (!currentUsername.isEmpty()) req["username"] = currentUsername; QJsonDocument d(req); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+        qint64 now = monotonic.elapsed();
+    if (now - lastAccountReqMs > 500) {
+            lastAccountReqMs = now;
+            if (socket->state() == QAbstractSocket::ConnectedState) {
+                QJsonObject req; req["type"] = "get_account_info"; if (!currentUsername.isEmpty()) req["username"] = currentUsername; QJsonDocument d(req); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); enqueueFrame(p);
+            } else {
+                qWarning() << "skip get_account_info due to socket state" << socket->state();
+                QTimer::singleShot(300, this, [this]{ if (activeTabKey==QLatin1String("account")) showAccountView(); });
+            }
+        }
     }
 }
 
 void MainWindow::showOrdersView()
 {
+    // 离开商城页，退出搜索态
+    searchActive = false;
+    currentSearchKeyword.clear();
     activeTabKey = QStringLiteral("orders");
     setTabActive("orders");
     setSearchBarVisible(false);
+    static qint64 lastOrdersReqMs = 0;
     if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
     // 隐藏全局分页器，避免与订单分页重复
     if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
@@ -2205,31 +2750,80 @@ void MainWindow::showOrdersView()
     if (auto old = findChild<QWidget*>("ordersPage")) { old->hide(); }
     // 发送请求；在 orders_response 分支中构建/展示内嵌页面
     if (!socket) return;
-    QJsonObject req; req["type"] = "get_orders"; QJsonDocument d(req); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n'); socket->write(p);
+    // 500ms 节流，避免快速切换造成请求风暴
+    qint64 now = monotonic.elapsed();
+    if (now - lastOrdersReqMs > 500) {
+        lastOrdersReqMs = now;
+        auto st = socket->state();
+        if (st == QAbstractSocket::ConnectedState) {
+            // 若刚刚触发了 chat_init，等其响应回来后再发 get_orders，避免紧邻并发
+            if (this->property("awaitingChatInit").toBool()) {
+                qInfo() << "delay get_orders due to awaitingChatInit";
+                QTimer::singleShot(120, this, [this]{ if (activeTabKey==QLatin1String("orders")) showOrdersView(); });
+                return;
+            }
+            QJsonObject req; req["type"] = "get_orders"; if (!currentUsername.isEmpty()) req["username"] = currentUsername; req["origin"] = QStringLiteral("orders"); QJsonDocument d(req); QByteArray p = d.toJson(QJsonDocument::Compact); p.append('\n');
+            qInfo() << "send get_orders (orders tab)";
+            enqueueFrame(p);
+        } else {
+            qWarning() << "skip get_orders due to socket state" << st;
+            // 延迟一次再试，避免丢请求
+            QTimer::singleShot(300, this, [this]{ if (activeTabKey==QLatin1String("orders")) showOrdersView(); });
+        }
+    }
     statusBar()->showMessage(tr("正在获取历史订单…"), 2000);
 }
 
 void MainWindow::showChatView()
 {
+    // 离开商城页，退出搜索态
+    searchActive = false;
+    currentSearchKeyword.clear();
     activeTabKey = QStringLiteral("chat");
     setTabActive("chat");
     setSearchBarVisible(false);
+    static qint64 lastChatInitMs = 0;
     if (auto greet = findChild<QLabel*>("greetingLabel")) greet->setVisible(false);
     // 若已存在 chatPage，直接复用；ChatWindow 采用单例持有，避免 page 删除后异步回调访问已销毁控件
     if (!chat) chat = new ChatWindow(this);
     if (auto exist = findChild<QWidget*>("chatPage")) {
-        // 已有页面则仅重新挂载 ChatWindow 并刷新
-        chat->setParent(exist);
-        chat->setWindowFlags(Qt::Widget);
-        chat->setMinimumSize(0,300);
+        // 已有页面：仅在首次嵌入时设置父子关系/窗口标志，避免频繁 reparent 引发不稳定
+        if (chat->parent() != exist) {
+            chat->setParent(exist);
+        }
+        if (!chat->property("embedded").toBool()) {
+            chat->setWindowFlags(Qt::Widget);
+            chat->setMinimumSize(0,300);
+            chat->setProperty("embedded", true);
+        }
         if (socket) chat->setSocket(socket);
+    // 统一发送路径：让 ChatWindow 使用 MainWindow 的发送队列
+    chat->setSendFunc([this](const QByteArray &f){ this->enqueueFrame(f); });
         if (!currentUsername.isEmpty()) chat->setUsername(currentUsername);
-        chat->initChat();
+        // 串行化 chat_init 与后续请求：收到 chat_init_request 时立即发送，并在 chat_init_response 到达前，延迟 orders 等请求
+        QObject::disconnect(chat, nullptr, this, nullptr);
+        connect(chat, &ChatWindow::chatInitRequested, this, [this](const QByteArray &p){
+            // 直接通过统一队列发送 chat_init，并标记等待 chat_init_response
+            this->enqueueFrame(p);
+            this->setProperty("awaitingChatInit", true);
+            // 设置一个 500ms 的软超时，超时后允许继续请求（防止卡住）
+            QTimer::singleShot(500, this, [this]{ this->setProperty("awaitingChatInit", false); });
+        });
+    // 500ms 节流初始化
+    qint64 now = monotonic.elapsed();
+    if (now - lastChatInitMs > 500) { lastChatInitMs = now; chat->initChat(); }
         clearToFullPage(exist);
         return;
     }
     // 注入网络依赖与当前用户名
     if (socket) chat->setSocket(socket);
+    chat->setSendFunc([this](const QByteArray &f){ this->enqueueFrame(f); });
+    QObject::disconnect(chat, nullptr, this, nullptr);
+    connect(chat, &ChatWindow::chatInitRequested, this, [this](const QByteArray &p){
+        this->enqueueFrame(p);
+        this->setProperty("awaitingChatInit", true);
+        QTimer::singleShot(500, this, [this]{ this->setProperty("awaitingChatInit", false); });
+    });
     if (!currentUsername.isEmpty()) chat->setUsername(currentUsername);
     QWidget *page = new QWidget(this);
     page->setObjectName("chatPage");
@@ -2241,6 +2835,7 @@ void MainWindow::showChatView()
     chat->setParent(page);
     chat->setWindowFlags(Qt::Widget);
     chat->setMinimumSize(0,300);
+    chat->setProperty("embedded", true);
     v->addWidget(chat);
     connect(back, &QPushButton::clicked, this, [this, p=QPointer<QWidget>(page)]{
         if (p) p->hide();
@@ -2248,8 +2843,9 @@ void MainWindow::showChatView()
         if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView();
     });
     clearToFullPage(page);
-    // 进入聊天页时，拉取历史并刷新在线用户
-    chat->initChat();
+    // 进入聊天页时，拉取历史并刷新在线用户（首次必发，随后 400ms 节流）
+    qint64 now = monotonic.elapsed();
+    if (lastChatInitMs == 0 || (now - lastChatInitMs) > 400) { lastChatInitMs = now; chat->initChat(); }
 }
 
 // 顶部搜索栏显隐：仅在首页/发现好物显示
