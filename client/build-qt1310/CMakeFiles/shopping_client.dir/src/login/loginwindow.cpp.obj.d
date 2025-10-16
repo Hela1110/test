@@ -385,22 +385,45 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qsize.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qeventloop.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qlocale.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
  C:/Users/Edward/Desktop/test/client/build-qt1310/shopping_client_autogen/include/ui_loginwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qapplication.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qeventloop.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
- D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h \
- D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qlocale.h \
- D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
@@ -414,7 +437,6 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpicture.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLineEdit \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlineedit.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextcursor.h \
@@ -431,6 +453,11 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
  C:/Users/Edward/Desktop/test/client/include/mainwindow/mainwindow.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qstring.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
  C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
@@ -444,13 +471,20 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qregularexpression.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/quuid.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qhash.h \
  C:/Users/Edward/Desktop/test/client/include/chat/chatwindow.h \
  C:/Users/Edward/Desktop/test/client/include/chatwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QListWidget \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistwidget.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistview.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemview.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractitemmodel.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
@@ -467,15 +501,20 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qset.h \
  C:/Users/Edward/Desktop/test/client/include/register/registerdialog.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstatusbar.h

@@ -421,6 +421,21 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QStandardPaths \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qstandardpaths.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QIcon \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QMutex \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qmutex.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtsan_impl.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QMutexLocker \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QThread \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qthread.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/future \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/mutex \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_mutex.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unique_lock.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/condition_variable \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_futex.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_thread.h \
  C:/Users/Edward/Desktop/test/client/include/login/loginwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
@@ -446,4 +461,27 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket \
- D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qsize.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h

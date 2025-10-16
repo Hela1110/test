@@ -10,9 +10,9 @@
     <height>300</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>登录</string>
-  </property>
+    <property name="windowTitle">
+     <string>欢迎使用微商系统</string>
+    </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>

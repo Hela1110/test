@@ -25,8 +25,14 @@ mysql -u root -p
 # 创建数据库
 CREATE DATABASE shopping_system;
 
-# 导入数据库脚本
-mysql -u root -p shopping_system < database/sql/schema.sql
+# 导入数据库脚本（初始结构）
+mysql -u root -p shopping_system < database/sql/shopping_system.sql
+
+# 增量脚本（按需执行）
+# 客服聊天表：
+mysql -u root -p shopping_system < database/sql/alter_20250926_add_chat_messages.sql
+# 客户启用列：
+mysql -u root -p shopping_system < database/sql/alter_20250927_add_enabled_to_clients.sql
 ```
 
 ### 2. 修改配置文件
@@ -43,7 +49,8 @@ socket.port=8081
 
 # 日志配置
 logging.level.root=INFO
-logging.file.name=logs/shopping-server.log
+# 如需输出到文件，可启用：
+# logging.file.name=logs/shopping-server.log
 ```
 
 ### 3. 编译打包
@@ -85,6 +92,10 @@ socket_port=8081
 [UI]
 theme=default
 language=zh_CN
+
+[Images]
+# 若商品/首页需要展示图片，优先使用服务端返回的完整 URL（http/https）。
+# 如果用本地相对路径，需确保客户端运行环境能访问该路径或提供静态 HTTP 目录。
 ```
 
 ### 3. 打包发布

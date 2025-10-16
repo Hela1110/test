@@ -13,6 +13,31 @@
       "problemMatcher": []
     },
     {
+      "label": "Start: Server (ports 8081/8080)",
+      "type": "shell",
+      "command": "${workspaceFolder}\\StartAll.bat",
+      "args": ["8081", "8080", "--skip-build", "--no-kill"],
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Build: Client (qt1310 quick)",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "build-qt1310",
+        "--target",
+        "shopping_client",
+        "--config",
+        "Release",
+        "-j"
+      ],
+      "options": { "cwd": "${workspaceFolder}/client" },
+      "group": "build",
+      "problemMatcher": ["$gcc"]
+    },
+    {
       "label": "CMake: Build shopping_client",
       "type": "shell",
       "command": "cmake",

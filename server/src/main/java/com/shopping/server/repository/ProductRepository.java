@@ -1,6 +1,7 @@
 package com.shopping.server.repository;
 
 import com.shopping.server.model.Product;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -54,15 +55,15 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByStockGreaterThan(Integer stock);
     
     /**
-     * 自定义查询：查找打折力度最大的N个商品
-     * @param limit 限制数量
+     * 自定义查询：查找打折力度最大的商品（按降序），使用分页限制条数。
+     * 使用 Pageable 传入 PageRequest.of(0, limit) 来限制返回数量。
+     * @param pageable 分页与排序（仅页大小与页码生效，排序在查询里已固定）
      * @return 商品列表
      */
-    @Query(value = "SELECT p FROM Product p " +
+    @Query("SELECT p FROM Product p " +
            "WHERE p.onSale = true " +
-           "ORDER BY (p.price - p.discountPrice) / p.price DESC " +
-           "LIMIT :limit")
-    List<Product> findTopDiscountProducts(@Param("limit") int limit);
+           "ORDER BY (p.price - p.discountPrice) / p.price DESC")
+    List<Product> findTopDiscountProducts(Pageable pageable);
     
     /**
      * 自定义查询：搜索商品（支持名称和描述）
@@ -86,4 +87,30 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
      * @return 库存不足的商品数量
      */
     long countByStockLessThan(Integer stockThreshold);
+
+       // 最新上架（按 productId 最大）
+       Product findTopByOrderByProductIdDesc();
+    
+       // 销量最高的商品（上架状态）
+       Product findTopByOnSaleTrueOrderBySalesDesc();
+    
+       @Query("SELECT MAX(p.productId) FROM Product p")
+       Long findMaxProductId();
+
+       // ========== 自定义分页排序查询 ==========
+       // 销量倒序
+       @Query("SELECT p FROM Product p ORDER BY p.sales DESC, p.price ASC")
+       List<Product> findAllOrderBySalesDesc(Pageable pageable);
+
+       // 价格升序（有效价格：onSale 且 discountPrice < price 时取 discountPrice，否则取 price）
+       @Query("SELECT p FROM Product p ORDER BY CASE WHEN p.onSale = true AND p.discountPrice IS NOT NULL AND p.discountPrice < p.price THEN p.discountPrice ELSE p.price END ASC, p.sales DESC")
+       List<Product> findAllOrderByEffectivePriceAsc(Pageable pageable);
+
+       // 价格降序（有效价格）
+       @Query("SELECT p FROM Product p ORDER BY CASE WHEN p.onSale = true AND p.discountPrice IS NOT NULL AND p.discountPrice < p.price THEN p.discountPrice ELSE p.price END DESC, p.sales DESC")
+       List<Product> findAllOrderByEffectivePriceDesc(Pageable pageable);
+
+       // 打折优先 -> 有折扣的在前，其次按有效价格升序，其次销量降序
+       @Query("SELECT p FROM Product p ORDER BY CASE WHEN p.onSale = true AND p.discountPrice IS NOT NULL AND p.discountPrice < p.price THEN 0 ELSE 1 END ASC, CASE WHEN p.onSale = true AND p.discountPrice IS NOT NULL AND p.discountPrice < p.price THEN p.discountPrice ELSE p.price END ASC, p.sales DESC")
+       List<Product> findAllDiscountFirst(Pageable pageable);
 }

@@ -35,6 +35,8 @@ public:
     QLineEdit *confirmInput;
     QLabel *labelPhone;
     QLineEdit *phoneInput;
+    QLabel *labelEmail;
+    QLineEdit *emailInput;
     QHBoxLayout *buttonLayout;
     QSpacerItem *spacer;
     QPushButton *submitButton;
@@ -44,7 +46,7 @@ public:
     {
         if (RegisterDialog->objectName().isEmpty())
             RegisterDialog->setObjectName("RegisterDialog");
-        RegisterDialog->resize(360, 220);
+        RegisterDialog->resize(360, 260);
         verticalLayout = new QVBoxLayout(RegisterDialog);
         verticalLayout->setObjectName("verticalLayout");
         formLayout = new QFormLayout();
@@ -91,6 +93,16 @@ public:
 
         formLayout->setWidget(3, QFormLayout::FieldRole, phoneInput);
 
+        labelEmail = new QLabel(RegisterDialog);
+        labelEmail->setObjectName("labelEmail");
+
+        formLayout->setWidget(4, QFormLayout::LabelRole, labelEmail);
+
+        emailInput = new QLineEdit(RegisterDialog);
+        emailInput->setObjectName("emailInput");
+
+        formLayout->setWidget(4, QFormLayout::FieldRole, emailInput);
+
 
         verticalLayout->addLayout(formLayout);
 
@@ -125,7 +137,8 @@ public:
         labelUser->setText(QCoreApplication::translate("RegisterDialog", "\347\224\250\346\210\267\345\220\215\357\274\232", nullptr));
         labelPass->setText(QCoreApplication::translate("RegisterDialog", "\345\257\206\347\240\201\357\274\232", nullptr));
         labelConfirm->setText(QCoreApplication::translate("RegisterDialog", "\347\241\256\350\256\244\345\257\206\347\240\201\357\274\232", nullptr));
-        labelPhone->setText(QCoreApplication::translate("RegisterDialog", "\346\211\213\346\234\272\345\217\267\357\274\232", nullptr));
+        labelPhone->setText(QCoreApplication::translate("RegisterDialog", "\346\211\213\346\234\272\345\217\267\357\274\210\351\200\211\345\241\253\357\274\211\357\274\232", nullptr));
+        labelEmail->setText(QCoreApplication::translate("RegisterDialog", "\351\202\256\347\256\261\357\274\210\351\200\211\345\241\253\357\274\211\357\274\232", nullptr));
         submitButton->setText(QCoreApplication::translate("RegisterDialog", "\346\263\250\345\206\214", nullptr));
         cancelButton->setText(QCoreApplication::translate("RegisterDialog", "\345\217\226\346\266\210", nullptr));
     } // retranslateUi

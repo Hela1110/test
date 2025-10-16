@@ -76,6 +76,7 @@ CMakeFiles/package_app.dir/codegen:
 
 package_app: CMakeFiles/package_app
 package_app: CMakeFiles/package_app.dir/build.make
+	D:\CMake\bin\cmake.exe -E make_directory C:/Users/Edward/Desktop/test/client/build-qt1310/dist/imageformats
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copying runtime DLL: D:/Qt/Tools/mingw1310_64/bin/libstdc++-6.dll"
 	D:\CMake\bin\cmake.exe -E copy_if_different D:/Qt/Tools/mingw1310_64/bin/libstdc++-6.dll C:/Users/Edward/Desktop/test/client/build-qt1310/dist/
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold "Copying runtime DLL: D:/Qt/Tools/mingw1310_64/bin/libgcc_s_seh-1.dll"

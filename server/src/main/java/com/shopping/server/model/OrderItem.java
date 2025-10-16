@@ -20,6 +20,9 @@ public class OrderItem {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    // 鞋码（可为空表示无尺码类商品）；37-45 整数
+    private Integer size;
+
     @Column(nullable = false)
     private Integer quantity;
 

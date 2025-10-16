@@ -27,6 +27,11 @@ ShoppingCart::ShoppingCart(QTcpSocket *socket, QWidget *parent) :
     socket(socket)
 {
     ui->setupUi(this);
+    // 放大左上角“购物车”标题，保持与其它页面一致，并加上购物车 emoji
+    if (auto title = findChild<QLabel*>("cartTitle")) {
+        title->setText(tr("购物车 🛒"));
+        title->setStyleSheet("font-weight:600;font-size:16px;");
+    }
     // 初始化时记录关键控件是否存在，辅助判断 auto-connect 是否可用
     auto checkoutBtn = findChild<QPushButton*>("checkoutButton");
     auto deleteBtn = findChild<QPushButton*>("batchDeleteButton");
@@ -44,6 +49,8 @@ ShoppingCart::ShoppingCart(QTcpSocket *socket, QWidget *parent) :
 
 ShoppingCart::~ShoppingCart()
 {
+    // 防御：窗口销毁时尽量阻断后续回调对 UI 的访问
+    this->hide();
     delete ui;
 }
 
@@ -54,11 +61,16 @@ void ShoppingCart::setupUi()
         ui->cartTable->setSelectionBehavior(QAbstractItemView::SelectRows);
         ui->cartTable->setSelectionMode(QAbstractItemView::NoSelection); // 使用自定义勾选交互
         ui->cartTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        ui->cartTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-        ui->cartTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
-        ui->cartTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-        ui->cartTable->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
-        ui->cartTable->horizontalHeader()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+        // 调整列宽：选择列固定60，商品名自适应，单价/数量/小计设置合适固定宽度
+        ui->cartTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
+        ui->cartTable->setColumnWidth(0, 60);  // 选择列
+        ui->cartTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);  // 商品名称
+        ui->cartTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
+        ui->cartTable->setColumnWidth(2, 100);  // 单价列
+        ui->cartTable->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Fixed);
+        ui->cartTable->setColumnWidth(3, 80);   // 数量列
+        ui->cartTable->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Fixed);
+        ui->cartTable->setColumnWidth(4, 100);  // 小计列
     }
     
     // 槽函数已按 on_* 命名，Qt 会通过 QMetaObject::connectSlotsByName 自动连接
@@ -100,6 +112,21 @@ void ShoppingCart::setupUi()
         clrBtn->setEnabled(true);
     }
     ensureSelectAllHook();
+
+    // 在底部操作区加入一个“满减提示”标签（红色小字），用于提示距离下一级满减还差多少
+    if (auto bottom = findChild<QHBoxLayout*>("bottomLayout")) {
+        QLabel *totalLbl = findChild<QLabel*>("totalLabel");
+        int insertPos = totalLbl ? (bottom->indexOf(totalLbl) + 1) : bottom->count();
+        if (!findChild<QLabel*>("promoHintLabel")) {
+            auto *hint = new QLabel(this);
+            hint->setObjectName("promoHintLabel");
+            hint->setStyleSheet("color:#E53935;margin:0 10px;");
+            hint->setText("");
+            // 默认插入到总计后面
+            if (insertPos < 0) insertPos = bottom->count();
+            bottom->insertWidget(insertPos, hint);
+        }
+    }
 }
 
 void ShoppingCart::loadCartItems()
@@ -158,15 +185,42 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
             auto *chk = new QCheckBox(wrap);
             chk->setTristate(false);
             chk->setChecked(false);
-            // 圆形效果（样式表）
+            // 圆形效果(样式表) - 橙色主题
             chk->setStyleSheet("QCheckBox::indicator{width:18px;height:18px;border-radius:9px;border:1px solid #aaa;}"
-                               "QCheckBox::indicator:checked{background:#1677ff;border-color:#1677ff;}"
+                               "QCheckBox::indicator:checked{background:#FF6B35;border-color:#FF6B35;}"
                                "QCheckBox::indicator:unchecked{background:transparent;}");
             auto *hl = new QHBoxLayout(wrap); hl->setContentsMargins(6,0,6,0); hl->addWidget(chk); hl->addStretch();
             ui->cartTable->setCellWidget(row, 0, wrap);
 
-            ui->cartTable->setItem(row, 1, new QTableWidgetItem(item.value("name").toString()));
-            ui->cartTable->setItem(row, 2, new QTableWidgetItem(QString::number(price, 'f', 2)));
+            // 名称列：附加尺码（若存在）
+            {
+                QString nameText = item.value("name").toString();
+                if (item.contains("size") && item.value("size").toInt() > 0) {
+                    nameText += QString("  (尺码:%1)").arg(item.value("size").toInt());
+                }
+                ui->cartTable->setItem(row, 1, new QTableWidgetItem(nameText));
+            }
+            // 单价列：若存在促销（onSale 且 discountPrice < listPrice），显示 原价(划线灰)+红色折扣价
+            {
+                const double listPrice = item.contains("listPrice") ? item.value("listPrice").toDouble() : price; // 回退
+                const bool onSale = item.value("onSale").toBool();
+                const double dprice = item.contains("discountPrice") ? item.value("discountPrice").toDouble() : 0.0;
+                const bool hasDiscount = onSale && dprice > 0.0 && dprice < listPrice;
+                QWidget *cell = new QWidget(ui->cartTable);
+                auto *v = new QVBoxLayout(cell); v->setContentsMargins(2,2,2,2); v->setSpacing(0);
+                if (hasDiscount) {
+                    auto *orig = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(listPrice, 'f', 2), cell);
+                    orig->setStyleSheet("color:#999;text-decoration:line-through;font-size:12px;");
+                    auto *disc = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(dprice, 'f', 2), cell);
+                    disc->setStyleSheet("color:#E53935;font-weight:700;");
+                    v->addWidget(orig);
+                    v->addWidget(disc);
+                } else {
+                    auto *only = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(price, 'f', 2), cell);
+                    v->addWidget(only);
+                }
+                ui->cartTable->setCellWidget(row, 2, cell);
+            }
             // 数量使用 SpinBox，带上下箭头
             auto *spin = new QSpinBox(ui->cartTable);
             int maxQty = (stock >= 0 ? qMax(0, stock) : 9999);
@@ -174,23 +228,70 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
             spin->setValue(quantity);
             ui->cartTable->setCellWidget(row, 3, spin);
             // 小计
-            ui->cartTable->setItem(row, 4, new QTableWidgetItem(QString::number(price * quantity, 'f', 2)));
+            // 小计列：若有折扣，按折扣价计算，并同样展示双价（按件价×数量）
+            {
+                const double listPrice = item.contains("listPrice") ? item.value("listPrice").toDouble() : price;
+                const bool onSale = item.value("onSale").toBool();
+                const double dprice = item.contains("discountPrice") ? item.value("discountPrice").toDouble() : 0.0;
+                const bool hasDiscount = onSale && dprice > 0.0 && dprice < listPrice;
+                const double unit = hasDiscount ? dprice : price;
+                QWidget *cell = new QWidget(ui->cartTable);
+                auto *v = new QVBoxLayout(cell); v->setContentsMargins(2,2,2,2); v->setSpacing(0);
+                if (hasDiscount) {
+                    auto *orig = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(listPrice * quantity, 'f', 2), cell);
+                    orig->setStyleSheet("color:#999;text-decoration:line-through;font-size:12px;");
+                    auto *disc = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(unit * quantity, 'f', 2), cell);
+                    disc->setStyleSheet("color:#E53935;font-weight:700;");
+                    v->addWidget(orig);
+                    v->addWidget(disc);
+                } else {
+                    auto *only = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(unit * quantity, 'f', 2), cell);
+                    v->addWidget(only);
+                }
+                ui->cartTable->setCellWidget(row, 4, cell);
+            }
 
             // 连接数量变更：立即发送 set_cart_quantity，并本地更新小计/总计与 cartItems
-            connect(spin, QOverload<int>::of(&QSpinBox::valueChanged), this, [this, pid, price, row](int val){
+            int size = item.contains("size") ? item.value("size").toInt() : -1;
+            connect(spin, QOverload<int>::of(&QSpinBox::valueChanged), this, [this, pid, size, price, row](int val){
                 // 发送到服务器
                 QJsonObject req;
                 req["type"] = "set_cart_quantity";
                 req["product_id"] = pid;
                 req["quantity"] = val;
+                if (size > 0) req["size"] = size;
                 sendRequest(req);
                 // 本地更新：小计 & cartItems 中对应项数量
                 if (ui->cartTable && row >= 0 && row < ui->cartTable->rowCount()) {
-                    auto *sub = ui->cartTable->item(row, 4);
-                    if (sub) sub->setText(QString::number(price * val, 'f', 2));
+                    // 重新渲染该行的小计单元，以便折扣价变化生效
+                    // 读取该行对应的数据项（含 listPrice/onSale/discountPrice）
+                    double listPrice = price;
+                    bool onSale = false; double dprice = 0.0;
+                    if (row >= 0 && row < cartItems.size()) {
+                        const auto it = cartItems[row];
+                        listPrice = it.contains("listPrice") ? it.value("listPrice").toDouble() : (it.value("price").toDouble());
+                        onSale = it.value("onSale").toBool();
+                        dprice = it.contains("discountPrice") ? it.value("discountPrice").toDouble() : 0.0;
+                    }
+                    const bool hasDiscount = onSale && dprice > 0.0 && dprice < listPrice;
+                    const double unit = hasDiscount ? dprice : price;
+                    QWidget *cell = new QWidget(ui->cartTable);
+                    auto *v = new QVBoxLayout(cell); v->setContentsMargins(2,2,2,2); v->setSpacing(0);
+                    if (hasDiscount) {
+                        auto *orig = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(listPrice * val, 'f', 2), cell);
+                        orig->setStyleSheet("color:#999;text-decoration:line-through;font-size:12px;");
+                        auto *disc = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(unit * val, 'f', 2), cell);
+                        disc->setStyleSheet("color:#E53935;font-weight:700;");
+                        v->addWidget(orig);
+                        v->addWidget(disc);
+                    } else {
+                        auto *only = new QLabel(QString::fromUtf8("\xC2\xA5 ") + QString::number(unit * val, 'f', 2), cell);
+                        v->addWidget(only);
+                    }
+                    ui->cartTable->setCellWidget(row, 4, cell);
                 }
                 for (auto &ci : cartItems) {
-                    if (ci.value("product_id").toInt() == pid) { ci["quantity"] = val; break; }
+                    if (ci.value("product_id").toInt() == pid && (!ci.contains("size") || ci.value("size").toInt()==size)) { ci["quantity"] = val; break; }
                 }
                 updateTotalPrice();
             });
@@ -238,10 +339,39 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
 
         checkoutInFlight = false; // 无论成功失败，结束本次流程
         if (response.value("success").toBool()) {
-            // 结算成功提示含总金额
-            double total = 0;
-            for (const auto &it : cartItems) total += it.value("price").toDouble() * it.value("quantity").toInt();
-            showOnce("checkout_ok", QMessageBox::Information, "结算成功", QString("总金额：￥%1").arg(QString::number(total, 'f', 2)));
+            // 优先使用服务器返回的满减后金额（payable）；若没有则回退到本地合计
+            const bool hasServer = response.contains("payable");
+            double payable = response.value("payable").toDouble(-1.0);
+            double discount = response.value("discount").toDouble(-1.0);
+            double subtotal = response.value("subtotal").toDouble(-1.0);
+            if (!hasServer || payable < 0.0) {
+                // 回退：仅统计本次勾选项金额（价格快照）
+                payable = 0.0;
+                if (ui->cartTable) {
+                    const int rows = ui->cartTable->rowCount();
+                    for (int r = 0; r < rows; ++r) {
+                        QWidget *wrap = ui->cartTable->cellWidget(r, 0);
+                        if (!wrap) continue;
+                        auto chk = wrap->findChild<QCheckBox*>();
+                        if (chk && chk->isChecked()) {
+                            if (r >=0 && r < cartItems.size()) {
+                                payable += cartItems[r].value("price").toDouble() * cartItems[r].value("quantity").toInt();
+                            }
+                        }
+                    }
+                }
+                showOnce("checkout_ok", QMessageBox::Information, "结算成功", QString("本次金额：￥%1").arg(QString::number(payable, 'f', 2)));
+            } else {
+                // 使用服务器提供的应付金额与折扣信息
+                QString text = QString("应付：￥%1").arg(QString::number(payable, 'f', 2));
+                if (subtotal >= 0.0) {
+                    text = QString("小计：￥%1\n满减：-%2\n应付：￥%3")
+                               .arg(QString::number(subtotal, 'f', 2))
+                               .arg(discount > 0.0 ? (QString("￥") + QString::number(discount, 'f', 2)) : QString("￥0.00"))
+                               .arg(QString::number(payable, 'f', 2));
+                }
+                showOnce("checkout_ok", QMessageBox::Information, "结算成功", text);
+            }
             emit checkoutCompleted();
             // 结算成功后从购物车中移除已结算的商品
             // 逐个发送 remove_from_cart 请求
@@ -253,7 +383,7 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
                     auto chk = wrap->findChild<QCheckBox*>();
                     if (chk && chk->isChecked()) {
                         if (r >=0 && r < cartItems.size()) {
-                            QJsonObject request; request["type"] = "remove_from_cart"; request["product_id"] = cartItems[r]["product_id"]; if (!username.isEmpty()) request["username"] = username; sendRequest(request);
+                            QJsonObject request; request["type"] = "remove_from_cart"; request["product_id"] = cartItems[r]["product_id"]; if (cartItems[r].contains("size") && cartItems[r]["size"].toInt()>0) request["size"] = cartItems[r]["size"]; if (!username.isEmpty()) request["username"] = username; sendRequest(request);
                             qInfo() << "[checkout_response] remove_from_cart pid=" << cartItems[r]["product_id"].toInt() << "username=" << username;
                         }
                     }
@@ -275,9 +405,44 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
         const bool ok = response.value("success").toBool();
         if (ok) {
             const auto orderId = response.value("orderId").toVariant().toLongLong();
-            double total = 0;
-            for (const auto &it : cartItems) total += it.value("price").toDouble() * it.value("quantity").toInt();
-            showOnce("order_ok", QMessageBox::Information, "下单成功", QString("订单已创建：#%1\n总金额：￥%2").arg(orderId).arg(QString::number(total, 'f', 2)));
+            // 优先展示服务器返回的折后应付
+            const bool hasServer = response.contains("payable");
+            double payable = response.value("payable").toDouble(-1.0);
+            double discount = response.value("discount").toDouble(-1.0);
+            double subtotal = response.value("subtotal").toDouble(-1.0);
+            QString text;
+            if (!hasServer || payable < 0.0) {
+                // 回退：仅统计本次勾选项金额
+                double total = 0.0;
+                if (ui->cartTable) {
+                    const int rows = ui->cartTable->rowCount();
+                    for (int r = 0; r < rows; ++r) {
+                        QWidget *wrap = ui->cartTable->cellWidget(r, 0);
+                        if (!wrap) continue;
+                        auto chk = wrap->findChild<QCheckBox*>();
+                        if (chk && chk->isChecked()) {
+                            if (r >= 0 && r < cartItems.size()) {
+                                total += cartItems[r].value("price").toDouble() * cartItems[r].value("quantity").toInt();
+                            }
+                        }
+                    }
+                }
+                text = QString("订单已创建：#%1\n本次金额：￥%2").arg(orderId).arg(QString::number(total, 'f', 2));
+            } else {
+                // 使用服务器提供的应付金额与折扣信息
+                if (subtotal >= 0.0) {
+                    text = QString("订单已创建：#%1\n小计：￥%2\n满减：-%3\n应付：￥%4")
+                               .arg(orderId)
+                               .arg(QString::number(subtotal, 'f', 2))
+                               .arg(discount > 0.0 ? (QString("￥") + QString::number(discount, 'f', 2)) : QString("￥0.00"))
+                               .arg(QString::number(payable, 'f', 2));
+                } else {
+                    text = QString("订单已创建：#%1\n应付：￥%2")
+                               .arg(orderId)
+                               .arg(QString::number(payable, 'f', 2));
+                }
+            }
+            showOnce("order_ok", QMessageBox::Information, "下单成功", text);
             emit checkoutCompleted();
             // 同步移除本次勾选的条目
             if (ui->cartTable) {
@@ -288,7 +453,7 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
                     auto chk = wrap->findChild<QCheckBox*>();
                     if (chk && chk->isChecked()) {
                         if (r >= 0 && r < cartItems.size()) {
-                            QJsonObject req; req["type"] = "remove_from_cart"; req["product_id"] = cartItems[r]["product_id"]; if (!username.isEmpty()) req["username"] = username; sendRequest(req);
+                            QJsonObject req; req["type"] = "remove_from_cart"; req["product_id"] = cartItems[r]["product_id"]; if (cartItems[r].contains("size") && cartItems[r]["size"].toInt()>0) req["size"] = cartItems[r]["size"]; if (!username.isEmpty()) req["username"] = username; sendRequest(req);
                         }
                     }
                 }
@@ -298,6 +463,16 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
             const int code = response.value("code").toInt();
             const QString msg = response.value("message").toString();
             showOnce(QString("order_fail_%1").arg(code), QMessageBox::Warning, "下单失败", msg, 5000);
+            // 若失败且可能是服务器不支持 create_order，则尝试回退到旧协议
+            fallbackToLegacyCheckoutIfPossible(msg);
+        }
+    } else if (type == QLatin1String("error")) {
+        // 统一的错误通道（MainWindow 已转发），若在结算中收到错误，也结束流程并考虑回退
+        const QString msg = response.value("message").toString();
+        if (checkoutInFlight) {
+            checkoutInFlight = false;
+            showOnce("checkout_error", QMessageBox::Warning, "结算失败", msg, 4000);
+            fallbackToLegacyCheckoutIfPossible(msg);
         }
     } else if (type == QLatin1String("clear_cart_response")) {
         if (response.value("success").toBool()) {
@@ -332,7 +507,9 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
 
 void ShoppingCart::updateTotalPrice()
 {
-    double total = 0;
+    double totalOriginal = 0.0;   // 原价合计（黑色）
+    double totalEffective = 0.0;  // 折后合计（含单品折扣）
+    bool anyDiscount = false;
     // 仅统计被勾选的行；若没有任何行被勾选，则为 0
     if (ui->cartTable) {
         const int rows = ui->cartTable->rowCount();
@@ -341,21 +518,67 @@ void ShoppingCart::updateTotalPrice()
             if (!wrap) continue;
             auto chk = wrap->findChild<QCheckBox*>();
             if (chk && chk->isChecked()) {
-                // 优先以小计列为准
-                if (auto *sub = ui->cartTable->item(r, 4)) {
-                    bool ok = false; double v = sub->text().toDouble(&ok);
-                    if (ok) { total += v; continue; }
-                }
-                // 兜底：从数据模型计算（避免显示格式导致 toDouble 失败）
                 if (r >=0 && r < cartItems.size()) {
                     const auto &it = cartItems[r];
-                    total += it.value("price").toDouble() * it.value("quantity").toInt();
+                    const int qty = it.value("quantity").toInt();
+                    const double listPrice = it.contains("listPrice") ? it.value("listPrice").toDouble() : it.value("price").toDouble();
+                    const bool onSale = it.value("onSale").toBool();
+                    const double dprice = it.contains("discountPrice") ? it.value("discountPrice").toDouble() : 0.0;
+                    const bool hasDiscount = onSale && dprice > 0.0 && dprice < listPrice;
+                    const double unit = hasDiscount ? dprice : it.value("price").toDouble(); // 价格快照
+                    totalOriginal += listPrice * qty;
+                    totalEffective += unit * qty;
+                    anyDiscount = anyDiscount || hasDiscount;
                 }
             }
         }
     }
-    if (auto lbl = findChild<QLabel*>("totalLabel")) {
-        lbl->setText(QString("总计: ￥%1").arg(QString::number(total, 'f', 2)));
+    // 订单级“每满200减20”满减（基于折后合计 totalEffective）
+    // 使用“分”（整数）计算避免浮点误差
+    const qint64 cents = static_cast<qint64>(qRound64(totalEffective * 100.0));
+    const qint64 threshold = 20000;   // 200 元 -> 20000 分
+    const qint64 stepOff  = 2000;     // 20 元 -> 2000 分
+    const qint64 times    = (cents > 0 ? (cents / threshold) : 0);
+    const qint64 promoOff = times * stepOff;                // 满减金额（分）
+    const qint64 finalPay = qMax<qint64>(0, cents - promoOff); // 应付金额（分）
+    const qint64 remainToNext = (cents>0 && (cents % threshold)!=0)
+        ? (threshold - (cents % threshold)) : 0; // 距下一档阈值（分）；整倍数则为 0
+
+    // 找到标签（兼容两种命名）
+    QLabel *lbl = findChild<QLabel*>("totalLabel");
+    if (!lbl) lbl = findChild<QLabel*>("totalPriceLabel");
+    if (lbl) {
+        lbl->setTextFormat(Qt::RichText);
+        const QString orig = QString::number(totalOriginal, 'f', 2);
+        const QString eff  = QString::number(totalEffective, 'f', 2);
+        const QString promo= QString::number(promoOff / 100.0, 'f', 2);
+        const QString pay  = QString::number(finalPay / 100.0, 'f', 2);
+
+        // 显示结构：原价(可选，灰划线)  折后(若有)  满减: -￥X（若有）  应付: ￥Y（红色加粗）
+        QString html = "总计: ";
+        if (anyDiscount && (totalEffective + 1e-6) < totalOriginal) {
+            html += QString("<span style='color:#999;text-decoration:line-through;'>￥%1</span>  ").arg(orig);
+            html += QString("<span>￥%1</span>  ").arg(eff);
+        } else {
+            html += QString("<span>￥%1</span>  ").arg(eff);
+        }
+        if (promoOff > 0) {
+            html += QString("<span style='color:#43A047;'>满减 -￥%1</span>  ").arg(promo);
+        }
+        html += QString("<span style='color:#E53935;font-weight:700;'>应付 ￥%1</span>").arg(pay);
+        lbl->setText(html);
+    }
+
+    // 更新“还差X元可再减20元”的提示
+    if (auto hint = findChild<QLabel*>("promoHintLabel")) {
+        if (remainToNext > 0) {
+            hint->setText(QString("还差 ￥%1 可再减 20 元")
+                          .arg(QString::number(remainToNext/100.0, 'f', 2)));
+            hint->setVisible(true);
+        } else {
+            hint->clear();
+            hint->setVisible(false);
+        }
     }
 }
 
@@ -403,8 +626,8 @@ void ShoppingCart::on_checkoutButton_clicked()
     QJsonArray arr;
     for (int row : selectedRows) {
         if (row < 0 || row >= cartItems.size()) continue;
-        const auto &it = cartItems[row];
-        QJsonObject o; o["productId"] = it.value("product_id").toInt();
+    const auto &it = cartItems[row];
+    QJsonObject o; o["productId"] = it.value("product_id").toInt(); if (it.contains("size") && it.value("size").toInt()>0) o["size"] = it.value("size").toInt();
         o["quantity"] = it.value("quantity").toInt(); if (o["quantity"].toInt() < 1) o["quantity"] = 1;
         arr.append(o);
     }
@@ -413,7 +636,17 @@ void ShoppingCart::on_checkoutButton_clicked()
     request["items"] = arr;
     if (!username.isEmpty()) request["username"] = username;
     checkoutInFlight = true;
+    lastCheckoutUsedCreateOrder = true;
+    lastCheckoutSelectedCount = selectedRows.size();
+    lastCheckoutTotalRows = ui->cartTable ? ui->cartTable->rowCount() : 0;
     sendRequest(request);
+    // 保护性超时：3.5s 未返回则解除 inFlight，提示网络慢
+    QTimer::singleShot(3500, this, [this]{
+        if (checkoutInFlight) {
+            checkoutInFlight = false;
+            showOnce("checkout_timeout", QMessageBox::Warning, "结算超时", "网络较慢或服务器繁忙，请稍后重试", 4000);
+        }
+    });
 }
 
 void ShoppingCart::on_deleteButton_clicked()
@@ -436,7 +669,7 @@ void ShoppingCart::on_deleteButton_clicked()
     }
     for (int row : rows) {
         if (row < 0 || row >= cartItems.size()) continue;
-        QJsonObject request; request["type"] = "remove_from_cart"; request["product_id"] = cartItems[row]["product_id"]; sendRequest(request);
+    QJsonObject request; request["type"] = "remove_from_cart"; request["product_id"] = cartItems[row]["product_id"]; if (cartItems[row].contains("size") && cartItems[row]["size"].toInt()>0) request["size"] = cartItems[row]["size"]; sendRequest(request);
     }
 }
 
@@ -609,6 +842,33 @@ void ShoppingCart::ensureSelectAllHook()
         updateSelectedCount();
         updateTotalPrice();
     });
+}
+
+// 若服务器不支持 create_order 或返回语义上等价的“暂不支持/未知类型”等错误，
+// 并且本次是全选（selectedCount == totalRows），则尝试回退到旧协议：checkout（全量结算）。
+// 这样至少可以满足“全选结算”的场景，同时避免误把"部分勾选"走成全量结算。
+void ShoppingCart::fallbackToLegacyCheckoutIfPossible(const QString &errorMsg)
+{
+    // 仅在最近一次是 create_order 且为“全选”并且仍有 socket 可用时尝试回退
+    if (!lastCheckoutUsedCreateOrder) return;
+    if (!socket) return;
+    if (lastCheckoutTotalRows <= 0) return;
+    if (lastCheckoutSelectedCount != lastCheckoutTotalRows) return; // 只在全选时回退，避免误伤部分勾选
+
+    const QString m = errorMsg.toLower();
+    const bool looksLikeUnsupported = (m.contains("unknown")
+                                     || m.contains("unsupported")
+                                     || m.contains("not implemented")
+                                     || m.contains("未实现")
+                                     || m.contains("不支持")
+                                     || m.contains("未知类型"));
+    if (!looksLikeUnsupported) return;
+
+    qInfo() << "[fallback] create_order not supported, trying legacy 'checkout' (full cart)";
+    QJsonObject req; req["type"] = "checkout"; if (!username.isEmpty()) req["username"] = username;
+    checkoutInFlight = true; // 标记进入回退流程
+    lastCheckoutUsedCreateOrder = false; // 进入旧协议
+    sendRequest(req);
 }
 
 // 抑制自动连接警告的空槽：如果界面没有 prev/nextPage 控件也无副作用

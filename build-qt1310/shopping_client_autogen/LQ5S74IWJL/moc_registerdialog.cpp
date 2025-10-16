@@ -43,6 +43,7 @@ static constexpr auto qt_meta_stringdata_ZN14RegisterDialogE = QtMocHelpers::str
     "username",
     "password",
     "phone",
+    "email",
     "onRegisterResult",
     "success",
     "message",
@@ -66,17 +67,17 @@ Q_CONSTINIT static const uint qt_meta_data_ZN14RegisterDialogE[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    3,   32,    2, 0x06,    1 /* Public */,
+       1,    4,   32,    2, 0x06,    1 /* Public */,
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       6,    2,   39,    2, 0x0a,    5 /* Public */,
-       9,    0,   44,    2, 0x08,    8 /* Private */,
+       7,    2,   41,    2, 0x0a,    6 /* Public */,
+      10,    0,   46,    2, 0x08,    9 /* Private */,
 
  // signals: parameters
-    QMetaType::Void, QMetaType::QString, QMetaType::QString, QMetaType::QString,    3,    4,    5,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString,    3,    4,    5,    6,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::Bool, QMetaType::QString,    7,    8,
+    QMetaType::Void, QMetaType::Bool, QMetaType::QString,    8,    9,
     QMetaType::Void,
 
        0        // eod
@@ -96,6 +97,7 @@ Q_CONSTINIT const QMetaObject RegisterDialog::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
+        QtPrivate::TypeAndForceComplete<const QString &, std::false_type>,
         // method 'onRegisterResult'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<bool, std::false_type>,
@@ -111,7 +113,7 @@ void RegisterDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
     auto *_t = static_cast<RegisterDialog *>(_o);
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: _t->submitRegister((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[3]))); break;
+        case 0: _t->submitRegister((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[3])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[4]))); break;
         case 1: _t->onRegisterResult((*reinterpret_cast< std::add_pointer_t<bool>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QString>>(_a[2]))); break;
         case 2: _t->on_submitButton_clicked(); break;
         default: ;
@@ -120,7 +122,7 @@ void RegisterDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
     if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _q_method_type = void (RegisterDialog::*)(const QString & , const QString & , const QString & );
+            using _q_method_type = void (RegisterDialog::*)(const QString & , const QString & , const QString & , const QString & );
             if (_q_method_type _q_method = &RegisterDialog::submitRegister; *reinterpret_cast<_q_method_type *>(_a[1]) == _q_method) {
                 *result = 0;
                 return;
@@ -161,9 +163,9 @@ int RegisterDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void RegisterDialog::submitRegister(const QString & _t1, const QString & _t2, const QString & _t3)
+void RegisterDialog::submitRegister(const QString & _t1, const QString & _t2, const QString & _t3, const QString & _t4)
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t3))) };
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t3))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t4))) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_WARNING_POP

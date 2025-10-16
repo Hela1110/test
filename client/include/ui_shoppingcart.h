@@ -38,12 +38,16 @@ public:
 	{
 		if (ShoppingCart->objectName().isEmpty())
 			ShoppingCart->setObjectName(QString::fromUtf8("ShoppingCart"));
-		ShoppingCart->resize(800, 600);
-		verticalLayout = new QVBoxLayout(ShoppingCart);
+	ShoppingCart->resize(960, 680);
+	ShoppingCart->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+	verticalLayout = new QVBoxLayout(ShoppingCart);
 		verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+	verticalLayout->setContentsMargins(10,10,10,10);
+	verticalLayout->setSpacing(8);
 
 	cartTable = new QTableWidget(ShoppingCart);
 		cartTable->setObjectName(QString::fromUtf8("cartTable"));
+		cartTable->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 	cartTable->setSelectionMode(QAbstractItemView::NoSelection);
 	cartTable->setSelectionBehavior(QAbstractItemView::SelectRows);
 	cartTable->setColumnCount(5);
@@ -56,8 +60,10 @@ public:
 		cartTable->setHorizontalHeaderLabels(headers);
 		verticalLayout->addWidget(cartTable);
 
-		bottomLayout = new QHBoxLayout();
+	bottomLayout = new QHBoxLayout();
 		bottomLayout->setObjectName(QString::fromUtf8("bottomLayout"));
+	bottomLayout->setContentsMargins(0,0,0,0);
+	bottomLayout->setSpacing(8);
 
 		backButton = new QPushButton(ShoppingCart);
 		backButton->setObjectName(QString::fromUtf8("backButton"));

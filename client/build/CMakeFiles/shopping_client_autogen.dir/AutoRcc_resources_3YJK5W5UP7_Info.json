@@ -7,7 +7,17 @@
 	"CROSS_CONFIG" : false,
 	"GENERATOR" : "MinGW Makefiles",
 	"INCLUDE_DIR" : "C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/include",
-	"INPUTS" : [ "C:/Users/Edward/Desktop/test/client/resources/styles/style.qss" ],
+	"INPUTS" : 
+	[
+		"C:/Users/Edward/Desktop/test/client/resources/styles/style.qss",
+		"C:/Users/Edward/Desktop/test/client/resources/icons/orders.svg",
+		"C:/Users/Edward/Desktop/test/client/resources/icons/chat.svg",
+		"C:/Users/Edward/Desktop/test/client/resources/icons/cart.svg",
+		"C:/Users/Edward/Desktop/test/client/resources/icons/trash.svg",
+		"C:/Users/Edward/Desktop/test/client/resources/icons/mall.svg",
+		"C:/Users/Edward/Desktop/test/client/resources/icons/home.svg",
+		"C:/Users/Edward/Desktop/test/client/resources/icons/account.svg"
+	],
 	"LOCK_FILE" : "C:/Users/Edward/Desktop/test/client/build/CMakeFiles/shopping_client_autogen.dir/AutoRcc_resources_3YJK5W5UP7_Lock.lock",
 	"MULTI_CONFIG" : false,
 	"OPTIONS" : [ "--no-zstd", "-name", "resources" ],

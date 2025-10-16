@@ -48,6 +48,11 @@ private:
     QHash<QString, qint64> lastPopupMsByTag;
 	QString username; // 当前用户名，可为空表示匿名
 
+	// 记录最近一次结算请求信息，用于错误回退（兼容旧服务器）
+	bool lastCheckoutUsedCreateOrder = false; // 最近一次是否发送了 create_order
+	int  lastCheckoutSelectedCount = 0;      // 最近一次勾选数
+	int  lastCheckoutTotalRows = 0;          // 最近一次表格总行数
+
 	void setupUi();
 	void loadCartItems();
 	void updateTotalPrice();
@@ -56,6 +61,7 @@ private:
 	void showOnce(const QString &tag, QMessageBox::Icon icon, const QString &title, const QString &text, int windowMs = 400);
     int selectedRowCount() const; // 新增：统计已勾选行数（调试、日志）
 	void ensureSelectAllHook();   // 确保 selectAll 复选框存在并已连接
+	void fallbackToLegacyCheckoutIfPossible(const QString &errorMsg); // 若全选且服务器不支持 create_order，则尝试回退 checkout
 
 	QString lastCartSignature;    // 上一次构建的购物车签名（去重）
 	qint64  lastCartBuildMs = -1; // 上一次构建时间（ms）

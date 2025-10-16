@@ -278,8 +278,20 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/CMake/share/cmake-4.1/Modules/Platform/Windows-windres.cmake \
   D:/CMake/share/cmake-4.1/Modules/Platform/Windows.cmake \
   D:/CMake/share/cmake-4.1/Modules/Platform/WindowsPaths.cmake \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
@@ -297,6 +309,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
@@ -316,11 +329,17 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerinfo.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainertools_impl.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcontiguouscache.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdarwinhelpers.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qeventloop.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qexceptionhandling.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qfloat16.h \
@@ -337,6 +356,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h \
@@ -352,6 +372,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtCore/qmetatype.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qminmax.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qnamespace.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qnumeric.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qobject_impl.h \
@@ -397,6 +418,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
@@ -416,26 +438,38 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpalette.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpen.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtextcursor.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtextformat.h \
@@ -445,8 +479,11 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
@@ -458,7 +495,9 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QListWidget \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
@@ -470,6 +509,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
@@ -477,8 +517,10 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistview.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistwidget.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h \
@@ -926,8 +968,20 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
   shopping_client_autogen/IFHPYZAWOD/moc_mainwindow.cpp \
   shopping_client_autogen/LQ5S74IWJL/moc_registerdialog.cpp \
   shopping_client_autogen/XLQVKIHBGC/moc_loginwindow.cpp \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
@@ -945,6 +999,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
   D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
@@ -953,444 +1008,6 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcborcommon.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcborvalue.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qchar.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcomparehelpers.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompilerdetection.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qconfig.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qconstructormacros.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerfwd.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerinfo.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainertools_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontiguouscache.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qdarwinhelpers.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qexceptionhandling.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qfloat16.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qforeach.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionaltools_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionpointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qgenericatomic.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qglobal.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qglobalstatic.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qhash.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qhashfunctions.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevicebase.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qline.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qlocale.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qlogging.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmalloc.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmap.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmargins.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmath.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmetacontainer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmetatype.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qminmax.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qnamespace.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qnumeric.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qobjectdefs_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qoverload.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qpair.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qpoint.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qprocessordetection.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qrefcount.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qregularexpression.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qscopedpointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qscopeguard.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qset.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsharedpointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsharedpointer_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsize.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qspan.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstring.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringalgorithms.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringbuilder.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringconverter.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringconverter_base.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringfwd.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringliteral.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringmatcher.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringtokenizer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qswap.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsysinfo.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsystemdetection.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtaggedpointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtclasshelpermacros.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtconfiginclude.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtconfigmacros.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtcore-config.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtcoreexports.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationdefinitions.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtmochelpers.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtresource.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qttranslation.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qttypetraits.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtversion.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtversionchecks.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtypeinfo.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtypes.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qutf8stringview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/quuid.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qvector.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpalette.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpen.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextcursor.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextformat.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextoption.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtgui-config.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiexports.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QListWidget \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractslider.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistwidget.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyleoption.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabbar.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtextedit.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h
-
-CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desktop/test/client/src/chat/chatwindow.cpp \
-  shopping_client_autogen/include/ui_chatwindow.h \
-  C:/Users/Edward/Desktop/test/client/include/chat/chatwindow.h \
-  C:/Users/Edward/Desktop/test/client/include/chatwindow.h \
-  C:/msys64/ucrt64/include/_mingw.h \
-  C:/msys64/ucrt64/include/_mingw_mac.h \
-  C:/msys64/ucrt64/include/_mingw_off_t.h \
-  C:/msys64/ucrt64/include/_mingw_secapi.h \
-  C:/msys64/ucrt64/include/_mingw_stat64.h \
-  C:/msys64/ucrt64/include/_mingw_stdarg.h \
-  C:/msys64/ucrt64/include/_timeval.h \
-  C:/msys64/ucrt64/include/assert.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/algorithm \
-  C:/msys64/ucrt64/include/c++/15.2.0/array \
-  C:/msys64/ucrt64/include/c++/15.2.0/atomic \
-  C:/msys64/ucrt64/include/c++/15.2.0/backward/auto_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/backward/binders.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bit \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/algorithmfwd.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/align.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/alloc_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/allocated_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/allocator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_base.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_lockfree_defines.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_string.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_string.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/char_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/charconv.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/chrono.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/concept_check.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/cpp_type_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/cxxabi_forced.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/cxxabi_init_exception.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/enable_special_members.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/erase_if.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_defines.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/functexcept.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/functional_hash.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/hash_bytes.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/hashtable.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/hashtable_policy.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/invoke.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/ios_base.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/list.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_classes.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_classes.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/localefwd.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/memory_resource.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/memoryfwd.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/monostate.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/move.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/nested_exception.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/new_allocator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/node_handle.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream_insert.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/parse_numbers.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/postypes.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/predefined_ops.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/ptr_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/range_access.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/refwrap.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr_atomic.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr_base.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/specfun.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_abs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_function.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_algo.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_algobase.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_bvector.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_construct.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_function.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_heap.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_funcs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_types.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_list.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_map.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_multimap.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_numeric.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_pair.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_raw_storage_iter.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_relops.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tempbuf.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tree.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_uninitialized.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_vector.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stream_iterator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/streambuf.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/streambuf_iterator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/string_view.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stringfwd.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/uniform_int_dist.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/unordered_map.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/uses_allocator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/uses_allocator_args.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/utility.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/vector.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/version.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/cassert \
-  C:/msys64/ucrt64/include/c++/15.2.0/cctype \
-  C:/msys64/ucrt64/include/c++/15.2.0/cerrno \
-  C:/msys64/ucrt64/include/c++/15.2.0/chrono \
-  C:/msys64/ucrt64/include/c++/15.2.0/climits \
-  C:/msys64/ucrt64/include/c++/15.2.0/clocale \
-  C:/msys64/ucrt64/include/c++/15.2.0/cmath \
-  C:/msys64/ucrt64/include/c++/15.2.0/compare \
-  C:/msys64/ucrt64/include/c++/15.2.0/concepts \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstddef \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstdint \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstdio \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstdlib \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstring \
-  C:/msys64/ucrt64/include/c++/15.2.0/ctime \
-  C:/msys64/ucrt64/include/c++/15.2.0/cwchar \
-  C:/msys64/ucrt64/include/c++/15.2.0/debug/assertions.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/debug/debug.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/exception \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/aligned_buffer.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/alloc_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/atomicity.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/concurrence.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/numeric_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/string_conversions.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/type_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/functional \
-  C:/msys64/ucrt64/include/c++/15.2.0/initializer_list \
-  C:/msys64/ucrt64/include/c++/15.2.0/iosfwd \
-  C:/msys64/ucrt64/include/c++/15.2.0/iterator \
-  C:/msys64/ucrt64/include/c++/15.2.0/limits \
-  C:/msys64/ucrt64/include/c++/15.2.0/list \
-  C:/msys64/ucrt64/include/c++/15.2.0/map \
-  C:/msys64/ucrt64/include/c++/15.2.0/memory \
-  C:/msys64/ucrt64/include/c++/15.2.0/new \
-  C:/msys64/ucrt64/include/c++/15.2.0/numeric \
-  C:/msys64/ucrt64/include/c++/15.2.0/optional \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/execution_defs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_algorithm_defs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_memory_defs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_numeric_defs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/pstl_config.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ratio \
-  C:/msys64/ucrt64/include/c++/15.2.0/stdexcept \
-  C:/msys64/ucrt64/include/c++/15.2.0/stdlib.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/streambuf \
-  C:/msys64/ucrt64/include/c++/15.2.0/string \
-  C:/msys64/ucrt64/include/c++/15.2.0/string_view \
-  C:/msys64/ucrt64/include/c++/15.2.0/system_error \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/bessel_function.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/beta_function.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/ell_integral.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/exp_integral.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/gamma.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/hypergeometric.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/legendre_function.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/modified_bessel_func.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_hermite.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_laguerre.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/riemann_zeta.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/special_function_util.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/tuple \
-  C:/msys64/ucrt64/include/c++/15.2.0/type_traits \
-  C:/msys64/ucrt64/include/c++/15.2.0/typeinfo \
-  C:/msys64/ucrt64/include/c++/15.2.0/unordered_map \
-  C:/msys64/ucrt64/include/c++/15.2.0/utility \
-  C:/msys64/ucrt64/include/c++/15.2.0/variant \
-  C:/msys64/ucrt64/include/c++/15.2.0/vector \
-  C:/msys64/ucrt64/include/c++/15.2.0/version \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/atomic_word.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++allocator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++config.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++locale.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/error_constants.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr-default.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/os_defines.h \
-  C:/msys64/ucrt64/include/corecrt.h \
-  C:/msys64/ucrt64/include/corecrt_startup.h \
-  C:/msys64/ucrt64/include/corecrt_stdio_config.h \
-  C:/msys64/ucrt64/include/corecrt_wctype.h \
-  C:/msys64/ucrt64/include/corecrt_wstdlib.h \
-  C:/msys64/ucrt64/include/crtdefs.h \
-  C:/msys64/ucrt64/include/ctype.h \
-  C:/msys64/ucrt64/include/errno.h \
-  C:/msys64/ucrt64/include/limits.h \
-  C:/msys64/ucrt64/include/locale.h \
-  C:/msys64/ucrt64/include/malloc.h \
-  C:/msys64/ucrt64/include/math.h \
-  C:/msys64/ucrt64/include/process.h \
-  C:/msys64/ucrt64/include/pthread.h \
-  C:/msys64/ucrt64/include/pthread_compat.h \
-  C:/msys64/ucrt64/include/pthread_signal.h \
-  C:/msys64/ucrt64/include/pthread_time.h \
-  C:/msys64/ucrt64/include/pthread_unistd.h \
-  C:/msys64/ucrt64/include/sched.h \
-  C:/msys64/ucrt64/include/sdks/_mingw_ddk.h \
-  C:/msys64/ucrt64/include/sec_api/stdio_s.h \
-  C:/msys64/ucrt64/include/sec_api/stdlib_s.h \
-  C:/msys64/ucrt64/include/sec_api/string_s.h \
-  C:/msys64/ucrt64/include/sec_api/sys/timeb_s.h \
-  C:/msys64/ucrt64/include/sec_api/wchar_s.h \
-  C:/msys64/ucrt64/include/signal.h \
-  C:/msys64/ucrt64/include/stdarg.h \
-  C:/msys64/ucrt64/include/stddef.h \
-  C:/msys64/ucrt64/include/stdint.h \
-  C:/msys64/ucrt64/include/stdio.h \
-  C:/msys64/ucrt64/include/stdlib.h \
-  C:/msys64/ucrt64/include/string.h \
-  C:/msys64/ucrt64/include/swprintf.inl \
-  C:/msys64/ucrt64/include/sys/timeb.h \
-  C:/msys64/ucrt64/include/sys/types.h \
-  C:/msys64/ucrt64/include/time.h \
-  C:/msys64/ucrt64/include/vadefs.h \
-  C:/msys64/ucrt64/include/wchar.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/limits.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mm_malloc.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdarg.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdbool.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/QDateTime \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20memory.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20type_traits.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20utility.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q23utility.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractitemmodel.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qalgorithms.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qanystringview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydata.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydataops.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydatapointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qassert.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearraylist.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qchar.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare_impl.h \
@@ -1424,10 +1041,14 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtCore/qglobalstatic.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qhash.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qhashfunctions.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevicebase.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qline.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
@@ -1487,6 +1108,555 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtmochelpers.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtresource.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qttranslation.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qttypetraits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtversion.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtversionchecks.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtypeinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtypes.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qutf8stringview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/quuid.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qvector.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpalette.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpen.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextcursor.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextformat.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextoption.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtgui-config.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiexports.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QListWidget \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractslider.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistwidget.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyleoption.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabbar.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtextedit.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h
+
+CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desktop/test/client/src/chat/chatwindow.cpp \
+  shopping_client_autogen/include/ui_chatwindow.h \
+  C:/Users/Edward/Desktop/test/client/include/chat/chatwindow.h \
+  C:/Users/Edward/Desktop/test/client/include/chatwindow.h \
+  C:/msys64/ucrt64/include/_mingw.h \
+  C:/msys64/ucrt64/include/_mingw_mac.h \
+  C:/msys64/ucrt64/include/_mingw_off_t.h \
+  C:/msys64/ucrt64/include/_mingw_secapi.h \
+  C:/msys64/ucrt64/include/_mingw_stat64.h \
+  C:/msys64/ucrt64/include/_mingw_stdarg.h \
+  C:/msys64/ucrt64/include/_timeval.h \
+  C:/msys64/ucrt64/include/assert.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/algorithm \
+  C:/msys64/ucrt64/include/c++/15.2.0/array \
+  C:/msys64/ucrt64/include/c++/15.2.0/atomic \
+  C:/msys64/ucrt64/include/c++/15.2.0/backward/auto_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/backward/binders.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bit \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/algorithmfwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/align.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/alloc_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/allocated_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/allocator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_base.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_futex.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_lockfree_defines.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_ios.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_ios.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_string.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_string.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/char_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/charconv.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/chrono.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/codecvt.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/concept_check.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/cpp_type_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/cxxabi_forced.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/cxxabi_init_exception.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/enable_special_members.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/erase_if.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_defines.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_dir.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_fwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_ops.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_path.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/functexcept.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/functional_hash.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/hash_bytes.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/hashtable.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/hashtable_policy.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/invoke.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ios_base.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/istream.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/list.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_classes.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_classes.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_conv.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets_nonio.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets_nonio.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/localefwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/memory_resource.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/memoryfwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/monostate.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/move.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/nested_exception.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/new_allocator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/node_handle.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream_insert.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/parse_numbers.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/postypes.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/predefined_ops.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ptr_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/quoted_string.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/range_access.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/refwrap.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr_atomic.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr_base.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/specfun.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/sstream.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_abs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_function.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_mutex.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_thread.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_algo.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_algobase.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_bvector.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_construct.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_function.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_heap.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_funcs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_types.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_list.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_map.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_multimap.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_numeric.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_pair.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_raw_storage_iter.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_relops.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tempbuf.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tree.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_uninitialized.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_vector.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stream_iterator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/streambuf.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/streambuf_iterator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/string_view.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stringfwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/uniform_int_dist.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_lock.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/unordered_map.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/uses_allocator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/uses_allocator_args.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/utility.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/vector.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/version.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/cassert \
+  C:/msys64/ucrt64/include/c++/15.2.0/cctype \
+  C:/msys64/ucrt64/include/c++/15.2.0/cerrno \
+  C:/msys64/ucrt64/include/c++/15.2.0/chrono \
+  C:/msys64/ucrt64/include/c++/15.2.0/climits \
+  C:/msys64/ucrt64/include/c++/15.2.0/clocale \
+  C:/msys64/ucrt64/include/c++/15.2.0/cmath \
+  C:/msys64/ucrt64/include/c++/15.2.0/codecvt \
+  C:/msys64/ucrt64/include/c++/15.2.0/compare \
+  C:/msys64/ucrt64/include/c++/15.2.0/concepts \
+  C:/msys64/ucrt64/include/c++/15.2.0/condition_variable \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstddef \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstdint \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstdio \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstdlib \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstring \
+  C:/msys64/ucrt64/include/c++/15.2.0/ctime \
+  C:/msys64/ucrt64/include/c++/15.2.0/cwchar \
+  C:/msys64/ucrt64/include/c++/15.2.0/cwctype \
+  C:/msys64/ucrt64/include/c++/15.2.0/debug/assertions.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/debug/debug.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/exception \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/aligned_buffer.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/alloc_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/atomicity.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/concurrence.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/numeric_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/string_conversions.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/type_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/filesystem \
+  C:/msys64/ucrt64/include/c++/15.2.0/functional \
+  C:/msys64/ucrt64/include/c++/15.2.0/future \
+  C:/msys64/ucrt64/include/c++/15.2.0/initializer_list \
+  C:/msys64/ucrt64/include/c++/15.2.0/iomanip \
+  C:/msys64/ucrt64/include/c++/15.2.0/ios \
+  C:/msys64/ucrt64/include/c++/15.2.0/iosfwd \
+  C:/msys64/ucrt64/include/c++/15.2.0/istream \
+  C:/msys64/ucrt64/include/c++/15.2.0/iterator \
+  C:/msys64/ucrt64/include/c++/15.2.0/limits \
+  C:/msys64/ucrt64/include/c++/15.2.0/list \
+  C:/msys64/ucrt64/include/c++/15.2.0/locale \
+  C:/msys64/ucrt64/include/c++/15.2.0/map \
+  C:/msys64/ucrt64/include/c++/15.2.0/memory \
+  C:/msys64/ucrt64/include/c++/15.2.0/mutex \
+  C:/msys64/ucrt64/include/c++/15.2.0/new \
+  C:/msys64/ucrt64/include/c++/15.2.0/numeric \
+  C:/msys64/ucrt64/include/c++/15.2.0/optional \
+  C:/msys64/ucrt64/include/c++/15.2.0/ostream \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/execution_defs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_algorithm_defs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_memory_defs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_numeric_defs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/pstl_config.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ratio \
+  C:/msys64/ucrt64/include/c++/15.2.0/sstream \
+  C:/msys64/ucrt64/include/c++/15.2.0/stdexcept \
+  C:/msys64/ucrt64/include/c++/15.2.0/stdlib.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/streambuf \
+  C:/msys64/ucrt64/include/c++/15.2.0/string \
+  C:/msys64/ucrt64/include/c++/15.2.0/string_view \
+  C:/msys64/ucrt64/include/c++/15.2.0/system_error \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/bessel_function.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/beta_function.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/ell_integral.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/exp_integral.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/gamma.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/hypergeometric.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/legendre_function.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/modified_bessel_func.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_hermite.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_laguerre.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/riemann_zeta.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/special_function_util.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/tuple \
+  C:/msys64/ucrt64/include/c++/15.2.0/type_traits \
+  C:/msys64/ucrt64/include/c++/15.2.0/typeinfo \
+  C:/msys64/ucrt64/include/c++/15.2.0/unordered_map \
+  C:/msys64/ucrt64/include/c++/15.2.0/utility \
+  C:/msys64/ucrt64/include/c++/15.2.0/variant \
+  C:/msys64/ucrt64/include/c++/15.2.0/vector \
+  C:/msys64/ucrt64/include/c++/15.2.0/version \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/atomic_word.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++allocator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++config.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++locale.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/ctype_base.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/ctype_inline.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/error_constants.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr-default.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/messages_members.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/os_defines.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/time_members.h \
+  C:/msys64/ucrt64/include/corecrt.h \
+  C:/msys64/ucrt64/include/corecrt_startup.h \
+  C:/msys64/ucrt64/include/corecrt_stdio_config.h \
+  C:/msys64/ucrt64/include/corecrt_wctype.h \
+  C:/msys64/ucrt64/include/corecrt_wstdlib.h \
+  C:/msys64/ucrt64/include/crtdefs.h \
+  C:/msys64/ucrt64/include/ctype.h \
+  C:/msys64/ucrt64/include/errno.h \
+  C:/msys64/ucrt64/include/limits.h \
+  C:/msys64/ucrt64/include/locale.h \
+  C:/msys64/ucrt64/include/malloc.h \
+  C:/msys64/ucrt64/include/math.h \
+  C:/msys64/ucrt64/include/process.h \
+  C:/msys64/ucrt64/include/pthread.h \
+  C:/msys64/ucrt64/include/pthread_compat.h \
+  C:/msys64/ucrt64/include/pthread_signal.h \
+  C:/msys64/ucrt64/include/pthread_time.h \
+  C:/msys64/ucrt64/include/pthread_unistd.h \
+  C:/msys64/ucrt64/include/sched.h \
+  C:/msys64/ucrt64/include/sdks/_mingw_ddk.h \
+  C:/msys64/ucrt64/include/sec_api/stdio_s.h \
+  C:/msys64/ucrt64/include/sec_api/stdlib_s.h \
+  C:/msys64/ucrt64/include/sec_api/string_s.h \
+  C:/msys64/ucrt64/include/sec_api/sys/timeb_s.h \
+  C:/msys64/ucrt64/include/sec_api/wchar_s.h \
+  C:/msys64/ucrt64/include/signal.h \
+  C:/msys64/ucrt64/include/stdarg.h \
+  C:/msys64/ucrt64/include/stddef.h \
+  C:/msys64/ucrt64/include/stdint.h \
+  C:/msys64/ucrt64/include/stdio.h \
+  C:/msys64/ucrt64/include/stdlib.h \
+  C:/msys64/ucrt64/include/string.h \
+  C:/msys64/ucrt64/include/swprintf.inl \
+  C:/msys64/ucrt64/include/sys/timeb.h \
+  C:/msys64/ucrt64/include/sys/types.h \
+  C:/msys64/ucrt64/include/time.h \
+  C:/msys64/ucrt64/include/vadefs.h \
+  C:/msys64/ucrt64/include/wchar.h \
+  C:/msys64/ucrt64/include/wctype.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/limits.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mm_malloc.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdarg.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdbool.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QBuffer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QCoreApplication \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QDateTime \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QDir \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QFileInfo \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QFlags \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QIODevice \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QMetaType \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QMimeData \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QMimeDatabase \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QRegularExpression \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSharedDataPointer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QThread \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QUrl \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20memory.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20type_traits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20utility.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q23utility.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q26numeric.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractitemmodel.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qalgorithms.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qanystringview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydata.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydataops.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydatapointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qassert.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbuffer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearraylist.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcborcommon.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcborvalue.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qchar.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcomparehelpers.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompilerdetection.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qconfig.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qconstructormacros.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerfwd.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainertools_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontiguouscache.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcryptographichash.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdarwinhelpers.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdir.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdirlisting.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qeventloop.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qexceptionhandling.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfile.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfiledevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfloat16.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qforeach.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionaltools_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionpointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qgenericatomic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qglobalstatic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qhash.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qhashfunctions.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevicebase.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qline.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qlocale.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qlogging.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmalloc.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmargins.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmath.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmetacontainer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmetatype.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmimedata.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmimedatabase.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmimetype.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qminmax.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qnamespace.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qnumeric.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qobjectdefs_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qoverload.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qpair.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qpoint.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qprocessordetection.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qrefcount.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qregularexpression.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qscopedpointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qscopeguard.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qset.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsharedpointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsharedpointer_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsize.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qspan.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstring.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringalgorithms.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringbuilder.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringconverter.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringconverter_base.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringfwd.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringliteral.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringmatcher.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringtokenizer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qswap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsysinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsystemdetection.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtaggedpointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtclasshelpermacros.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtconfiginclude.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtconfigmacros.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtcore-config.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtcoreexports.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationdefinitions.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qthread.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
@@ -1499,16 +1669,33 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtypes.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qutf8stringview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/quuid.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qvector.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QClipboard \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QColor \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QDesktopServices \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QFont \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QFontMetrics \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QGuiApplication \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QImage \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QKeyEvent \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QPainter \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qclipboard.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qdesktopservices.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
@@ -1516,17 +1703,23 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpainter.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpalette.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpen.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpicture.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtextcursor.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtextformat.h \
@@ -1536,15 +1729,49 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QHttpMultiPart \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkAccessManager \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkReply \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkRequest \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslConfiguration \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhttpheaders.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhttpmultipart.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkaccessmanager.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkreply.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkrequest.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qssl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslcertificate.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslconfiguration.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslerror.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslsocket.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QComboBox \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFileDialog \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QInputDialog \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLineEdit \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QListWidget \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMenuBar \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextBrowser \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
@@ -1556,15 +1783,23 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qapplication.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcombobox.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qfiledialog.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qinputdialog.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlabel.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlineedit.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistview.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistwidget.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmenu.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmenubar.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
@@ -1574,6 +1809,7 @@ CMakeFiles/shopping_client.dir/src/chat/chatwindow.cpp.obj: C:/Users/Edward/Desk
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyleoption.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabbar.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtextbrowser.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtextedit.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
@@ -1811,9 +2047,20 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: C:/Users/Edward/De
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
@@ -1834,911 +2081,6 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: C:/Users/Edward/De
   D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearraylist.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcborcommon.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcborvalue.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qchar.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcomparehelpers.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompilerdetection.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qconfig.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qconstructormacros.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerfwd.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerinfo.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainertools_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontiguouscache.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qdarwinhelpers.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qeventloop.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qexceptionhandling.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qfloat16.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qforeach.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionaltools_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionpointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qgenericatomic.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qglobal.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qglobalstatic.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qhash.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qhashfunctions.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevicebase.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qline.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qlocale.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qlogging.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmalloc.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmap.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmargins.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmath.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmetacontainer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmetatype.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qminmax.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qnamespace.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qnumeric.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qobjectdefs_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qoverload.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qpair.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qpoint.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qprocessordetection.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qrefcount.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qregularexpression.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qscopedpointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qscopeguard.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qset.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsharedpointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsharedpointer_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsize.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qspan.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstring.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringalgorithms.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringbuilder.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringconverter.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringconverter_base.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringfwd.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringliteral.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringmatcher.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringtokenizer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qswap.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsysinfo.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsystemdetection.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtaggedpointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtclasshelpermacros.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtconfiginclude.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtconfigmacros.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtcore-config.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtcoreexports.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationdefinitions.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtresource.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qttranslation.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qttypetraits.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtversion.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtversionchecks.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtypeinfo.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtypes.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qutf8stringview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/quuid.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qvector.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpalette.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpen.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpicture.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextcursor.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextformat.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextoption.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtgui-config.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiexports.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLineEdit \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QListWidget \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpacerItem \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractslider.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qapplication.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlabel.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlineedit.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistwidget.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyleoption.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabbar.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtextedit.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h
-
-CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/client/src/main.cpp \
-  C:/Users/Edward/Desktop/test/client/include/login/loginwindow.h \
-  C:/msys64/ucrt64/include/_mingw.h \
-  C:/msys64/ucrt64/include/_mingw_mac.h \
-  C:/msys64/ucrt64/include/_mingw_off_t.h \
-  C:/msys64/ucrt64/include/_mingw_secapi.h \
-  C:/msys64/ucrt64/include/_mingw_stat64.h \
-  C:/msys64/ucrt64/include/_mingw_stdarg.h \
-  C:/msys64/ucrt64/include/_timeval.h \
-  C:/msys64/ucrt64/include/assert.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/algorithm \
-  C:/msys64/ucrt64/include/c++/15.2.0/array \
-  C:/msys64/ucrt64/include/c++/15.2.0/atomic \
-  C:/msys64/ucrt64/include/c++/15.2.0/backward/auto_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/backward/binders.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bit \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/algorithmfwd.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/align.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/alloc_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/allocated_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/allocator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_base.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_lockfree_defines.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_ios.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_ios.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_string.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_string.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/char_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/charconv.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/chrono.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/codecvt.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/concept_check.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/cpp_type_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/cxxabi_forced.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/cxxabi_init_exception.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/enable_special_members.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/erase_if.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_defines.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_dir.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_fwd.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_ops.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_path.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/functexcept.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/functional_hash.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/hash_bytes.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/hashtable.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/hashtable_policy.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/invoke.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/ios_base.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/istream.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/list.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_classes.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_classes.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_conv.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets_nonio.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets_nonio.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/localefwd.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/memory_resource.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/memoryfwd.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/monostate.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/move.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/nested_exception.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/new_allocator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/node_handle.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream_insert.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/parse_numbers.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/postypes.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/predefined_ops.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/ptr_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/quoted_string.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/range_access.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/refwrap.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr_atomic.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr_base.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/specfun.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/sstream.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_abs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_function.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_algo.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_algobase.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_bvector.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_construct.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_function.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_heap.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_funcs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_types.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_list.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_map.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_multimap.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_numeric.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_pair.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_raw_storage_iter.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_relops.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tempbuf.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tree.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_uninitialized.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_vector.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stream_iterator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/streambuf.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/streambuf_iterator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/string_view.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stringfwd.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/uniform_int_dist.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/unordered_map.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/uses_allocator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/uses_allocator_args.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/utility.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/vector.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/version.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/cassert \
-  C:/msys64/ucrt64/include/c++/15.2.0/cctype \
-  C:/msys64/ucrt64/include/c++/15.2.0/cerrno \
-  C:/msys64/ucrt64/include/c++/15.2.0/chrono \
-  C:/msys64/ucrt64/include/c++/15.2.0/climits \
-  C:/msys64/ucrt64/include/c++/15.2.0/clocale \
-  C:/msys64/ucrt64/include/c++/15.2.0/cmath \
-  C:/msys64/ucrt64/include/c++/15.2.0/codecvt \
-  C:/msys64/ucrt64/include/c++/15.2.0/compare \
-  C:/msys64/ucrt64/include/c++/15.2.0/concepts \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstddef \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstdint \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstdio \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstdlib \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstring \
-  C:/msys64/ucrt64/include/c++/15.2.0/ctime \
-  C:/msys64/ucrt64/include/c++/15.2.0/cwchar \
-  C:/msys64/ucrt64/include/c++/15.2.0/cwctype \
-  C:/msys64/ucrt64/include/c++/15.2.0/debug/assertions.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/debug/debug.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/exception \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/aligned_buffer.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/alloc_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/atomicity.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/concurrence.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/numeric_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/string_conversions.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/type_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/filesystem \
-  C:/msys64/ucrt64/include/c++/15.2.0/functional \
-  C:/msys64/ucrt64/include/c++/15.2.0/initializer_list \
-  C:/msys64/ucrt64/include/c++/15.2.0/iomanip \
-  C:/msys64/ucrt64/include/c++/15.2.0/ios \
-  C:/msys64/ucrt64/include/c++/15.2.0/iosfwd \
-  C:/msys64/ucrt64/include/c++/15.2.0/istream \
-  C:/msys64/ucrt64/include/c++/15.2.0/iterator \
-  C:/msys64/ucrt64/include/c++/15.2.0/limits \
-  C:/msys64/ucrt64/include/c++/15.2.0/list \
-  C:/msys64/ucrt64/include/c++/15.2.0/locale \
-  C:/msys64/ucrt64/include/c++/15.2.0/map \
-  C:/msys64/ucrt64/include/c++/15.2.0/memory \
-  C:/msys64/ucrt64/include/c++/15.2.0/new \
-  C:/msys64/ucrt64/include/c++/15.2.0/numeric \
-  C:/msys64/ucrt64/include/c++/15.2.0/optional \
-  C:/msys64/ucrt64/include/c++/15.2.0/ostream \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/execution_defs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_algorithm_defs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_memory_defs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_numeric_defs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/pstl_config.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ratio \
-  C:/msys64/ucrt64/include/c++/15.2.0/sstream \
-  C:/msys64/ucrt64/include/c++/15.2.0/stdexcept \
-  C:/msys64/ucrt64/include/c++/15.2.0/stdlib.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/streambuf \
-  C:/msys64/ucrt64/include/c++/15.2.0/string \
-  C:/msys64/ucrt64/include/c++/15.2.0/string_view \
-  C:/msys64/ucrt64/include/c++/15.2.0/system_error \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/bessel_function.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/beta_function.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/ell_integral.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/exp_integral.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/gamma.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/hypergeometric.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/legendre_function.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/modified_bessel_func.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_hermite.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_laguerre.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/riemann_zeta.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/special_function_util.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/tuple \
-  C:/msys64/ucrt64/include/c++/15.2.0/type_traits \
-  C:/msys64/ucrt64/include/c++/15.2.0/typeinfo \
-  C:/msys64/ucrt64/include/c++/15.2.0/unordered_map \
-  C:/msys64/ucrt64/include/c++/15.2.0/utility \
-  C:/msys64/ucrt64/include/c++/15.2.0/variant \
-  C:/msys64/ucrt64/include/c++/15.2.0/vector \
-  C:/msys64/ucrt64/include/c++/15.2.0/version \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/atomic_word.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++allocator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++config.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++locale.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/ctype_base.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/ctype_inline.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/error_constants.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr-default.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/messages_members.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/os_defines.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/time_members.h \
-  C:/msys64/ucrt64/include/corecrt.h \
-  C:/msys64/ucrt64/include/corecrt_startup.h \
-  C:/msys64/ucrt64/include/corecrt_stdio_config.h \
-  C:/msys64/ucrt64/include/corecrt_wctype.h \
-  C:/msys64/ucrt64/include/corecrt_wstdlib.h \
-  C:/msys64/ucrt64/include/crtdefs.h \
-  C:/msys64/ucrt64/include/ctype.h \
-  C:/msys64/ucrt64/include/errno.h \
-  C:/msys64/ucrt64/include/limits.h \
-  C:/msys64/ucrt64/include/locale.h \
-  C:/msys64/ucrt64/include/malloc.h \
-  C:/msys64/ucrt64/include/math.h \
-  C:/msys64/ucrt64/include/process.h \
-  C:/msys64/ucrt64/include/pthread.h \
-  C:/msys64/ucrt64/include/pthread_compat.h \
-  C:/msys64/ucrt64/include/pthread_signal.h \
-  C:/msys64/ucrt64/include/pthread_time.h \
-  C:/msys64/ucrt64/include/pthread_unistd.h \
-  C:/msys64/ucrt64/include/sched.h \
-  C:/msys64/ucrt64/include/sdks/_mingw_ddk.h \
-  C:/msys64/ucrt64/include/sec_api/stdio_s.h \
-  C:/msys64/ucrt64/include/sec_api/stdlib_s.h \
-  C:/msys64/ucrt64/include/sec_api/string_s.h \
-  C:/msys64/ucrt64/include/sec_api/sys/timeb_s.h \
-  C:/msys64/ucrt64/include/sec_api/wchar_s.h \
-  C:/msys64/ucrt64/include/signal.h \
-  C:/msys64/ucrt64/include/stdarg.h \
-  C:/msys64/ucrt64/include/stddef.h \
-  C:/msys64/ucrt64/include/stdint.h \
-  C:/msys64/ucrt64/include/stdio.h \
-  C:/msys64/ucrt64/include/stdlib.h \
-  C:/msys64/ucrt64/include/string.h \
-  C:/msys64/ucrt64/include/swprintf.inl \
-  C:/msys64/ucrt64/include/sys/timeb.h \
-  C:/msys64/ucrt64/include/sys/types.h \
-  C:/msys64/ucrt64/include/time.h \
-  C:/msys64/ucrt64/include/vadefs.h \
-  C:/msys64/ucrt64/include/wchar.h \
-  C:/msys64/ucrt64/include/wctype.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/limits.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mm_malloc.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdarg.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdbool.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/QCoreApplication \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/QFile \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20memory.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20type_traits.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20utility.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q23utility.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qalgorithms.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qanystringview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydata.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydataops.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydatapointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qassert.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearraylist.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qchar.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcomparehelpers.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompilerdetection.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qconfig.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qconstructormacros.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerfwd.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerinfo.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainertools_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontiguouscache.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qdarwinhelpers.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qeventloop.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qexceptionhandling.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qfile.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qfiledevice.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qfloat16.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qforeach.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionaltools_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionpointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qgenericatomic.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qglobal.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qglobalstatic.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qhash.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qhashfunctions.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevicebase.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qline.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qlocale.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qlogging.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmalloc.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmap.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmargins.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmath.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmetacontainer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qmetatype.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qminmax.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qnamespace.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qnumeric.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qobjectdefs_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qoverload.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qpair.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qpoint.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qprocessordetection.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qrefcount.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qscopedpointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qscopeguard.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qset.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsharedpointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsharedpointer_impl.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsize.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qspan.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstring.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringalgorithms.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringbuilder.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringconverter.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringconverter_base.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringfwd.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringliteral.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringmatcher.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringtokenizer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qswap.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsysinfo.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qsystemdetection.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtaggedpointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtclasshelpermacros.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtconfiginclude.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtconfigmacros.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtcore-config.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtcoreexports.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationdefinitions.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtresource.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qttranslation.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qttypetraits.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtversion.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtversionchecks.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtypeinfo.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qtypes.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qutf8stringview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpalette.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtgui-config.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiexports.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
-  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
-  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qapplication.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h
-
-CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edward/Desktop/test/client/src/mainwindow/mainwindow.cpp \
-  C:/Users/Edward/Desktop/test/client/include/chat/chatwindow.h \
-  C:/Users/Edward/Desktop/test/client/include/chatwindow.h \
-  C:/Users/Edward/Desktop/test/client/include/mainwindow/mainwindow.h \
-  C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h \
-  C:/Users/Edward/Desktop/test/client/include/ui_mainwindow.h \
-  C:/msys64/ucrt64/include/_mingw.h \
-  C:/msys64/ucrt64/include/_mingw_mac.h \
-  C:/msys64/ucrt64/include/_mingw_off_t.h \
-  C:/msys64/ucrt64/include/_mingw_secapi.h \
-  C:/msys64/ucrt64/include/_mingw_stat64.h \
-  C:/msys64/ucrt64/include/_mingw_stdarg.h \
-  C:/msys64/ucrt64/include/_timeval.h \
-  C:/msys64/ucrt64/include/assert.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/algorithm \
-  C:/msys64/ucrt64/include/c++/15.2.0/array \
-  C:/msys64/ucrt64/include/c++/15.2.0/atomic \
-  C:/msys64/ucrt64/include/c++/15.2.0/backward/auto_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/backward/binders.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bit \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/algorithmfwd.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/align.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/alloc_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/allocated_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/allocator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_base.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_lockfree_defines.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_string.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_string.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/char_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/charconv.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/chrono.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/concept_check.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/cpp_type_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/cxxabi_forced.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/cxxabi_init_exception.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/enable_special_members.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/erase_if.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_defines.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/functexcept.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/functional_hash.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/hash_bytes.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/hashtable.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/hashtable_policy.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/invoke.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/ios_base.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/list.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_classes.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_classes.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/localefwd.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/memory_resource.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/memoryfwd.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/monostate.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/move.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/nested_exception.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/new_allocator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/node_handle.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream_insert.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/parse_numbers.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/postypes.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/predefined_ops.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/ptr_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/range_access.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/refwrap.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr_atomic.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr_base.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/specfun.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_abs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_function.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_algo.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_algobase.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_bvector.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_construct.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_function.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_heap.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_funcs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_types.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_list.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_map.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_multimap.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_numeric.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_pair.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_raw_storage_iter.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_relops.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tempbuf.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tree.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_uninitialized.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_vector.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stream_iterator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/streambuf.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/streambuf_iterator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/string_view.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/stringfwd.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/uniform_int_dist.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_ptr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/unordered_map.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/uses_allocator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/uses_allocator_args.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/utility.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/vector.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/bits/version.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/cassert \
-  C:/msys64/ucrt64/include/c++/15.2.0/cctype \
-  C:/msys64/ucrt64/include/c++/15.2.0/cerrno \
-  C:/msys64/ucrt64/include/c++/15.2.0/chrono \
-  C:/msys64/ucrt64/include/c++/15.2.0/climits \
-  C:/msys64/ucrt64/include/c++/15.2.0/clocale \
-  C:/msys64/ucrt64/include/c++/15.2.0/cmath \
-  C:/msys64/ucrt64/include/c++/15.2.0/compare \
-  C:/msys64/ucrt64/include/c++/15.2.0/concepts \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstddef \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstdint \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstdio \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstdlib \
-  C:/msys64/ucrt64/include/c++/15.2.0/cstring \
-  C:/msys64/ucrt64/include/c++/15.2.0/ctime \
-  C:/msys64/ucrt64/include/c++/15.2.0/cwchar \
-  C:/msys64/ucrt64/include/c++/15.2.0/debug/assertions.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/debug/debug.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/exception \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/aligned_buffer.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/alloc_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/atomicity.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/concurrence.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/numeric_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/string_conversions.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ext/type_traits.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/functional \
-  C:/msys64/ucrt64/include/c++/15.2.0/initializer_list \
-  C:/msys64/ucrt64/include/c++/15.2.0/iosfwd \
-  C:/msys64/ucrt64/include/c++/15.2.0/iterator \
-  C:/msys64/ucrt64/include/c++/15.2.0/limits \
-  C:/msys64/ucrt64/include/c++/15.2.0/list \
-  C:/msys64/ucrt64/include/c++/15.2.0/map \
-  C:/msys64/ucrt64/include/c++/15.2.0/memory \
-  C:/msys64/ucrt64/include/c++/15.2.0/new \
-  C:/msys64/ucrt64/include/c++/15.2.0/numeric \
-  C:/msys64/ucrt64/include/c++/15.2.0/optional \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/execution_defs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_algorithm_defs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_memory_defs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_numeric_defs.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/pstl/pstl_config.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/ratio \
-  C:/msys64/ucrt64/include/c++/15.2.0/stdexcept \
-  C:/msys64/ucrt64/include/c++/15.2.0/stdlib.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/streambuf \
-  C:/msys64/ucrt64/include/c++/15.2.0/string \
-  C:/msys64/ucrt64/include/c++/15.2.0/string_view \
-  C:/msys64/ucrt64/include/c++/15.2.0/system_error \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/bessel_function.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/beta_function.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/ell_integral.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/exp_integral.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/gamma.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/hypergeometric.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/legendre_function.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/modified_bessel_func.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_hermite.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_laguerre.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/riemann_zeta.tcc \
-  C:/msys64/ucrt64/include/c++/15.2.0/tr1/special_function_util.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/tuple \
-  C:/msys64/ucrt64/include/c++/15.2.0/type_traits \
-  C:/msys64/ucrt64/include/c++/15.2.0/typeinfo \
-  C:/msys64/ucrt64/include/c++/15.2.0/unordered_map \
-  C:/msys64/ucrt64/include/c++/15.2.0/utility \
-  C:/msys64/ucrt64/include/c++/15.2.0/variant \
-  C:/msys64/ucrt64/include/c++/15.2.0/vector \
-  C:/msys64/ucrt64/include/c++/15.2.0/version \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/atomic_word.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++allocator.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++config.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++locale.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/error_constants.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr-default.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr.h \
-  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/os_defines.h \
-  C:/msys64/ucrt64/include/corecrt.h \
-  C:/msys64/ucrt64/include/corecrt_startup.h \
-  C:/msys64/ucrt64/include/corecrt_stdio_config.h \
-  C:/msys64/ucrt64/include/corecrt_wctype.h \
-  C:/msys64/ucrt64/include/corecrt_wstdlib.h \
-  C:/msys64/ucrt64/include/crtdefs.h \
-  C:/msys64/ucrt64/include/ctype.h \
-  C:/msys64/ucrt64/include/errno.h \
-  C:/msys64/ucrt64/include/limits.h \
-  C:/msys64/ucrt64/include/locale.h \
-  C:/msys64/ucrt64/include/malloc.h \
-  C:/msys64/ucrt64/include/math.h \
-  C:/msys64/ucrt64/include/process.h \
-  C:/msys64/ucrt64/include/pthread.h \
-  C:/msys64/ucrt64/include/pthread_compat.h \
-  C:/msys64/ucrt64/include/pthread_signal.h \
-  C:/msys64/ucrt64/include/pthread_time.h \
-  C:/msys64/ucrt64/include/pthread_unistd.h \
-  C:/msys64/ucrt64/include/sched.h \
-  C:/msys64/ucrt64/include/sdks/_mingw_ddk.h \
-  C:/msys64/ucrt64/include/sec_api/stdio_s.h \
-  C:/msys64/ucrt64/include/sec_api/stdlib_s.h \
-  C:/msys64/ucrt64/include/sec_api/string_s.h \
-  C:/msys64/ucrt64/include/sec_api/sys/timeb_s.h \
-  C:/msys64/ucrt64/include/sec_api/wchar_s.h \
-  C:/msys64/ucrt64/include/signal.h \
-  C:/msys64/ucrt64/include/stdarg.h \
-  C:/msys64/ucrt64/include/stddef.h \
-  C:/msys64/ucrt64/include/stdint.h \
-  C:/msys64/ucrt64/include/stdio.h \
-  C:/msys64/ucrt64/include/stdlib.h \
-  C:/msys64/ucrt64/include/string.h \
-  C:/msys64/ucrt64/include/swprintf.inl \
-  C:/msys64/ucrt64/include/sys/timeb.h \
-  C:/msys64/ucrt64/include/sys/types.h \
-  C:/msys64/ucrt64/include/time.h \
-  C:/msys64/ucrt64/include/vadefs.h \
-  C:/msys64/ucrt64/include/wchar.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/limits.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mm_malloc.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdarg.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdbool.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \
-  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20memory.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20type_traits.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q20utility.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/q23utility.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractitemmodel.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qalgorithms.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qanystringview.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydata.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydataops.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydatapointer.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qassert.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h \
-  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
@@ -2848,6 +2190,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
@@ -2867,6 +2210,1052 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpalette.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpen.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpicture.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextcursor.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextformat.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtextoption.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtgui-config.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiexports.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLineEdit \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QListWidget \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpacerItem \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractslider.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qapplication.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlabel.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlineedit.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistwidget.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstatusbar.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyleoption.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabbar.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtextedit.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h
+
+CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/client/src/main.cpp \
+  C:/Users/Edward/Desktop/test/client/include/login/loginwindow.h \
+  C:/msys64/ucrt64/include/_mingw.h \
+  C:/msys64/ucrt64/include/_mingw_mac.h \
+  C:/msys64/ucrt64/include/_mingw_off_t.h \
+  C:/msys64/ucrt64/include/_mingw_secapi.h \
+  C:/msys64/ucrt64/include/_mingw_stat64.h \
+  C:/msys64/ucrt64/include/_mingw_stdarg.h \
+  C:/msys64/ucrt64/include/_timeval.h \
+  C:/msys64/ucrt64/include/assert.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/algorithm \
+  C:/msys64/ucrt64/include/c++/15.2.0/array \
+  C:/msys64/ucrt64/include/c++/15.2.0/atomic \
+  C:/msys64/ucrt64/include/c++/15.2.0/backward/auto_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/backward/binders.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bit \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/algorithmfwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/align.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/alloc_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/allocated_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/allocator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_base.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_futex.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_lockfree_defines.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_ios.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_ios.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_string.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_string.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/char_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/charconv.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/chrono.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/codecvt.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/concept_check.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/cpp_type_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/cxxabi_forced.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/cxxabi_init_exception.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/enable_special_members.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/erase_if.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_defines.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_dir.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_fwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_ops.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_path.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/functexcept.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/functional_hash.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/hash_bytes.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/hashtable.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/hashtable_policy.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/invoke.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ios_base.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/istream.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/list.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_classes.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_classes.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_conv.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets_nonio.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets_nonio.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/localefwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/memory_resource.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/memoryfwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/monostate.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/move.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/nested_exception.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/new_allocator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/node_handle.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream_insert.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/parse_numbers.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/postypes.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/predefined_ops.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ptr_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/quoted_string.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/range_access.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/refwrap.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr_atomic.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr_base.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/specfun.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/sstream.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_abs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_function.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_mutex.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_thread.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_algo.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_algobase.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_bvector.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_construct.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_function.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_heap.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_funcs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_types.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_list.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_map.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_multimap.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_numeric.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_pair.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_raw_storage_iter.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_relops.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tempbuf.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tree.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_uninitialized.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_vector.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stream_iterator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/streambuf.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/streambuf_iterator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/string_view.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stringfwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/uniform_int_dist.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_lock.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/unordered_map.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/uses_allocator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/uses_allocator_args.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/utility.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/vector.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/version.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/cassert \
+  C:/msys64/ucrt64/include/c++/15.2.0/cctype \
+  C:/msys64/ucrt64/include/c++/15.2.0/cerrno \
+  C:/msys64/ucrt64/include/c++/15.2.0/chrono \
+  C:/msys64/ucrt64/include/c++/15.2.0/climits \
+  C:/msys64/ucrt64/include/c++/15.2.0/clocale \
+  C:/msys64/ucrt64/include/c++/15.2.0/cmath \
+  C:/msys64/ucrt64/include/c++/15.2.0/codecvt \
+  C:/msys64/ucrt64/include/c++/15.2.0/compare \
+  C:/msys64/ucrt64/include/c++/15.2.0/concepts \
+  C:/msys64/ucrt64/include/c++/15.2.0/condition_variable \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstddef \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstdint \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstdio \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstdlib \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstring \
+  C:/msys64/ucrt64/include/c++/15.2.0/ctime \
+  C:/msys64/ucrt64/include/c++/15.2.0/cwchar \
+  C:/msys64/ucrt64/include/c++/15.2.0/cwctype \
+  C:/msys64/ucrt64/include/c++/15.2.0/debug/assertions.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/debug/debug.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/exception \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/aligned_buffer.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/alloc_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/atomicity.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/concurrence.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/numeric_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/string_conversions.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/type_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/filesystem \
+  C:/msys64/ucrt64/include/c++/15.2.0/functional \
+  C:/msys64/ucrt64/include/c++/15.2.0/future \
+  C:/msys64/ucrt64/include/c++/15.2.0/initializer_list \
+  C:/msys64/ucrt64/include/c++/15.2.0/iomanip \
+  C:/msys64/ucrt64/include/c++/15.2.0/ios \
+  C:/msys64/ucrt64/include/c++/15.2.0/iosfwd \
+  C:/msys64/ucrt64/include/c++/15.2.0/istream \
+  C:/msys64/ucrt64/include/c++/15.2.0/iterator \
+  C:/msys64/ucrt64/include/c++/15.2.0/limits \
+  C:/msys64/ucrt64/include/c++/15.2.0/list \
+  C:/msys64/ucrt64/include/c++/15.2.0/locale \
+  C:/msys64/ucrt64/include/c++/15.2.0/map \
+  C:/msys64/ucrt64/include/c++/15.2.0/memory \
+  C:/msys64/ucrt64/include/c++/15.2.0/mutex \
+  C:/msys64/ucrt64/include/c++/15.2.0/new \
+  C:/msys64/ucrt64/include/c++/15.2.0/numeric \
+  C:/msys64/ucrt64/include/c++/15.2.0/optional \
+  C:/msys64/ucrt64/include/c++/15.2.0/ostream \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/execution_defs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_algorithm_defs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_memory_defs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_numeric_defs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/pstl_config.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ratio \
+  C:/msys64/ucrt64/include/c++/15.2.0/sstream \
+  C:/msys64/ucrt64/include/c++/15.2.0/stdexcept \
+  C:/msys64/ucrt64/include/c++/15.2.0/stdlib.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/streambuf \
+  C:/msys64/ucrt64/include/c++/15.2.0/string \
+  C:/msys64/ucrt64/include/c++/15.2.0/string_view \
+  C:/msys64/ucrt64/include/c++/15.2.0/system_error \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/bessel_function.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/beta_function.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/ell_integral.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/exp_integral.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/gamma.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/hypergeometric.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/legendre_function.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/modified_bessel_func.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_hermite.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_laguerre.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/riemann_zeta.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/special_function_util.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/tuple \
+  C:/msys64/ucrt64/include/c++/15.2.0/type_traits \
+  C:/msys64/ucrt64/include/c++/15.2.0/typeinfo \
+  C:/msys64/ucrt64/include/c++/15.2.0/unordered_map \
+  C:/msys64/ucrt64/include/c++/15.2.0/utility \
+  C:/msys64/ucrt64/include/c++/15.2.0/variant \
+  C:/msys64/ucrt64/include/c++/15.2.0/vector \
+  C:/msys64/ucrt64/include/c++/15.2.0/version \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/atomic_word.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++allocator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++config.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++locale.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/ctype_base.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/ctype_inline.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/error_constants.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr-default.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/messages_members.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/os_defines.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/time_members.h \
+  C:/msys64/ucrt64/include/corecrt.h \
+  C:/msys64/ucrt64/include/corecrt_startup.h \
+  C:/msys64/ucrt64/include/corecrt_stdio_config.h \
+  C:/msys64/ucrt64/include/corecrt_wctype.h \
+  C:/msys64/ucrt64/include/corecrt_wstdlib.h \
+  C:/msys64/ucrt64/include/crtdefs.h \
+  C:/msys64/ucrt64/include/ctype.h \
+  C:/msys64/ucrt64/include/errno.h \
+  C:/msys64/ucrt64/include/limits.h \
+  C:/msys64/ucrt64/include/locale.h \
+  C:/msys64/ucrt64/include/malloc.h \
+  C:/msys64/ucrt64/include/math.h \
+  C:/msys64/ucrt64/include/process.h \
+  C:/msys64/ucrt64/include/pthread.h \
+  C:/msys64/ucrt64/include/pthread_compat.h \
+  C:/msys64/ucrt64/include/pthread_signal.h \
+  C:/msys64/ucrt64/include/pthread_time.h \
+  C:/msys64/ucrt64/include/pthread_unistd.h \
+  C:/msys64/ucrt64/include/sched.h \
+  C:/msys64/ucrt64/include/sdks/_mingw_ddk.h \
+  C:/msys64/ucrt64/include/sec_api/stdio_s.h \
+  C:/msys64/ucrt64/include/sec_api/stdlib_s.h \
+  C:/msys64/ucrt64/include/sec_api/string_s.h \
+  C:/msys64/ucrt64/include/sec_api/sys/timeb_s.h \
+  C:/msys64/ucrt64/include/sec_api/wchar_s.h \
+  C:/msys64/ucrt64/include/signal.h \
+  C:/msys64/ucrt64/include/stdarg.h \
+  C:/msys64/ucrt64/include/stddef.h \
+  C:/msys64/ucrt64/include/stdint.h \
+  C:/msys64/ucrt64/include/stdio.h \
+  C:/msys64/ucrt64/include/stdlib.h \
+  C:/msys64/ucrt64/include/string.h \
+  C:/msys64/ucrt64/include/swprintf.inl \
+  C:/msys64/ucrt64/include/sys/timeb.h \
+  C:/msys64/ucrt64/include/sys/types.h \
+  C:/msys64/ucrt64/include/time.h \
+  C:/msys64/ucrt64/include/vadefs.h \
+  C:/msys64/ucrt64/include/wchar.h \
+  C:/msys64/ucrt64/include/wctype.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/limits.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mm_malloc.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdarg.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdbool.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QCoreApplication \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QDateTime \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QDir \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QFile \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QMutex \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QMutexLocker \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QStandardPaths \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QTextStream \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QThread \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20memory.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20type_traits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20utility.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q23utility.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qalgorithms.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qanystringview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydata.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydataops.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydatapointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qassert.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearraylist.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qchar.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcomparehelpers.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompilerdetection.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qconfig.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qconstructormacros.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerfwd.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainertools_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontiguouscache.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdarwinhelpers.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdir.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdirlisting.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qeventloop.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qexceptionhandling.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfile.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfiledevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfloat16.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qforeach.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionaltools_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionpointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qgenericatomic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qglobalstatic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qhash.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qhashfunctions.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevicebase.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qline.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qlocale.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qlogging.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmalloc.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmargins.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmath.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmetacontainer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmetatype.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qminmax.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmutex.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qnamespace.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qnumeric.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qobjectdefs_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qoverload.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qpair.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qpoint.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qprocessordetection.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qrefcount.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qscopedpointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qscopeguard.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qset.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsharedpointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsharedpointer_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsize.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qspan.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstandardpaths.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstring.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringalgorithms.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringbuilder.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringconverter.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringconverter_base.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringfwd.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringliteral.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringmatcher.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringtokenizer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qswap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsysinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsystemdetection.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtaggedpointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtclasshelpermacros.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtconfiginclude.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtconfigmacros.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtcore-config.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtcoreexports.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationdefinitions.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qthread.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtresource.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtsan_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qttranslation.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qttypetraits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtversion.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtversionchecks.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtypeinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtypes.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qutf8stringview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QIcon \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpalette.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtgui-config.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiexports.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qapplication.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h
+
+CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edward/Desktop/test/client/src/mainwindow/mainwindow.cpp \
+  C:/Users/Edward/Desktop/test/client/include/chat/chatwindow.h \
+  C:/Users/Edward/Desktop/test/client/include/chatwindow.h \
+  C:/Users/Edward/Desktop/test/client/include/mainwindow/mainwindow.h \
+  C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h \
+  C:/Users/Edward/Desktop/test/client/include/ui_mainwindow.h \
+  C:/msys64/ucrt64/include/_mingw.h \
+  C:/msys64/ucrt64/include/_mingw_mac.h \
+  C:/msys64/ucrt64/include/_mingw_off_t.h \
+  C:/msys64/ucrt64/include/_mingw_secapi.h \
+  C:/msys64/ucrt64/include/_mingw_stat64.h \
+  C:/msys64/ucrt64/include/_mingw_stdarg.h \
+  C:/msys64/ucrt64/include/_timeval.h \
+  C:/msys64/ucrt64/include/assert.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/algorithm \
+  C:/msys64/ucrt64/include/c++/15.2.0/array \
+  C:/msys64/ucrt64/include/c++/15.2.0/atomic \
+  C:/msys64/ucrt64/include/c++/15.2.0/backward/auto_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/backward/binders.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bit \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/algorithmfwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/align.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/alloc_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/allocated_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/allocator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_base.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_futex.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_lockfree_defines.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_ios.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_ios.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_string.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_string.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/char_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/charconv.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/chrono.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/codecvt.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/concept_check.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/cpp_type_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/cxxabi_forced.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/cxxabi_init_exception.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/enable_special_members.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/erase_if.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_defines.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_dir.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_fwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_ops.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_path.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/functexcept.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/functional_hash.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/hash_bytes.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/hashtable.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/hashtable_policy.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/invoke.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ios_base.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/istream.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/list.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_classes.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_classes.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_conv.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets_nonio.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets_nonio.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/localefwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/memory_resource.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/memoryfwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/monostate.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/move.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/nested_exception.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/new_allocator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/node_handle.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream_insert.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/parse_numbers.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/postypes.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/predefined_ops.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/ptr_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/quoted_string.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/range_access.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/refwrap.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr_atomic.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr_base.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/specfun.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/sstream.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_abs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_function.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_mutex.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/std_thread.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_algo.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_algobase.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_bvector.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_construct.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_function.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_heap.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_funcs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_types.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_list.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_map.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_multimap.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_numeric.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_pair.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_raw_storage_iter.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_relops.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tempbuf.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tree.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_uninitialized.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_vector.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stream_iterator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/streambuf.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/streambuf_iterator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/string_view.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/stringfwd.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/uniform_int_dist.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_lock.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_ptr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/unordered_map.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/uses_allocator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/uses_allocator_args.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/utility.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/vector.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/bits/version.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/cassert \
+  C:/msys64/ucrt64/include/c++/15.2.0/cctype \
+  C:/msys64/ucrt64/include/c++/15.2.0/cerrno \
+  C:/msys64/ucrt64/include/c++/15.2.0/chrono \
+  C:/msys64/ucrt64/include/c++/15.2.0/climits \
+  C:/msys64/ucrt64/include/c++/15.2.0/clocale \
+  C:/msys64/ucrt64/include/c++/15.2.0/cmath \
+  C:/msys64/ucrt64/include/c++/15.2.0/codecvt \
+  C:/msys64/ucrt64/include/c++/15.2.0/compare \
+  C:/msys64/ucrt64/include/c++/15.2.0/concepts \
+  C:/msys64/ucrt64/include/c++/15.2.0/condition_variable \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstddef \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstdint \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstdio \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstdlib \
+  C:/msys64/ucrt64/include/c++/15.2.0/cstring \
+  C:/msys64/ucrt64/include/c++/15.2.0/ctime \
+  C:/msys64/ucrt64/include/c++/15.2.0/cwchar \
+  C:/msys64/ucrt64/include/c++/15.2.0/cwctype \
+  C:/msys64/ucrt64/include/c++/15.2.0/debug/assertions.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/debug/debug.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/exception \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/aligned_buffer.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/alloc_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/atomicity.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/concurrence.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/numeric_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/string_conversions.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ext/type_traits.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/filesystem \
+  C:/msys64/ucrt64/include/c++/15.2.0/functional \
+  C:/msys64/ucrt64/include/c++/15.2.0/future \
+  C:/msys64/ucrt64/include/c++/15.2.0/initializer_list \
+  C:/msys64/ucrt64/include/c++/15.2.0/iomanip \
+  C:/msys64/ucrt64/include/c++/15.2.0/ios \
+  C:/msys64/ucrt64/include/c++/15.2.0/iosfwd \
+  C:/msys64/ucrt64/include/c++/15.2.0/istream \
+  C:/msys64/ucrt64/include/c++/15.2.0/iterator \
+  C:/msys64/ucrt64/include/c++/15.2.0/limits \
+  C:/msys64/ucrt64/include/c++/15.2.0/list \
+  C:/msys64/ucrt64/include/c++/15.2.0/locale \
+  C:/msys64/ucrt64/include/c++/15.2.0/map \
+  C:/msys64/ucrt64/include/c++/15.2.0/memory \
+  C:/msys64/ucrt64/include/c++/15.2.0/mutex \
+  C:/msys64/ucrt64/include/c++/15.2.0/new \
+  C:/msys64/ucrt64/include/c++/15.2.0/numeric \
+  C:/msys64/ucrt64/include/c++/15.2.0/optional \
+  C:/msys64/ucrt64/include/c++/15.2.0/ostream \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/execution_defs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_algorithm_defs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_memory_defs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_numeric_defs.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/pstl/pstl_config.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/ratio \
+  C:/msys64/ucrt64/include/c++/15.2.0/sstream \
+  C:/msys64/ucrt64/include/c++/15.2.0/stdexcept \
+  C:/msys64/ucrt64/include/c++/15.2.0/stdlib.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/streambuf \
+  C:/msys64/ucrt64/include/c++/15.2.0/string \
+  C:/msys64/ucrt64/include/c++/15.2.0/string_view \
+  C:/msys64/ucrt64/include/c++/15.2.0/system_error \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/bessel_function.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/beta_function.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/ell_integral.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/exp_integral.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/gamma.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/hypergeometric.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/legendre_function.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/modified_bessel_func.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_hermite.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/poly_laguerre.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/riemann_zeta.tcc \
+  C:/msys64/ucrt64/include/c++/15.2.0/tr1/special_function_util.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/tuple \
+  C:/msys64/ucrt64/include/c++/15.2.0/type_traits \
+  C:/msys64/ucrt64/include/c++/15.2.0/typeinfo \
+  C:/msys64/ucrt64/include/c++/15.2.0/unordered_map \
+  C:/msys64/ucrt64/include/c++/15.2.0/utility \
+  C:/msys64/ucrt64/include/c++/15.2.0/variant \
+  C:/msys64/ucrt64/include/c++/15.2.0/vector \
+  C:/msys64/ucrt64/include/c++/15.2.0/version \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/atomic_word.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++allocator.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++config.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/c++locale.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/cpu_defines.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/ctype_base.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/ctype_inline.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/error_constants.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr-default.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/messages_members.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/os_defines.h \
+  C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/time_members.h \
+  C:/msys64/ucrt64/include/corecrt.h \
+  C:/msys64/ucrt64/include/corecrt_startup.h \
+  C:/msys64/ucrt64/include/corecrt_stdio_config.h \
+  C:/msys64/ucrt64/include/corecrt_wctype.h \
+  C:/msys64/ucrt64/include/corecrt_wstdlib.h \
+  C:/msys64/ucrt64/include/crtdefs.h \
+  C:/msys64/ucrt64/include/ctype.h \
+  C:/msys64/ucrt64/include/errno.h \
+  C:/msys64/ucrt64/include/limits.h \
+  C:/msys64/ucrt64/include/locale.h \
+  C:/msys64/ucrt64/include/malloc.h \
+  C:/msys64/ucrt64/include/math.h \
+  C:/msys64/ucrt64/include/process.h \
+  C:/msys64/ucrt64/include/pthread.h \
+  C:/msys64/ucrt64/include/pthread_compat.h \
+  C:/msys64/ucrt64/include/pthread_signal.h \
+  C:/msys64/ucrt64/include/pthread_time.h \
+  C:/msys64/ucrt64/include/pthread_unistd.h \
+  C:/msys64/ucrt64/include/sched.h \
+  C:/msys64/ucrt64/include/sdks/_mingw_ddk.h \
+  C:/msys64/ucrt64/include/sec_api/stdio_s.h \
+  C:/msys64/ucrt64/include/sec_api/stdlib_s.h \
+  C:/msys64/ucrt64/include/sec_api/string_s.h \
+  C:/msys64/ucrt64/include/sec_api/sys/timeb_s.h \
+  C:/msys64/ucrt64/include/sec_api/wchar_s.h \
+  C:/msys64/ucrt64/include/signal.h \
+  C:/msys64/ucrt64/include/stdarg.h \
+  C:/msys64/ucrt64/include/stddef.h \
+  C:/msys64/ucrt64/include/stdint.h \
+  C:/msys64/ucrt64/include/stdio.h \
+  C:/msys64/ucrt64/include/stdlib.h \
+  C:/msys64/ucrt64/include/string.h \
+  C:/msys64/ucrt64/include/swprintf.inl \
+  C:/msys64/ucrt64/include/sys/timeb.h \
+  C:/msys64/ucrt64/include/sys/types.h \
+  C:/msys64/ucrt64/include/time.h \
+  C:/msys64/ucrt64/include/vadefs.h \
+  C:/msys64/ucrt64/include/wchar.h \
+  C:/msys64/ucrt64/include/wctype.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/limits.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mm_malloc.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdarg.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdbool.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \
+  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QBuffer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QDebug \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QDir \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QFileInfo \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QFlags \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QIODevice \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QMetaType \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QPointer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QPropertyAnimation \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSettings \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSharedDataPointer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QThread \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QUrl \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20memory.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20type_traits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q20utility.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q23utility.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/q26numeric.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractanimation.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractitemmodel.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qalgorithms.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qanystringview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydata.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydataops.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydatapointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qassert.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbuffer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearraylist.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcborcommon.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcborvalue.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qchar.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcomparehelpers.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcompilerdetection.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qconfig.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qconstructormacros.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerfwd.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainertools_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcontiguouscache.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qcryptographichash.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdarwinhelpers.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdir.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qdirlisting.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qeasingcurve.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qeventloop.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qexceptionhandling.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfile.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfiledevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfloat16.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qforeach.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionaltools_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionpointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qgenericatomic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qglobalstatic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qhash.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qhashfunctions.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevicebase.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qiterator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsondocument.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qline.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qlocale.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qlogging.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmalloc.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmargins.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmath.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmetacontainer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmetatype.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qminmax.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qnamespace.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qnumeric.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qobjectdefs.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qobjectdefs_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qoverload.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qpair.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qpoint.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qpointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qprocessordetection.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qpropertyanimation.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qrefcount.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qregularexpression.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qscopedpointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qscopeguard.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qset.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsettings.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsharedpointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsharedpointer_impl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsize.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qspan.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstring.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringalgorithms.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringbuilder.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringconverter.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringconverter_base.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringfwd.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringliteral.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringmatcher.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringtokenizer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qswap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsysinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qsystemdetection.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtaggedpointer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtclasshelpermacros.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtconfiginclude.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtconfigmacros.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtcore-config.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtcoreexports.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationdefinitions.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qthread.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtresource.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qttranslation.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qttypetraits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtversion.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtversionchecks.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtypeinfo.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtypes.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qutf8stringview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/quuid.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariantanimation.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qvector.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QFontMetrics \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
@@ -2902,27 +3291,57 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkAccessManager \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkReply \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkRequest \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslConfiguration \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhttpheaders.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkaccessmanager.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkreply.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkrequest.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qssl.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslcertificate.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslconfiguration.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslerror.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslsocket.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QAbstractButton \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QComboBox \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFormLayout \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFrame \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QInputDialog \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLineEdit \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QListWidget \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMenuBar \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QProgressBar \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollBar \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSizePolicy \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpinBox \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStackedWidget \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTabBar \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QToolButton \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h \
@@ -2933,11 +3352,15 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qapplication.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcombobox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qformlayout.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgraphicseffect.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qheaderview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qinputdialog.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlabel.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h \
@@ -2948,17 +3371,23 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmenu.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmenubar.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qprogressbar.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollbar.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qspinbox.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstackedwidget.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstatusbar.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyleoption.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabbar.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtableview.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtablewidget.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtextedit.h \
-  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtoolbutton.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -3613,9 +4042,20 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: C:/Users/Edwar
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QDebug \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QPointer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
@@ -3634,6 +4074,7 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic_cxx11.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearrayalgorithms.h \
@@ -3706,6 +4147,7 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtCore/qoverload.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qpair.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qpoint.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qpointer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qprocessordetection.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qrefcount.h \
@@ -3743,6 +4185,7 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
@@ -3762,11 +4205,15 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QMouseEvent \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfont.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qfontmetrics.h \
@@ -3774,6 +4221,7 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qimage.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h \
@@ -3781,16 +4229,21 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpicture.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qrgb.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtextdocument.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtgui-config.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiexports.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtguiglobal.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qvalidator.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/QTcpSocket \
@@ -3800,14 +4253,18 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetwork-config.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkexports.h \
   D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkglobal.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QAbstractItemView \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QCheckBox \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpacerItem \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpinBox \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidgetItem \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractbutton.h \
@@ -3818,6 +4275,7 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractspinbox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qapplication.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcheckbox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
@@ -3831,6 +4289,7 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qspinbox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyleoption.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabbar.h \
@@ -3845,19 +4304,19 @@ CMakeFiles/shopping_client.dir/src/shopping/shoppingcart.cpp.obj: C:/Users/Edwar
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/hashtable.h:
 
-C:/Users/Edward/Desktop/test/client/CMakeLists.txt:
-
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h:
 
-C:/msys64/ucrt64/include/c++/15.2.0/ext/type_traits.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox:
+C:/Users/Edward/Desktop/test/client/CMakeLists.txt:
 
 CMakeFiles/4.1.1/CMakeCXXCompiler.cmake:
 
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyleoption.h:
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox:
+
+C:/msys64/ucrt64/include/c++/15.2.0/ext/type_traits.h:
 
 C:/Users/Edward/Desktop/test/client/src/chat/chatwindow.cpp:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen.h:
 
 CMakeFiles/4.1.1/CMakeCCompiler.cmake:
 
@@ -3876,6 +4335,8 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginTargets-relwi
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicSbomGenerationHelpers.cmake:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/ios_base.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QAbstractButton:
 
 D:/CMake/share/cmake-4.1/Modules/CMakeSystemSpecificInformation.cmake:
 
@@ -3937,11 +4398,15 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/invoke.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qatomic.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/QPointer:
+
 C:/Users/Edward/Desktop/test/client/include/mainwindow/mainwindow.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/shared_ptr_atomic.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/allocated_ptr.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qmimedatabase.h:
 
 C:/Users/Edward/Desktop/test/client/include/register/registerdialog.h:
 
@@ -3975,8 +4440,6 @@ C:/Users/Edward/Desktop/test/client/src/main.cpp:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qstringbuilder.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h:
-
 C:/msys64/ucrt64/include/c++/15.2.0/bits/cxxabi_forced.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qtextoption.h:
@@ -3985,15 +4448,17 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_dir.h:
 
 C:/Users/Edward/Desktop/test/client/src/shopping/shoppingcart.cpp:
 
-C:/Users/Edward/Desktop/test/client/src/mainwindow/mainwindow.cpp:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtInstallPaths.cmake:
+
+C:/Users/Edward/Desktop/test/client/src/mainwindow/mainwindow.cpp:
 
 C:/Users/Edward/Desktop/test/client/ui/chatwindow.ui:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateConfigVersion.cmake:
 
 C:/Users/Edward/Desktop/test/client/ui/loginwindow.ui:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QBuffer:
 
 C:/Users/Edward/Desktop/test/client/ui/shoppingcart.ui:
 
@@ -4019,11 +4484,15 @@ C:/msys64/ucrt64/include/_mingw_stat64.h:
 
 C:/msys64/ucrt64/include/_timeval.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhttpmultipart.h:
+
 C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_ptr.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersionImpl.cmake:
 
 C:/msys64/ucrt64/include/assert.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslPreSharedKeyAuthenticator:
 
 D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h:
 
@@ -4037,23 +4506,21 @@ C:/msys64/ucrt64/include/c++/15.2.0/algorithm:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_string.tcc:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6GuiTargets.cmake:
 
 C:/msys64/ucrt64/include/c++/15.2.0/atomic:
 
 D:/CMake/share/cmake-4.1/Modules/Internal/CMakeCommonLinkerInformation.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtmochelpers.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginTargets-relwithdebinfo.cmake:
 
-C:/msys64/ucrt64/include/c++/15.2.0/backward/auto_ptr.h:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/FindWrapAtomic.cmake:
 
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h:
+C:/msys64/ucrt64/include/c++/15.2.0/backward/auto_ptr.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtableview.h:
 
@@ -4066,10 +4533,6 @@ C:/msys64/ucrt64/include/c++/15.2.0/bit:
 D:/Qt/6.8.3/mingw_64/include/QtCore/qprocessordetection.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/algorithmfwd.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtablewidget.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/align.h:
 
@@ -4093,17 +4556,15 @@ C:/msys64/ucrt64/include/c++/15.2.0/ext/string_conversions.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsAdditionalTargetInfo.cmake:
 
-C:/msys64/ucrt64/include/c++/15.2.0/bits/charconv.h:
-
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayoutitem.h:
 
-C:/msys64/ucrt64/include/c++/15.2.0/bits/cpp_type_traits.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h:
+C:/msys64/ucrt64/include/c++/15.2.0/bits/charconv.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/exception_defines.h:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicPluginHelpers.cmake:
+D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreevent.h:
+
+C:/msys64/ucrt64/include/c++/15.2.0/bits/cpp_type_traits.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/enable_special_members.h:
 
@@ -4119,13 +4580,13 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractitemmodel.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/functexcept.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h:
-
 C:/msys64/ucrt64/include/c++/15.2.0/bits/hash_bytes.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/specfun.h:
 
 D:/CMake/share/cmake-4.1/Modules/FindPackageHandleStandardArgs.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicToolHelpers.cmake:
 
@@ -4147,6 +4608,8 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qstringview.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkrequest.h:
+
 C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_classes.tcc:
 
 D:/CMake/share/cmake-4.1/Modules/CMakeSystemSpecificInitialize.cmake:
@@ -4157,11 +4620,11 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/stream_iterator.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/localefwd.h:
 
-C:/msys64/ucrt64/include/c++/15.2.0/bits/memory_resource.h:
+D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/Qt6ConfigVersionImpl.cmake:
 
-D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h:
+C:/msys64/ucrt64/include/c++/15.2.0/bits/memory_resource.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/nested_exception.h:
 
@@ -4183,6 +4646,8 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qiterable.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h:
+
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginConfig.cmake:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/parse_numbers.h:
@@ -4195,9 +4660,11 @@ C:/msys64/ucrt64/include/sys/timeb.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersion.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h:
+
 C:/msys64/ucrt64/include/c++/15.2.0/bits/ptr_traits.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabwidget.h:
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkReply:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs_win.h:
 
@@ -4216,6 +4683,8 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_vector.h:
 D:/Qt/6.8.3/mingw_64/include/QtCore/qcontiguouscache.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/requires_hosted.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidgetItem:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QVector:
 
@@ -4247,15 +4716,17 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_bvector.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlVersionlessAliasTargets.cmake:
 
-C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_construct.h:
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h:
+C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_construct.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsConfigVersionImpl.cmake:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_function.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/debug/assertions.h:
 
@@ -4271,13 +4742,15 @@ D:/CMake/share/cmake-4.1/Modules/CMakeFindDependencyMacro.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qtextcursor.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/QUrl:
+
 C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator.h:
 
-C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_funcs.h:
+D:/Qt/6.8.3/mingw_64/include/QtCore/qtconfigmacros.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtextedit.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/qtconfigmacros.h:
+C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_funcs.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_iterator_base_types.h:
 
@@ -4291,15 +4764,17 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointPrivateConfigVe
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_map.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFileDialog:
+
 C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_multimap.h:
-
-C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_numeric.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicCMakeVersionHelpers.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6CoreTools/Qt6CoreToolsTargets-relwithdebinfo.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicCMakeVersionHelpers.cmake:
+
+C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_numeric.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_pair.h:
 
@@ -4314,6 +4789,10 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_relops.h:
 C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_tempbuf.h:
 
 D:/CMake/share/cmake-4.1/Modules/Compiler/GNU.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QSet:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtaggedpointer.h:
 
@@ -4357,17 +4836,13 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/version.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/cassert:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfigExtras.cmake:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistwidget.h:
-
 C:/msys64/ucrt64/include/c++/15.2.0/cctype:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata_impl.h:
 
-C:/msys64/ucrt64/include/c++/15.2.0/cerrno:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicAppleHelpers.cmake:
+
+C:/msys64/ucrt64/include/c++/15.2.0/cerrno:
 
 C:/msys64/ucrt64/include/sec_api/string_s.h:
 
@@ -4395,7 +4870,7 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfigVersionImpl.cmake:
 
 C:/msys64/ucrt64/include/c++/15.2.0/concepts:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/Qt6ConfigVersion.cmake:
+D:/Qt/6.8.3/mingw_64/include/QtCore/QMimeDatabase:
 
 C:/msys64/ucrt64/include/c++/15.2.0/cstddef:
 
@@ -4409,6 +4884,10 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerinfo.h:
 
 D:/CMake/share/cmake-4.1/Modules/FindPackageMessage.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgraphicseffect.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qbuffer.h:
+
 C:/msys64/ucrt64/include/c++/15.2.0/cstdio:
 
 C:/msys64/ucrt64/include/c++/15.2.0/iomanip:
@@ -4420,6 +4899,8 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsDependencies.cmake:
 C:/msys64/ucrt64/include/c++/15.2.0/ctime:
 
 C:/msys64/ucrt64/include/c++/15.2.0/cwchar:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QHash:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qconstructormacros.h:
 
@@ -4443,9 +4924,9 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qmargins.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/ext/alloc_traits.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h:
-
 C:/msys64/ucrt64/include/c++/15.2.0/ext/atomicity.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qdeadlinetimer.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/tr1/modified_bessel_func.tcc:
 
@@ -4499,6 +4980,8 @@ C:/msys64/ucrt64/include/c++/15.2.0/ratio:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h:
+
 C:/msys64/ucrt64/include/c++/15.2.0/stdexcept:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h:
@@ -4507,9 +4990,9 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6GuiConfigVersion.cmake:
 
 C:/msys64/ucrt64/include/c++/15.2.0/string_view:
 
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton:
-
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsexports.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton:
 
 C:/msys64/ucrt64/include/c++/15.2.0/system_error:
 
@@ -4530,6 +5013,8 @@ C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdbool.h:
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QMimerSQLDriverPluginAdditionalTargetInfo.cmake:
 
 C:/msys64/ucrt64/include/c++/15.2.0/tr1/riemann_zeta.tcc:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qpropertyanimation.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/tr1/special_function_util.h:
 
@@ -4587,17 +5072,23 @@ C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr-default.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtnetworkexports.h:
 
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicWalkLibsHelpers.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/qinputdevice.h:
+
 C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/gthr.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/os_defines.h:
 
 D:/CMake/share/cmake-4.1/Modules/Internal/CMakeCLinkerInformation.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcheckbox.h:
+
 C:/msys64/ucrt64/include/corecrt_startup.h:
 
-C:/msys64/ucrt64/include/ctype.h:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/Qt6ConfigExtras.cmake:
+
+C:/msys64/ucrt64/include/ctype.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlDependencies.cmake:
 
@@ -4605,9 +5096,11 @@ C:/msys64/ucrt64/include/corecrt_wctype.h:
 
 C:/msys64/ucrt64/include/crtdefs.h:
 
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicExternalProjectHelpers.cmake:
+
 C:/msys64/ucrt64/include/errno.h:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicExternalProjectHelpers.cmake:
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsOpacityEffect:
 
 C:/msys64/ucrt64/include/locale.h:
 
@@ -4633,11 +5126,11 @@ C:/msys64/ucrt64/include/sec_api/stdio_s.h:
 
 C:/msys64/ucrt64/include/sec_api/sys/timeb_s.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer:
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/Qt6Config.cmake:
 
 C:/msys64/ucrt64/include/sec_api/wchar_s.h:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/Qt6Config.cmake:
+D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer:
 
 C:/msys64/ucrt64/include/signal.h:
 
@@ -4645,9 +5138,9 @@ D:/CMake/share/cmake-4.1/Modules/Platform/Windows.cmake:
 
 C:/msys64/ucrt64/include/stdio.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/qcompilerdetection.h:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/Qt6VersionlessAliasTargets.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qcompilerdetection.h:
 
 C:/msys64/ucrt64/include/string.h:
 
@@ -4660,6 +5153,8 @@ C:/msys64/ucrt64/include/sys/types.h:
 D:/CMake/share/cmake-4.1/Modules/CheckIncludeFile.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/q20utility.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslsocket.h:
 
 D:/CMake/share/cmake-4.1/Modules/Platform/Windows-windres.cmake:
 
@@ -4675,11 +5170,11 @@ D:/CMake/bin/cmake.exe:
 
 C:/msys64/ucrt64/include/wchar.h:
 
-C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdarg.h:
+D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionaltools_impl.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtFeature.cmake:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionaltools_impl.h:
+C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdarg.h:
 
 C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h:
 
@@ -4733,9 +5228,13 @@ D:/CMake/share/cmake-4.1/Modules/Compiler/GNU-CXX.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qregularexpression.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtGui/qevent.h:
+
 D:/CMake/share/cmake-4.1/Modules/FindThreads.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qcursor.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollbar.h:
 
 D:/CMake/share/cmake-4.1/Modules/FindVulkan.cmake:
 
@@ -4749,6 +5248,10 @@ D:/CMake/share/cmake-4.1/Modules/Internal/CheckFlagCommonConfig.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qstring.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/QDir:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray:
+
 D:/CMake/share/cmake-4.1/Modules/Internal/CheckSourceCompiles.cmake:
 
 D:/CMake/share/cmake-4.1/Modules/Platform/Windows-GNU.cmake:
@@ -4758,6 +5261,8 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QMinimalIntegrationPluginTargets-relwit
 D:/CMake/share/cmake-4.1/Modules/Platform/Linker/GNU.cmake:
 
 D:/CMake/share/cmake-4.1/Modules/Platform/Linker/Windows-CXX.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractanimation.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h:
 
@@ -4781,7 +5286,43 @@ D:/CMake/share/cmake-4.1/Modules/Platform/Windows-Initialize.cmake:
 
 D:/CMake/share/cmake-4.1/Modules/Platform/WindowsPaths.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/qtsan_impl.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/QList:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslerror.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/qpainter.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QObject:
+
+C:/msys64/ucrt64/include/c++/15.2.0/bits/istream.tcc:
+
+C:/msys64/ucrt64/include/stdarg.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QSvgPluginTargets.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QRect:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QSize:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateConfig.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginConfig.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QString:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h:
 
@@ -4803,15 +5344,17 @@ D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qarraydatapointer.h:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateVersionlessAliasTargets.cmake:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h:
-
 D:/Qt/6.8.3/mingw_64/include/QtCore/qassert.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QCheckBox:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qbasicatomic.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/qbindingstorage.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/qvector2d.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h:
 
@@ -4825,7 +5368,11 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstackedwidget.h:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/qcborcommon.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qmimetype.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qchar.h:
 
@@ -4835,11 +5382,21 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets_nonio.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qcompare_impl.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QInputDialog:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/QClipboard:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/qconfig.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainerfwd.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qcontainertools_impl.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qttranslation.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qeasingcurve.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginTargets-relwithdebinfo.cmake:
 
@@ -4851,15 +5408,25 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtGui/QGuiApplication:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qeventloop.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QApplication:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/qmimedata.h:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/qforeach.h:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicFinalizerHelpers.cmake:
-
 D:/Qt/6.8.3/mingw_64/include/QtCore/qfunctionpointer.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QMetaType:
 
 C:/msys64/ucrt64/include/c++/15.2.0/filesystem:
 
@@ -4885,6 +5452,8 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qpalette.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtGui/qvectornd.h:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/qlatin1stringview.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qline.h:
@@ -4902,6 +5471,8 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qmap.h:
 D:/Qt/6.8.3/mingw_64/include/QtCore/qmath.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qrect.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QSharedDataPointer:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qmetacontainer.h:
 
@@ -4957,13 +5528,7 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qswap.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qsystemdetection.h:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginTargets.cmake:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h:
-
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtclasshelpermacros.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicFindPackageHelpers.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtcore-config.h:
 
@@ -4975,7 +5540,15 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationdefinitions.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/QDateTime:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QThread:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QRegularExpression:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h:
 
@@ -4983,9 +5556,7 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtresource.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtCore/qttranslation.h:
+D:/Qt/6.8.3/mingw_64/include/QtGui/QColor:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6CoreTools/Qt6CoreToolsTargets.cmake:
 
@@ -5003,13 +5574,25 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/QShowEvent:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform:
+
 D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtGui/qcolor.h:
+D:/Qt/6.8.3/mingw_64/include/QtGui/qeventpoint.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qfontinfo.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlTargets.cmake:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfigVersion.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qkeysequence.h:
 
@@ -5017,11 +5600,9 @@ D:/Qt/6.8.3/mingw_64/include/QtGui/qpaintdevice.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qpixelformat.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtGui/qpointingdevice.h:
+
 D:/Qt/6.8.3/mingw_64/include/QtGui/qpolygon.h:
-
-C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_conv.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicSbomCpeHelpers.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qregion.h:
 
@@ -5029,21 +5610,23 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreTargets-relwithdebinfo.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qrgba64.h:
 
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsDependencies.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h:
+
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsVersionlessAliasTargets.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtGui/qtextformat.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/qeventloop.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtGui/qwindowdefs.h:
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/QAbstractSocket:
 
 D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow:
 
-C:/msys64/ucrt64/include/malloc.h:
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginConfig.cmake:
 
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h:
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointPrivateConfig.cmake:
 
@@ -5065,23 +5648,53 @@ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractslider.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h:
+
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlayout.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistview.h:
 
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfigExtras.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistwidget.h:
+
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h:
+D:/Qt/6.8.3/mingw_64/include/QtGui/qdesktopservices.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h:
+
+C:/msys64/ucrt64/include/malloc.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginTargets.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyleoption.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabbar.h:
 
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateVersionlessAliasTargets.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgets-config.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtwidgetsglobal.h:
+
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qapplication.h:
+
+C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_lock.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/FindWrapVulkanHeaders.cmake:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/Qt6ConfigVersion.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/Qt6Dependencies.cmake:
 
@@ -5093,15 +5706,31 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtFeatureCommon.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicCMakeHelpers.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtablewidget.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicFinalizerHelpers.cmake:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicFindPackageHelpers.cmake:
+
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfigVersion.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicGitHelpers.cmake:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicPluginHelpers.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets-relwithdebinfo.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QGifPluginTargets-relwithdebinfo.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicSbomAttributionHelpers.cmake:
+
+C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_conv.h:
+
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicSbomCpeHelpers.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QPropertyAnimation:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicSbomDepHelpers.cmake:
 
@@ -5124,8 +5753,6 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicSbomQtEntityHelpers.cmake:
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicSbomSystemDepHelpers.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicTestHelpers.cmake:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6/QtPublicWalkLibsHelpers.cmake:
 
 shopping_client_autogen/include/ui_shoppingcart.h:
 
@@ -5155,6 +5782,8 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointPrivateTargets-
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6GuiAdditionalTargetInfo.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtGui/QPainter:
+
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6GuiConfig.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6GuiConfigVersionImpl.cmake:
@@ -5170,6 +5799,8 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6GuiVersionlessAliasTargets.cmake:
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QGifPluginTargets.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qspinbox.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QICOPluginAdditionalTargetInfo.cmake:
 
@@ -5190,6 +5821,8 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QJpegPluginTargets.cmake:
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QMinimalIntegrationPluginConfig.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QMinimalIntegrationPluginTargets.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/QHttpMultiPart:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QOffscreenIntegrationPluginAdditionalTargetInfo.cmake:
 
@@ -5213,14 +5846,6 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QSvgPluginConfig.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QSvgPluginTargets-relwithdebinfo.cmake:
 
-C:/msys64/ucrt64/include/c++/15.2.0/bits/istream.tcc:
-
-D:/Qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h:
-
-C:/msys64/ucrt64/include/stdarg.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QSvgPluginTargets.cmake:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginTargets.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QWindowsDirect2DIntegrationPluginConfig.cmake:
@@ -5237,7 +5862,11 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QWindowsIntegrationPluginTargets-relwit
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsConfig.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/QMutexLocker:
+
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsConfigVersion.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qmutex.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsConfigVersionImpl.cmake:
 
@@ -5248,12 +5877,6 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsTargets.cmake:
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsVersionlessTargets.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkAdditionalTargetInfo.cmake:
-
-D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication.h:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlTargets.cmake:
-
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfigVersion.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfigVersionImpl.cmake:
 
@@ -5273,8 +5896,6 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginTargets.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginAdditionalTargetInfo.cmake:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginConfig.cmake:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginTargets-relwithdebinfo.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginTargets.cmake:
@@ -5293,9 +5914,9 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginConfig.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QPSQLDriverPluginTargets-relwithdebinfo.cmake:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginAdditionalTargetInfo.cmake:
+C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_futex.h:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginConfig.cmake:
+D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6QSQLiteDriverPluginAdditionalTargetInfo.cmake:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/qheaderview.h:
 
@@ -5305,11 +5926,13 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlAdditionalTargetInfo.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfig.cmake:
 
+C:/msys64/ucrt64/include/c++/15.2.0/mutex:
+
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlConfigVersionImpl.cmake:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Sql/Qt6SqlPlugins.cmake:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsDependencies.cmake:
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSpinBox:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsPlugins.cmake:
 
@@ -5327,13 +5950,13 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsVersionlessTargets
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateAdditionalTargetInfo.cmake:
 
-D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateConfig.cmake:
-
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6ZlibPrivate/Qt6ZlibPrivateConfigVersionImpl.cmake:
 
 shopping_client_autogen/mocs_compilation.cpp:
 
 C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_memory_defs.h:
+
+C:/msys64/ucrt64/include/c++/15.2.0/bits/std_mutex.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/pstl/pstl_config.h:
 
@@ -5353,6 +5976,8 @@ C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mm_malloc.h:
 
 C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/qstandardpaths.h:
+
 shopping_client_autogen/3G5O7Q7RTY/moc_shoppingcart.cpp:
 
 shopping_client_autogen/6YEA5652QU/moc_chatwindow.cpp:
@@ -5360,36 +5985,6 @@ shopping_client_autogen/6YEA5652QU/moc_chatwindow.cpp:
 shopping_client_autogen/IFHPYZAWOD/moc_mainwindow.cpp:
 
 shopping_client_autogen/include/ui_chatwindow.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtCore/QDateTime:
-
-D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant:
-
-D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmenu.h:
-
-shopping_client_autogen/include/ui_loginwindow.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument:
-
-D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtGui/qpicture.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialogbuttonbox.h:
-
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_ios.tcc:
 
@@ -5407,32 +6002,150 @@ C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream.h:
 
 C:/msys64/ucrt64/include/c++/15.2.0/bits/sstream.tcc:
 
+C:/msys64/ucrt64/include/c++/15.2.0/bits/std_thread.h:
+
 C:/msys64/ucrt64/include/c++/15.2.0/codecvt:
 
+C:/msys64/ucrt64/include/c++/15.2.0/condition_variable:
+
 C:/msys64/ucrt64/include/c++/15.2.0/cwctype:
+
+C:/msys64/ucrt64/include/c++/15.2.0/future:
 
 C:/msys64/ucrt64/include/c++/15.2.0/ios:
 
 C:/msys64/ucrt64/include/wctype.h:
 
+D:/Qt/6.8.3/mingw_64/include/QtGui/QMouseEvent:
+
 D:/Qt/6.8.3/mingw_64/include/QtCore/QCoreApplication:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/QFile:
+D:/Qt/6.8.3/mingw_64/include/QtCore/QFileInfo:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QFlags:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QIODevice:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonDocument:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QMimeData:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qvariantanimation.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/q26numeric.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qcryptographichash.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qdir.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qdirlisting.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/qfiledevice.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray:
+D:/Qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qthread.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/QDesktopServices:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QStandardPaths:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/QFont:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/QFontMetrics:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/QImage:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/QKeyEvent:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHeaderView:
 
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/QToolButton:
+D:/Qt/6.8.3/mingw_64/include/QtGui/qclipboard.h:
 
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtoolbutton.h:
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qfiledialog.h:
 
-shopping_client_autogen/include/ui_registerdialog.h:
+D:/Qt/6.8.3/mingw_64/include/QtGui/qpicture.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkAccessManager:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkRequest:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslConfiguration:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhttpheaders.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkaccessmanager.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkreply.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QMutex:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qssl.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslcertificate.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslconfiguration.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslpresharedkeyauthenticator.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QComboBox:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStatusBar:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextBrowser:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcombobox.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qinputdialog.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmenu.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtextbrowser.h:
+
+shopping_client_autogen/include/ui_loginwindow.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGridLayout:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QFile:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QTextStream:
+
+D:/Qt/6.8.3/mingw_64/include/QtGui/QIcon:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QDebug:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QSettings:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qpointer.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qsettings.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFormLayout:
 
-D:/Qt/6.8.3/mingw_64/include/QtWidgets/qformlayout.h:
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QFrame:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QProgressBar:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollBar:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QSizePolicy:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStackedWidget:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTabBar:
 
 D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTableWidget:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qformlayout.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/qprogressbar.h:
+
+shopping_client_autogen/include/ui_registerdialog.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtWidgets/QAbstractItemView:

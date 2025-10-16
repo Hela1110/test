@@ -6,66 +6,89 @@ pushd "%~dp0" >nul 2>&1
 
 echo ========================================
 echo StartAll: Build ^& Run Server and Client
+echo Revision: 2025-09-25 R6
+echo Script path: %~f0
 echo ========================================
+
+REM Usage: StartAll.bat [httpPort] [socketPort] [--skip-build] [--no-kill]
+REM   httpPort    : Spring Boot server.port (default 8081 if omitted)
+REM   socketPort  : Netty socket.port (default 8080 if omitted)
+REM   --skip-build: Skip mvn package (faster dev restart)
+REM   --no-kill   : Do not stop existing client before launching new one
 
 set "SERVER_PORT=%~1"
 if "%SERVER_PORT%"=="" set "SERVER_PORT=8081"
+set "SOCKET_PORT=%~2"
+if "%SOCKET_PORT%"=="" set "SOCKET_PORT=8080"
+
+REM If flags were passed in place of ports, restore defaults
+if "%SERVER_PORT:~0,1%"=="-" set "SERVER_PORT=8081"
+if "%SERVER_PORT:~0,1%"=="/" set "SERVER_PORT=8081"
+if "%SOCKET_PORT:~0,1%"=="-" set "SOCKET_PORT=8080"
+if "%SOCKET_PORT:~0,1%"=="/" set "SOCKET_PORT=8080"
+
+set "SKIP_BUILD="
+set "NO_KILL="
+set "LAUNCHED_CLIENT=0"
+for %%A in (%*) do (
+    if /I "%%~A"=="--skip-build" set "SKIP_BUILD=1"
+    if /I "%%~A"=="--no-kill" set "NO_KILL=1"
+)
+
 echo Using Spring Boot HTTP port: %SERVER_PORT%
+echo Using Netty Socket  port: %SOCKET_PORT%
+if defined SKIP_BUILD echo Will skip server mvn build.
 
-REM 1) Start server in a new window
-echo [1/3] Starting server window...
-REM Run server directly to avoid nested batch quirks
-start "shopping-server" cmd /c "cd /d server && where mvn >nul 2>&1 && mvn -q -DskipTests package && where java >nul 2>&1 && java -Xms512m -Xmx1024m -XX:+UseG1GC -jar target\shopping-server-1.0-SNAPSHOT.jar --server.port=%SERVER_PORT%"
+REM 1) Start server in a new window (use run.bat to avoid PS policy issues)
+echo [1/4] Starting server window (run.bat)...
+set "RB_ARGS=%SERVER_PORT% %SOCKET_PORT%"
+if defined SKIP_BUILD set "RB_ARGS=%RB_ARGS% --skip-build"
+start "shopping-server" cmd /k "server\run.bat %RB_ARGS%"
 
-REM 2) Wait for server to be ready (Netty 8080 OR Spring Boot %SERVER_PORT%) max ~60s
-echo [2/3] Waiting for server (tcp 8080 or %SERVER_PORT%)...
-set /a __retries=60
-:wait_loop
-powershell -NoProfile -ExecutionPolicy Bypass -Command "try { $ok=$false; foreach($p in @(8080,%SERVER_PORT%)){ $c=New-Object System.Net.Sockets.TcpClient; try{ $c.Connect('localhost',$p) } catch {} if($c.Connected){ $ok=$true; $c.Close(); break } } if($ok){ exit 0 } else { exit 1 } } catch { exit 1 }"
-if %ERRORLEVEL% EQU 0 goto :server_ready
-set /a __retries-=1
-if %__retries% LEQ 0 goto :server_timeout
->nul timeout /t 1 /nobreak
-goto :wait_loop
+REM 2) Give the server a moment (avoid complex parsing)
+echo [2/4] Giving server a moment to start (Socket %SOCKET_PORT%)...
+timeout /t 5 /nobreak >nul
 
-:server_timeout
-echo Warning: Waited 60s but server ports not ready. Continuing to start client anyway.
-
-:server_ready
 REM 3) Stop running client if any to avoid file locks during packaging
-echo [3/5] Stopping existing client instances (if any)...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Get-Process -Name shopping_client -ErrorAction Stop | Stop-Process -Force } catch { }"
+REM    Note: This can cause a brief "Connection reset" on the server for the old socket.
+if defined NO_KILL goto :step4
+echo [3/4] Stopping existing client instances (if any)...
+powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Get-Process -Name shopping_client -ErrorAction Stop | ForEach-Object { if($_.MainWindowHandle -ne 0){ $_.CloseMainWindow() | Out-Null }; try{ Wait-Process -Id $_.Id -Timeout 3 } catch {}; if(-not $_.HasExited){ Stop-Process -Id $_.Id -Force } } } catch {}"
+
+:step4
 
 REM 4) Build latest client before launch
-echo [4/5] Building latest client...
+echo [4/4] Building latest client...
 if exist "build_client_qt1310.bat" (
     call build_client_qt1310.bat
+    if errorlevel 1 (
+        echo Build reported an error. Leaving this window open for review.
+        goto :done_pause
+    )
 ) else (
     echo build_client_qt1310.bat not found, skipping client build.
 )
 
-REM 5) Start client in a new window (prefer freshly built non-dist first)
+REM 5) Start client in a new window (prefer top-level freshly packaged dist first)
 echo [5/5] Starting client window...
 set "CLIENT_EXE=shopping_client.exe"
 set "CLIENT_DIR="
 
-REM Prefer freshly built exe in build directories (non-dist) first
-if exist "build-qt1310\shopping_client.exe" (
-    set "CLIENT_DIR=build-qt1310"
-    goto :launch_client
-)
-if exist "client\build-qt1310\shopping_client.exe" (
-    set "CLIENT_DIR=client\build-qt1310"
-    goto :launch_client
-)
-
-REM Fallback to packaged dist locations
+REM Prefer top-level dist (built by build_client_qt1310.bat) first
 if exist "build-qt1310\dist\shopping_client.exe" (
     set "CLIENT_DIR=build-qt1310\dist"
     goto :launch_client
 )
 if exist "client\build-qt1310\dist\shopping_client.exe" (
     set "CLIENT_DIR=client\build-qt1310\dist"
+    goto :launch_client
+)
+if exist "build-qt1310\shopping_client.exe" (
+    set "CLIENT_DIR=build-qt1310"
+    goto :launch_client
+)
+if exist "client\build-qt1310\shopping_client.exe" (
+    set "CLIENT_DIR=client\build-qt1310"
     goto :launch_client
 )
 if exist "build\dist\shopping_client.exe" (
@@ -83,11 +106,29 @@ echo   client\build-qt1310\shopping_client.exe
 echo   build-qt1310\dist\shopping_client.exe
 echo   client\build-qt1310\dist\shopping_client.exe
 echo Please build the client (package_app) and try again.
+REM Fallback: try helper scripts if present
+if exist "client\run_dist.bat" (
+    echo Trying fallback: client\run_dist.bat
+    call client\run_dist.bat
+    for /f %%S in ('powershell -NoProfile -ExecutionPolicy Bypass -Command "if(Get-Process -Name shopping_client -ErrorAction SilentlyContinue){'1'}else{'0'}"') do set "LAUNCHED_CLIENT=%%S"
+    goto :done
+)
+if exist "client\run.bat" (
+    echo Trying fallback: client\run.bat
+    call client\run.bat
+    for /f %%S in ('powershell -NoProfile -ExecutionPolicy Bypass -Command "if(Get-Process -Name shopping_client -ErrorAction SilentlyContinue){'1'}else{'0'}"') do set "LAUNCHED_CLIENT=%%S"
+    goto :done
+)
 goto :done
 
 :launch_client
 for %%I in ("%CLIENT_DIR%\%CLIENT_EXE%") do set "CLIENT_ABS=%%~fI"
 echo Launching client: "%CLIENT_ABS%"
+REM Pass ports via environment variables so client can adapt
+set "APP_SOCKET_PORT=%SOCKET_PORT%"
+set "APP_HTTP_PORT=%SERVER_PORT%"
+set "APP_HOST=127.0.0.1"
+
 REM If launching from a non-dist folder, ensure Qt DLLs are present; try windeployqt
 set "__NEED_DEPLOY=0"
 if /I not "%CLIENT_DIR:~-5%"=="\dist" (
@@ -122,13 +163,12 @@ if "%__NEED_DEPLOY%"=="1" (
 
     if not exist "%CLIENT_DIR%\Qt6Core.dll" (
         echo Deploy failed or incomplete. Falling back to packaged dist client if available...
-        REM Try known dist locations as fallback
-        if exist "build-qt1310\dist\shopping_client.exe" (
-            set "CLIENT_DIR=build-qt1310\dist"
-            goto :launch_client
-        )
         if exist "client\build-qt1310\dist\shopping_client.exe" (
             set "CLIENT_DIR=client\build-qt1310\dist"
+            goto :launch_client
+        )
+        if exist "build-qt1310\dist\shopping_client.exe" (
+            set "CLIENT_DIR=build-qt1310\dist"
             goto :launch_client
         )
         if exist "build\dist\shopping_client.exe" (
@@ -142,11 +182,23 @@ if "%__NEED_DEPLOY%"=="1" (
         echo No dist client found. You may need to run windeployqt manually or set QTDIR.
     )
 )
-start "" /D "%CLIENT_DIR%" "%CLIENT_EXE%"
+
+REM Launch client by absolute path with a clear window title and working directory
+start "shopping-client" /D "%CLIENT_DIR%" "%CLIENT_ABS%"
+set "LAUNCHED_CLIENT=1"
 goto :done
 
 :done
-
+if "%LAUNCHED_CLIENT%"=="0" goto :done_pause
 echo Done. Two windows should be open now.
+goto :epilog
+
+:done_pause
+echo Note: Client was not launched successfully. Keeping this window open.
+echo You can check the logs above and press any key to close.
+pause
+goto :epilog
+
+:epilog
 popd >nul 2>&1
 exit /b 0

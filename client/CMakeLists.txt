@@ -83,6 +83,28 @@ if (WIN32)
             DEPENDS shopping_client
         )
 
+        # Ensure imageformats directory exists and force-copy qpng/qwebp if available
+        set(IMAGEFORMATS_DIR "${DIST_DIR}/imageformats")
+        add_custom_command(
+            TARGET package_app POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory "${IMAGEFORMATS_DIR}"
+        )
+
+        # Try typical Qt plugin location based on CMAKE_PREFIX_PATH
+        set(QT_IMAGEFORMATS_HINT "${CMAKE_PREFIX_PATH}/plugins/imageformats")
+        foreach(plugin_name IN ITEMS qpng qwebp)
+            set(_plugin_path "${QT_IMAGEFORMATS_HINT}/${plugin_name}.dll")
+            if (EXISTS "${_plugin_path}")
+                add_custom_command(
+                    TARGET package_app POST_BUILD
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${_plugin_path}" "${IMAGEFORMATS_DIR}/"
+                    COMMENT "Copying imageformat plugin: ${_plugin_path}"
+                )
+            else()
+                message(STATUS "Plugin not found (optional): ${_plugin_path}")
+            endif()
+        endforeach()
+
         # Also copy MinGW runtime DLLs (for MSYS2/MinGW toolchains)
         get_filename_component(MINGW_BIN_DIR "${CMAKE_CXX_COMPILER}" DIRECTORY)
         set(MINGW_RUNTIME_DLLS

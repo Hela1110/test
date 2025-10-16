@@ -6,6 +6,8 @@ RegisterDialog::RegisterDialog(QWidget* parent)
     : QDialog(parent), ui(new Ui::RegisterDialog) {
     ui->setupUi(this);
     setWindowTitle("用户注册");
+    if (ui->labelPhone) ui->labelPhone->setText(QString::fromUtf8("手机号（选填）："));
+    if (auto lbl = this->findChild<QLabel*>("labelEmail")) lbl->setText(QString::fromUtf8("邮箱（选填）："));
 }
 
 RegisterDialog::~RegisterDialog() {
@@ -18,6 +20,7 @@ void RegisterDialog::on_submitButton_clicked() {
     const QString password = ui->passwordInput->text();
     const QString confirm  = ui->confirmInput->text();
     const QString phone    = ui->phoneInput ? ui->phoneInput->text().trimmed() : QString();
+    const QString email    = this->findChild<QLineEdit*>("emailInput") ? this->findChild<QLineEdit*>("emailInput")->text().trimmed() : QString();
 
     if (username.isEmpty() || password.isEmpty()) {
         QMessageBox::warning(this, "注册", "用户名和密码不能为空");
@@ -30,7 +33,7 @@ void RegisterDialog::on_submitButton_clicked() {
     submitting = true;
     if (ui->submitButton) ui->submitButton->setEnabled(false);
     if (ui->cancelButton) ui->cancelButton->setEnabled(false);
-    emit submitRegister(username, password, phone);
+    emit submitRegister(username, password, phone, email);
 }
 
 void RegisterDialog::onRegisterResult(bool success, const QString& message) {

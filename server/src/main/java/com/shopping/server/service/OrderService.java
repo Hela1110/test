@@ -9,6 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * 旧的基于单表 orders 的服务，已被新的 OrderProcessingService (头+行模型) 取代。
+ * 后续可删除：暂时保留以兼容仍可能调用它的代码路径。
+ */
+@Deprecated
 @Service
 public class OrderService {
     @Autowired

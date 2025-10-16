@@ -2,5 +2,13 @@
 <RCC version="1.0">
     <qresource prefix="/">
         <file>styles/style.qss</file>
+        <file>styles/orange_theme.qss</file>
+        <file>icons/home.svg</file>
+        <file>icons/mall.svg</file>
+        <file>icons/cart.svg</file>
+        <file>icons/orders.svg</file>
+        <file>icons/chat.svg</file>
+        <file>icons/account.svg</file>
+        <file>icons/trash.svg</file>
     </qresource>
 </RCC>

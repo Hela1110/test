@@ -27,9 +27,12 @@ class Ui_ShoppingCart
 {
 public:
     QVBoxLayout *verticalLayout;
+    QHBoxLayout *topBar;
+    QLabel *cartTitle;
+    QSpacerItem *topSpacer;
+    QPushButton *backButton;
     QTableWidget *cartTable;
     QHBoxLayout *bottomLayout;
-    QPushButton *backButton;
     QSpacerItem *horizontalSpacer;
     QCheckBox *selectAllCheck;
     QLabel *selectedLabel;
@@ -45,6 +48,25 @@ public:
         ShoppingCart->resize(800, 600);
         verticalLayout = new QVBoxLayout(ShoppingCart);
         verticalLayout->setObjectName("verticalLayout");
+        topBar = new QHBoxLayout();
+        topBar->setObjectName("topBar");
+        cartTitle = new QLabel(ShoppingCart);
+        cartTitle->setObjectName("cartTitle");
+
+        topBar->addWidget(cartTitle);
+
+        topSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        topBar->addItem(topSpacer);
+
+        backButton = new QPushButton(ShoppingCart);
+        backButton->setObjectName("backButton");
+
+        topBar->addWidget(backButton);
+
+
+        verticalLayout->addLayout(topBar);
+
         cartTable = new QTableWidget(ShoppingCart);
         if (cartTable->columnCount() < 5)
             cartTable->setColumnCount(5);
@@ -66,11 +88,6 @@ public:
 
         bottomLayout = new QHBoxLayout();
         bottomLayout->setObjectName("bottomLayout");
-        backButton = new QPushButton(ShoppingCart);
-        backButton->setObjectName("backButton");
-
-        bottomLayout->addWidget(backButton);
-
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
 
         bottomLayout->addItem(horizontalSpacer);
@@ -118,6 +135,8 @@ public:
     void retranslateUi(QWidget *ShoppingCart)
     {
         ShoppingCart->setWindowTitle(QCoreApplication::translate("ShoppingCart", "\350\264\255\347\211\251\350\275\246", nullptr));
+        cartTitle->setText(QCoreApplication::translate("ShoppingCart", "\350\264\255\347\211\251\350\275\246", nullptr));
+        backButton->setText(QCoreApplication::translate("ShoppingCart", "\350\277\224\345\233\236", nullptr));
         QTableWidgetItem *___qtablewidgetitem = cartTable->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QCoreApplication::translate("ShoppingCart", "\351\200\211\346\213\251", nullptr));
         QTableWidgetItem *___qtablewidgetitem1 = cartTable->horizontalHeaderItem(1);
@@ -128,7 +147,6 @@ public:
         ___qtablewidgetitem3->setText(QCoreApplication::translate("ShoppingCart", "\346\225\260\351\207\217", nullptr));
         QTableWidgetItem *___qtablewidgetitem4 = cartTable->horizontalHeaderItem(4);
         ___qtablewidgetitem4->setText(QCoreApplication::translate("ShoppingCart", "\345\260\217\350\256\241", nullptr));
-        backButton->setText(QCoreApplication::translate("ShoppingCart", "\350\277\224\345\233\236", nullptr));
         selectAllCheck->setText(QCoreApplication::translate("ShoppingCart", "\345\205\250\351\200\211/\345\205\250\344\270\215\351\200\211", nullptr));
         selectedLabel->setText(QCoreApplication::translate("ShoppingCart", "\345\267\262\351\200\211\346\213\251 0 \351\241\271", nullptr));
         totalLabel->setText(QCoreApplication::translate("ShoppingCart", "\346\200\273\350\256\241: \357\277\2450.00", nullptr));
