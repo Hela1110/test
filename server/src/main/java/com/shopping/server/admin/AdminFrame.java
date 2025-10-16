@@ -248,12 +248,15 @@ public class AdminFrame extends JFrame {
         // Top search bar
         JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JTextField keyword = new JTextField(24);
-        JButton btnSearch = new JButton("搜索");
-        JButton btnRefresh = new JButton("刷新");
+    JButton btnSearch = new JButton("搜索");
+    JButton btnRefresh = new JButton("刷新");
+    JLabel lblTotalProducts = new JLabel("共 0 个商品");
         top.add(new JLabel("关键字:"));
         top.add(keyword);
         top.add(btnSearch);
-        top.add(btnRefresh);
+    top.add(btnRefresh);
+    top.add(Box.createHorizontalStrut(12));
+    top.add(lblTotalProducts);
         root.add(top, BorderLayout.NORTH);
 
         // Table
@@ -395,12 +398,21 @@ public class AdminFrame extends JFrame {
 
         root.add(right, BorderLayout.EAST);
 
-        Runnable reloadAll = () -> fillTable(model, productRepository.findAll());
+        Runnable reloadAll = () -> {
+            try {
+                long total = productRepository.count();
+                fillTable(model, productRepository.findAll());
+                lblTotalProducts.setText("共 " + total + " 个商品");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        };
         btnRefresh.addActionListener(e -> reloadAll.run());
         btnSearch.addActionListener(e -> {
             String kw = keyword.getText().trim();
             List<Product> list = kw.isEmpty() ? productRepository.findAll() : productRepository.findByNameContainingIgnoreCase(kw);
             fillTable(model, list);
+            try { lblTotalProducts.setText("共 " + productRepository.count() + " 个商品"); } catch (Exception ignore) {}
         });
 
         // 左侧选中商品时，载入右侧表单
@@ -438,6 +450,7 @@ public class AdminFrame extends JFrame {
                 productRepository.deleteById(id);
                 JOptionPane.showMessageDialog(this, "已删除");
                 fillTable(model, productRepository.findAll());
+                try { lblTotalProducts.setText("共 " + productRepository.count() + " 个商品"); } catch (Exception ignore) {}
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "删除失败: " + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
@@ -447,7 +460,7 @@ public class AdminFrame extends JFrame {
         // 固定阈值=5，不再暴露输入；如需调整可改 lowStockThreshold 变量
 
         // 首次加载
-        fillTable(model, productRepository.findAll());
+        reloadAll.run();
         return root;
     }
 
@@ -1538,11 +1551,14 @@ public class AdminFrame extends JFrame {
     JTextField keyword = new JTextField(22);
     JButton btnSearch = new JButton("搜索");
     JButton btnRefresh = new JButton("刷新");
+    JLabel lblUserTotal = new JLabel("总用户: 0");
         // 已移除：批量改码/随机补尺码相关工具
     tools1.add(new JLabel("关键字(用户名/邮箱/手机号):"));
     tools1.add(keyword);
     tools1.add(btnSearch);
     tools1.add(btnRefresh);
+    tools1.add(Box.createHorizontalStrut(12));
+    tools1.add(lblUserTotal);
         top.add(tools1);
         root.add(top, BorderLayout.NORTH);
 
@@ -1595,6 +1611,7 @@ public class AdminFrame extends JFrame {
                 pageInfo.setText("第 " + showPage + "/" + totalPages + " 页，共 " + totalItems[0] + " 条");
                 prev.setEnabled(currentPage[0] > 0);
                 next.setEnabled(currentPage[0] < totalPages - 1);
+                try { lblUserTotal.setText("总用户: " + clientRepo.count()); } catch (Exception ignore) {}
             } catch (Exception ex) {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(this, "加载用户失败: " + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);

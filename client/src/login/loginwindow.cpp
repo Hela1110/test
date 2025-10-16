@@ -91,7 +91,7 @@ void LoginWindow::setupUi()
                 hv->addLayout(row);
 
                 // 第二行：副标题
-                QLabel *subtitle = new QLabel(QString::fromUtf8("轻量电商演示系统"), header);
+                QLabel *subtitle = new QLabel(QString::fromUtf8("一个专注球鞋的市场。"), header);
                 subtitle->setObjectName(QStringLiteral("welcomeSubtitle"));
                 QFont sf = subtitle->font(); sf.setPointSize(14); subtitle->setFont(sf);
                 subtitle->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
@@ -116,7 +116,7 @@ void LoginWindow::setupUi()
                     title->show();
                 }
                 if (auto subtitle = header->findChild<QLabel*>(QStringLiteral("welcomeSubtitle"))) {
-                    subtitle->setText(QString::fromUtf8("轻量电商演示系统"));
+                    subtitle->setText(QString::fromUtf8("一个专注球鞋的市场。"));
                     QFont sf = subtitle->font(); sf.setPointSize(14); subtitle->setFont(sf);
                     subtitle->setStyleSheet(QString::fromUtf8("color:#666;margin:0 0 6px 0;"));
                     subtitle->show();

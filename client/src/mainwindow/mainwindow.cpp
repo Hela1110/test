@@ -1519,6 +1519,10 @@ void MainWindow::clearLayout(QLayout *layout)
 void MainWindow::renderCarouselPlaceholder()
 {
     auto *layout = ensureVBoxLayout(ui->carouselArea);
+        if (layout) {
+            // 缩小底部边距，减少纵向占用
+            layout->setContentsMargins(8,8,8,12);
+        }
     clearLayout(layout);
     auto *lbl = new QLabel(tr("这里显示轮播图（占位）"), ui->carouselArea);
     lbl->setAlignment(Qt::AlignCenter);
@@ -1592,38 +1596,83 @@ void MainWindow::renderCarousel(const QJsonArray &images)
     }
     // 三联图容器：prev | main | next
     QWidget *row = new QWidget(ui->carouselArea);
-    auto *h = new QHBoxLayout(row); h->setContentsMargins(0,0,0,0); h->setSpacing(4);
+        row->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        auto *h = new QHBoxLayout(row); h->setContentsMargins(0,0,0,0); h->setSpacing(4); h->setAlignment(Qt::AlignHCenter);
     QLabel *prevLbl = new QLabel(row); prevLbl->setAlignment(Qt::AlignCenter); prevLbl->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     QLabel *mainLbl = new QLabel(row); mainLbl->setAlignment(Qt::AlignCenter); mainLbl->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     QLabel *nextLbl = new QLabel(row); nextLbl->setAlignment(Qt::AlignCenter); nextLbl->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     prevLbl->setObjectName("carouselPrev"); mainLbl->setObjectName("carouselMain"); nextLbl->setObjectName("carouselNext");
-    prevLbl->setStyleSheet("border-radius:6px; border:1px solid #ddd;");
-    mainLbl->setStyleSheet("border-radius:8px; border:1px solid #ccc;");
-    nextLbl->setStyleSheet("border-radius:6px; border:1px solid #ddd;");
+    prevLbl->setStyleSheet("border-radius:6px; border:1px solid #ddd; background:#f6f1e8;");
+    mainLbl->setStyleSheet("border-radius:8px; border:1px solid #ccc; background:#f6f1e8;");
+    nextLbl->setStyleSheet("border-radius:6px; border:1px solid #ddd; background:#f6f1e8;");
     auto *prevEff = new QGraphicsOpacityEffect(prevLbl); prevEff->setOpacity(0.45); prevLbl->setGraphicsEffect(prevEff);
     auto *nextEff = new QGraphicsOpacityEffect(nextLbl); nextEff->setOpacity(0.45); nextLbl->setGraphicsEffect(nextEff);
-    // 调整权重：中间主图更大，两侧预览更小
-    h->addWidget(prevLbl, 10); h->addWidget(mainLbl, 80); h->addWidget(nextLbl, 10);
+    // 不使用拉伸权重，避免随容器无限变宽；采用固定尺寸并整体居中排布
+    h->addWidget(prevLbl);
+    h->addSpacing(6);
+    h->addWidget(mainLbl);
+    h->addSpacing(6);
+    h->addWidget(nextLbl);
     layout->addWidget(row);
     // 保存主/侧标签并允许点击切换
     carouselImageLabel = mainLbl; carouselPrevLabel = prevLbl; carouselNextLabel = nextLbl;
     prevLbl->installEventFilter(this); nextLbl->installEventFilter(this);
     auto idxWrap = [this](int i){ int n = carouselOriginals.size(); return (n==0)?0:((i%n)+n)%n; };
     auto refreshAll = [this, prevLbl, nextLbl, idxWrap](){
-        refreshCarouselPixmap();
+        // 统一计算三块 16:9 尺寸（中心更宽更大，两侧更小），并限制总宽度不超出
+        int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
+        const int outerPad = 40;  // 左右预留边距
+        const int gap = 4;        // 三块之间间距
+        int avail = qMax(200, contentW - outerPad - gap*2);
+    // 目标比例：主 72%，两侧各 14%（总计 100%）
+    int mainW = (int)(avail * 0.72);
+    int sideW = (int)(avail * 0.14);
+        // 下限与上限，避免过大或过小
+        mainW = qBound(560, mainW, 1000);
+        sideW = qMax(110, sideW);
+        int total = mainW + sideW * 2;
+        if (total > avail) {
+            double k = (double)avail / (double)total;
+            mainW = qMax(380, (int)(mainW * k));
+            sideW = qMax(96,  (int)(sideW * k));
+        }
+        // 根据当前图片真实宽高比自适应高度，避免裁切
+        double ar = 9.0/16.0;
         if (!carouselOriginals.isEmpty()) {
-            const QPixmap &p = carouselOriginals.at(idxWrap(carouselIndex-1));
-            const QPixmap &n = carouselOriginals.at(idxWrap(carouselIndex+1));
-            int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
-            int sideW = qMax(110, (contentW - 40) * 10 / 100);
-            int mainH = carouselImageLabel->pixmap(Qt::ReturnByValue).height();
-            const int maxSideH = qMax(110, mainH * 75 / 100);
-            prevLbl->setPixmap(scaledAspect(p, QSize(sideW, maxSideH)));
-            nextLbl->setPixmap(scaledAspect(n, QSize(sideW, maxSideH)));
-            prevLbl->setFixedWidth(sideW);
-            nextLbl->setFixedWidth(sideW);
-            prevLbl->setFixedHeight(prevLbl->pixmap(Qt::ReturnByValue).height());
-            nextLbl->setFixedHeight(nextLbl->pixmap(Qt::ReturnByValue).height());
+            const QPixmap &cur = carouselOriginals.at(qBound(0, carouselIndex, carouselOriginals.size()-1));
+            if (!cur.isNull() && cur.width() > 0) ar = (double)cur.height() / (double)cur.width();
+        }
+        int mainH = (int)qRound(mainW * ar);
+        // 限制最大高度，避免压到下方商品
+        const int maxMainH = 300;
+        if (mainH > maxMainH) {
+            mainH = maxMainH;
+            // 当高度受限时，按受限高度反推宽度，保持比例
+            mainW = qMax(320, (int)qRound(mainH / ar));
+        }
+        int sideH = (int)qRound(sideW * ar);
+
+        if (!carouselOriginals.isEmpty()) {
+            const QPixmap &orig = carouselOriginals.at(qBound(0, carouselIndex, carouselOriginals.size()-1));
+            QPixmap fitted = scaledAspect(orig, QSize(mainW, mainH));
+            carouselImageLabel->setPixmap(fitted);
+            carouselImageLabel->setAlignment(Qt::AlignCenter);
+            carouselImageLabel->setFixedSize(mainW, mainH);
+            // 让行容器至少与主图同高，避免下方内容“顶上来”
+            if (QWidget *row = carouselImageLabel->parentWidget()) {
+                row->setMinimumHeight(mainH);
+                row->setMaximumHeight(mainH);
+            }
+        }
+
+        if (!carouselOriginals.isEmpty()) {
+            auto idx = [this](int i){ int n = carouselOriginals.size(); return (n==0)?0:((i%n)+n)%n; };
+            const QPixmap &p = carouselOriginals.at(idx(carouselIndex-1));
+            const QPixmap &n = carouselOriginals.at(idx(carouselIndex+1));
+            prevLbl->setPixmap(scaledAspect(p, QSize(sideW, sideH)));
+            nextLbl->setPixmap(scaledAspect(n, QSize(sideW, sideH)));
+            prevLbl->setFixedSize(sideW, sideH);
+            nextLbl->setFixedSize(sideW, sideH);
         }
         updateCarouselDots();
     };
@@ -1670,8 +1719,15 @@ void MainWindow::renderCarousel(const QJsonArray &images)
             dotRow->addWidget(d);
         }
         dotRow->addStretch(1);
-        auto *host = new QWidget(ui->carouselArea); host->setLayout(dotRow);
-        layout->addWidget(host);
+    auto *host = new QWidget(ui->carouselArea);
+    host->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    host->setLayout(dotRow);
+    layout->addWidget(host);
+    // 在圆点与下方商品之间增加固定间距，防止视觉叠压（使用空白占位组件以兼容通用 QLayout）
+    QWidget *spacer = new QWidget(ui->carouselArea);
+    spacer->setFixedHeight(6);
+    spacer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    layout->addWidget(spacer);
         updateCarouselDots();
     }
 }
@@ -2063,21 +2119,45 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     }
     // 首页时联动刷新轮播尺寸与左右预览，避免主图显示不全
     if (currentView == ViewMode::Home && carouselImageLabel) {
-        refreshCarouselPixmap();
+        int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
+        const int outerPad = 40, gap = 4;
+        int avail = qMax(200, contentW - outerPad - gap*2);
+        int mainW = qBound(560, (int)(avail * 0.72), 1000);
+        int sideW = qMax(110, (int)(avail * 0.14));
+        int total = mainW + sideW + sideW;
+        if (total > avail) {
+            double k = (double)avail / (double)total;
+            mainW = qMax(380, (int)(mainW * k));
+            sideW = qMax(96,  (int)(sideW * k));
+        }
+        // 根据当前图片真实宽高比自适应高度，使用 aspect-fit 完整显示
+        double ar = 9.0/16.0;
+        QPixmap curPx;
+        if (!carouselOriginals.isEmpty()) {
+            curPx = carouselOriginals.at(qBound(0, carouselIndex, carouselOriginals.size()-1));
+            if (!curPx.isNull() && curPx.width() > 0) ar = (double)curPx.height() / (double)curPx.width();
+        }
+        int mainH = (int)qRound(mainW * ar);
+        const int maxMainH = 300;
+        if (mainH > maxMainH) {
+            mainH = maxMainH;
+            mainW = qMax(320, (int)qRound(mainH / ar));
+        }
+        int sideH = (int)qRound(sideW * ar);
+        if (!curPx.isNull()) {
+            QPixmap fitted = scaledAspect(curPx, QSize(mainW, mainH));
+            carouselImageLabel->setPixmap(fitted);
+            carouselImageLabel->setAlignment(Qt::AlignCenter);
+            carouselImageLabel->setFixedSize(mainW, mainH);
+        }
         if (carouselPrevLabel && carouselNextLabel && !carouselOriginals.isEmpty()) {
-            int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
-            int sideW = qMax(110, (contentW - 40) * 10 / 100);
-            int mainH = carouselImageLabel->pixmap(Qt::ReturnByValue).height();
-            const int maxSideH = qMax(110, mainH * 75 / 100);
             auto idxWrap = [this](int i){ int n = carouselOriginals.size(); return (n==0)?0:((i%n)+n)%n; };
             const QPixmap &p = carouselOriginals.at(idxWrap(carouselIndex-1));
             const QPixmap &n = carouselOriginals.at(idxWrap(carouselIndex+1));
-            carouselPrevLabel->setPixmap(scaledAspect(p, QSize(sideW, maxSideH)));
-            carouselNextLabel->setPixmap(scaledAspect(n, QSize(sideW, maxSideH)));
-            carouselPrevLabel->setFixedWidth(sideW);
-            carouselNextLabel->setFixedWidth(sideW);
-            carouselPrevLabel->setFixedHeight(carouselPrevLabel->pixmap(Qt::ReturnByValue).height());
-            carouselNextLabel->setFixedHeight(carouselNextLabel->pixmap(Qt::ReturnByValue).height());
+            carouselPrevLabel->setPixmap(scaledAspect(p, QSize(sideW, sideH)));
+            carouselNextLabel->setPixmap(scaledAspect(n, QSize(sideW, sideH)));
+            carouselPrevLabel->setFixedSize(sideW, sideH);
+            carouselNextLabel->setFixedSize(sideW, sideH);
         }
     }
     // 让购物车窗口随主窗缩放并居中停靠
@@ -3038,15 +3118,23 @@ void MainWindow::refreshCarouselPixmap()
     if (carouselOriginals.isEmpty()) { carouselImageLabel->clear(); return; }
     const QPixmap &orig = carouselOriginals.at(qBound(0, carouselIndex, carouselOriginals.size()-1));
     if (orig.isNull()) { carouselImageLabel->setText(tr("图片不可用")); return; }
+    // 与其他路径保持一致：16:9，主图 ~ 可用宽度的 90%
     int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
-    int contentH = ui->carouselArea ? ui->carouselArea->height() : height();
-    // 改为“铺满并居中裁剪”，消除左右留白；目标宽度与布局权重（约80%）一致
-    int targetW = qMax(320, (contentW - 40) * 80 / 100);
-    int maxH = qMax(220, (contentH > 0 ? (contentH * 72 / 100) : 360));
-    QPixmap covered = scaledCover(orig, QSize(targetW, maxH));
-    carouselImageLabel->setPixmap(covered);
-    carouselImageLabel->setFixedWidth(targetW);
-    carouselImageLabel->setFixedHeight(covered.height());
+    const int outerPad = 40, gap = 4;
+    int avail = qMax(200, contentW - outerPad - gap*2);
+    int mainW = qBound(560, (int)(avail * 0.72), 1000);
+    // 根据图片真实宽高比自适应高度
+    double ar = (orig.width() > 0) ? (double)orig.height() / (double)orig.width() : (9.0/16.0);
+    int mainH = (int)qRound(mainW * ar);
+    const int maxMainH = 300;
+    if (mainH > maxMainH) {
+        mainH = maxMainH;
+        mainW = qMax(320, (int)qRound(mainH / ar));
+    }
+    // 使用 aspect-fit 完整显示
+    QPixmap fitted = scaledAspect(orig, QSize(mainW, mainH));
+    carouselImageLabel->setPixmap(fitted);
+    carouselImageLabel->setFixedSize(mainW, mainH);
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
@@ -3059,22 +3147,40 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
         } else {
             carouselIndex = (carouselIndex + 1) % carouselOriginals.size();
         }
-        // 刷新
-        refreshCarouselPixmap();
+        // 刷新（使用统一 16:9 aspect-fit 逻辑）
         if (carouselPrevLabel && carouselNextLabel && !carouselOriginals.isEmpty()) {
             int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
-            int sideW = qMax(110, (contentW - 40) * 10 / 100);
-            int mainH = carouselImageLabel->pixmap(Qt::ReturnByValue).height();
-            const int maxSideH = qMax(110, mainH * 75 / 100);
+            const int outerPad = 40, gap = 4;
+            int avail = qMax(200, contentW - outerPad - gap*2);
+            int mainW = qBound(560, (int)(avail * 0.72), 1000);
+            int sideW = qMax(110, (int)(avail * 0.14));
+            int total = mainW + sideW*2;
+            if (total > avail) {
+                double k = (double)avail / (double)total;
+                mainW = qMax(380, (int)(mainW * k));
+                sideW = qMax(96,  (int)(sideW * k));
+            }
+            // 自适应当前图宽高比，完整显示
+            double ar = 9.0/16.0;
+            const QPixmap &orig = carouselOriginals.at(qBound(0, carouselIndex, carouselOriginals.size()-1));
+            if (!orig.isNull() && orig.width() > 0) ar = (double)orig.height() / (double)orig.width();
+            int mainH = (int)qRound(mainW * ar);
+            const int maxMainH = 300;
+            if (mainH > maxMainH) {
+                mainH = maxMainH;
+                mainW = qMax(320, (int)qRound(mainH / ar));
+            }
+            int sideH = (int)qRound(sideW * ar);
+            QPixmap fitted = scaledAspect(orig, QSize(mainW, mainH));
+            carouselImageLabel->setPixmap(fitted);
+            carouselImageLabel->setFixedSize(mainW, mainH);
             auto idxWrap = [this](int i){ int n = carouselOriginals.size(); return (n==0)?0:((i%n)+n)%n; };
             const QPixmap &p = carouselOriginals.at(idxWrap(carouselIndex-1));
             const QPixmap &n = carouselOriginals.at(idxWrap(carouselIndex+1));
-            carouselPrevLabel->setPixmap(scaledAspect(p, QSize(sideW, maxSideH)));
-            carouselNextLabel->setPixmap(scaledAspect(n, QSize(sideW, maxSideH)));
-            carouselPrevLabel->setFixedWidth(sideW);
-            carouselNextLabel->setFixedWidth(sideW);
-            carouselPrevLabel->setFixedHeight(carouselPrevLabel->pixmap(Qt::ReturnByValue).height());
-            carouselNextLabel->setFixedHeight(carouselNextLabel->pixmap(Qt::ReturnByValue).height());
+            carouselPrevLabel->setPixmap(scaledAspect(p, QSize(sideW, sideH)));
+            carouselNextLabel->setPixmap(scaledAspect(n, QSize(sideW, sideH)));
+            carouselPrevLabel->setFixedSize(sideW, sideH);
+            carouselNextLabel->setFixedSize(sideW, sideH);
         }
         updateCarouselDots();
         if (carouselTimer) { carouselTimer->stop(); carouselTimer->start(); }
@@ -3086,21 +3192,40 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
             bool ok = false; int idx = lbl->property("dotIndex").toInt(&ok);
             if (ok && idx >= 0 && idx < carouselOriginals.size()) {
                 carouselIndex = idx;
-                refreshCarouselPixmap();
                 if (carouselPrevLabel && carouselNextLabel && !carouselOriginals.isEmpty()) {
                     int contentW = ui->carouselArea ? ui->carouselArea->width() : width();
-                    int sideW = qMax(110, (contentW - 40) * 10 / 100);
-                    int mainH = carouselImageLabel->pixmap(Qt::ReturnByValue).height();
-                    const int maxSideH = qMax(110, mainH * 75 / 100);
+                    const int outerPad = 40, gap = 4;
+                    int avail = qMax(200, contentW - outerPad - gap*2);
+                    int mainW = qBound(560, (int)(avail * 0.72), 1000);
+                    int sideW = qMax(110, (int)(avail * 0.14));
+                    int total = mainW + sideW*2;
+                    if (total > avail) {
+                        double k = (double)avail / (double)total;
+                        mainW = qMax(380, (int)(mainW * k));
+                        sideW = qMax(96,  (int)(sideW * k));
+                    }
+                    // 自适应当前图宽高比，完整显示
+                    double ar = 9.0/16.0;
+                    const QPixmap &orig = carouselOriginals.at(qBound(0, carouselIndex, carouselOriginals.size()-1));
+                    if (!orig.isNull() && orig.width() > 0) ar = (double)orig.height() / (double)orig.width();
+                    int mainH = (int)qRound(mainW * ar);
+                    const int maxMainH = 300;
+                    if (mainH > maxMainH) {
+                        mainH = maxMainH;
+                        mainW = qMax(320, (int)qRound(mainH / ar));
+                    }
+                    int sideH = (int)qRound(sideW * ar);
+                    QPixmap fitted = scaledAspect(orig, QSize(mainW, mainH));
+                    carouselImageLabel->setPixmap(fitted);
+                    carouselImageLabel->setAlignment(Qt::AlignCenter);
+                    carouselImageLabel->setFixedSize(mainW, mainH);
                     auto idxWrap = [this](int i){ int n = carouselOriginals.size(); return (n==0)?0:((i%n)+n)%n; };
                     const QPixmap &p = carouselOriginals.at(idxWrap(carouselIndex-1));
                     const QPixmap &n = carouselOriginals.at(idxWrap(carouselIndex+1));
-                    carouselPrevLabel->setPixmap(scaledAspect(p, QSize(sideW, maxSideH)));
-                    carouselNextLabel->setPixmap(scaledAspect(n, QSize(sideW, maxSideH)));
-                    carouselPrevLabel->setFixedWidth(sideW);
-                    carouselNextLabel->setFixedWidth(sideW);
-                    carouselPrevLabel->setFixedHeight(carouselPrevLabel->pixmap(Qt::ReturnByValue).height());
-                    carouselNextLabel->setFixedHeight(carouselNextLabel->pixmap(Qt::ReturnByValue).height());
+                    carouselPrevLabel->setPixmap(scaledAspect(p, QSize(sideW, sideH)));
+                    carouselNextLabel->setPixmap(scaledAspect(n, QSize(sideW, sideH)));
+                    carouselPrevLabel->setFixedSize(sideW, sideH);
+                    carouselNextLabel->setFixedSize(sideW, sideH);
                 }
                 updateCarouselDots();
                 if (carouselTimer) { carouselTimer->stop(); carouselTimer->start(); }
