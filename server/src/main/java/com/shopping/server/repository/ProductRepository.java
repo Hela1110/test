@@ -91,6 +91,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
        // 最新上架（按 productId 最大）
        Product findTopByOrderByProductIdDesc();
     
+       // 销量最高的商品（上架状态）
+       Product findTopByOnSaleTrueOrderBySalesDesc();
+    
        @Query("SELECT MAX(p.productId) FROM Product p")
        Long findMaxProductId();
 

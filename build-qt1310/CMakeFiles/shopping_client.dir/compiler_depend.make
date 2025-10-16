@@ -79,6 +79,7 @@ shopping_client_autogen/timestamp: CMakeFiles/4.1.1/CMakeCCompiler.cmake \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
@@ -751,6 +752,7 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
@@ -1819,6 +1821,7 @@ CMakeFiles/shopping_client.dir/src/login/loginwindow.cpp.obj: C:/Users/Edward/De
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
@@ -2303,12 +2306,15 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/cl
   D:/Qt/6.8.3/mingw_64/include/QtCore/QDir \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QFile \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QMutex \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QMutexLocker \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QStandardPaths \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QTextStream \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QThread \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
@@ -2386,6 +2392,7 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/cl
   D:/Qt/6.8.3/mingw_64/include/QtCore/qmetacontainer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qmetatype.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qminmax.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qmutex.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qnamespace.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qnativeinterface.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qnumeric.h \
@@ -2433,12 +2440,14 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/cl
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtdeprecationmarkers.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtenvironmentvariables.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtextstream.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qthread.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtmetamacros.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtnoop.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtpreprocessorsupport.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtresource.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qtsan_impl.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qttranslation.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qttypetraits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qtversion.h \
@@ -2521,6 +2530,7 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/cl
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/allocated_ptr.h \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/allocator.h \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_base.h \
+  D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_futex.h \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_lockfree_defines.h \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_ios.h \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/basic_ios.tcc \
@@ -2583,6 +2593,8 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/cl
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/sstream.tcc \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_abs.h \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_function.h \
+  D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_mutex.h \
+  D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_thread.h \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_algo.h \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_algobase.h \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_bvector.h \
@@ -2609,6 +2621,7 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/cl
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/string_view.tcc \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stringfwd.h \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/uniform_int_dist.h \
+  D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unique_lock.h \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unique_ptr.h \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unordered_map.h \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/uses_allocator.h \
@@ -2624,6 +2637,7 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/cl
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cmath \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/codecvt \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/compare \
+  D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/condition_variable \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cstddef \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cstdint \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/cstdio \
@@ -2644,6 +2658,7 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/cl
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ext/type_traits.h \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/filesystem \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/functional \
+  D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/future \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/initializer_list \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/iomanip \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ios \
@@ -2655,6 +2670,7 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: C:/Users/Edward/Desktop/test/cl
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/locale \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/map \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/memory \
+  D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/mutex \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/new \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/numeric \
   D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/optional \
@@ -2781,6 +2797,7 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: C:/Users/Edwar
   D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QPointer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QPropertyAnimation \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSettings \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSharedDataPointer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker \
@@ -4429,6 +4446,8 @@ D:/CMake/bin/cmake.exe:
 
 D:/CMake/share/cmake-4.1/Modules/Compiler/GNU.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/QSet:
+
 D:/CMake/share/cmake-4.1/Modules/CMakeCXXInformation.cmake:
 
 D:/CMake/share/cmake-4.1/Modules/CMakeCInformation.cmake:
@@ -4564,6 +4583,8 @@ D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer:
 D:/Qt/6.8.3/mingw_64/include/QtCore/qtaggedpointer.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QHash:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qtsan_impl.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray:
 
@@ -5499,7 +5520,11 @@ D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QWindowsIntegrationPluginTargets-relwit
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6Gui/Qt6QWindowsIntegrationPluginTargets.cmake:
 
+D:/Qt/6.8.3/mingw_64/include/QtCore/QMutexLocker:
+
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsConfigVersion.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/qmutex.h:
 
 D:/Qt/6.8.3/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsConfigVersionImpl.cmake:
 
@@ -5958,6 +5983,8 @@ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhttpmultipart.h:
 D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkaccessmanager.h:
 
 D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkreply.h:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QMutex:
 
 D:/Qt/6.8.3/mingw_64/include/QtNetwork/qssl.h:
 

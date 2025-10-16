@@ -382,6 +382,10 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qabstractsocket.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
  D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhostaddress.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
  C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
@@ -412,8 +416,6 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistwidget.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qlistview.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemview.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qframe.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractitemmodel.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qitemselectionmodel.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qabstractitemdelegate.h \
@@ -442,8 +444,16 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qset.h \
  C:/Users/Edward/Desktop/test/client/include/ui_mainwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
@@ -510,9 +520,115 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QGraphicsOpacityEffect \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgraphicseffect.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QPropertyAnimation \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qpropertyanimation.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qvariantanimation.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qabstractanimation.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qeasingcurve.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTabBar \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qtabbar.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QSignalBlocker \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qobject.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QDir \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdir.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qdirlisting.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qfiledevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qfile.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/filesystem \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_fwd.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_path.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/locale \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/cwctype \
+ C:/msys64/ucrt64/include/wctype.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/ctype_base.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/ctype_inline.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets_nonio.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/time_members.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/x86_64-w64-mingw32/bits/messages_members.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/codecvt.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_facets_nonio.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/locale_conv.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/iomanip \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/quoted_string.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/sstream \
+ C:/msys64/ucrt64/include/c++/15.2.0/istream \
+ C:/msys64/ucrt64/include/c++/15.2.0/ios \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_ios.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/basic_ios.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/ostream \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/ostream.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/istream.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/sstream.tcc \
+ C:/msys64/ucrt64/include/c++/15.2.0/codecvt \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_dir.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/fs_ops.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QFileInfo \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qfileinfo.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QComboBox \
- D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcombobox.h
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qcombobox.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QStackedWidget \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstackedwidget.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkAccessManager \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkaccessmanager.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkrequest.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qhttpheaders.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSharedDataPointer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qshareddata.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QUrl \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qurl.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/q26numeric.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qlist.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslConfiguration \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslconfiguration.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslsocket.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qtcpsocket.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslerror.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslcertificate.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qcryptographichash.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qssl.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QFlags \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qsslpresharedkeyauthenticator.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QMetaType \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qmetatype.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkReply \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkreply.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QIODevice \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qiodevice.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkRequest \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/qnetworkrequest.h \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkAccessManager \
+ D:/Qt/6.8.3/mingw_64/include/QtNetwork/QNetworkRequest \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QUrl \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QBuffer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbuffer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QLabel \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QPointer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qpointer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSettings \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qsettings.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollBar \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollbar.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QProgressBar \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qprogressbar.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QThread \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qthread.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/future \
+ C:/msys64/ucrt64/include/c++/15.2.0/mutex \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/std_mutex.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_lock.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/condition_variable \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_futex.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/std_thread.h

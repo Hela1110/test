@@ -44,7 +44,8 @@ QLineEdit, QTextEdit, QPlainTextEdit, QComboBox, QSpinBox, QDoubleSpinBox, QDate
 }
 QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus, QComboBox:focus, QSpinBox:focus, QDoubleSpinBox:focus, QDateEdit:focus, QTimeEdit:focus {
     border-color: #1677ff;
-    box-shadow: 0 0 0 3px rgba(22,119,255,0.18);
+    /* Qt 样式表不支持 box-shadow，改用略粗边框增强可见性 */
+    border-width: 2px;
 }
 QComboBox::drop-down {
     width: 26px; border-left: 1px solid #d0d7de; border-top-right-radius: 6px; border-bottom-right-radius: 6px;
@@ -121,7 +122,8 @@ QTabBar#leftTabBar::tab {
     min-height: 84px; min-width: 24px; text-align: center;
 }
 QTabBar#leftTabBar::tab:selected {
-    font-weight: 600; box-shadow: inset 3px 0 0 #1677ff;
+    font-weight: 600; /* Qt 样式表不支持 box-shadow，使用左边框高亮替代 */
+    border-left: 3px solid #1677ff;
 }
 
 /* ========== 滚动条（更细且圆角） ========== */
@@ -148,7 +150,8 @@ QFrame[frameShape="4"], QFrame[frameShape="5"], QFrame#line {
 /* ========== 卡片容器（通用白卡） ========== */
 QWidget.card, QWidget#ordersPage, QWidget#accountPage, QWidget#chatPage {
     background: #ffffff; border: 1px solid #e5e9ef; border-radius: 12px; padding: 12px;
-    box-shadow: 0 1px 2px rgba(17,24,39,0.06), 0 4px 12px rgba(17,24,39,0.04);
+    /* 移除不受支持的 box-shadow，改为更明显的边框 */
+    /* 可按需在暗色主题中通过调色板增强对比 */
 }
 
 /* Tab 图标与文字布局的轻微留白 */

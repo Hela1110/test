@@ -207,6 +207,9 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/6YEA5652QU/moc
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdbool.h \
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20memory.h \
@@ -242,6 +245,7 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/6YEA5652QU/moc
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdarwinhelpers.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdatastream.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qdebug.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qendian.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qexceptionhandling.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qflags.h \
@@ -330,6 +334,7 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/6YEA5652QU/moc
   D:/Qt/6.8.3/mingw_64/include/QtCore/qutf8stringview.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qvarlengtharray.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/qvector.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \

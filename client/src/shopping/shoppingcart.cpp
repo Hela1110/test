@@ -27,6 +27,11 @@ ShoppingCart::ShoppingCart(QTcpSocket *socket, QWidget *parent) :
     socket(socket)
 {
     ui->setupUi(this);
+    // 放大左上角“购物车”标题，保持与其它页面一致，并加上购物车 emoji
+    if (auto title = findChild<QLabel*>("cartTitle")) {
+        title->setText(tr("购物车 🛒"));
+        title->setStyleSheet("font-weight:600;font-size:16px;");
+    }
     // 初始化时记录关键控件是否存在，辅助判断 auto-connect 是否可用
     auto checkoutBtn = findChild<QPushButton*>("checkoutButton");
     auto deleteBtn = findChild<QPushButton*>("batchDeleteButton");
@@ -44,6 +49,8 @@ ShoppingCart::ShoppingCart(QTcpSocket *socket, QWidget *parent) :
 
 ShoppingCart::~ShoppingCart()
 {
+    // 防御：窗口销毁时尽量阻断后续回调对 UI 的访问
+    this->hide();
     delete ui;
 }
 
@@ -54,11 +61,16 @@ void ShoppingCart::setupUi()
         ui->cartTable->setSelectionBehavior(QAbstractItemView::SelectRows);
         ui->cartTable->setSelectionMode(QAbstractItemView::NoSelection); // 使用自定义勾选交互
         ui->cartTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        ui->cartTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
-        ui->cartTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
-        ui->cartTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-        ui->cartTable->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
-        ui->cartTable->horizontalHeader()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+        // 调整列宽：选择列固定60，商品名自适应，单价/数量/小计设置合适固定宽度
+        ui->cartTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Fixed);
+        ui->cartTable->setColumnWidth(0, 60);  // 选择列
+        ui->cartTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);  // 商品名称
+        ui->cartTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Fixed);
+        ui->cartTable->setColumnWidth(2, 100);  // 单价列
+        ui->cartTable->horizontalHeader()->setSectionResizeMode(3, QHeaderView::Fixed);
+        ui->cartTable->setColumnWidth(3, 80);   // 数量列
+        ui->cartTable->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Fixed);
+        ui->cartTable->setColumnWidth(4, 100);  // 小计列
     }
     
     // 槽函数已按 on_* 命名，Qt 会通过 QMetaObject::connectSlotsByName 自动连接
@@ -173,9 +185,9 @@ void ShoppingCart::handleMessage(const QJsonObject &response)
             auto *chk = new QCheckBox(wrap);
             chk->setTristate(false);
             chk->setChecked(false);
-            // 圆形效果（样式表）
+            // 圆形效果(样式表) - 橙色主题
             chk->setStyleSheet("QCheckBox::indicator{width:18px;height:18px;border-radius:9px;border:1px solid #aaa;}"
-                               "QCheckBox::indicator:checked{background:#1677ff;border-color:#1677ff;}"
+                               "QCheckBox::indicator:checked{background:#FF6B35;border-color:#FF6B35;}"
                                "QCheckBox::indicator:unchecked{background:transparent;}");
             auto *hl = new QHBoxLayout(wrap); hl->setContentsMargins(6,0,6,0); hl->addWidget(chk); hl->addStretch();
             ui->cartTable->setCellWidget(row, 0, wrap);

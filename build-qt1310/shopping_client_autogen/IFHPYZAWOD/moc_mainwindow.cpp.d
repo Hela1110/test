@@ -8,6 +8,7 @@ C:/Users/Edward/Desktop/test/build-qt1310/shopping_client_autogen/IFHPYZAWOD/moc
   D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \

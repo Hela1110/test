@@ -675,7 +675,18 @@ public class AdminFrame extends JFrame {
 
                 if (index >= 0 && index < historyEntities.size()) {
                     ChatMessage m = historyEntities.get(index);
-                    String ts = m.getCreatedAt()==null? "" : m.getCreatedAt().toString().replace('T',' ');
+                    // 格式化时间为 MM-dd HH:mm:ss
+                    String ts = "";
+                    if (m.getCreatedAt() != null) {
+                        try {
+                            java.time.LocalDateTime dt = m.getCreatedAt();
+                            ts = String.format("%02d-%02d %02d:%02d:%02d", 
+                                dt.getMonthValue(), dt.getDayOfMonth(),
+                                dt.getHour(), dt.getMinute(), dt.getSecond());
+                        } catch (Exception ignore) {
+                            ts = m.getCreatedAt().toString().replace('T', ' ');
+                        }
+                    }
                     String head = "["+ts+"] "+m.getFromUser()+ (m.getToUser()==null?" -> 全体":" -> "+m.getToUser()) + ": ";
                     String c = m.getContent()==null?"":m.getContent();
                     if (isImageUrl.test(c)) {
@@ -735,31 +746,55 @@ public class AdminFrame extends JFrame {
         // ===== 售后处理辅助：解析包含 ORDER_ID 的消息 =====
         java.util.function.Function<String, Long> parseOrderId = (content) -> {
             if (content == null) return null;
-            // 支持两种格式：
-            // 1) "[售后申请] ORDER_ID=123"
-            // 2) "ORDER_ID=123"（任意位置）
-            String mark = "ORDER_ID=";
-            int idx = content.indexOf(mark);
-            if (idx >= 0) {
-                int start = idx + mark.length();
-                StringBuilder num = new StringBuilder();
-                while (start < content.length()) {
-                    char ch = content.charAt(start++);
-                    if (Character.isDigit(ch)) num.append(ch); else break;
+            
+            // 方法1: 支持 "ORDER_ID=123" 或 "orderId=123" 格式（忽略大小写）
+            String[] markers = {"ORDER_ID=", "orderId=", "order_id=", "订单#", "订单ID:", "订单号:"};
+            for (String mark : markers) {
+                int idx = content.indexOf(mark);
+                if (idx < 0) {
+                    // 尝试忽略大小写
+                    idx = content.toLowerCase().indexOf(mark.toLowerCase());
                 }
-                try { return Long.parseLong(num.toString()); } catch (Exception ignore) {}
+                if (idx >= 0) {
+                    int start = idx + mark.length();
+                    StringBuilder num = new StringBuilder();
+                    while (start < content.length()) {
+                        char ch = content.charAt(start++);
+                        if (Character.isDigit(ch)) num.append(ch); 
+                        else if (ch == ' ' || ch == '\t') continue; // 跳过空格
+                        else break;
+                    }
+                    try { 
+                        if (num.length() > 0) {
+                            return Long.parseLong(num.toString()); 
+                        }
+                    } catch (Exception ignore) {}
+                }
             }
-            // 简单 JSON 场景：{"type":"refund_request","orderId":123}
+            
+            // 方法2: 简单 JSON 场景：{"type":"refund_request","orderId":123}
             try {
                 if (content.trim().startsWith("{")) {
                     com.fasterxml.jackson.databind.ObjectMapper om = new com.fasterxml.jackson.databind.ObjectMapper();
                     java.util.Map<?,?> m = om.readValue(content, java.util.Map.class);
-                    Object t = m.get("type"); Object oid = m.get("orderId");
-                    if (t != null && "refund_request".equals(String.valueOf(t)) && oid != null) {
+                    Object oid = m.get("orderId");
+                    if (oid == null) oid = m.get("order_id");
+                    if (oid == null) oid = m.get("ORDER_ID");
+                    if (oid != null) {
                         return Long.parseLong(String.valueOf(oid));
                     }
                 }
             } catch (Exception ignore) {}
+            
+            // 方法3: 正则表达式兜底，匹配任何连续数字（至少2位，避免误匹配）
+            try {
+                java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("\\b(\\d{2,})\\b");
+                java.util.regex.Matcher matcher = pattern.matcher(content);
+                if (matcher.find()) {
+                    return Long.parseLong(matcher.group(1));
+                }
+            } catch (Exception ignore) {}
+            
             return null;
         };
 
@@ -770,10 +805,26 @@ public class AdminFrame extends JFrame {
                 if (content.trim().startsWith("{")) {
                     com.fasterxml.jackson.databind.ObjectMapper om = new com.fasterxml.jackson.databind.ObjectMapper();
                     java.util.Map<?,?> m = om.readValue(content, java.util.Map.class);
-                    Object t = m.get("type"); Object rs = m.get("reason");
-                    if (t != null && "refund_request".equals(String.valueOf(t)) && rs != null) {
-                        String s = String.valueOf(rs);
-                        return (s == null || s.isBlank()) ? null : s;
+                    Object t = m.get("type");
+                    // 支持 refund_request 类型的 reason 字段
+                    if (t != null && "refund_request".equals(String.valueOf(t))) {
+                        Object rs = m.get("reason");
+                        if (rs != null) {
+                            String s = String.valueOf(rs);
+                            return (s == null || s.isBlank()) ? null : s;
+                        }
+                    }
+                    // 支持 order_card 类型的 note 字段（格式："售后申请: 尺码不合适"）
+                    if (t != null && "order_card".equals(String.valueOf(t))) {
+                        Object note = m.get("note");
+                        if (note != null) {
+                            String noteStr = String.valueOf(note);
+                            // 提取"售后申请: "后面的内容
+                            if (noteStr.contains("售后申请:") || noteStr.contains("售后申请：")) {
+                                String reason = noteStr.replaceFirst(".*售后申请[:：]\\s*", "").trim();
+                                return (reason.isEmpty()) ? null : reason;
+                            }
+                        }
                     }
                 }
             } catch (Exception ignore) {}
@@ -795,9 +846,16 @@ public class AdminFrame extends JFrame {
                 }
                 Long orderId = parseOrderId.apply(sel.getContent());
                 if (orderId == null) return;
+                
+                // 判断消息来源：系统消息 vs 用户私发消息
+                String fromUser = sel.getFromUser();
+                boolean isSystemMessage = "system".equals(fromUser);
+                
                 // 展示订单卡片，并传递申请原因（可能为空）
-                String refundReason = parseRefundReason.apply(sel.getContent());
-                showOrderCardDialog(orderId, sel.getFromUser(), tfTo.getText().trim(), refundReason, reload);
+                // 系统消息：只查看，不能售后
+                // 用户私发：可查看 + 可售后
+                String refundReason = isSystemMessage ? null : parseRefundReason.apply(sel.getContent());
+                showOrderCardDialog(orderId, sel.getFromUser(), tfTo.getText().trim(), refundReason, isSystemMessage, reload);
             }
         });
 
@@ -830,13 +888,14 @@ public class AdminFrame extends JFrame {
         JTextField tfSearch = new JTextField(20);
         JButton btnSearch = new JButton("搜索");
         JButton btnList = new JButton("仅显示促销中");
+        JButton btnShowAll = new JButton("显示全部");
         JTextField tfId = new JTextField(10);
         JTextField tfDiscount = new JTextField(10);
         JButton btnSet = new JButton("设置折扣");
         JButton btnRemove = new JButton("移除折扣");
 
         JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        top.add(new JLabel("关键字:")); top.add(tfSearch); top.add(btnSearch); top.add(btnList);
+        top.add(new JLabel("关键字:")); top.add(tfSearch); top.add(btnSearch); top.add(btnList); top.add(btnShowAll);
         root.add(top, BorderLayout.NORTH);
         root.add(new JScrollPane(table), BorderLayout.CENTER);
         JPanel bottom = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -858,6 +917,7 @@ public class AdminFrame extends JFrame {
             }
         };
         btnList.addActionListener(e -> fillSale.run());
+        btnShowAll.addActionListener(e -> fillAll.run());
         btnSearch.addActionListener(e -> {
             String kw = tfSearch.getText().trim();
             java.util.List<Product> list = kw.isEmpty()? productRepository.findAll() : productRepository.findByNameContainingIgnoreCase(kw);
@@ -940,6 +1000,221 @@ public class AdminFrame extends JFrame {
         line.getStyler().setLegendPosition(Styler.LegendPosition.InsideNE);
         XChartPanel<PieChart> piePanel = new XChartPanel<>(pie);
     XChartPanel<CategoryChart> linePanel = new XChartPanel<>(line);
+        
+        // 为图表添加双击放大功能(带交互)
+        piePanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    JDialog dlg = new JDialog(AdminFrame.this, "商品销售额占比 - 放大视图(可交互)", false);
+                    PieChart bigPie = new PieChartBuilder().width(800).height(600).title("商品销售额占比").build();
+                    bigPie.getStyler().setLegendVisible(true);
+                    bigPie.getStyler().setToolTipsEnabled(true); // 启用工具提示
+                    bigPie.getStyler().setToolTipType(Styler.ToolTipType.yLabels); // 显示详细数值
+                    // 复制数据
+                    for (org.knowm.xchart.PieSeries series : pie.getSeriesMap().values()) {
+                        bigPie.addSeries(series.getName(), series.getValue());
+                    }
+                    XChartPanel<PieChart> bigPanel = new XChartPanel<>(bigPie);
+                    // 添加点击事件监听 - 点击扇形显示该商品详细信息
+                    bigPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+                        @Override public void mouseClicked(java.awt.event.MouseEvent evt) {
+                            if (evt.getClickCount() == 1) {
+                                try {
+                                    // 计算点击位置
+                                    int mouseX = evt.getX();
+                                    int mouseY = evt.getY();
+                                    
+                                    // 遍历所有扇形,找到被点击的那个
+                                    java.util.List<org.knowm.xchart.PieSeries> seriesList = new java.util.ArrayList<>(bigPie.getSeriesMap().values());
+                                    if (seriesList.isEmpty()) return;
+                                    
+                                    // 计算图表中心和半径
+                                    int chartWidth = bigPanel.getWidth();
+                                    int chartHeight = bigPanel.getHeight();
+                                    int centerX = chartWidth / 2;
+                                    int centerY = chartHeight / 2;
+                                    int radius = Math.min(chartWidth, chartHeight) / 3;
+                                    
+                                    // 计算鼠标点击位置相对于中心的角度
+                                    double dx = mouseX - centerX;
+                                    double dy = mouseY - centerY;
+                                    double distance = Math.sqrt(dx * dx + dy * dy);
+                                    
+                                    // 如果点击在圆内
+                                    if (distance <= radius) {
+                                        // 计算角度：atan2返回[-π,π]，转换为[0,360)
+                                        double angle = Math.atan2(dy, dx);
+                                        double angleDegrees = Math.toDegrees(angle);
+                                        // 标准化到[0, 360)
+                                        if (angleDegrees < 0) angleDegrees += 360;
+                                        // XChart饼图从90度(3点钟)开始逆时针，转换为从12点钟顺时针
+                                        angleDegrees = (90 - angleDegrees + 360) % 360;
+                                        
+                                        // 计算总值
+                                        double total = 0;
+                                        for (org.knowm.xchart.PieSeries s : seriesList) {
+                                            total += s.getValue().doubleValue();
+                                        }
+                                        
+                                        // 找到对应的扇形
+                                        double currentAngle = 0;
+                                        org.knowm.xchart.PieSeries clickedSeries = null;
+                                        for (org.knowm.xchart.PieSeries s : seriesList) {
+                                            double percentage = s.getValue().doubleValue() / total;
+                                            double sectorAngle = percentage * 360;
+                                            if (angleDegrees >= currentAngle && angleDegrees < currentAngle + sectorAngle) {
+                                                clickedSeries = s;
+                                                break;
+                                            }
+                                            currentAngle += sectorAngle;
+                                        }
+                                        
+                                        // 显示该商品的详细信息
+                                        if (clickedSeries != null) {
+                                            String productName = clickedSeries.getName();
+                                            double salesAmount = clickedSeries.getValue().doubleValue();
+                                            double percentage = (salesAmount / total) * 100;
+                                            
+                                            // 构建详细信息
+                                            StringBuilder details = new StringBuilder("<html><body style='padding:10px;'>");
+                                            details.append("<h2 style='color:#FF6B35;'>").append(productName).append("</h2>");
+                                            details.append("<hr>");
+                                            details.append("<p><b>销售总额:</b> ￥").append(String.format("%.2f", salesAmount)).append("</p>");
+                                            details.append("<p><b>占比:</b> ").append(String.format("%.1f%%", percentage)).append("</p>");
+                                            
+                                            // 查询该商品的详细销售信息
+                                            try {
+                                                // 获取所有已支付订单
+                                                java.util.List<OrderHeader> allOrders = orderHeaderRepo.findAll();
+                                                // 统计该商品的销售数据
+                                                int totalQty = 0;
+                                                int orderCount = 0;
+                                                java.util.List<String> recentOrders = new java.util.ArrayList<>();
+                                                
+                                                for (OrderHeader order : allOrders) {
+                                                    if (order.getStatus() == OrderStatus.PAID) {
+                                                        java.util.List<OrderItem> items = orderItemRepo.findByOrder(order);
+                                                        boolean hasProduct = false;
+                                                        for (OrderItem item : items) {
+                                                            // 安全检查:确保Product不为null
+                                                            if (item.getProduct() != null && item.getProduct().getName() != null 
+                                                                && item.getProduct().getName().equals(productName)) {
+                                                                totalQty += item.getQuantity();
+                                                                hasProduct = true;
+                                                                if (recentOrders.size() < 10) {
+                                                                    String orderInfo = String.format("#%d - %s - %d件 - 尺码%d - ￥%.2f - %s",
+                                                                        order.getId(),
+                                                                        order.getClient() != null ? order.getClient().getUsername() : "未知用户",
+                                                                        item.getQuantity(),
+                                                                        item.getSize() != null ? item.getSize() : 0,
+                                                                        item.getPrice(),
+                                                                        order.getCreatedAt());
+                                                                    recentOrders.add(orderInfo);
+                                                                }
+                                                            }
+                                                        }
+                                                        if (hasProduct) orderCount++;
+                                                    }
+                                                }
+                                                
+                                                details.append("<p><b>总销量:</b> ").append(totalQty).append(" 件</p>");
+                                                details.append("<p><b>订单数:</b> ").append(orderCount).append(" 笔</p>");
+                                                
+                                                if (!recentOrders.isEmpty()) {
+                                                    details.append("<h3>最近订单:</h3>");
+                                                    details.append("<table border='1' cellpadding='5' style='border-collapse:collapse;'>");
+                                                    details.append("<tr style='background:#FFE4D6;'><th>订单详情</th></tr>");
+                                                    for (String orderInfo : recentOrders) {
+                                                        details.append("<tr><td>").append(orderInfo).append("</td></tr>");
+                                                    }
+                                                    details.append("</table>");
+                                                }
+                                            } catch (Exception dbEx) {
+                                                // 静默处理错误，不显示给用户
+                                                dbEx.printStackTrace();
+                                            }
+                                            
+                                            details.append("</body></html>");
+                                            
+                                            JOptionPane.showMessageDialog(dlg, details.toString(), 
+                                                productName + " - 详细信息", JOptionPane.INFORMATION_MESSAGE);
+                                        } else {
+                                            // 未点击到有效扇形,显示所有商品汇总
+                                            StringBuilder info = new StringBuilder("<html><body style='padding:10px;'>");
+                                            info.append("<h3>商品销售额详情</h3>");
+                                            info.append("<table border='1' cellpadding='5'>");
+                                            info.append("<tr style='background:#FFE4D6;'><th>商品名称</th><th>销售额</th><th>占比</th></tr>");
+                                            for (org.knowm.xchart.PieSeries series : seriesList) {
+                                                double pct = (series.getValue().doubleValue() / total) * 100;
+                                                info.append("<tr><td>").append(series.getName())
+                                                    .append("</td><td>￥").append(String.format("%.2f", series.getValue()))
+                                                    .append("</td><td>").append(String.format("%.1f%%", pct))
+                                                    .append("</td></tr>");
+                                            }
+                                            info.append("</table></body></html>");
+                                            JOptionPane.showMessageDialog(dlg, info.toString(), "详细数据", JOptionPane.INFORMATION_MESSAGE);
+                                        }
+                                    }
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                    JOptionPane.showMessageDialog(dlg, "获取详情失败: " + ex.getMessage(), 
+                                        "错误", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                        }
+                    });
+                    dlg.add(bigPanel);
+                    dlg.setSize(820, 640);
+                    dlg.setLocationRelativeTo(AdminFrame.this);
+                    dlg.setVisible(true);
+                }
+            }
+        });
+        linePanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    JDialog dlg = new JDialog(AdminFrame.this, "月度销售趋势 - 放大视图(可交互)", false);
+                    CategoryChart bigLine = new CategoryChartBuilder().width(800).height(600).title("月度销售趋势").xAxisTitle("月份").yAxisTitle("金额").build();
+                    bigLine.getStyler().setLegendPosition(Styler.LegendPosition.InsideNE);
+                    bigLine.getStyler().setToolTipsEnabled(true); // 启用工具提示
+                    bigLine.getStyler().setToolTipType(Styler.ToolTipType.yLabels); // 显示详细数值
+                    // 复制数据
+                    for (org.knowm.xchart.CategorySeries series : line.getSeriesMap().values()) {
+                        java.util.List<?> xData = new java.util.ArrayList<>(series.getXData());
+                        java.util.List<? extends Number> yData = new java.util.ArrayList<>(series.getYData());
+                        bigLine.addSeries(series.getName(), xData, yData);
+                    }
+                    XChartPanel<CategoryChart> bigPanel = new XChartPanel<>(bigLine);
+                    // 添加点击事件监听
+                    bigPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+                        @Override public void mouseClicked(java.awt.event.MouseEvent evt) {
+                            if (evt.getClickCount() == 1) {
+                                // 显示月度详细数据
+                                StringBuilder info = new StringBuilder("<html><body style='padding:10px;'>");
+                                info.append("<h3>月度销售趋势详情</h3>");
+                                info.append("<table border='1' cellpadding='5'>");
+                                info.append("<tr><th>月份</th><th>销售额</th></tr>");
+                                for (org.knowm.xchart.CategorySeries series : bigLine.getSeriesMap().values()) {
+                                    java.util.List<?> xData = new java.util.ArrayList<>(series.getXData());
+                                    java.util.List<? extends Number> yData = new java.util.ArrayList<>(series.getYData());
+                                    for (int i = 0; i < xData.size(); i++) {
+                                        info.append("<tr><td>").append(xData.get(i))
+                                            .append("</td><td>￥").append(String.format("%.2f", yData.get(i).doubleValue()))
+                                            .append("</td></tr>");
+                                    }
+                                }
+                                info.append("</table></body></html>");
+                                JOptionPane.showMessageDialog(dlg, info.toString(), "详细数据", JOptionPane.INFORMATION_MESSAGE);
+                            }
+                        }
+                    });
+                    dlg.add(bigPanel);
+                    dlg.setSize(820, 640);
+                    dlg.setLocationRelativeTo(AdminFrame.this);
+                    dlg.setVisible(true);
+                }
+            }
+        });
         JSplitPane rightSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT, piePanel, linePanel);
         rightSplit.setDividerLocation(260);
 
@@ -1179,7 +1454,8 @@ public class AdminFrame extends JFrame {
                         if (idObj == null) return;
                         try {
                             long oid = Long.parseLong(String.valueOf(idObj));
-                            showOrderCardDialog(oid, null, null, null, null);
+                            // 订单管理界面双击订单：仅查看，不进行售后操作
+                            showOrderCardDialog(oid, null, null, null, true, null);
                         } catch (Exception ignoreOpen) {}
                     }
                 });
@@ -1454,7 +1730,7 @@ public class AdminFrame extends JFrame {
     }
 
     // 弹出“订单卡片”对话框：展示订单详情，并提供“退款/驳回”操作
-    private void showOrderCardDialog(Long orderId, String requestFromUser, String currentToField, String refundReason, Runnable reloadHistory) {
+    private void showOrderCardDialog(Long orderId, String requestFromUser, String currentToField, String refundReason, boolean isSystemMessage, Runnable reloadHistory) {
         try {
             // 使用 fetch join 一次性抓取 client/items/product，避免延迟加载导致的 no Session
             var opt = orderHeaderRepo.fetchByIdWithItemsAndClient(orderId);
@@ -1464,8 +1740,10 @@ public class AdminFrame extends JFrame {
             }
             OrderHeader header = opt.get();
 
-            JDialog dlg = new JDialog(this, "售后申请 - 订单#" + orderId, true);
-            dlg.setSize(600, 480);
+            // 根据消息来源设置对话框标题
+            String dialogTitle = isSystemMessage ? "订单详情 - 订单#" + orderId : "售后申请 - 订单#" + orderId;
+            JDialog dlg = new JDialog(this, dialogTitle, true);
+            dlg.setSize(750, 600);  // 增大尺寸：600->750, 480->600
             dlg.setLocationRelativeTo(this);
             dlg.setLayout(new BorderLayout(8, 8));
 
@@ -1487,6 +1765,14 @@ public class AdminFrame extends JFrame {
             String[] cols = {"商品ID", "名称", "尺码", "数量", "单价", "小计"};
             var model = new DefaultTableModel(cols, 0) { @Override public boolean isCellEditable(int r,int c){ return false; } };
             JTable tbl = new JTable(model);
+            // 设置列宽
+            tbl.getColumnModel().getColumn(0).setPreferredWidth(80);   // 商品ID
+            tbl.getColumnModel().getColumn(1).setPreferredWidth(180);  // 名称
+            tbl.getColumnModel().getColumn(2).setPreferredWidth(60);   // 尺码
+            tbl.getColumnModel().getColumn(3).setPreferredWidth(60);   // 数量
+            tbl.getColumnModel().getColumn(4).setPreferredWidth(100);  // 单价
+            tbl.getColumnModel().getColumn(5).setPreferredWidth(120);  // 小计
+            tbl.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
             dlg.add(new JScrollPane(tbl), BorderLayout.CENTER);
 
             // items 已通过 fetch join 初始化，优先直接读取；如为空再通过仓库查询兜底
@@ -1513,105 +1799,124 @@ public class AdminFrame extends JFrame {
 
             // SOUTH：退款原因 + 快速回复 + 按钮
             JPanel south = new JPanel(new BorderLayout(4,4));
-            String reasonText = (refundReason == null || refundReason.isBlank()) ? "(无)" : refundReason;
-            JLabel reasonLbl = new JLabel("<html><div style='padding:4px 6px;'><b>退款原因:</b> " +
-                                         escapeHtml(reasonText) +
-                                         "</div></html>");
+            
+            // 根据消息来源决定是否显示退款原因
+            if (!isSystemMessage) {
+                String reasonText = (refundReason == null || refundReason.isBlank()) ? "(无)" : refundReason;
+                JLabel reasonLbl = new JLabel("<html><div style='padding:4px 6px;'><b>退款原因:</b> " +
+                                             escapeHtml(reasonText) +
+                                             "</div></html>");
+                south.add(reasonLbl, BorderLayout.NORTH);
+            }
+            
             // 按钮行
             JPanel bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-            JComboBox<String> cbQuick = new JComboBox<>(new String[]{
-                "抱歉给您带来不便，已为您原路退款，预计3-5个工作日到账。",
-                "很抱歉未达预期，本次申请无法通过，原因：不符合退货政策。",
-                "我们已收到反馈，会尽快优化改进服务。"
-            });
-            cbQuick.setPrototypeDisplayValue("很抱歉未达预期，本次申请无法通过，原因：不符合退货政策。");
-            JButton btnRefund = new JButton("退款");
-            JButton btnReject = new JButton("驳回");
             JButton btnClose = new JButton("关闭");
-            bottom.add(new JLabel("快速回复:")); bottom.add(cbQuick);
-            bottom.add(btnReject); bottom.add(btnRefund); bottom.add(btnClose);
-            south.add(reasonLbl, BorderLayout.CENTER);
+            
+            // 系统消息：只显示关闭按钮
+            // 用户私发：显示完整售后操作按钮
+            if (isSystemMessage) {
+                bottom.add(btnClose);
+            } else {
+                JComboBox<String> cbQuick = new JComboBox<>(new String[]{
+                    "抱歉给您带来不便，已为您原路退款，预计3-5个工作日到账。",
+                    "很抱歉未达预期，本次申请无法通过，原因：不符合退货政策。",
+                    "我们已收到反馈，会尽快优化改进服务。"
+                });
+                cbQuick.setPrototypeDisplayValue("很抱歉未达预期，本次申请无法通过，原因：不符合退货政策。");
+                JButton btnRefund = new JButton("退款");
+                JButton btnReject = new JButton("驳回");
+                bottom.add(new JLabel("快速回复:")); bottom.add(cbQuick);
+                bottom.add(btnReject); bottom.add(btnRefund); bottom.add(btnClose);
+                
+                // 退款按钮逻辑（仅用户私发消息有效）
+                btnRefund.addActionListener(ev -> {
+                    try {
+                        // 仅支持已支付订单退款
+                        if (header.getStatus() != OrderStatus.PAID) {
+                            JOptionPane.showMessageDialog(dlg, "该订单当前状态不支持退款: " + header.getStatus());
+                            return;
+                        }
+                        int confirm = JOptionPane.showConfirmDialog(dlg, "确定要退款并回滚库存/销量吗？", "确认退款", JOptionPane.YES_NO_OPTION);
+                        if (confirm != JOptionPane.YES_OPTION) return;
+
+                        // 使用库存服务回滚（含乐观锁与流水）并调整销量
+                        java.util.List<OrderItem> its = orderItemRepo.findByOrder(header);
+                        for (OrderItem it : its) {
+                            if (it.getProduct() == null) continue;
+                            Product p = productRepository.findById(it.getProduct().getProductId()).orElse(null);
+                            if (p == null) continue;
+                            int qty = it.getQuantity() == null ? 0 : it.getQuantity();
+                            Integer sz = it.getSize();
+                            if (sz == null) {
+                                inventoryService.rollback(p, 0, qty, header.getId(), "admin");
+                            } else {
+                                inventoryService.rollback(p, sz, qty, header.getId(), "admin");
+                            }
+                            int sales = p.getSales() == null ? 0 : p.getSales();
+                            int newSales = sales - qty; if (newSales < 0) newSales = 0;
+                            p.setSales(newSales);
+                            productRepository.save(p);
+                        }
+
+                        // 更新订单状态
+                        header.setStatus(OrderStatus.REFUNDED);
+                        orderHeaderRepo.save(header);
+
+                        // 工具函数：向用户发送系统消息
+                        try {
+                            ChatMessage m = new ChatMessage();
+                            m.setFromUser("admin");
+                            String to = (requestFromUser == null || requestFromUser.isBlank() || "全体".equals(requestFromUser)) ? null : requestFromUser;
+                            m.setToUser(to);
+                            String reply = String.valueOf(cbQuick.getSelectedItem());
+                            String text = "[售后结果] 订单#" + orderId + " 已退款。" + (reply==null||reply.isBlank()?"":" " + reply);
+                            m.setContent(text);
+                            m.setCreatedAt(java.time.LocalDateTime.now());
+                            m = chatRepo.save(m);
+                            SocketMessageHandler.pushChatToTargets(m);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+
+                        JOptionPane.showMessageDialog(dlg, "已退款并回滚库存/销量");
+                        dlg.dispose();
+                        if (reloadHistory != null) reloadHistory.run();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(dlg, "退款失败: " + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+                    }
+                });
+
+                // 驳回按钮逻辑
+                btnReject.addActionListener(ev -> {
+                    try {
+                        String reply = String.valueOf(cbQuick.getSelectedItem());
+                        // 向用户发送系统消息
+                        ChatMessage m = new ChatMessage();
+                        m.setFromUser("admin");
+                        String to = (requestFromUser == null || requestFromUser.isBlank() || "全体".equals(requestFromUser)) ? null : requestFromUser;
+                        m.setToUser(to);
+                        String text = "[售后结果] 订单#" + orderId + " 申请已驳回。" + (reply==null||reply.isBlank()?"":" " + reply);
+                        m.setContent(text);
+                        m.setCreatedAt(java.time.LocalDateTime.now());
+                        m = chatRepo.save(m);
+                        SocketMessageHandler.pushChatToTargets(m);
+
+                        JOptionPane.showMessageDialog(dlg, "已驳回申请并通知用户");
+                        dlg.dispose();
+                        if (reloadHistory != null) reloadHistory.run();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(dlg, "操作失败: " + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
+                    }
+                });
+            }
+            
             south.add(bottom, BorderLayout.SOUTH);
             dlg.add(south, BorderLayout.SOUTH);
 
-            // 工具函数：向用户发送系统消息
-            java.util.function.Consumer<String> notifyUser = (text) -> {
-                try {
-                    ChatMessage m = new ChatMessage();
-                    m.setFromUser("admin");
-                    String to = (requestFromUser == null || requestFromUser.isBlank() || "全体".equals(requestFromUser)) ? null : requestFromUser;
-                    m.setToUser(to); // 如果为 null 则群发；我们更倾向于定向发送
-                    m.setContent(text);
-                    m.setCreatedAt(java.time.LocalDateTime.now());
-                    m = chatRepo.save(m);
-                    SocketMessageHandler.pushChatToTargets(m);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            };
-
-            btnRefund.addActionListener(ev -> {
-                try {
-                    // 仅支持已支付订单退款
-                    if (header.getStatus() != OrderStatus.PAID) {
-                        JOptionPane.showMessageDialog(dlg, "该订单当前状态不支持退款: " + header.getStatus());
-                        return;
-                    }
-                    int confirm = JOptionPane.showConfirmDialog(dlg, "确定要退款并回滚库存/销量吗？", "确认退款", JOptionPane.YES_NO_OPTION);
-                    if (confirm != JOptionPane.YES_OPTION) return;
-
-                    // 使用库存服务回滚（含乐观锁与流水）并调整销量
-                    java.util.List<OrderItem> its = orderItemRepo.findByOrder(header);
-                    for (OrderItem it : its) {
-                        if (it.getProduct() == null) continue;
-                        Product p = productRepository.findById(it.getProduct().getProductId()).orElse(null);
-                        if (p == null) continue;
-                        int qty = it.getQuantity() == null ? 0 : it.getQuantity();
-                        Integer sz = it.getSize();
-                        if (sz == null) {
-                            inventoryService.rollback(p, 0, qty, header.getId(), "admin");
-                        } else {
-                            inventoryService.rollback(p, sz, qty, header.getId(), "admin");
-                        }
-                        int sales = p.getSales() == null ? 0 : p.getSales();
-                        int newSales = sales - qty; if (newSales < 0) newSales = 0;
-                        p.setSales(newSales);
-                        productRepository.save(p);
-                    }
-
-                    // 更新订单状态
-                    header.setStatus(OrderStatus.REFUNDED);
-                    orderHeaderRepo.save(header);
-
-                    // 通知用户
-                    String reply = String.valueOf(cbQuick.getSelectedItem());
-                    notifyUser.accept("[售后结果] 订单#" + orderId + " 已退款。" + (reply==null||reply.isBlank()?"":" " + reply));
-
-                    JOptionPane.showMessageDialog(dlg, "已退款并回滚库存/销量");
-                    dlg.dispose();
-                    if (reloadHistory != null) reloadHistory.run();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(dlg, "退款失败: " + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
-                }
-            });
-
-            btnReject.addActionListener(ev -> {
-                try {
-                    int confirm = JOptionPane.showConfirmDialog(dlg, "确定要驳回该售后申请吗？", "确认驳回", JOptionPane.YES_NO_OPTION);
-                    if (confirm != JOptionPane.YES_OPTION) return;
-                    // 驳回不修改订单，仅通知
-                    String reply = String.valueOf(cbQuick.getSelectedItem());
-                    notifyUser.accept("[售后结果] 订单#" + orderId + " 的退款申请已被驳回。" + (reply==null||reply.isBlank()?"":" 原因：" + reply));
-                    JOptionPane.showMessageDialog(dlg, "已驳回");
-                    dlg.dispose();
-                    if (reloadHistory != null) reloadHistory.run();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(dlg, "操作失败: " + ex.getMessage(), "错误", JOptionPane.ERROR_MESSAGE);
-                }
-            });
-
+            // 关闭按钮（所有情况都有效）
             btnClose.addActionListener(ev -> dlg.dispose());
 
             dlg.setVisible(true);

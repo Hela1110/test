@@ -2,6 +2,7 @@
 <RCC version="1.0">
     <qresource prefix="/">
         <file>styles/style.qss</file>
+        <file>styles/orange_theme.qss</file>
         <file>icons/home.svg</file>
         <file>icons/mall.svg</file>
         <file>icons/cart.svg</file>

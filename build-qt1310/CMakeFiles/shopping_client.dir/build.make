@@ -78,6 +78,7 @@ shopping_client_autogen/timestamp: CMakeFiles/shopping_client.dir/compiler_depen
 shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/resources.qrc
 shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: CMakeFiles/shopping_client_autogen.dir/AutoRcc_resources_3YJK5W5UP7_Info.json
 shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/styles/style.qss
+shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/styles/orange_theme.qss
 shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/icons/orders.svg
 shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/icons/chat.svg
 shopping_client_autogen/3YJK5W5UP7/qrc_resources.cpp: C:/Users/Edward/Desktop/test/client/resources/icons/cart.svg

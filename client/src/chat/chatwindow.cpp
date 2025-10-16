@@ -490,7 +490,19 @@ void ChatWindow::handleMessageUi(const QJsonObject &msg) {
             if (status != QLatin1String("PAID")) continue;
             const qint64 id = o.value("orderId").toVariant().toLongLong();
             const QString price = QString::number(o.value("total_price").toDouble(), 'f', 2);
-            const QString time = o.value("order_time").toString();
+            auto normTs = [](const QString &raw){
+                if (raw.isEmpty()) return QString();
+                QString s = raw; s.replace('T',' ');
+                int dot = s.indexOf('.'); if (dot>0) s = s.left(dot);
+                QDateTime dt = QDateTime::fromString(s, "yyyy-MM-dd HH:mm:ss");
+                if (!dt.isValid()) {
+                    QDateTime iso = QDateTime::fromString(raw, Qt::ISODateWithMs);
+                    if (!iso.isValid()) iso = QDateTime::fromString(raw, Qt::ISODate);
+                    if (iso.isValid()) return iso.toString("yyyy-MM-dd HH:mm:ss");
+                }
+                return dt.isValid()? dt.toString("yyyy-MM-dd HH:mm:ss") : s;
+            };
+            const QString time = normTs(o.value("order_time").toString());
             const QString label = tr("订单 #%1  金额 ￥%2  时间 %3").arg(id).arg(price).arg(time);
             list.push_back({id, label});
         }
@@ -547,6 +559,14 @@ void ChatWindow::handleMessageUi(const QJsonObject &msg) {
 }
 
 ChatWindow::~ChatWindow() {
+    // 防御性清理：停止可能存在的延时删除定时器，避免在窗口销毁后触发回调
+    if (deleteTimer) {
+        if (deleteTimer->isActive()) deleteTimer->stop();
+        deleteTimer->deleteLater();
+        deleteTimer = nullptr;
+    }
+    // 隐藏一次防止父布局在销毁阶段访问尺寸
+    this->hide();
     delete ui;
 }
 
@@ -1015,17 +1035,40 @@ QString ChatWindow::buildOrderDetailHtml(const QJsonObject &orderObj) const {
     const qlonglong orderId = static_cast<qlonglong>(orderObj.value("orderId").toDouble());
     const QString status = orderObj.value("status").toString();
     QString timeStr = orderObj.value("order_time").toString();
-    if (!timeStr.isEmpty()) timeStr.replace('T', ' ');
+    if (!timeStr.isEmpty()) {
+        timeStr.replace('T', ' ');
+        int dot = timeStr.indexOf('.');
+        if (dot>0) timeStr = timeStr.left(dot);
+        QDateTime dt = QDateTime::fromString(timeStr, "yyyy-MM-dd HH:mm:ss");
+        if (!dt.isValid()) {
+            QDateTime iso = QDateTime::fromString(orderObj.value("order_time").toString(), Qt::ISODateWithMs);
+            if (!iso.isValid()) iso = QDateTime::fromString(orderObj.value("order_time").toString(), Qt::ISODate);
+            if (iso.isValid()) timeStr = iso.toString("yyyy-MM-dd HH:mm:ss");
+        }
+    }
     const QJsonArray items = orderObj.value("items").toArray();
     QString html;
-    html += QString("<div style='font-weight:700;font-size:14px;margin-bottom:6px;'>订单 #%1</div>").arg(orderId);
-    if (!timeStr.isEmpty()) html += QString("<div style='color:#666;'>时间：%1</div>").arg(timeStr);
-    if (!status.isEmpty()) html += QString("<div style='color:#666;margin-bottom:6px;'>状态：%1</div>").arg(status);
+    html += QString("<div style='font-weight:700;font-size:14px;margin-bottom:6px;'>📋 订单 #%1</div>").arg(orderId);
+    if (!timeStr.isEmpty()) html += QString("<div style='color:#666;'>⏰ 时间：%1</div>").arg(timeStr);
+    if (!status.isEmpty()) {
+        // 根据状态添加不同的emoji
+        QString statusEmoji;
+        if (status.contains("已支付") || status.contains("已完成")) {
+            statusEmoji = "✅";
+        } else if (status.contains("待支付") || status.contains("待确认")) {
+            statusEmoji = "⏳";
+        } else if (status.contains("已取消") || status.contains("已退款")) {
+            statusEmoji = "❌";
+        } else {
+            statusEmoji = "📦";
+        }
+        html += QString("<div style='color:#666;margin-bottom:6px;'>%1 状态：%2</div>").arg(statusEmoji).arg(status);
+    }
     html += "<table style='width:100%;border-collapse:collapse;'>";
-    html += "<tr><th style='text-align:left;border-bottom:1px solid #eee;padding:4px 0;'>商品</th>"
-            "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>数量</th>"
-            "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>单价</th>"
-            "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>小计</th></tr>";
+    html += "<tr><th style='text-align:left;border-bottom:1px solid #eee;padding:4px 0;'>🛍️ 商品</th>"
+            "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>📦 数量</th>"
+            "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>💰 单价</th>"
+            "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>💰 小计</th></tr>";
     double sumOriginal = 0.0, sumEffective = 0.0;
     for (const auto &iv : items) {
         const QJsonObject it = iv.toObject();
@@ -1050,12 +1093,12 @@ QString ChatWindow::buildOrderDetailHtml(const QJsonObject &orderObj) const {
     const qint64 promoOff = times * stepOff;
     const qint64 finalPay = qMax<qint64>(0, cents - promoOff);
     html += QString("<tr><td colspan='4' style='border-top:1px solid #eee;padding-top:6px;text-align:right;'>");
-    if (sumOriginal > sumEffective + 1e-6) html += QString("<div style='color:#999;text-decoration:line-through;'>原价合计：&yen;&nbsp;%1</div>").arg(QString::number(sumOriginal,'f',2));
+    if (sumOriginal > sumEffective + 1e-6) html += QString("<div style='color:#999;text-decoration:line-through;'>原价合计：💰 &yen;&nbsp;%1</div>").arg(QString::number(sumOriginal,'f',2));
     if (promoOff > 0) {
-        html += QString("<div>商品折后：&yen;&nbsp;%1</div>").arg(QString::number(sumEffective,'f',2));
-        html += QString("<div style='color:#43A047;'>满减：-&yen;&nbsp;%1</div>").arg(QString::number(promoOff/100.0,'f',2));
+        html += QString("<div>商品折后：💰 &yen;&nbsp;%1</div>").arg(QString::number(sumEffective,'f',2));
+        html += QString("<div style='color:#43A047;'>🎉 满减：-&yen;&nbsp;%1</div>").arg(QString::number(promoOff/100.0,'f',2));
     }
-    html += QString("<div style='font-weight:700;color:#E53935;'>应付：&yen;&nbsp;%1</div>").arg(QString::number(finalPay/100.0,'f',2));
+    html += QString("<div style='font-weight:700;color:#E53935;font-size:15px;'>💰 应付：&yen;&nbsp;%1</div>").arg(QString::number(finalPay/100.0,'f',2));
     html += "</td></tr></table>";
     return html;
 }

@@ -410,6 +410,12 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qboxlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qgridlayout.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QHBoxLayout \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qvector.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbytearray.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtmochelpers.h \
  C:\Users\Edward\Desktop\test\client\build\shopping_client_autogen\XLQVKIHBGC/moc_loginwindow.cpp \
  C:/Users/Edward/Desktop/test/client/include/login/loginwindow.h \
@@ -454,15 +460,18 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
  D:/Qt/6.8.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qinputmethod.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qguiapplication_platform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h \
  C:\Users\Edward\Desktop\test\client\build\shopping_client_autogen\IFHPYZAWOD/moc_mainwindow.cpp \
  C:/Users/Edward/Desktop/test/client/include/mainwindow/mainwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qstring.h \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea \
+ D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
  C:/Users/Edward/Desktop/test/client/include/shopping/shoppingcart.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qwidget.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qvector.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonobject.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonvalue.h \
@@ -471,8 +480,6 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
  D:/Qt/6.8.3/mingw_64/include/QtCore/qdatetime.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qcalendar.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/quuid.h \
- D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
- D:/Qt/6.8.3/mingw_64/include/QtCore/qelapsedtimer.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qdialog.h \
@@ -483,6 +490,12 @@ CMakeFiles/shopping_client.dir/shopping_client_autogen/mocs_compilation.cpp.obj:
  C:/Users/Edward/Desktop/test/client/include/chatwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qjsonarray.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qset.h \
  C:\Users\Edward\Desktop\test\client\build\shopping_client_autogen\LQ5S74IWJL/moc_registerdialog.cpp \
  C:/Users/Edward/Desktop/test/client/include/register/registerdialog.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QDialog \

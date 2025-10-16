@@ -79,6 +79,7 @@ shopping_client_autogen/timestamp: C:/Users/Edward/Desktop/test/client/CMakeList
   D:/Qt/6.8.3/mingw_64/include/QtCore/QList \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QObject \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QRect \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSize \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
@@ -895,6 +896,8 @@ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/algorithm
 D:/CMake/bin/cmake.exe:
 
 D:/CMake/share/cmake-4.1/Modules/Compiler/GNU.cmake:
+
+D:/Qt/6.8.3/mingw_64/include/QtCore/QSet:
 
 D:/CMake/share/cmake-4.1/Modules/CMakeCXXInformation.cmake:
 

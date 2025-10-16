@@ -453,6 +453,8 @@ CMakeFiles/shopping_client.dir/src/mainwindow/mainwindow.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qpixmap.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qstringlist.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qset.h \
  C:/Users/Edward/Desktop/test/client/include/ui_mainwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QVariant \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qvariant.h \

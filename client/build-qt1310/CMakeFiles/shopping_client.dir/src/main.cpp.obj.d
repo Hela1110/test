@@ -423,6 +423,19 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qstandardpaths.h \
  D:/Qt/6.8.3/mingw_64/include/QtGui/QIcon \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QMutex \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qmutex.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtsan_impl.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QMutexLocker \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QThread \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qthread.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/future \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/mutex \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_mutex.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unique_lock.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/condition_variable \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/atomic_futex.h \
+ D:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_thread.h \
  C:/Users/Edward/Desktop/test/client/include/login/loginwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \

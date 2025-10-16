@@ -313,17 +313,17 @@ QTabBar* MainWindow::ensureSideTabBar()
     if (auto left = ui->centralwidget->findChild<QVBoxLayout*>("leftSidebarLayout")) {
         left->insertWidget(0, tab);
     }
-
-    // 添加 Tabs（带 key）
-    struct TabDef { const char* key; const char* text; const char* icon; } defs[] = {
+    // 侧栏 Tab 定义
+    struct TabDef { const char* key; const char* text; const char* icon; };
+    static const TabDef defs[] = {
         {"home",   "首页",       ":/icons/home.svg"},
         {"mall",   "发现好物",   ":/icons/mall.svg"},
         {"cart",   "购物车",     ":/icons/cart.svg"},
         {"orders", "历史订单",   ":/icons/orders.svg"},
-        {"chat",   "客服/聊天", ":/icons/chat.svg"},
+        {"chat",   "客服/聊天",  ":/icons/chat.svg"},
         {"account","个人中心",   ":/icons/account.svg"}
     };
-    for (auto &d : defs) {
+    for (const auto &d : defs) {
         int idx = tab->addTab(QIcon(QString::fromLatin1(d.icon)), tr(d.text));
         tab->setTabData(idx, QString::fromLatin1(d.key));
     }
@@ -333,9 +333,9 @@ QTabBar* MainWindow::ensureSideTabBar()
     connect(tab, &QTabBar::currentChanged, this, [this, tab](int idx){
         if (idx < 0) return;
         const QString key = tab->tabData(idx).toString();
-    qint64 now = monotonic.elapsed();
-    if (tabSwitching || (now - lastTabSwitchMs) < 250) { pendingTabKey = key; tabSwitchTimer->start(50); return; }
-    pendingTabKey = key; tabSwitchTimer->start(50);
+        qint64 now = monotonic.elapsed();
+        if (tabSwitching || (now - lastTabSwitchMs) < 250) { pendingTabKey = key; tabSwitchTimer->start(50); return; }
+        pendingTabKey = key; tabSwitchTimer->start(50);
     });
     tab->setCurrentIndex(0);
     activeTabKey = QStringLiteral("home");
@@ -900,7 +900,7 @@ void MainWindow::onReadyRead()
             page->setObjectName("accountPage");
             auto *v = new QVBoxLayout(page);
             auto *topBar = new QHBoxLayout();
-            auto *title = new QLabel(tr("个人中心"), page); title->setStyleSheet("font-weight:600;font-size:16px;");
+            auto *title = new QLabel(tr("个人中心 ✨"), page); title->setStyleSheet("font-weight:600;font-size:16px;");
             auto *back = new QPushButton(tr("返回"), page);
             auto *saveToggle = new QPushButton(tr("修改"), page); saveToggle->setObjectName("saveTopButton");
             // 统一按钮样式，避免看起来像透明
@@ -921,11 +921,11 @@ void MainWindow::onReadyRead()
             auto *phone = new QLineEdit(page); phone->setObjectName("acc_phone");
             auto *email = new QLineEdit(page); email->setObjectName("acc_email");
             auto *pwd = new QLineEdit(page); pwd->setObjectName("acc_pwd"); pwd->setEchoMode(QLineEdit::Password);
-            form->addRow(tr("账号ID"), idEdit);
-            form->addRow(tr("用户名"), user);
-            form->addRow(tr("手机号"), phone);
-            form->addRow(tr("邮箱"), email);
-            form->addRow(tr("新密码"), pwd);
+            form->addRow(tr("🆔 账号ID"), idEdit);
+            form->addRow(tr("👤 用户名"), user);
+            form->addRow(tr("📱 手机号"), phone);
+            form->addRow(tr("✉️ 邮箱"), email);
+            form->addRow(tr("🔒 新密码"), pwd);
             v->addLayout(form);
             // 默认禁用编辑，点击“修改”后启用并把按钮文案变为“保存”
             user->setEnabled(false); phone->setEnabled(false); email->setEnabled(false); pwd->setEnabled(false);
@@ -977,11 +977,11 @@ void MainWindow::onReadyRead()
                 auto *phone = new QLineEdit(page); phone->setObjectName("acc_phone");
                 auto *email = new QLineEdit(page); email->setObjectName("acc_email");
                 auto *pwd = new QLineEdit(page); pwd->setObjectName("acc_pwd"); pwd->setEchoMode(QLineEdit::Password);
-                form->addRow(tr("账号ID"), idEdit);
-                form->addRow(tr("用户名"), user);
-                form->addRow(tr("手机号"), phone);
-                form->addRow(tr("邮箱"), email);
-                form->addRow(tr("新密码"), pwd);
+                form->addRow(tr("🆔 账号ID"), idEdit);
+                form->addRow(tr("👤 用户名"), user);
+                form->addRow(tr("📱 手机号"), phone);
+                form->addRow(tr("✉️ 邮箱"), email);
+                form->addRow(tr("🔒 新密码"), pwd);
                 v->addLayout(form);
                 // 默认禁用编辑
                 user->setEnabled(false); phone->setEnabled(false); email->setEnabled(false); pwd->setEnabled(false);
@@ -1071,16 +1071,17 @@ void MainWindow::onReadyRead()
             qInfo() << "skip orders_response due to inactive tab" << activeTabKey;
             continue;
         }
-        // 构建或复用内嵌订单页面（统一顶部返回栏 + 筛选 + 分页，样式统一）
-    QWidget *container = findChild<QWidget*>("ordersPage");
-    if (!container) {
-        container = new QWidget(this);
-        container->setObjectName("ordersPage");
-        if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) root->addWidget(container);
-    }
-    // 复用已有布局，避免重复叠加导致控件跑位（例如“下一页”出现在左上角）
-    auto *v = qobject_cast<QVBoxLayout*>(container->layout());
-    if (!v) v = new QVBoxLayout(container); else clearLayout(v);
+        // 强防御：始终重建内嵌订单页面，彻底避免复用导致的生命周期重叠
+        if (auto exist = findChild<QWidget*>("ordersPage")) {
+            QObject::disconnect(exist, nullptr, nullptr, nullptr);
+            exist->blockSignals(true);
+            exist->deleteLater();
+            QCoreApplication::processEvents(QEventLoop::AllEvents, 50);
+        }
+    QWidget *container = new QWidget(this);
+    container->setObjectName("ordersPage");
+    if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) root->addWidget(container);
+    auto *v = new QVBoxLayout(container);
 
         // 统一控件样式（与侧栏主色一致）
         container->setStyleSheet(
@@ -1126,8 +1127,18 @@ void MainWindow::onReadyRead()
     table->setSelectionMode(QAbstractItemView::SingleSelection);
     table->setEditTriggers(QAbstractItemView::NoEditTriggers);
     table->setFocusPolicy(Qt::StrongFocus);
+    // 放大行高和列宽策略
+    table->verticalHeader()->setDefaultSectionSize(40); // 每行更高一些
+    table->setAlternatingRowColors(true);
+    table->setStyleSheet("QTableWidget{alternate-background-color:#fafafa;} ");
         QStringList headers; headers << tr("订单号") << tr("用户名") << tr("金额") << tr("状态") << tr("时间");
-        table->setHorizontalHeaderLabels(headers); table->horizontalHeader()->setStretchLastSection(true);
+        table->setHorizontalHeaderLabels(headers);
+        table->horizontalHeader()->setStretchLastSection(true);
+        table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        table->horizontalHeader()->setMinimumSectionSize(80);
+        // 给金额列一个稍大的最小宽度，便于阅读
+        table->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+        table->setColumnWidth(2, 120);
         v->addWidget(table);
 
         // 分页栏
@@ -1149,18 +1160,21 @@ void MainWindow::onReadyRead()
         container->setProperty("ordersPageNo", 1);
         container->setProperty("ordersPageSize", 10);
 
-        auto refresh = [this, container]() {
-            auto *table = container->findChild<QTableWidget*>("ordersTable");
-            auto *statusCmb = container->findChild<QComboBox*>("ordersStatus");
-            auto *kwEdit = container->findChild<QLineEdit*>("ordersKeyword");
-            auto *pageInfo = container->findChild<QLabel*>("ordersPageInfo");
-            auto *prevBtn = container->findChild<QPushButton*>("ordersPrev");
-            auto *nextBtn = container->findChild<QPushButton*>("ordersNext");
+        // use QPointer to avoid dangling pointer if widget is deleted asynchronously
+        QPointer<QWidget> containerPtr(container);
+        auto refresh = [this, containerPtr]() {
+            if (!containerPtr) return;
+            auto *table = containerPtr->findChild<QTableWidget*>("ordersTable");
+            auto *statusCmb = containerPtr->findChild<QComboBox*>("ordersStatus");
+            auto *kwEdit = containerPtr->findChild<QLineEdit*>("ordersKeyword");
+            auto *pageInfo = containerPtr->findChild<QLabel*>("ordersPageInfo");
+            auto *prevBtn = containerPtr->findChild<QPushButton*>("ordersPrev");
+            auto *nextBtn = containerPtr->findChild<QPushButton*>("ordersNext");
             if (!table || !statusCmb || !kwEdit || !pageInfo || !prevBtn || !nextBtn) return;
 
-            const QVariantList data = container->property("ordersData").toList();
-            const int pageSize = container->property("ordersPageSize").toInt();
-            int pageNo = container->property("ordersPageNo").toInt(); if (pageNo < 1) pageNo = 1;
+            const QVariantList data = containerPtr->property("ordersData").toList();
+            const int pageSize = containerPtr->property("ordersPageSize").toInt();
+            int pageNo = containerPtr->property("ordersPageNo").toInt(); if (pageNo < 1) pageNo = 1;
             const QString statusSel = statusCmb->currentText();
             const QString kw = kwEdit->text().trimmed();
 
@@ -1184,7 +1198,7 @@ void MainWindow::onReadyRead()
             const int total = filtered.size();
             const int totalPages = qMax(1, (total + pageSize - 1) / pageSize);
             if (pageNo > totalPages) pageNo = totalPages;
-            container->setProperty("ordersPageNo", pageNo);
+            containerPtr->setProperty("ordersPageNo", pageNo);
 
             // 填充当前页
             const int start = (pageNo - 1) * pageSize;
@@ -1256,6 +1270,8 @@ void MainWindow::onReadyRead()
                     return dt.toString("yyyy-MM-dd HH:mm:ss");
                 };
                 table->setItem(r, 4, new QTableWidgetItem(fmtTime(o.value("order_time"))));
+                // 单独提升该行的高度（在默认40基础上再稍微增加一点可读性）
+                table->setRowHeight(r, 42);
                 ++r;
             }
             pageInfo->setText(tr("第 %1 / %2 页 · 共 %3 条").arg(pageNo).arg(totalPages).arg(total));
@@ -1264,7 +1280,7 @@ void MainWindow::onReadyRead()
         };
 
         // 交互
-        // 为避免重复连接导致的重复回调/野指针，先断开旧的（如果有），再建立一次新的连接
+    // 为避免重复连接导致的重复回调/野指针，先断开旧的（如果有），再建立一次新的连接
                     // 改为滚动加载，隐藏底部分页器
                     if (auto pageInfo = findChild<QWidget*>("pageInfoLabel")) pageInfo->setVisible(false);
                     if (auto totalInfo = findChild<QWidget*>("totalInfoLabel")) totalInfo->setVisible(false);
@@ -1273,51 +1289,68 @@ void MainWindow::onReadyRead()
                     if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(false);
                     if (auto prevBtn = findChild<QWidget*>("prevPage")) prevBtn->setVisible(false);
                     if (auto nextBtn = findChild<QWidget*>("nextPage")) nextBtn->setVisible(false);
-        QObject::disconnect(kwEdit, nullptr, nullptr, nullptr);
-        QObject::disconnect(statusCmb, nullptr, nullptr, nullptr);
-        QObject::disconnect(prevBtn, nullptr, nullptr, nullptr);
-        QObject::disconnect(nextBtn, nullptr, nullptr, nullptr);
-        connect(filterBtn, &QPushButton::clicked, this, [container, refresh]{ container->setProperty("ordersPageNo", 1); refresh(); });
-        connect(kwEdit, &QLineEdit::returnPressed, this, [container, refresh]{ container->setProperty("ordersPageNo", 1); refresh(); });
-        connect(statusCmb, qOverload<int>(&QComboBox::currentIndexChanged), this, [container, refresh](int){ container->setProperty("ordersPageNo", 1); refresh(); });
-        connect(prevBtn, &QPushButton::clicked, this, [container, refresh]{ int p = container->property("ordersPageNo").toInt(); if (p>1) { container->setProperty("ordersPageNo", p-1); refresh(); } });
-        connect(nextBtn, &QPushButton::clicked, this, [container, refresh]{ int p = container->property("ordersPageNo").toInt(); container->setProperty("ordersPageNo", p+1); refresh(); });
+    QObject::disconnect(kwEdit, nullptr, nullptr, nullptr);
+    QObject::disconnect(statusCmb, nullptr, nullptr, nullptr);
+    QObject::disconnect(prevBtn, nullptr, nullptr, nullptr);
+    QObject::disconnect(nextBtn, nullptr, nullptr, nullptr);
+    // 将 context 设为 container，页面销毁时自动解绑；不使用 UniqueConnection，避免 lambda 唯一性判定问题
+    connect(filterBtn, &QPushButton::clicked, container, [containerPtr, refresh]{ if (containerPtr) { containerPtr->setProperty("ordersPageNo", 1); refresh(); } });
+    connect(kwEdit, &QLineEdit::returnPressed, container, [containerPtr, refresh]{ if (containerPtr) { containerPtr->setProperty("ordersPageNo", 1); refresh(); } });
+    connect(statusCmb, qOverload<int>(&QComboBox::currentIndexChanged), container, [containerPtr, refresh](int){ if (containerPtr) { containerPtr->setProperty("ordersPageNo", 1); refresh(); } });
+    connect(prevBtn, &QPushButton::clicked, container, [containerPtr, refresh]{ if (!containerPtr) return; int p = containerPtr->property("ordersPageNo").toInt(); if (p>1) { containerPtr->setProperty("ordersPageNo", p-1); refresh(); } });
+    connect(nextBtn, &QPushButton::clicked, container, [containerPtr, refresh]{ if (!containerPtr) return; int p = containerPtr->property("ordersPageNo").toInt(); containerPtr->setProperty("ordersPageNo", p+1); refresh(); });
 
         // 双击表格行查看订单详情（小票样式）
         if (auto *tbl = container->findChild<QTableWidget*>("ordersTable")) {
-            QObject::disconnect(tbl, nullptr, nullptr, nullptr);
-            auto showOrderDetail = [this, tbl](int row){
+            QPointer<QTableWidget> tblPtr(tbl);
+            // 仅断开与当前页面相关的旧连接，避免误伤其他对象的信号
+            QObject::disconnect(tbl, nullptr, container, nullptr);
+            auto showOrderDetail = [this, tblPtr](int row){
+                if (!tblPtr) return;
                 if (row < 0) return;
-                auto *idItem = tbl->item(row, 0);
+                auto *idItem = tblPtr->item(row, 0);
                 if (!idItem) { QMessageBox::warning(this, tr("提示"), tr("未获取到订单数据")); return; }
                 const QVariantMap order = idItem->data(Qt::UserRole).toMap();
                 if (order.isEmpty()) { QMessageBox::warning(this, tr("提示"), tr("未获取到订单数据")); return; }
                 const qlonglong orderId = order.value("orderId").toLongLong();
-                const QString status = order.value("status").toString();
+                const QString rawStatus = order.value("status").toString();
+                // 归一化状态并添加 emoji 徽标
+                QString status = rawStatus;
+                if (status.compare("PAID", Qt::CaseInsensitive) == 0) status = tr("已支付");
+                else if (status.compare("CART", Qt::CaseInsensitive) == 0 || status.compare("PENDING", Qt::CaseInsensitive) == 0) status = tr("待支付");
+                else if (status.compare("REFUNDED", Qt::CaseInsensitive) == 0 || status.compare("CANCELLED", Qt::CaseInsensitive) == 0) status = tr("已取消");
+                QString statusEmoji, statusColor;
+                if (status == tr("已支付")) { statusEmoji = QString::fromUtf8("✅ "); statusColor = "#2e7d32"; }
+                else if (status == tr("待支付")) { statusEmoji = QString::fromUtf8("⏳ "); statusColor = "#f57c00"; }
+                else if (status == tr("已取消")) { statusEmoji = QString::fromUtf8("❌ "); statusColor = "#c62828"; }
+                else { statusEmoji = QString::fromUtf8("ℹ️ "); statusColor = "#455a64"; }
                 QString timeStr = order.value("order_time").toString();
                 // 友好化时间显示：将 ISO 8601 中的 'T' 替换为空格
                 if (!timeStr.isEmpty()) timeStr.replace('T', ' ');
                 const QVariantList items = order.value("items").toList();
                 // 生成小票 HTML
                 QString html;
-                html += QString("<div style='font-weight:700;font-size:14px;margin-bottom:6px;'>订单 #%1</div>").arg(orderId);
-                if (!timeStr.isEmpty()) html += QString("<div style='color:#666;'>时间：%1</div>").arg(timeStr);
-                if (!status.isEmpty()) html += QString("<div style='color:#666;margin-bottom:6px;'>状态：%1</div>").arg(status);
+                html += QString("<div style='font-weight:700;font-size:14px;margin-bottom:6px;'>🧾 ")
+                        + tr("订单") + QString(" #%1</div>").arg(orderId);
+                if (!timeStr.isEmpty()) html += QString("<div style='color:#666;'>🕒 ") + tr("时间：") + timeStr + "</div>";
+                if (!status.isEmpty()) html += QString("<div style='color:%1;margin-bottom:6px;'>%2")
+                                                .arg(statusColor, statusEmoji)
+                                            + tr("状态：") + status + "</div>";
                 html += QString("<table style='width:100%;border-collapse:collapse;%1%2%3'>")
                             .arg("font-family:'Microsoft YaHei','Segoe UI','PingFang SC','Helvetica Neue',Arial,sans-serif;")
                             .arg("font-size:13px;")
                             .arg("");
-                html += "<tr><th style='text-align:left;border-bottom:1px solid #eee;padding:4px 0;'>商品</th>"
-                        "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>数量</th>"
-                        "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>单价</th>"
-                        "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>小计</th></tr>";
+                html += "<tr><th style='text-align:left;border-bottom:1px solid #eee;padding:4px 0;'>🛍️ " + tr("商品") + "</th>"
+                        "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>✖️ " + tr("数量") + "</th>"
+                        "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>💵 " + tr("单价") + "</th>"
+                        "<th style='text-align:right;border-bottom:1px solid #eee;padding:4px 0;'>💴 " + tr("小计") + "</th></tr>";
                 double sumOriginal = 0.0;
                 double sumEffective = 0.0;
                 for (const QVariant &iv : items) {
                     const QVariantMap it = iv.toMap();
                     QString name = it.value("name").toString();
                     if (it.contains("size") && it.value("size").toInt()>0) {
-                        name += QString("  (尺码:%1)").arg(it.value("size").toInt());
+                        name += QString("  (") + tr("尺码:") + QString::number(it.value("size").toInt()) + ")";
                     }
                     const int qty = it.value("quantity").toInt();
             const double price = it.value("price").toDouble();
@@ -1353,40 +1386,38 @@ void MainWindow::onReadyRead()
         // 合计区：原价（划线）/ 折后（可选）/ 满减 / 应付
         html += QString("<tr><td colspan='4' style='border-top:1px solid #eee;padding-top:6px;text-align:right;'>");
         if (sumOriginal > sumEffective + 1e-6) {
-            html += QString("<div style='color:#999;text-decoration:line-through;'>原价合计：&yen;&nbsp;%1</div>")
-                .arg(QString::number(sumOriginal, 'f', 2));
+            html += QString("<div style='color:#999;text-decoration:line-through;'>✨ ") + tr("原价合计：")
+                + QString("&yen;&nbsp;%1</div>").arg(QString::number(sumOriginal, 'f', 2));
         }
         if (promoOff > 0) {
-            html += QString("<div>商品折后：&yen;&nbsp;%1</div>")
+            html += QString("<div>🏷️ ") + tr("商品折后：") + QString("&yen;&nbsp;%1</div>")
                 .arg(QString::number(sumEffective, 'f', 2));
-            html += QString("<div style='color:#43A047;'>满减：-&yen;&nbsp;%1</div>")
-                .arg(QString::number(promoOff/100.0, 'f', 2));
+            html += QString("<div style='color:#43A047;'>🔻 ") + tr("满减：") + "-&yen;&nbsp;"
+                + QString::number(promoOff/100.0, 'f', 2) + "</div>";
         }
-        html += QString("<div style='font-weight:700;color:#E53935;'>应付：&yen;&nbsp;%1</div>")
-            .arg(QString::number(finalPay/100.0, 'f', 2));
+        html += QString("<div style='font-weight:700;color:#E53935;'>💰 ") + tr("应付：")
+            + QString("&yen;&nbsp;%1</div>").arg(QString::number(finalPay/100.0, 'f', 2));
         html += "</td></tr>";
                 html += "</table>";
 
                 QMessageBox box(this);
-                box.setWindowTitle(tr("订单详情"));
+                box.setWindowTitle(tr("订单详情 🧾"));
                 box.setTextFormat(Qt::RichText);
                 box.setText(html);
                 box.addButton(tr("关闭"), QMessageBox::RejectRole);
                 box.exec();
             };
-            connect(tbl, &QTableWidget::itemDoubleClicked, this, [showOrderDetail](QTableWidgetItem *item){ showOrderDetail(item ? item->row() : -1); });
-            connect(tbl, &QTableWidget::cellDoubleClicked, this, [showOrderDetail](int row, int /*column*/){ showOrderDetail(row); });
-            connect(tbl, &QTableWidget::itemActivated, this, [showOrderDetail](QTableWidgetItem *item){ showOrderDetail(item ? item->row() : -1); });
-            connect(tbl, &QTableWidget::cellActivated, this, [showOrderDetail](int row, int /*column*/){ showOrderDetail(row); });
-            connect(static_cast<QTableView*>(tbl), &QTableView::doubleClicked, this, [showOrderDetail](const QModelIndex &idx){ showOrderDetail(idx.isValid() ? idx.row() : -1); });
+            // 仅保留一种双击信号，避免多路触发导致重复弹窗
+            connect(tbl, &QTableWidget::itemDoubleClicked, container, [showOrderDetail](QTableWidgetItem *item){ showOrderDetail(item ? item->row() : -1); });
         }
 
         // 返回：只隐藏容器，避免异步回调期间删除导致崩溃
         QObject::disconnect(back, nullptr, nullptr, nullptr);
-        connect(back, &QPushButton::clicked, this, [this, container]{
-            container->hide();
+        QPointer<QWidget> backContainer(container);
+        connect(back, &QPushButton::clicked, this, [this, backContainer]{
+            if (backContainer) backContainer->hide();
             if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView();
-        });
+        }, Qt::UniqueConnection);
 
         // 首次渲染
         refresh();
@@ -1457,14 +1488,26 @@ QLayout* MainWindow::ensureVBoxLayout(QWidget *area)
 void MainWindow::clearLayout(QLayout *layout)
 {
     if (!layout) return;
+    // 对于“历史订单”页面，使用同步删除来避免 deleteLater 异步清理与二次构建重叠导致的不稳定/崩溃
+    bool syncDelete = false;
+    if (QWidget *pw = layout->parentWidget()) {
+        if (pw->objectName() == QLatin1String("ordersPage")) syncDelete = true;
+    }
     while (QLayoutItem *it = layout->takeAt(0)) {
         if (auto *childLayout = it->layout()) {
             // 递归清理并销毁子布局，防止遗留的控件/布局导致下次构建时错乱
             clearLayout(childLayout);
             delete childLayout;
         } else if (auto *w = it->widget()) {
-            // 控件用 deleteLater，避免同步销毁引发信号回调访问已释放对象
-            w->deleteLater();
+            if (syncDelete) {
+                // 防止回调访问已销毁对象：先断开所有信号，再同步删除
+                QObject::disconnect(w, nullptr, nullptr, nullptr);
+                w->blockSignals(true);
+                delete w;
+            } else {
+                // 默认：异步删除更加安全
+                w->deleteLater();
+            }
         }
         // QSpacerItem 等通过删除 it 即可清理
         delete it;
@@ -1702,14 +1745,25 @@ void MainWindow::renderRecommendations(const QJsonArray &products)
     card->setObjectName(QLatin1String("mallCard"));
     card->setStyleSheet("");
         auto *vbox = new QVBoxLayout(card); vbox->setContentsMargins(8,8,8,8); vbox->setSpacing(4);
-        // 角标
+        // 角标 - 三级优先级: 售罄 > 热卖🔥 > 新品
         bool soldOut = (stock==0);
+        bool isHot = o.value("isHot").toBool();
         bool isNew = o.value("isNew").toBool();
-        if (soldOut || isNew) {
+        if (soldOut || isHot || isNew) {
             auto *row = new QHBoxLayout(); row->setContentsMargins(0,0,0,0); row->addStretch(1);
-            auto *badge = new QLabel(soldOut ? tr("售罄") : tr("新品"), card);
-            badge->setStyleSheet(soldOut ? "QLabel{background:#E53935;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}"
-                                           : "QLabel{background:#34A853;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}");
+            QString badgeText, badgeStyle;
+            if (soldOut) {
+                badgeText = tr("售罄");
+                badgeStyle = "QLabel{background:#E53935;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}";
+            } else if (isHot) {
+                badgeText = tr("热卖🔥");
+                badgeStyle = "QLabel{background:#FF6F00;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}";
+            } else {
+                badgeText = tr("新品");
+                badgeStyle = "QLabel{background:#34A853;color:#fff;border-radius:10px;padding:2px 8px;font-weight:600;font-size:12px;}";
+            }
+            auto *badge = new QLabel(badgeText, card);
+            badge->setStyleSheet(badgeStyle);
             row->addWidget(badge, 0, Qt::AlignRight); vbox->addLayout(row);
         }
         // 图片
@@ -2525,7 +2579,7 @@ void MainWindow::showHomeView()
     loadRecommendations();
 }
 
-void MainWindow::showMallView()
+void MainWindow::showMallView(bool preserveSearch)
 {
     currentView = ViewMode::Mall;
     lastNonCartView = ViewMode::Mall;
@@ -2690,7 +2744,7 @@ void MainWindow::showAccountView()
         page->setObjectName("accountPage");
         auto *v = new QVBoxLayout(page);
         auto *topBar = new QHBoxLayout();
-        auto *title = new QLabel(tr("个人中心"), page); title->setStyleSheet("font-weight:600;font-size:16px;");
+    auto *title = new QLabel(tr("个人中心 ✨"), page); title->setStyleSheet("font-weight:600;font-size:16px;");
         auto *back = new QPushButton(tr("返回"), page);
         auto *saveTop = new QPushButton(tr("修改"), page); saveTop->setObjectName("saveTopButton");
         topBar->addWidget(title); topBar->addStretch(1); topBar->addWidget(saveTop); topBar->addWidget(back); v->addLayout(topBar);
@@ -2746,8 +2800,29 @@ void MainWindow::showOrdersView()
     if (auto gotoBtn = findChild<QWidget*>("gotoPageButton")) gotoBtn->setVisible(false);
     if (auto prevBtn = findChild<QWidget*>("prevPage")) prevBtn->setVisible(false);
     if (auto nextBtn = findChild<QWidget*>("nextPage")) nextBtn->setVisible(false);
-    // 若已有 ordersPage，仅复用并刷新内容；不再销毁旧页面以避免异步回调访问已释放对象
-    if (auto old = findChild<QWidget*>("ordersPage")) { old->hide(); }
+    // 强防御：同步销毁旧的 ordersPage，避免异步回调访问已释放对象
+    if (auto old = findChild<QWidget*>("ordersPage")) {
+        QObject::disconnect(old, nullptr, nullptr, nullptr);
+        old->blockSignals(true);
+        old->deleteLater();
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 50);
+    }
+    // 显示占位页，避免空白并确保 clearToFullPage 有目标
+    QWidget *loading = new QWidget(this);
+    loading->setObjectName("ordersPage");
+    auto *lv = new QVBoxLayout(loading);
+    auto *top = new QHBoxLayout();
+    auto *title = new QLabel(tr("历史订单"), loading); title->setStyleSheet("font-weight:600;font-size:16px;");
+    auto *back = new QPushButton(tr("返回"), loading);
+    top->addWidget(title); top->addStretch(1); top->addWidget(back); lv->addLayout(top);
+    auto *info = new QLabel(tr("正在获取历史订单…"), loading); info->setObjectName("ordersLoadingLabel"); lv->addWidget(info);
+    if (auto root = ui->centralwidget->findChild<QVBoxLayout*>("rootLayout")) root->addWidget(loading);
+    QObject::disconnect(back, nullptr, nullptr, nullptr);
+    connect(back, &QPushButton::clicked, this, [this, p=QPointer<QWidget>(loading)]{
+        if (p) p->hide();
+        if (lastNonCartView==ViewMode::Mall) showMallView(); else showHomeView();
+    }, Qt::UniqueConnection);
+    clearToFullPage(loading);
     // 发送请求；在 orders_response 分支中构建/展示内嵌页面
     if (!socket) return;
     // 500ms 节流，避免快速切换造成请求风暴

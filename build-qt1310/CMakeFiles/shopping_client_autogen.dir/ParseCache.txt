@@ -819,6 +819,7 @@ C:/Users/Edward/Desktop/test/client/include/mainwindow/mainwindow.h
  mdp:D:/Qt/6.8.3/mingw_64/include/QtCore/QHash
  mdp:D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray
  mdp:D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject
+ mdp:D:/Qt/6.8.3/mingw_64/include/QtCore/QSet
  mdp:D:/Qt/6.8.3/mingw_64/include/QtCore/QString
  mdp:D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList
  mdp:D:/Qt/6.8.3/mingw_64/include/QtCore/QVector

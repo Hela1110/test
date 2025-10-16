@@ -421,6 +421,21 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qtimezone.h \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QStandardPaths \
  D:/Qt/6.8.3/mingw_64/include/QtCore/qstandardpaths.h \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/QIcon \
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qicon.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QMutex \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qmutex.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtsan_impl.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QMutexLocker \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QThread \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qthread.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/future \
+ C:/msys64/ucrt64/include/c++/15.2.0/mutex \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/std_mutex.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/unique_lock.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/condition_variable \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/atomic_futex.h \
+ C:/msys64/ucrt64/include/c++/15.2.0/bits/std_thread.h \
  C:/Users/Edward/Desktop/test/client/include/login/loginwindow.h \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmainwindow.h \
@@ -466,4 +481,7 @@ CMakeFiles/shopping_client.dir/src/main.cpp.obj: \
  D:/Qt/6.8.3/mingw_64/include/QtCore/QSizeF \
  D:/Qt/6.8.3/mingw_64/include/QtGui/QTransform \
  D:/Qt/6.8.3/mingw_64/include/QtGui/qtransform.h \
- D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h
+ D:/Qt/6.8.3/mingw_64/include/QtGui/qscreen_platform.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/QTimer \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qtimer.h \
+ D:/Qt/6.8.3/mingw_64/include/QtCore/qbasictimer.h

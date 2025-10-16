@@ -14,12 +14,14 @@
 #include <QStringList>
 #include <QVector>
 #include <QByteArray>
+#include <QSet>
 
 class QTabBar;
 class QNetworkAccessManager;
 class QLabel;
 class QTimer;
 class QScrollArea;
+class QStackedWidget;
 
 namespace Ui {
 class MainWindow;
@@ -52,7 +54,20 @@ private:
     QTcpSocket *socket;
     ShoppingCart *cart;
     ChatWindow *chat;
-    QString currentUsername; // 当前登录用户名，可为空表示匿名
+    QString currentUsername; // 当前登录用户名,可为空表示匿名
+    
+    // ===== 新导航架构：QStackedWidget 承载所有页面，左侧 TabBar 控制索引 =====
+    QStackedWidget *centralStack = nullptr;  // 中心容器，替代反复 hide/show
+    QWidget *homePage = nullptr;             // 首页（轮播+推荐）
+    QWidget *mallPage = nullptr;             // 商城（商品列表+滚动）
+    QWidget *cartPage = nullptr;             // 购物车（嵌入 ShoppingCart widget）
+    QWidget *ordersPage = nullptr;           // 历史订单
+    QWidget *chatPage = nullptr;             // 客服聊天（嵌入 ChatWindow）
+    QWidget *accountPage = nullptr;          // 个人中心
+    void buildAllPages();                    // 一次性构建所有页面
+    void switchToPage(const QString &key);   // 根据 key 切换 stack 索引
+    // ===== 导航架构结束 =====
+    
     // 主题状态
     ThemeMode currentThemeMode = ThemeMode::Light;
     QPalette defaultAppPalette; // 捕获应用初始调色板
@@ -72,6 +87,10 @@ private:
     QVector<QByteArray> pendingFrames;
     QTimer *sendFlushTimer = nullptr;
     void enqueueFrame(const QByteArray &frame);
+    // 发送侧去重/冷却：同一 coalesceKey 在短时间窗口内仅保留一次
+    QSet<QString> outboxPendingKeys;         // 已在队列中的签名，防止重复入队
+    QHash<QString, qint64> outboxRecentMs;   // 最近实际写出的签名时间
+    QString coalesceKeyFor(const QJsonObject &o) const;
     // 分页状态
     int currentPage = 1;
     int pageSize = 6;
@@ -123,18 +142,24 @@ private:
     int computeColumns(int availableWidth) const;
     void reflowGrids();
 
-    // 视图模式：首页/商城/购物车
-    enum class ViewMode { Home, Mall, Cart };
+    // 视图模式：首页/商城/购物车/订单/聊天/个人中心
+    enum class ViewMode { Home, Mall, Cart, Orders, Chat, Account };
     ViewMode currentView = ViewMode::Home;
     ViewMode lastNonCartView = ViewMode::Home; // 用于从购物车返回时恢复
     void showHomeView();
-    void showMallView();
+    // 进入“发现好物”页
+    // preserveSearch=true 表示当前是由搜索流程进入商城页，保留 searchActive 状态，不自动加载通用列表第一页
+    // 其余场景（返回/切页等）应使用默认的 false，以重置搜索态并加载第一页
+    void showMallView(bool preserveSearch = false);
+    // 轻量全局 UI 动作防抖（避免短时间内重复点击导致的重入/悬空）
+    bool allowUiAction(int minIntervalMs = 180);
     void showCartView();
     void exitCartView();
     void showAccountView();
     void showOrdersView();
     void showChatView();
     void updateGreeting();
+    // clearToFullPage 保留以兼容旧代码（建议逐步迁移到 switchToPage）
     void clearToFullPage(QWidget *page);
     // 顶部搜索栏显隐
     void setSearchBarVisible(bool visible);
@@ -151,9 +176,20 @@ private:
     QTimer *tabSwitchTimer = nullptr;
     QString pendingTabKey;
     qint64 lastTabSwitchMs = 0;
+    // 切换 Tab 后的短暂冻结窗口，延后非必要请求，降低风暴（ms 的单调时钟时间戳）
+    qint64 navFreezeUntilMs = 0;
+    qint64 lastUiActionMs = 0; // UI动作防抖时间戳
 
     // 首次 socket 建立后，首页数据是否已拉取
     bool homeDataRequested = false;
+
+    // 入口级请求冷却（ms）以避免快速切页风暴
+    qint64 lastHomeReqMs = 0;
+    qint64 lastMallReqMs = 0;
+    // 首页子请求分别节流
+    qint64 lastCarouselReqMs = 0;
+    qint64 lastRecommendReqMs = 0;
+    qint64 lastPromotionsReqMs = 0;
 
     // 连接参数与重连机制（尽量避免切页时断线体验差）
     QString socketHost = QStringLiteral("127.0.0.1");
@@ -161,6 +197,10 @@ private:
     QTimer *reconnectTimer = nullptr;
     int reconnectAttempts = 0;
     void scheduleReconnect();
+    // 心跳保活（20s ping 一次）
+    QTimer *heartbeatTimer = nullptr;
+    void startHeartbeat();
+    void stopHeartbeat();
 
     // 网络图片加载与缓存
     QNetworkAccessManager *http = nullptr;
@@ -194,6 +234,10 @@ private:
     void setupLocalCarousel();                 // 创建控件、加载本地图片并启动轮播
     void refreshCarouselPixmap();              // 按容器宽度缩放当前帧
     void updateCarouselDots();                 // 根据当前索引刷新指示器
+
+    // 请求并发与重复发送保护
+    bool ordersInFlight = false;               // 正在请求历史订单（orders 视图）
+    bool accountInFlight = false;              // 正在请求账号信息（account 视图）
 
     // 首页活动文案交替显示
     QTimer *promoTimer = nullptr;

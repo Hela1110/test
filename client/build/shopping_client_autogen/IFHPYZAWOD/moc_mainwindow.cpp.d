@@ -210,11 +210,14 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/IFHPYZAWOD/moc
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdbool.h \
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
   C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QByteArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QElapsedTimer \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QHash \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonArray \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QJsonObject \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QSet \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QString \
+  D:/Qt/6.8.3/mingw_64/include/QtCore/QStringList \
   D:/Qt/6.8.3/mingw_64/include/QtCore/QVector \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20functional.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/q20iterator.h \
@@ -353,6 +356,7 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/IFHPYZAWOD/moc
   D:/Qt/6.8.3/mingw_64/include/QtCore/qversiontagging.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qxptype_traits.h \
   D:/Qt/6.8.3/mingw_64/include/QtCore/qyieldcpu.h \
+  D:/Qt/6.8.3/mingw_64/include/QtGui/QPixmap \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qaction.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbitmap.h \
   D:/Qt/6.8.3/mingw_64/include/QtGui/qbrush.h \
@@ -396,6 +400,7 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/IFHPYZAWOD/moc
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMainWindow \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QMessageBox \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QPushButton \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/QScrollArea \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QTextEdit \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QVBoxLayout \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/QWidget \
@@ -418,6 +423,7 @@ C:/Users/Edward/Desktop/test/client/build/shopping_client_autogen/IFHPYZAWOD/moc
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qmessagebox.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qpushbutton.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qrubberband.h \
+  D:/Qt/6.8.3/mingw_64/include/QtWidgets/qscrollarea.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qsizepolicy.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qslider.h \
   D:/Qt/6.8.3/mingw_64/include/QtWidgets/qstyle.h \

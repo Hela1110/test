@@ -41,8 +41,8 @@ void LoginWindow::setupUi()
     // 使用标准窗口样式，避免透明背景导致样式表背景不可见
     // setWindowFlags(Qt::FramelessWindowHint);
     // setAttribute(Qt::WA_TranslucentBackground);
-    setMinimumSize(600, 460);
-    resize(640, 480);
+    setMinimumSize(600, 560);
+    resize(640, 620);
 
     // 在运行时动态插入一个标题，避免 UI 版本差异导致字段缺失
     if (auto central = this->centralWidget()) {
@@ -55,22 +55,80 @@ void LoginWindow::setupUi()
             // 压缩整体间距，减少被挤压的风险
             v->setContentsMargins(16, 12, 16, 12);
             v->setSpacing(8);
-            QLabel *title = central->findChild<QLabel*>(QStringLiteral("welcomeTitleFixed"));
-            if (!title) {
-                title = new QLabel(QString::fromUtf8("欢迎使用微商系统"), central);
+            // 构建带图标 + 标题 + 副标题的头部容器
+            QWidget *header = central->findChild<QWidget*>(QStringLiteral("welcomeHeader"));
+            if (!header) {
+                header = new QWidget(central);
+                header->setObjectName(QStringLiteral("welcomeHeader"));
+                QVBoxLayout *hv = new QVBoxLayout(header);
+                hv->setContentsMargins(0, 0, 0, 8);
+                hv->setSpacing(4);
+
+                // 第一行：图标 + 标题
+                QHBoxLayout *row = new QHBoxLayout();
+                row->setContentsMargins(0, 0, 0, 0);
+                row->setSpacing(8);
+                QLabel *icon = new QLabel(header);
+                icon->setObjectName(QStringLiteral("welcomeIcon"));
+                icon->setFixedSize(32, 32);
+                QIcon icn(QStringLiteral(":/icons/mall.svg"));
+                icon->setPixmap(icn.pixmap(32, 32));
+                icon->setScaledContents(true);
+
+                QLabel *title = new QLabel(QString::fromUtf8("欢迎使用微商系统"), header);
                 title->setObjectName(QStringLiteral("welcomeTitleFixed"));
-                QFont f; f.setPointSize(18); f.setBold(true);
+                QFont f; f.setPointSize(28); f.setBold(true);
                 title->setFont(f);
-                title->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-                title->setStyleSheet(QString::fromUtf8("color:#1677ff;margin:8px 0 6px 0;"));
+                title->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+                title->setStyleSheet(QString::fromUtf8("color:#ff7a00;font-size:28px;"));
                 title->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-                title->setMaximumHeight(40);
+                title->setMaximumHeight(64);
+
+                row->addStretch(1);
+                row->addWidget(icon);
+                row->addWidget(title);
+                row->addStretch(1);
+                hv->addLayout(row);
+
+                // 第二行：副标题
+                QLabel *subtitle = new QLabel(QString::fromUtf8("轻量电商演示系统"), header);
+                subtitle->setObjectName(QStringLiteral("welcomeSubtitle"));
+                QFont sf = subtitle->font(); sf.setPointSize(14); subtitle->setFont(sf);
+                subtitle->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
+                subtitle->setStyleSheet(QString::fromUtf8("color:#666;margin:0 0 6px 0;"));
+                hv->addWidget(subtitle);
+
                 // 插入到布局最顶部
-                v->insertWidget(0, title);
+                v->insertWidget(0, header);
             } else {
-                title->setText(QString::fromUtf8("欢迎使用微商系统"));
-                title->setMaximumHeight(40);
-                title->show();
+                // 更新已存在的头部样式
+                if (auto icon = header->findChild<QLabel*>(QStringLiteral("welcomeIcon"))) {
+                    QIcon icn(QStringLiteral(":/icons/mall.svg"));
+                    icon->setPixmap(icn.pixmap(32, 32));
+                    icon->setFixedSize(32, 32);
+                    icon->setScaledContents(true);
+                }
+                if (auto title = header->findChild<QLabel*>(QStringLiteral("welcomeTitleFixed"))) {
+                    title->setText(QString::fromUtf8("欢迎使用微商系统"));
+                    QFont f = title->font(); f.setPointSize(28); f.setBold(true); title->setFont(f);
+                    title->setStyleSheet(QString::fromUtf8("color:#ff7a00;font-size:28px;"));
+                    title->setMaximumHeight(64);
+                    title->show();
+                }
+                if (auto subtitle = header->findChild<QLabel*>(QStringLiteral("welcomeSubtitle"))) {
+                    subtitle->setText(QString::fromUtf8("轻量电商演示系统"));
+                    QFont sf = subtitle->font(); sf.setPointSize(14); subtitle->setFont(sf);
+                    subtitle->setStyleSheet(QString::fromUtf8("color:#666;margin:0 0 6px 0;"));
+                    subtitle->show();
+                }
+                header->show();
+            }
+            // 如果 UI 中的 welcomeTitle 仍然可见，同步样式/隐藏，避免重复
+            if (auto old = central->findChild<QLabel*>(QStringLiteral("welcomeTitle"))) {
+                old->setStyleSheet(QString::fromUtf8("color:#ff7a00;font-size:28px;"));
+                QFont fo = old->font(); fo.setPointSize(28); fo.setBold(true); old->setFont(fo);
+                // 尽量隐藏旧的以防重叠
+                old->hide();
             }
             // 尝试压缩 UI 中的两个 spacer
             if (ui->verticalSpacer) {
@@ -341,7 +399,7 @@ void LoginWindow::showEvent(QShowEvent *event)
             if (!visible.contains(r, /*proper*/ true)) {
                 // 增加高度，确保露出
                 int h = this->height();
-                this->resize(this->width(), qMax(h, 560));
+                this->resize(this->width(), qMax(h, 640));
             }
         }
     }

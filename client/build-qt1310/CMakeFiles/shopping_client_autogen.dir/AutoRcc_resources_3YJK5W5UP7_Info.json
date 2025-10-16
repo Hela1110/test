@@ -10,6 +10,7 @@
 	"INPUTS" : 
 	[
 		"C:/Users/Edward/Desktop/test/client/resources/styles/style.qss",
+		"C:/Users/Edward/Desktop/test/client/resources/styles/orange_theme.qss",
 		"C:/Users/Edward/Desktop/test/client/resources/icons/orders.svg",
 		"C:/Users/Edward/Desktop/test/client/resources/icons/chat.svg",
 		"C:/Users/Edward/Desktop/test/client/resources/icons/cart.svg",

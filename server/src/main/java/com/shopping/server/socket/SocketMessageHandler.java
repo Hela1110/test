@@ -630,45 +630,129 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
     private void handleGetRecommendations(ChannelHandlerContext ctx) throws Exception {
         Map<String, Object> resp = new HashMap<>();
         resp.put("type", "recommendations");
-        // 使用数据库：优先按折扣力度排序的前 4 个（若仓库方法可用），否则取 onSale 前 4 个
-    List<Map<String,Object>> list = new CopyOnWriteArrayList<>();
-    Long _tmpMaxPid = null; try { _tmpMaxPid = productRepository.findMaxProductId(); } catch (Exception ignore) {}
-    final Long maxPid = _tmpMaxPid;
+        
+        // 新逻辑：返回4个商品 - 销量最高 + 新品 + 2个打折商品
+        List<Map<String,Object>> list = new CopyOnWriteArrayList<>();
+        
         try {
-            var top = productRepository.findTopDiscountProducts(org.springframework.data.domain.PageRequest.of(0, 4));
-            top.forEach(p -> list.add(mapOf(
-                "product_id", p.getProductId(),
-                "id", p.getProductId(),
-                "productId", p.getProductId(),
-                "name", p.getName(),
-                "price", p.getPrice(),
-                "description", p.getDescription(),
-                "imageUrl", p.getImageUrl(),
-                "stock", p.getStock(),
-                "sales", p.getSales(),
-                "onSale", p.getOnSale(),
-                "discountPrice", p.getDiscountPrice(),
-                "isNew", (maxPid != null && java.util.Objects.equals(maxPid, p.getProductId()))
-            )));
-        } catch (Exception ignore) {
-            // 兜底：取所有上架商品前 4 个
-            productRepository.findByOnSaleTrue().stream().limit(4).forEach(p -> list.add(mapOf(
-                "product_id", p.getProductId(),
-                "id", p.getProductId(),
-                "productId", p.getProductId(),
-                "name", p.getName(),
-                "price", p.getPrice(),
-                "description", p.getDescription(),
-                "imageUrl", p.getImageUrl(),
-                "stock", p.getStock(),
-                "sales", p.getSales(),
-                "onSale", p.getOnSale(),
-                "discountPrice", p.getDiscountPrice(),
-                "isNew", (maxPid != null && java.util.Objects.equals(maxPid, p.getProductId()))
-            )));
-        }
-        // 如果依然为空（比如没有标记 on_sale 的商品），再做一次强兜底：返回任意商品前 4 个
-        if (list.isEmpty()) {
+            // 1. 获取销量最高的商品(标记为热卖)
+            var topSales = productRepository.findTopByOnSaleTrueOrderBySalesDesc();
+            if (topSales != null) {
+                list.add(mapOf(
+                    "product_id", topSales.getProductId(),
+                    "id", topSales.getProductId(),
+                    "productId", topSales.getProductId(),
+                    "name", topSales.getName(),
+                    "price", topSales.getPrice(),
+                    "description", topSales.getDescription(),
+                    "imageUrl", topSales.getImageUrl(),
+                    "stock", topSales.getStock(),
+                    "sales", topSales.getSales(),
+                    "onSale", topSales.getOnSale(),
+                    "discountPrice", topSales.getDiscountPrice(),
+                    "isNew", false,
+                    "isHot", true  // 标记为热卖
+                ));
+            }
+            
+            // 2. 获取最新商品(product_id最大的)
+            var newest = productRepository.findTopByOrderByProductIdDesc();
+            if (newest != null) {
+                // 检查是否与销量最高重复
+                final Long newestId = newest.getProductId();
+                boolean isDuplicate = list.stream().anyMatch(m -> 
+                    java.util.Objects.equals(((Number)m.get("product_id")).longValue(), newestId)
+                );
+                
+                if (!isDuplicate) {
+                    list.add(mapOf(
+                        "product_id", newest.getProductId(),
+                        "id", newest.getProductId(),
+                        "productId", newest.getProductId(),
+                        "name", newest.getName(),
+                        "price", newest.getPrice(),
+                        "description", newest.getDescription(),
+                        "imageUrl", newest.getImageUrl(),
+                        "stock", newest.getStock(),
+                        "sales", newest.getSales(),
+                        "onSale", newest.getOnSale(),
+                        "discountPrice", newest.getDiscountPrice(),
+                        "isNew", true,
+                        "isHot", false
+                    ));
+                } else {
+                    // 如果重复,标记为既新又热
+                    list.get(0).put("isNew", true);
+                }
+            }
+            
+            // 3. 获取2个打折商品(排除已添加的)
+            var discountProducts = productRepository.findTopDiscountProducts(
+                org.springframework.data.domain.PageRequest.of(0, 10)
+            );
+            
+            int discountCount = 0;
+            for (var p : discountProducts) {
+                if (discountCount >= 2) break;
+                
+                final Long pid = p.getProductId();
+                boolean exists = list.stream().anyMatch(m -> 
+                    java.util.Objects.equals(((Number)m.get("product_id")).longValue(), pid)
+                );
+                
+                if (!exists) {
+                    list.add(mapOf(
+                        "product_id", p.getProductId(),
+                        "id", p.getProductId(),
+                        "productId", p.getProductId(),
+                        "name", p.getName(),
+                        "price", p.getPrice(),
+                        "description", p.getDescription(),
+                        "imageUrl", p.getImageUrl(),
+                        "stock", p.getStock(),
+                        "sales", p.getSales(),
+                        "onSale", p.getOnSale(),
+                        "discountPrice", p.getDiscountPrice(),
+                        "isNew", false,
+                        "isHot", false
+                    ));
+                    discountCount++;
+                }
+            }
+            
+            // 4. 如果还不够4个,用上架商品补充
+            if (list.size() < 4) {
+                var fallback = productRepository.findByOnSaleTrue();
+                for (var p : fallback) {
+                    if (list.size() >= 4) break;
+                    
+                    final Long pid = p.getProductId();
+                    boolean exists = list.stream().anyMatch(m -> 
+                        java.util.Objects.equals(((Number)m.get("product_id")).longValue(), pid)
+                    );
+                    
+                    if (!exists) {
+                        list.add(mapOf(
+                            "product_id", p.getProductId(),
+                            "id", p.getProductId(),
+                            "productId", p.getProductId(),
+                            "name", p.getName(),
+                            "price", p.getPrice(),
+                            "description", p.getDescription(),
+                            "imageUrl", p.getImageUrl(),
+                            "stock", p.getStock(),
+                            "sales", p.getSales(),
+                            "onSale", p.getOnSale(),
+                            "discountPrice", p.getDiscountPrice(),
+                            "isNew", false,
+                            "isHot", false
+                        ));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 兜底：返回任意4个商品
             var page = productRepository.findAll(org.springframework.data.domain.PageRequest.of(0, 4));
             page.getContent().forEach(p -> list.add(mapOf(
                 "product_id", p.getProductId(),
@@ -682,46 +766,12 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
                 "sales", p.getSales(),
                 "onSale", p.getOnSale(),
                 "discountPrice", p.getDiscountPrice(),
-                "isNew", (maxPid != null && java.util.Objects.equals(maxPid, p.getProductId()))
+                "isNew", false,
+                "isHot", false
             )));
         }
-        // 强制包含最新商品
-        if (maxPid != null) {
-            try {
-                var newest = productRepository.findTopByOrderByProductIdDesc();
-                if (newest != null) {
-                    boolean exists = list.stream().anyMatch(m -> {
-                        Object pidObj = m.get("product_id");
-                        return (pidObj instanceof Number) && java.util.Objects.equals(((Number)pidObj).longValue(), maxPid);
-                    });
-                    if (!exists) {
-                        list.add(0, mapOf(
-                            "product_id", newest.getProductId(),
-                            "id", newest.getProductId(),
-                            "productId", newest.getProductId(),
-                            "name", newest.getName(),
-                            "price", newest.getPrice(),
-                            "description", newest.getDescription(),
-                            "imageUrl", newest.getImageUrl(),
-                            "stock", newest.getStock(),
-                            "sales", newest.getSales(),
-                            "onSale", newest.getOnSale(),
-                            "discountPrice", newest.getDiscountPrice(),
-                            "isNew", true
-                        ));
-                    } else {
-                        // 已在列表，确保 isNew 为 true
-                        for (var m : list) {
-                            Object pidObj = m.get("product_id");
-                            if (pidObj instanceof Number && java.util.Objects.equals(((Number)pidObj).longValue(), maxPid)) {
-                                m.put("isNew", true);
-                                break;
-                            }
-                        }
-                    }
-                }
-            } catch (Exception ignore) {}
-        }
+        
+        // 确保返回4个商品
         List<Map<String,Object>> out = list.size() > 4 ? new java.util.ArrayList<>(list.subList(0, 4)) : list;
         resp.put("products", out);
     enqueueOut(ctx, objectMapper.writeValueAsString(resp) + "\n");
@@ -940,7 +990,7 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             monthly.add(mapOf("year", y, "month", m, "total", total));
         }
         resp.put("monthly", monthly);
-        // 商品维度：销量与销售额 Top 列表
+        // 商品维度:销量与销售额 Top 列表
         List<Map<String,Object>> productSales = new CopyOnWriteArrayList<>();
         for (Object[] row : orderItemRepository.sumSalesByProduct(startDt, endDt)) {
             Long productId = (Long) row[0];
@@ -952,7 +1002,22 @@ public class SocketMessageHandler extends SimpleChannelInboundHandler<String> {
             if (amountObj instanceof java.math.BigDecimal) amount = (java.math.BigDecimal) amountObj;
             else if (amountObj instanceof Number) amount = new java.math.BigDecimal(amountObj.toString());
             else amount = java.math.BigDecimal.ZERO;
-            productSales.add(mapOf("productId", productId, "name", name, "quantity", qty, "amount", amount));
+            
+            // 获取商品详细信息用于对齐显示
+            Map<String,Object> productInfo = mapOf("productId", productId, "name", name, "quantity", qty, "amount", amount);
+            try {
+                var productOpt = productRepository.findById(productId);
+                if (productOpt.isPresent()) {
+                    var p = productOpt.get();
+                    productInfo.put("price", p.getPrice());
+                    productInfo.put("discountPrice", p.getDiscountPrice());
+                    productInfo.put("stock", p.getStock());
+                    productInfo.put("imageUrl", p.getImageUrl());
+                    productInfo.put("sales", p.getSales());
+                }
+            } catch (Exception ignore) {}
+            
+            productSales.add(productInfo);
         }
         resp.put("productSales", productSales);
         // 新增：按尺码的销量/销售额统计（替代原“类别/款式/颜色”统计）
